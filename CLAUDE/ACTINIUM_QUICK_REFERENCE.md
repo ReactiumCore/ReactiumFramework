@@ -594,7 +594,7 @@ await Actinium.Plugin.deactivate('PluginID');
 ### 1. Wrong Priority Constant
 ```javascript
 // WRONG
-Actinium.Enums.priority.normal
+Actinium.Enums.priority.neutral
 
 // CORRECT
 Actinium.Enums.priority.neutral

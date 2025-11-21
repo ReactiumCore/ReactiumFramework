@@ -14,7 +14,7 @@ Genuine frequently asked questions from developers working with these frameworks
 
 ### Q: How do I install plugins?
 
-**A:** Use `npx reactium install @realm/package-name` (NOT npm install). This installs from the Reactium registry into `reactium_modules/` or `actinium_modules/` workspaces. Without arguments, it installs everything from ReactiumDependencies/ActiniumDependencies in package.json.
+**A:** Use `npx reactium install @realm/package-name` (NOT npm install). This installs from the Reactium registry into `reactium_modules/` or `actinium_modules/` workspaces. Without arguments, it installs everything from `reactiumDependencies`/`actiniumDependencies` in package.json.
 
 ## SDK & Imports
 
@@ -201,12 +201,16 @@ Component.register('MyComponent', MyComponent);
 **A:** Use `Enums.priority.neutral` (NOT `.normal` - that doesn't exist and returns undefined). Lower numbers execute first:
 
 ```javascript
-Enums.priority.highest   // -1000000
-Enums.priority.neutral   // 0 (default)
-Enums.priority.lowest    // 1000000
+// Verified from reactium-sdk-core/src/core/enums.ts
+Enums.priority.core      // -2000 (framework core - executes first)
+Enums.priority.highest   // -1000
+Enums.priority.high      // -500
+Enums.priority.neutral   // 0 (default - use this for most plugins)
+Enums.priority.low       // 500
+Enums.priority.lowest    // 1000
 ```
 
-Only specify a different priority if you need hooks to run in a specific order.
+Only specify a different priority if you need hooks to run in a specific order. **CRITICAL**: Never use `.normal` - it does not exist in the source code!
 
 ### Q: What's the difference between `reactium-hooks-*.js` and `reactium-boot.js`?
 

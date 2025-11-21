@@ -302,7 +302,7 @@ export default [
         exact: true,
         component,
         path: '/user/:userId',
-        order: Enums.priority.normal,
+        order: Enums.priority.neutral,
     },
 ];
 ```
@@ -325,7 +325,7 @@ const MOD = () => {
         if (!object.get('profileCompleted')) {
             object.set('profileCompleted', false);
         }
-    }, Actinium.Enums.priority.normal);
+    }, Actinium.Enums.priority.neutral);
 
     // Cloud Function for updating profile
     Actinium.Cloud.define(PLUGIN.ID, 'updateProfile', async (req) => {
@@ -568,7 +568,7 @@ const MOD = () => {
         console.log('User attempting login:', username);
 
         // Could add rate limiting, IP checks, etc.
-    }, Actinium.Enums.priority.normal);
+    }, Actinium.Enums.priority.neutral);
 
     // Cloud Function to check session
     Actinium.Cloud.define(PLUGIN.ID, 'checkSession', async (req) => {
@@ -1161,7 +1161,7 @@ const MOD = () => {
             schema.addPointer('owner', '_User');
             await schema.save(null, { useMasterKey: true });
         }
-    }, Actinium.Enums.priority.normal);
+    }, Actinium.Enums.priority.neutral);
 
     // Cloud Functions
     Actinium.Cloud.define(PLUGIN.ID, 'createTodo', async (req) => {
@@ -1359,5 +1359,5 @@ This integration guide demonstrates how Reactium and Actinium work together to c
 By following these patterns, you can build scalable, maintainable full-stack applications with minimal boilerplate and maximum flexibility.
 
 For framework-specific details, see:
-- [REACTIUM_FRAMEWORK.md](/home/john/ai-tradebot/REACTIUM_FRAMEWORK.md) - Frontend framework guide
-- [ACTINIUM_FRAMEWORK.md](/home/john/ai-tradebot/ACTINIUM_FRAMEWORK.md) - Backend framework guide
+- [REACTIUM_FRAMEWORK.md](/home/john/reactium-framework/REACTIUM_FRAMEWORK.md) - Frontend framework guide
+- [ACTINIUM_FRAMEWORK.md](/home/john/reactium-framework/ACTINIUM_FRAMEWORK.md) - Backend framework guide

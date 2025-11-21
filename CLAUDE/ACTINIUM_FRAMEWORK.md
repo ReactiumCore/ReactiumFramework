@@ -313,7 +313,7 @@ Actinium.Hook.register(
         // Can modify context
         context.customData = result;
     },
-    Actinium.Enums.priority.normal,  // Priority
+    Actinium.Enums.priority.neutral,  // Priority
     'unique-hook-id'            // Optional unique ID
 );
 ```
@@ -327,7 +327,7 @@ Actinium.Hook.registerSync(
         // Synchronous only, no await
         console.log('Sync hook:', arg1);
     },
-    Actinium.Enums.priority.normal,
+    Actinium.Enums.priority.neutral,
     'sync-hook-id'
 );
 ```
@@ -678,7 +678,7 @@ Actinium.Middleware.register(
             next();
         });
     },
-    Actinium.Enums.priority.normal,     // Priority
+    Actinium.Enums.priority.neutral,     // Priority
     'unique-middleware-id'              // Optional unique ID
 );
 ```
@@ -750,7 +750,7 @@ Actinium.Middleware.register(
             res.json({ message: 'Custom endpoint response' });
         });
     },
-    Actinium.Enums.priority.normal,
+    Actinium.Enums.priority.neutral,
     'my-plugin-routes'
 );
 ```
@@ -1087,7 +1087,7 @@ const MOD = () => {
 
         // Perform initialization tasks
         await initializeDatabase();
-    }, Actinium.Enums.priority.normal, 'MyPlugin-init');
+    }, Actinium.Enums.priority.neutral, 'MyPlugin-init');
 
     // Register Cloud Functions
     Actinium.Cloud.define(PLUGIN.ID, 'myCloudFunction', async (req) => {
@@ -1098,7 +1098,7 @@ const MOD = () => {
     // Register schemas
     Actinium.Hook.register('schema-created', async () => {
         await createMySchema();
-    }, Actinium.Enums.priority.normal, 'MyPlugin-schema');
+    }, Actinium.Enums.priority.neutral, 'MyPlugin-schema');
 };
 
 const initializeDatabase = async () => {
@@ -1149,7 +1149,7 @@ Actinium.Middleware.register(
             }
         });
     },
-    Actinium.Enums.priority.normal,
+    Actinium.Enums.priority.neutral,
     'MyPlugin-middleware'
 );
 ```
@@ -1345,7 +1345,7 @@ Actinium.Hook.register('schema-created', async () => {
     const schema = new Actinium.Schema('MyClass');
     // Define schema
     await schema.save(null, { useMasterKey: true });
-}, Actinium.Enums.priority.normal);
+}, Actinium.Enums.priority.neutral);
 ```
 
 #### 7. Use Environment Variables

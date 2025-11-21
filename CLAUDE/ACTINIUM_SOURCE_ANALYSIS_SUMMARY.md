@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-This analysis examined the actual source code of the Actinium framework from `/home/john/ai-tradebot/api/actinium_modules/@atomic-reactor/actinium-core/`. The existing `ACTINIUM_FRAMEWORK.md` documentation is largely accurate, but this analysis reveals deeper implementation details and corrects a few inaccuracies.
+This analysis examined the actual source code of the Actinium framework from `/home/john/reactium-framework/api/actinium_modules/@atomic-reactor/actinium-core/`. The existing `ACTINIUM_FRAMEWORK.md` documentation is largely accurate, but this analysis reveals deeper implementation details and corrects a few inaccuracies.
 
 ---
 

@@ -9,10 +9,10 @@
 ## Executive Summary
 
 This analysis represents a comprehensive, evidence-based examination of the Reactium framework through direct inspection of source code from:
-- `/home/john/ai-tradebot/reactium-sdk-core/` (TypeScript source)
-- `/home/john/ai-tradebot/Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/`
-- `/home/john/ai-tradebot/Reactium-Admin-Plugins/` (Real-world plugin examples)
-- `/home/john/ai-tradebot/learning/` (Working implementation)
+- `/home/john/reactium-framework/reactium-sdk-core/` (TypeScript source)
+- `/home/john/reactium-framework/Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/`
+- `/home/john/reactium-framework/Reactium-Admin-Plugins/` (Real-world plugin examples)
+- `/home/john/reactium-framework/learning/` (Working implementation)
 
 **Key Findings:**
 

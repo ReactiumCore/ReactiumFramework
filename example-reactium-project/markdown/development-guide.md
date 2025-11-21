@@ -24,11 +24,13 @@ $ npm run local
 
 ## Components
 
-There are 3 types of components you can create:
+There are several types of components you can create:
 
--   [Functional Components](#functional-components)
--   [Class Components](#class-components)
--   [Redux Class Components](#redux-class-components)
+-   [Functional Components](#functional-components) - Recommended for modern React
+-   [Class Components](#class-components) - Legacy pattern, still supported
+-   [Redux Class Components](#redux-class-components) - Legacy Redux pattern (deprecated)
+
+**Note**: Modern Reactium favors React Hooks and the Handle system over Redux for state management. Redux support is maintained for legacy applications but is not recommended for new development.
 
 ### Functional Components
 
@@ -78,6 +80,44 @@ Hello.defaultProps = {
 ```
 
 ### Redux Class Components
+
+**DEPRECATED**: Redux is deprecated in modern Reactium in favor of the Handle system and React Hooks. This section is maintained for legacy applications only.
+
+Redux Class Components were used to interact with application state via the [react-redux](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options) `connect` method.
+
+**Modern Alternative**: Use `useRegisterSyncHandle` and `useSelectHandle` for shared state management:
+
+```js
+import React from 'react';
+import { useRegisterSyncHandle, useSelectHandle } from 'reactium-core/sdk';
+
+// Create shared state
+export const MyDataComponent = () => {
+    useRegisterSyncHandle('MyData', () => ({
+        count: 0,
+        items: [],
+    }));
+
+    return null; // State provider only
+};
+
+// Consume shared state
+export const ConsumerComponent = () => {
+    const count = useSelectHandle('MyData', state => state.count);
+    const handle = useHandle('MyData');
+
+    return (
+        <div>
+            <p>Count: {count}</p>
+            <button onClick={() => handle.set('count', count + 1)}>
+                Increment
+            </button>
+        </div>
+    );
+};
+```
+
+**Legacy Redux Pattern**:
 
 Create a Redux Class Component if your component will need to interact with the application state.
 Redux Class Components work just like Class Components accept you will need to map state to properties and map dispatchers to actions via the [react-redux](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options) `connect` method.

@@ -35,7 +35,7 @@
 project-root/
 ├── reactium_modules/
 │   └── @atomic-reactor/
-│       └── reactium-core/          # Framework core
+│       └── reactium-core/          # Framework core (includes build configuration)
 ├── src/
 │   ├── app/
 │   │   └── components/             # Application components (DDD domains)
@@ -45,8 +45,9 @@ project-root/
 │   │           ├── reactium-route-*.js      # Route definitions
 │   │           └── _reactium-style.scss     # Styles
 │   └── manifest.js                 # Auto-generated registry (DO NOT EDIT)
-├── .core/                          # Core build configuration
-└── gulpfile.js                     # Build orchestration
+├── babel.config.js                 # Babel configuration (imports from reactium-core)
+├── webpack.override.js             # Optional webpack overrides
+└── gulpfile.js                     # Build orchestration (delegates to reactium-core)
 ```
 
 ---
@@ -191,7 +192,7 @@ export default [
         exact: true,
         component,
         path: '/my-component',
-        order: Enums.priority.normal,
+        order: Enums.priority.neutral,
     },
 ];
 ```
@@ -208,7 +209,7 @@ Registers the component and hooks into framework lifecycle:
     Hook.register('plugin-init', async () => {
         const { MyComponent } = await import('./MyComponent');
         Component.register('MyComponent', MyComponent);
-    }, Enums.priority.normal, 'plugin-init-MyComponent');
+    }, Enums.priority.neutral, 'plugin-init-MyComponent');
 })();
 ```
 
@@ -315,12 +316,12 @@ Reactium's plugin system revolves around the hook-based lifecycle:
         };
 
         console.log('MyPlugin initialized');
-    }, Enums.priority.normal, 'plugin-init-MyPlugin');
+    }, Enums.priority.neutral, 'plugin-init-MyPlugin');
 
     // Hook into other lifecycle events
     Hook.register('routes-init', async () => {
         console.log('Routes are being initialized');
-    }, Enums.priority.normal, 'MyPlugin-routes-init');
+    }, Enums.priority.neutral, 'MyPlugin-routes-init');
 })();
 ```
 
@@ -333,12 +334,12 @@ Use `Enums.priority` to control execution order:
 ```javascript
 import { Enums } from '@atomic-reactor/reactium-core/sdk';
 
-Enums.priority.highest   // -1000000
-Enums.priority.core      // -1000
-Enums.priority.high      // -100
-Enums.priority.normal    // 0
-Enums.priority.low       // 100
-Enums.priority.lowest    // 1000000
+Enums.priority.highest   // -1000
+Enums.priority.core      // -2000
+Enums.priority.high      // -500
+Enums.priority.neutral   // 0 (NOT .normal - that doesn't exist)
+Enums.priority.low       // 500
+Enums.priority.lowest    // 1000
 ```
 
 Lower numbers execute first.
@@ -384,7 +385,7 @@ export default [
         exact: true,
         component,
         path: '/user/:userId',
-        order: Enums.priority.normal,
+        order: Enums.priority.neutral,
     },
 ];
 ```
@@ -654,7 +655,7 @@ Reactium.Hook.register(
         // Async operations allowed
         await someAsyncOperation();
     },
-    Enums.priority.normal,      // Execution priority
+    Enums.priority.neutral,      // Execution priority
     'unique-hook-id'            // Optional unique ID
 );
 ```
@@ -668,7 +669,7 @@ Reactium.Hook.registerSync(
         // Synchronous only
         console.log('Sync hook:', arg1);
     },
-    Enums.priority.normal,
+    Enums.priority.neutral,
     'unique-sync-id'
 );
 ```
@@ -715,7 +716,7 @@ You can define your own hooks for application-specific events:
 // In some initialization code
 Reactium.Hook.register('app-data-loaded', async (data) => {
     console.log('App data loaded:', data);
-}, Enums.priority.normal);
+}, Enums.priority.neutral);
 
 // Later, trigger the hook
 await Reactium.Hook.run('app-data-loaded', myData);
@@ -751,15 +752,15 @@ The build process:
 
 ```
 project-root/
-├── gulpfile.js                                    # Main Gulp entry
-├── reactium_modules/@atomic-reactor/reactium-core/
-│   ├── gulpfile.js                                # Core Gulp tasks
-│   ├── gulp.config.js                             # Gulp configuration
-│   ├── gulp.tasks.js                              # Task definitions
-│   ├── webpack.config.js                          # Webpack config
-│   └── reactium-config.js                         # Reactium-specific config
-└── .core/
-    └── (additional build configs)
+├── gulpfile.js                                    # Main Gulp entry (delegates to core)
+├── webpack.override.js                            # Optional webpack overrides
+├── babel.config.js                                # Babel config (imports from core)
+└── reactium_modules/@atomic-reactor/reactium-core/
+    ├── gulpfile.js                                # Core Gulp tasks
+    ├── gulp.config.js                             # Gulp configuration
+    ├── gulp.tasks.js                              # Task definitions
+    ├── webpack.config.js                          # Webpack config
+    └── reactium-config.js                         # Reactium-specific config
 ```
 
 ### Common Build Commands
@@ -977,7 +978,7 @@ Use priority constants for predictable execution order:
 Hook.register('plugin-init', callback, Enums.priority.core);
 
 // Normal plugin initialization
-Hook.register('plugin-init', callback, Enums.priority.normal);
+Hook.register('plugin-init', callback, Enums.priority.neutral);
 
 // Late initialization (depends on others)
 Hook.register('plugin-init', callback, Enums.priority.low);
@@ -997,7 +998,7 @@ Always register components during the `plugin-init` lifecycle:
 Hook.register('plugin-init', async () => {
     const { MyComponent } = await import('./MyComponent');
     Component.register('MyComponent', MyComponent);
-}, Enums.priority.normal);
+}, Enums.priority.neutral);
 ```
 
 ### Gotchas
@@ -1058,7 +1059,7 @@ Lower numbers = higher priority (execute first):
 ```javascript
 priority.highest = -1000000  // First
 priority.core = -1000
-priority.normal = 0
+priority.neutral = 0
 priority.low = 100
 priority.lowest = 1000000    // Last
 ```
@@ -1208,7 +1209,7 @@ export default DataLoader;
     Hook.register('plugin-init', async () => {
         const { DataLoader } = await import('./DataLoader');
         Component.register('DataLoader', DataLoader);
-    }, Enums.priority.normal, 'plugin-init-DataLoader');
+    }, Enums.priority.neutral, 'plugin-init-DataLoader');
 })();
 ```
 

@@ -2,7 +2,7 @@
 
 **Generated**: 2025-11-20
 **Based on**: actinium-core v5.1.18
-**Source**: `/home/john/ai-tradebot/api/actinium_modules/@atomic-reactor/actinium-core/`
+**Source**: `/home/john/reactium-framework/api/actinium_modules/@atomic-reactor/actinium-core/`
 
 This document provides a comprehensive analysis of the Actinium framework based on actual source code examination, not documentation or assumptions.
 

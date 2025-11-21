@@ -226,14 +226,14 @@ Reactium.Hook.register('before-checkout', async (cart, context) => {
         context.cart.discount = discount;
         context.cart.total -= discount;
     }
-}, Reactium.Enums.priority.normal);
+}, Reactium.Enums.priority.neutral);
 ```
 
 ```javascript
 // Plugin B - sends confirmation email
 Reactium.Hook.register('after-checkout', async (result, context) => {
     await sendConfirmationEmail(result.user, result.order);
-}, Reactium.Enums.priority.normal);
+}, Reactium.Enums.priority.neutral);
 ```
 
 **Why**: Hooks create extensibility without tight coupling. Plugins can enhance functionality without modifying core code.
@@ -331,7 +331,7 @@ Reactium.Hook.register('plugin-init', async () => {
     Reactium.Component.register('FormButton', Button);
     Reactium.Component.register('FormInput', Input);
     Reactium.Component.register('FormSelect', Select);
-}, Reactium.Enums.priority.normal);
+}, Reactium.Enums.priority.neutral);
 ```
 
 ```javascript
@@ -390,7 +390,7 @@ Reactium.Hook.register('register-route', async (route, context) => {
             return;
         }
     }
-}, Reactium.Enums.priority.normal);
+}, Reactium.Enums.priority.neutral);
 ```
 
 **Why**: Conditional route registration provides fine-grained control over application routing based on context, reducing the need for route guards and improving security.
@@ -529,7 +529,7 @@ Actinium.Hook.register('before-save-Product', async (req, context) => {
             .replace(/(^-|-$)/g, '');
         object.set('slug', slug);
     }
-}, Actinium.Enums.priority.normal);
+}, Actinium.Enums.priority.neutral);
 ```
 
 **Why**: Hooks provide a single point of validation regardless of how objects are saved (Cloud Functions, REST API, SDK). Reduces duplication and ensures consistency.
@@ -673,7 +673,7 @@ Actinium.Hook.register('schema-created', async () => {
             console.log(`Schema ${schemaConfig.className} created`);
         }
     }
-}, Actinium.Enums.priority.normal, 'ProductManager-schema');
+}, Actinium.Enums.priority.neutral, 'ProductManager-schema');
 ```
 
 **Why**: Centralized schema initialization ensures consistent database structure across development, staging, and production environments.
@@ -772,7 +772,7 @@ Actinium.Middleware.register(
     (app) => {
         app.use(authenticationMiddleware);
     },
-    Actinium.Enums.priority.normal,
+    Actinium.Enums.priority.neutral,
     'auth-middleware'
 );
 
@@ -782,7 +782,7 @@ Actinium.Middleware.register(
     (app) => {
         app.get('/api/custom', handler);
     },
-    Actinium.Enums.priority.normal,
+    Actinium.Enums.priority.neutral,
     'custom-routes'
 );
 
@@ -1159,7 +1159,7 @@ Hook.register('init', setupB);  // Default priority: 0
 Hook.register('init', setupA, Enums.priority.high);  // -100
 
 // Plugin B (depends on A)
-Hook.register('init', setupB, Enums.priority.normal);  // 0
+Hook.register('init', setupB, Enums.priority.neutral);  // 0
 // Guaranteed to run after setupA
 ```
 
@@ -1492,6 +1492,6 @@ These patterns represent battle-tested approaches to building applications with 
 By following these patterns and avoiding anti-patterns, you'll build more maintainable, performant, and extensible applications.
 
 For more details, see:
-- [REACTIUM_FRAMEWORK.md](/home/john/ai-tradebot/REACTIUM_FRAMEWORK.md)
-- [ACTINIUM_FRAMEWORK.md](/home/john/ai-tradebot/ACTINIUM_FRAMEWORK.md)
-- [FRAMEWORK_INTEGRATION.md](/home/john/ai-tradebot/FRAMEWORK_INTEGRATION.md)
+- [REACTIUM_FRAMEWORK.md](/home/john/reactium-framework/REACTIUM_FRAMEWORK.md)
+- [ACTINIUM_FRAMEWORK.md](/home/john/reactium-framework/ACTINIUM_FRAMEWORK.md)
+- [FRAMEWORK_INTEGRATION.md](/home/john/reactium-framework/FRAMEWORK_INTEGRATION.md)

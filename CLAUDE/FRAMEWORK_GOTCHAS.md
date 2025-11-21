@@ -195,12 +195,12 @@ Hook.register('plugin-init', callback, Enums.priority.neutral);
 **Confusing Truth**: Lower numbers = higher priority = execute first
 
 ```javascript
-Enums.priority.core      = -2000      // Core framework
-Enums.priority.highest   = -1000      // Executes FIRST
-Enums.priority.high      = -500
+Enums.priority.core      = -2000      // Core framework (HIGHEST - runs first)
+Enums.priority.highest   = -1000      // Very high priority
+Enums.priority.high      = -500       // High priority
 Enums.priority.neutral   = 0          // Default
-Enums.priority.low       = 500
-Enums.priority.lowest    = 1000       // Executes LAST
+Enums.priority.low       = 500        // Low priority
+Enums.priority.lowest    = 1000       // LOWEST - runs last
 ```
 
 **Example**:
@@ -377,7 +377,7 @@ const Container = () => {
 Hook.register('plugin-init', async () => {
     const { MyComponent } = await import('./MyComponent');
     Component.register('MyComponent', MyComponent);
-}, Enums.priority.normal);
+}, Enums.priority.neutral);
 ```
 
 ---
@@ -704,7 +704,7 @@ Actinium.Middleware.register(
     (app) => {
         app.use((err, req, res, next) => { /* ... */ });
     },
-    Actinium.Enums.priority.normal  // Too early!
+    Actinium.Enums.priority.neutral  // Too early!
 );
 ```
 
@@ -729,7 +729,7 @@ Actinium.Middleware.register(
 Actinium.Middleware.register(
     'custom-routes',
     (app) => app.get('/api/custom', handler),
-    Actinium.Enums.priority.normal
+    Actinium.Enums.priority.neutral
 );
 
 // Error handler - lowest priority (must be last!)
@@ -1346,7 +1346,7 @@ When debugging:
 - Restart servers after config/schema changes
 
 For more details, see:
-- [REACTIUM_FRAMEWORK.md](/home/john/ai-tradebot/REACTIUM_FRAMEWORK.md)
-- [ACTINIUM_FRAMEWORK.md](/home/john/ai-tradebot/ACTINIUM_FRAMEWORK.md)
-- [FRAMEWORK_PATTERNS.md](/home/john/ai-tradebot/FRAMEWORK_PATTERNS.md)
-- [FRAMEWORK_INTEGRATION.md](/home/john/ai-tradebot/FRAMEWORK_INTEGRATION.md)
+- [REACTIUM_FRAMEWORK.md](/home/john/reactium-framework/REACTIUM_FRAMEWORK.md)
+- [ACTINIUM_FRAMEWORK.md](/home/john/reactium-framework/ACTINIUM_FRAMEWORK.md)
+- [FRAMEWORK_PATTERNS.md](/home/john/reactium-framework/FRAMEWORK_PATTERNS.md)
+- [FRAMEWORK_INTEGRATION.md](/home/john/reactium-framework/FRAMEWORK_INTEGRATION.md)

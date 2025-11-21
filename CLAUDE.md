@@ -183,7 +183,7 @@ Same as Reactium - both use `npm run local` for development with nodemon.
 npx reactium component
 
 # Plugin installation from Reactium registry (NOT npm)
-npx reactium install                    # Installs all ReactiumDependencies/ActiniumDependencies
+npx reactium install                    # Installs all reactiumDependencies/actiniumDependencies
 npx reactium install @realm/package     # Installs specific module, updates package.json
 
 # Plugin publishing to Reactium registry
@@ -265,16 +265,18 @@ const handle = useSyncHandle('MyHandleId');
 ```javascript
 import { Enums } from '@atomic-reactor/reactium-core/sdk';
 
-// Correct priority values
-Enums.priority.highest   // -1000000 (executes FIRST)
-Enums.priority.core      // -1000
-Enums.priority.high      // -100
-Enums.priority.neutral   // 0 (NOT .normal - that returns undefined)
-Enums.priority.low       // 100
-Enums.priority.lowest    // 1000000 (executes LAST)
+// Correct priority values (from reactium-sdk-core/src/core/enums.ts)
+Enums.priority.core      // -2000 (executes FIRST - framework core)
+Enums.priority.highest   // -1000 (very high priority)
+Enums.priority.high      // -500  (high priority)
+Enums.priority.neutral   // 0     (default - NOT .normal, that doesn't exist!)
+Enums.priority.low       // 500   (low priority)
+Enums.priority.lowest    // 1000  (executes LAST)
 ```
 
 **Lower numbers = HIGHER priority** (executes earlier). This is counterintuitive.
+
+**IMPORTANT**: Always use `.neutral`, NOT `.normal`. The `.normal` property does not exist in the source code and will return `undefined`, which coincidentally evaluates to 0 in numeric sorting but is technically incorrect.
 
 ## Hook System
 
