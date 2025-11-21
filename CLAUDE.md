@@ -71,6 +71,60 @@ The `@atomic-reactor/reactium-core` plugin provides core framework functionality
 
 **Recommendation**: In Reactium projects, import from `@atomic-reactor/reactium-core/sdk` or use the `reactium-core/sdk` alias.
 
+### React Hooks from SDK
+
+The SDK provides 16 React hooks in `/browser`:
+
+**State Management**:
+- `useSyncState` - Observable local state (alternative to useState)
+- `useDerivedState` - Derived values from other state
+- `useStatus` - Component lifecycle status tracking
+
+**Handle System**:
+- `useHandle` - Retrieve handle without subscribing (no re-render)
+- `useSyncHandle` - Retrieve handle WITH subscription (re-renders on change)
+- `useRegisterHandle` - Register a handle from a component
+- `useRegisterSyncHandle` - Register handle with sync subscription
+- `useSelectHandle` - Select specific properties from a handle
+
+**Component Utilities**:
+- `useRefs` - Manage multiple refs
+- `useFocusEffect` - Execute callback when element gains focus
+- `useScrollToggle` - Toggle behavior on scroll
+- `useIsContainer` - Check if element contains another element
+- `useHookComponent` - Dynamic component loading via hooks
+
+**Effects**:
+- `useAsyncEffect` - useEffect with async support
+- `useEventEffect` - Subscribe to events with cleanup
+- `useFullfilledObject` - Wait for object properties to be fulfilled
+
+**Best Practice**: Use `useSyncHandle` (not `useHandle`) when you want component updates on state changes.
+
+### Browser Utilities from SDK
+
+**Component System**:
+- `Component` registry - Register/retrieve replaceable components by string token
+- `ComponentEvent` - Event system for component communication
+
+**Zone System**:
+- `Zone` - Render components in designated zones
+- `Zones` - Multi-zone management
+- `SimpleZone` - Basic zone implementation
+- `PassThroughZone` - Zone that passes through to children
+
+**State & Handles**:
+- `Handle` - Observable state containers (like Redux store but simpler)
+- `ReactiumSyncState` - Synchronous state object backing useSyncState
+
+**UI Utilities**:
+- `Fullscreen` - Fullscreen API wrapper
+- `Prefs` - LocalStorage management with reactivity
+- `cxFactory` - ClassNames utility factory
+- `splitParts` - String parsing utility
+- Window utilities - Window size, breakpoints, responsive helpers
+- Breakpoint utilities - Media query helpers for responsive design
+
 ### Key SDK Registries
 
 - **Hook** - Async/sync callbacks for lifecycle hooks
@@ -498,6 +552,8 @@ Reactium.Hook.register('before-checkout', async (cartData, context) => {
 6. **Plugin Execution**: `export default MOD()` - must execute immediately
 7. **Transition States**: Require manual `Reactium.Routing.nextState()` calls
 8. **CORS**: Usually not needed - Reactium proxies through `/api`
+9. **Hook Naming**: Hooks follow React conventions - all start with `use`, only call from components/hooks
+10. **Zone vs Component Registry**: Zones are for positioning UI, Component registry is for replaceable components
 
 ## Development Workflow
 

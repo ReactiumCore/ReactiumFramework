@@ -55,6 +55,75 @@ setCount(count + 1);
 
 **A:** Use Handles when multiple components need to share the same state. Use local state (`useSyncState` or `useState`) when the state is only needed in one component.
 
+### Q: What React hooks are available in Reactium?
+
+**A:** Reactium provides 16 specialized hooks from `@atomic-reactor/reactium-sdk-core/browser`:
+
+**Most Commonly Used**:
+- `useSyncState` - Observable local state
+- `useSyncHandle` - Subscribe to shared Handle state
+- `useAsyncEffect` - useEffect with async/await support
+- `useEventEffect` - Subscribe to events with automatic cleanup
+- `useRefs` - Manage multiple refs easily
+
+**Handle System** (for shared state):
+- `useHandle` - Get handle (no subscription)
+- `useSyncHandle` - Get handle (with subscription)
+- `useRegisterHandle` - Create and register a handle
+- `useSelectHandle` - Subscribe to specific handle properties
+
+**Component & UI**:
+- `useFocusEffect` - Run effect when element focused
+- `useScrollToggle` - Toggle on scroll position
+- `useIsContainer` - Check element containment
+- `useHookComponent` - Dynamically load components
+
+**Advanced**:
+- `useDerivedState` - Computed state from other state
+- `useStatus` - Track component lifecycle status
+- `useFullfilledObject` - Wait for object properties to resolve
+
+### Q: What utility functions does Reactium provide?
+
+**A:** The SDK includes browser utilities for common patterns:
+
+**Component & Zone System**:
+- `Component.register()` / `Component.get()` - Replaceable components by token
+- `Zone` / `Zones` - Render components in designated zones
+- `ComponentEvent` - Component communication
+
+**State & Storage**:
+- `Handle` - Observable shared state containers
+- `Prefs` - LocalStorage with reactivity
+
+**UI Utilities**:
+- `Fullscreen` - Fullscreen API wrapper
+- `cxFactory` - ClassName builder
+- Window/breakpoint utilities - Responsive design helpers
+
+Import from `@atomic-reactor/reactium-core/sdk` or `reactium-core/sdk` in your Reactium app.
+
+### Q: How do I use Zones?
+
+**A:** Zones let you render components into designated areas from anywhere in your app:
+
+```javascript
+import { Zone } from 'reactium-core/sdk';
+
+// In your layout
+<Zone zone="header" />
+<Zone zone="content" />
+
+// From any component, render into zones
+Zone.addComponent({
+    zone: 'header',
+    component: MyHeaderWidget,
+    order: 10,
+});
+```
+
+This is useful for plugin architectures where plugins need to inject UI into host app zones.
+
 ## Routing
 
 ### Q: My new route isn't showing up. What's wrong?
@@ -223,6 +292,62 @@ const handle = useHandle('MyHandle');
 
 // Will re-render on changes
 const handle = useSyncHandle('MyHandle');
+```
+
+### Q: When should I use useAsyncEffect vs useEffect?
+
+**A:** Use `useAsyncEffect` when you need to await async operations in your effect:
+
+```javascript
+// Regular useEffect - requires wrapper function
+useEffect(() => {
+    (async () => {
+        const data = await fetchData();
+        setState(data);
+    })();
+}, []);
+
+// useAsyncEffect - cleaner
+useAsyncEffect(async () => {
+    const data = await fetchData();
+    setState(data);
+}, []);
+```
+
+Both work, but `useAsyncEffect` is more readable for async operations.
+
+### Q: What's the difference between useEventEffect and useEffect?
+
+**A:** `useEventEffect` is specifically for subscribing to Reactium events (like Handle events) with automatic cleanup:
+
+```javascript
+// Subscribe to handle changes
+useEventEffect(
+    handle,           // Event target (Handle, ComponentEvent, etc)
+    { change: () => console.log('Changed') },  // Event handlers
+    [handle]          // Dependencies
+);
+```
+
+It automatically unsubscribes on unmount. Use regular `useEffect` for non-event side effects.
+
+### Q: How do I manage multiple refs in a component?
+
+**A:** Use `useRefs` instead of creating multiple `useRef` calls:
+
+```javascript
+const refs = useRefs();
+
+return (
+    <>
+        <div ref={el => refs.set('header', el)} />
+        <div ref={el => refs.set('content', el)} />
+        <div ref={el => refs.set('footer', el)} />
+    </>
+);
+
+// Access later
+const headerEl = refs.get('header');
 ```
 
 ## More Information
