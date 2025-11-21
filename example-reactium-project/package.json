@@ -1,0 +1,71 @@
+{
+  "name": "reactium-core-project",
+  "version": "6.1.5",
+  "description": "A framework for creating React + Redux apps using the domain driven design (DDD) paradigm.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.mjs",
+    "build": "cross-env NODE_ENV=production gulp",
+    "heroku-prebuild": "npx reactium install",
+    "static": "npm-run-all build:* && gulp static",
+    "local": "gulp local",
+    "clean": "gulp clean"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "framework",
+    "javascript",
+    "ddd"
+  ],
+  "author": "Cam Tullos <cam@tullos.ninja> (http://cam.tullos.ninja) and John Dillick <john@dillick.us>",
+  "license": "MIT",
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Atomic-Reactor/Reactium.git"
+  },
+  "browser": {
+    "parse/node": false
+  },
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "nodemonConfig": {
+    "quite": true,
+    "watch": [
+      "src/manifest.js"
+    ],
+    "ignore": [
+      "src/app/*",
+      ".tmp/"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,json,css,scss,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "reactiumDependencies": {
+    "@atomic-reactor/reactium-api": "6.1.0",
+    "@atomic-reactor/reactium-capability": "6.0.0",
+    "@atomic-reactor/reactium-role": "5.0.1",
+    "@atomic-reactor/reactium-user": "6.1.0",
+    "@atomic-reactor/reactium-setting": "5.0.1",
+    "@atomic-reactor/reactium-svg": "0.0.3",
+    "@atomic-reactor/reactium-core": "6.2.6"
+  },
+  "workspaces": [
+    "reactium_modules/*",
+    "reactium_modules/@*/*"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}

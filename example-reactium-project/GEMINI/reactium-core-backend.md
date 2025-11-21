@@ -1,0 +1,74 @@
+### 1.2: `@atomic-reactor/reactium-core` Exploration Backend
+
+-   **Goal:** Understand how `reactium-core` extends the SDK and orchestrates the application.
+-   **Actions:**
+    -   Analyze the `package.json` to understand its dependencies (especially on `reactium-sdk-core`) and scripts.
+    -   Trace the bootstrap process initiated by `index.mjs` and then `Shell()` in `app/shell.js` (or its equivalent).
+        -   **`index.mjs` Analysis**: This file is the main entry point for the `reactium-core` server.
+            -   It initializes a global Express application (`global.app`).
+            -   Sets up `global.rootPath`, `global.staticAssets`, and `global.staticHTML`.
+            -   The `start()` function orchestrates the server boot sequence, first calling `await globals()` (which is crucial for setting up the `ReactiumBoot` object) and then `await startServer()`.
+            -   **Middleware Management**: Core Express middleware (e.g., `cors`, `morgan`, `body-parser`, `cookie-parser`, `cookie-session`) are registered. Static file serving (including plugin-specific static assets) is configured. Development-specific middleware (Webpack HMR) is conditionally applied. All middleware are registered via `ReactiumBoot.Server.Middleware`, making the middleware stack highly extensible through `Server.Middleware` hooks.
+            -   **Server Startup**: Starts an HTTP server on `PORT` and, if enabled, an HTTPS server using `spdy` on `TLS_PORT`. Includes permission de-escalation for security.
+            -   **Key Dependencies**: Heavily relies on `ReactiumBoot` (from `reactium-sdk-core`) for hooks, middleware registry, enums, and caching.
+        -   **`server-globals.mjs` Analysis**: This file initializes key global variables and the `ReactiumBoot` object.
+            -   `global.ReactiumBoot`: This is the most crucial part, combining `@atomic-reactor/reactium-sdk-core/core` and `/server` into a single global object, making the SDK universally accessible throughout the application.
+            -   `global.rootPath`: Sets the base path for the project.
+            -   `global.defines = {}`: Initializes a global object for application-wide definitions.
+            -   `global.PORT` and `global.TLS_PORT`: Dynamically configures the server ports based on environment variables and `gulp.config.js` (in development).
+            -   `await import('./reactium.log.cjs')`: Imports a logging configuration.
+            -   `await reactiumBootHooks()`: Executes a module that likely registers core framework hooks.
+        -   **`boot-hooks.mjs` Analysis**: This file is central to Reactium's modular and extensible architecture, responsible for discovering and loading "boot hooks" from various locations.
+            -   **Boot Hook Discovery**: Uses `globby` to find `reactium-boot.js`, `reactium-boot.mjs`, or `reactium-boot.cjs` files within `.core/`, `src/`, `reactium_modules/`, and `node_modules/**/reactium-plugin/` directories.
+            -   **Boot Hook Loading**: Dynamically `import`s these discovered files, executing their initialization logic. `global.bootHooks` and `global.bootHookLoaded` manage this process, preventing duplicate loads.
+            -   **`sdk-init` Hook**: After all boot hooks are loaded, it executes synchronous and asynchronous `sdk-init` hooks, providing a critical synchronization point for modules to finalize their setup with the fully constructed `ReactiumBoot` object.
+            -   **Implications**: This module is the heart of Reactium's plugin architecture, enabling auto-discovery and loading of initialization code, promoting extensibility, and decoupling module contributions.
+        -   **`reactium.log.cjs` Analysis**: This file sets up a custom global logging system.
+            -   It wraps the native `console` object, providing `global.DEBUG`, `global.INFO`, `global.BOOT`, `global.WARN`, `global.ERROR` functions.
+            -   Logs are enhanced with timestamps (using `dayjs`), application name, and colored output (using `chalk`).
+            -   Log verbosity is controlled by `process.env.LOG_LEVEL` (defaulting to `BOOT`), allowing filtering of messages.
+            -   This system ensures consistent, readable, and configurable logging across the server-side application.
+        -   **`./server/router.mjs` Analysis**: This file defines the main server-side router for Reactium.
+            -   Uses `express.Router()` to manage routes and middleware.
+            -   Implements optional **HTTP Basic Authentication** based on a `.htpasswd` file, protecting all routes except `/elb-healthcheck`.
+            -   Provides an `/elb-healthcheck` endpoint for load balancer health checks.
+            -   **Server-Side Rendering (SSR)**:
+                -   Processes requests for URLs without file extensions (or with `.htm`/`.html`) by invoking `./renderer/index.mjs`.
+                -   Handles redirects (`context.url`) and sets appropriate HTTP status codes (e.g., `200`, `404`).
+                -   Allows dynamic modification of response headers via the `Server.ResponseHeaders` hook.
+            -   Includes an `unhandledRejection` listener for robust error handling.
+            -   Relies heavily on `./renderer/index.mjs` for the actual React SSR process.
+        -   **`./server/renderer/index.mjs` Analysis**: This file orchestrates the server-side rendering (SSR) process.
+            -   **Initialization**: A self-executing `async` function registers many core SSR hooks upon module load.
+            -   **Hook Registrations (Core SSR Hooks)**: Uses `ReactiumBoot.Hook.registerSync` and `ReactiumBoot.Hook.register` to collect various page assets:
+                -   `Server.AppStyleSheets`: Collects CSS stylesheets (theme-specific, core, plugin static assets).
+                -   `Server.AppScripts`: Collects JavaScript files (Webpack assets, both dev and production manifests).
+                -   `Server.AppHeaders`: Collects HTML `<head>` meta and link tags.
+                -   `Server.AppBindings`: Defines React application binding points in the HTML.
+                -   `Server.AppGlobals`: Defines global JavaScript variables for client-side injection.
+                -   `Server.beforeApp`: Allows application-level template overrides and pre-rendering logic.
+            -   **`requestRegistries()`**: Creates request-scoped instances of `ReactiumBoot.registryFactory` for these asset types, ensuring clean state per request.
+            -   **Rendering Flow**: The main `default export` function executes these hooks in a specific order to populate `req.scripts`, `req.styles`, `req.headTags`, etc., then calls `./template/feo.js` to assemble the final HTML.
+            -   **Implications**: Provides a highly pluggable and extensible SSR pipeline for asset management and template customization, preparing the HTML for client-side React hydration.
+        -   **`./server/template/feo.js` Analysis**: This file defines the default HTML template used for server-side rendered pages.
+            -   It includes a `version` property (`%TEMPLATE_VERSION%` placeholder).
+            -   The `template` function receives the `req` (Express request) object, which contains all the collected assets (`headTags`, `styles`, `headerScripts`, `appBindings`, `appGlobals`, `scripts`, `appAfterScripts`).
+            -   It assembles a complete HTML5 document, dynamically injecting these assets into the `<head>` and `<body>`.
+            -   Notably, it injects global JavaScript variables into the client-side `window` object (`window.defines = ${serialize(defines)};`) and app-specific globals (`req.appGlobals`).
+            -   **Implications**: This is the final HTML assembly point, heavily reliant on the `ReactiumBoot.Hook` system for its content, and crucial for client-side React hydration.
+    -   **Next Steps**:
+        -   Investigate how plugins, routes, and the manifest are loaded and managed (this will involve looking for patterns within `reactium-boot.*` files and the `sdk-init` hook that populate the `Server.*` registries for client-side routing and components).
+    -   Document the core hooks and their roles in the application lifecycle.
+    -   Explore how the CLI is extended with `reactium-core` commands.
+    -   **Verification:** Create a simple "Hello World" plugin within `learning/src/app` that leverages `reactium-core`'s features (e.g., hooks, routing). Write a Cypress test to validate it.
+    -   **Build & Module Resolution:**
+        -   **`babel-plugin-module-resolver`**: The mystery of the `@atomic-reactor/reactium-core/app/shell` import is solved. It's not a webpack alias, but a `babel-plugin-module-resolver` alias configured in `babel.config.js`.
+        -   **Alias Registry:** Aliases are managed in a `Registry` (`ReactiumBabel.ModuleAliases`), which is consistent with the framework's design patterns.
+        -   **Extensibility:** The babel configuration is also extensible via hooks (`ReactiumBabel.Hook.runSync('aliases', ...)`), allowing plugins to register their own aliases.
+            -   Document the core hooks and their roles in the application lifecycle.
+            -   Explore how the CLI is extended with `reactium-core` commands.
+            -   **Verification:** Create a simple "Hello World" plugin within `learning/src/app` that leverages `reactium-core`'s features (e.g., hooks, routing). Write a Cypress test to validate it.
+            -   **Build & Module Resolution:**
+                -   **`babel-plugin-module-resolver`**: The mystery of the `@atomic-reactor/reactium-core/app/shell` import is solved. It's not a webpack alias, but a `babel-plugin-module-resolver` alias configured in `babel.config.js`.
+                -   **Alias Registry:** Aliases are managed in a `Registry` (`ReactiumBabel.ModuleAliases`), which is consistent with the framework's design patterns.
+                -   **Extensibility:** The babel configuration is also extensible via hooks (`ReactiumBabel.Hook.runSync('aliases', ...)`), allowing plugins to register their own aliases.

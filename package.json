@@ -1,0 +1,11 @@
+{
+    "name": "reactium-framework",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "All the Reactium and Actinium mono-repos, sdk core, and the `npx reactium` cli src",
+    "scripts": {},
+    "dependencies": {},
+    "devDependencies": {
+        "cypress": "^15.6.0"
+    }
+}
