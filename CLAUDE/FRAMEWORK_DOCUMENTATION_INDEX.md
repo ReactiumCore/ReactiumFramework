@@ -2,6 +2,46 @@
 
 > **Complete documentation suite** for building full-stack applications with Reactium (frontend) and Actinium (backend) frameworks.
 
+---
+
+## Quick Decision Trees
+
+### I Need To...
+
+**Build Something**:
+- Create a component → [Component Development](#component-development)
+- Create a route → [Routing](#routing)
+- Build a plugin (frontend) → [Plugin Development (Frontend)](#plugin-development-frontend)
+- Build a plugin (backend) → [Plugin Development (Backend)](#plugin-development-backend)
+- Create an API endpoint → [Cloud Functions & API](#cloud-functions--api)
+- Define a database schema → [Database & Schema](#database--schema)
+
+**Fix Something**:
+- Debug an error → [Debugging & Troubleshooting](#debugging--troubleshooting)
+- Check known issues → [KNOWN_ISSUES.md](KNOWN_ISSUES.md)
+- Understand error messages → [Common Errors](FRAMEWORK_GOTCHAS.md#common-error-messages)
+- Performance issues → [Performance](#performance)
+- Build not working → [Build System Gotchas](FRAMEWORK_GOTCHAS.md#build-system)
+
+**Understand Something**:
+- How hooks work → [HOOK_DOMAINS_DEEP_DIVE.md](HOOK_DOMAINS_DEEP_DIVE.md)
+- How zones work → [ZONE_SYSTEM_DEEP_DIVE.md](ZONE_SYSTEM_DEEP_DIVE.md)
+- How capabilities work → [ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system](ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
+- Architecture decisions → [FRAMEWORK_PATTERNS.md](FRAMEWORK_PATTERNS.md)
+- Integration patterns → [FRAMEWORK_INTEGRATION.md](FRAMEWORK_INTEGRATION.md)
+
+**Work With Data**:
+- Fetch from backend → [Integration: Data Flow](FRAMEWORK_INTEGRATION.md#data-flow-patterns)
+- Real-time updates → [Real-Time Features](#real-time-features)
+- Authentication → [Authentication & Security](#authentication--security)
+- File uploads → [Integration: File Uploads](FRAMEWORK_INTEGRATION.md#file-uploads)
+
+**Deploy**:
+- Production setup → [Integration: Deployment](FRAMEWORK_INTEGRATION.md#deployment)
+- Environment config → [Actinium: Environment](ACTINIUM_COMPLETE_REFERENCE.md#environment-configuration)
+
+---
+
 ## Documentation Overview
 
 This documentation suite provides comprehensive coverage of both frameworks, from foundational concepts to advanced patterns and troubleshooting.
@@ -11,8 +51,10 @@ This documentation suite provides comprehensive coverage of both frameworks, fro
 ```
 Framework Documentation
 ├── Core Framework Guides
-│   ├── REACTIUM_FRAMEWORK.md       # Complete Reactium reference
-│   └── ACTINIUM_FRAMEWORK.md       # Complete Actinium reference
+│   ├── REACTIUM_FRAMEWORK.md           # Complete Reactium reference
+│   ├── ACTINIUM_FRAMEWORK.md           # Actinium framework guide
+│   └── ACTINIUM_COMPLETE_REFERENCE.md  # Actinium consolidated reference (NEW)
+│       # Combines: Quick Ref + Framework + Capabilities + Source Analysis
 │
 ├── Integration & Patterns
 │   ├── FRAMEWORK_INTEGRATION.md    # Full-stack integration patterns
@@ -20,11 +62,10 @@ Framework Documentation
 │   └── FRAMEWORK_GOTCHAS.md        # Troubleshooting & common issues
 │
 ├── Deep Dives & Research
-│   ├── HOOK_DOMAINS_DEEP_DIVE.md   # Hook domain system comprehensive guide
-│   ├── ZONE_SYSTEM_DEEP_DIVE.md    # Zone system architecture & patterns
+│   ├── HOOK_DOMAINS_DEEP_DIVE.md       # Hook domain system comprehensive guide
+│   ├── ZONE_SYSTEM_DEEP_DIVE.md        # Zone system architecture & patterns
 │   ├── ZONE_SYSTEM_QUICK_REFERENCE.md  # Zone API quick reference
-│   ├── REACTIUM_SOURCE_CODE_ANALYSIS.md  # Source code analysis
-│   └── ACTINIUM_SOURCE_ANALYSIS_SUMMARY.md  # Actinium source analysis
+│   └── REACTIUM_SOURCE_CODE_ANALYSIS.md # Reactium source analysis
 │
 ├── Maintenance & Curation
 │   ├── KNOWN_ISSUES.md             # Known bugs & technical debt tracking
@@ -72,7 +113,13 @@ If you know React/Express but are new to Reactium/Actinium:
    - Focus on "Plugin System & Registration"
    - Study "Hook System" thoroughly
 
-2. **[ACTINIUM_FRAMEWORK.md](ACTINIUM_FRAMEWORK.md)**
+2. **[ACTINIUM_COMPLETE_REFERENCE.md](ACTINIUM_COMPLETE_REFERENCE.md)** (Recommended)
+   - Start with "Quick Reference" for common patterns
+   - Read "Framework Architecture" for core concepts
+   - Review "Plugin System" and "Cloud Functions"
+   - Study "Capabilities System" for authorization
+
+   **OR** [ACTINIUM_FRAMEWORK.md](ACTINIUM_FRAMEWORK.md) (Traditional guide)
    - Skip to "Plugin System"
    - Understand "Hook System"
    - Review "ES Module Requirements"
@@ -174,6 +221,38 @@ When designing a new feature:
 - [Hook System](ACTINIUM_FRAMEWORK.md#hook-system)
 - [Parse Server Integration](ACTINIUM_FRAMEWORK.md#parse-server-integration)
 - [Schema Initialization](ACTINIUM_FRAMEWORK.md#schema-definition)
+
+---
+
+### 2b. ACTINIUM_COMPLETE_REFERENCE.md (NEW)
+
+**Consolidated Actinium reference** combining all Actinium documentation:
+
+#### What's Included
+- **Quick Reference**: Common patterns, code snippets, rapid lookup
+- **Framework Architecture**: Core concepts, initialization, global objects
+- **Plugin System**: Complete plugin development guide
+- **Hook System**: Event-driven architecture, registration, execution
+- **Cloud Functions**: API endpoints, capability checks, Parse triggers
+- **Capabilities System**: Authorization, roles, permissions (full deep dive)
+- **Source Code Insights**: Implementation details, internals, gotchas
+- **Troubleshooting**: Common issues, debugging, best practices
+
+#### When to Use This Doc
+- **Quick lookup** of Actinium patterns
+- **Comprehensive reference** for any Actinium topic
+- **Deep dive** into capabilities system
+- **Source code** implementation details
+- **One-stop** Actinium documentation
+
+#### Key Sections
+- [Quick Reference](ACTINIUM_COMPLETE_REFERENCE.md#quick-reference) - Fast pattern lookup
+- [Framework Architecture](ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture) - Core concepts
+- [Capabilities System](ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system) - Complete authorization guide
+- [Source Code Insights](ACTINIUM_COMPLETE_REFERENCE.md#source-code-insights) - Internals
+- [Troubleshooting](ACTINIUM_COMPLETE_REFERENCE.md#troubleshooting) - Common issues
+
+**Replaces**: ACTINIUM_DEEP_DIVE.md, ACTINIUM_CAPABILITIES.md, ACTINIUM_QUICK_REFERENCE.md, ACTINIUM_SOURCE_ANALYSIS_SUMMARY.md (now consolidated)
 
 ---
 
@@ -300,29 +379,33 @@ When designing a new feature:
 4. [Gotchas: Priority Numbers](FRAMEWORK_GOTCHAS.md#gotcha-5-priority-numbers-are-counterintuitive)
 
 ### Plugin Development (Backend)
-1. [Actinium: Plugin System](ACTINIUM_FRAMEWORK.md#plugin-system)
-2. [Patterns: Plugin SDK Pattern](FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern)
-3. [Patterns: Plugin Dependency Management](FRAMEWORK_PATTERNS.md#pattern-12-plugin-dependency-management)
-4. [Gotchas: Plugin Function Must Execute](FRAMEWORK_GOTCHAS.md#gotcha-13-plugin-function-must-execute)
-5. [Gotchas: Plugin Order Matters](FRAMEWORK_GOTCHAS.md#gotcha-18-plugin-order-matters)
+1. [Actinium Complete Reference: Plugin System](ACTINIUM_COMPLETE_REFERENCE.md#plugin-system) (Recommended)
+2. [Actinium: Plugin System](ACTINIUM_FRAMEWORK.md#plugin-system) (Traditional)
+3. [Patterns: Plugin SDK Pattern](FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern)
+4. [Patterns: Plugin Dependency Management](FRAMEWORK_PATTERNS.md#pattern-12-plugin-dependency-management)
+5. [Gotchas: Plugin Function Must Execute](FRAMEWORK_GOTCHAS.md#gotcha-13-plugin-function-must-execute)
+6. [Gotchas: Plugin Order Matters](FRAMEWORK_GOTCHAS.md#gotcha-18-plugin-order-matters)
 
 ### Cloud Functions & API
-1. [Actinium: Cloud Functions](ACTINIUM_FRAMEWORK.md#cloud-functions)
-2. [Integration: Cloud Function Integration](FRAMEWORK_INTEGRATION.md#cloud-function-integration)
-3. [Patterns: Capability-Based Authorization](FRAMEWORK_PATTERNS.md#pattern-10-capability-based-authorization)
-4. [Gotchas: Master Key Usage](FRAMEWORK_GOTCHAS.md#gotcha-15-master-key-usage-in-cloud-functions)
+1. [Actinium Complete Reference: Cloud Functions](ACTINIUM_COMPLETE_REFERENCE.md#cloud-functions) (Recommended)
+2. [Actinium: Cloud Functions](ACTINIUM_FRAMEWORK.md#cloud-functions) (Traditional)
+3. [Integration: Cloud Function Integration](FRAMEWORK_INTEGRATION.md#cloud-function-integration)
+4. [Patterns: Capability-Based Authorization](FRAMEWORK_PATTERNS.md#pattern-10-capability-based-authorization)
+5. [Gotchas: Master Key Usage](FRAMEWORK_GOTCHAS.md#gotcha-15-master-key-usage-in-cloud-functions)
 
 ### Database & Schema
-1. [Actinium: Database and Collections](ACTINIUM_FRAMEWORK.md#database-and-collections)
-2. [Patterns: Schema Initialization](FRAMEWORK_PATTERNS.md#pattern-11-schema-initialization-pattern)
-3. [Patterns: Hook-Based Validation](FRAMEWORK_PATTERNS.md#pattern-9-hook-based-data-validation)
-4. [Gotchas: Schema Changes Require Restart](FRAMEWORK_GOTCHAS.md#gotcha-17-schema-changes-require-server-restart)
+1. [Actinium Complete Reference: Quick Ref - Schema](ACTINIUM_COMPLETE_REFERENCE.md#database-schema-definition)
+2. [Actinium: Database and Collections](ACTINIUM_FRAMEWORK.md#database-and-collections)
+3. [Patterns: Schema Initialization](FRAMEWORK_PATTERNS.md#pattern-11-schema-initialization-pattern)
+4. [Patterns: Hook-Based Validation](FRAMEWORK_PATTERNS.md#pattern-9-hook-based-data-validation)
+5. [Gotchas: Schema Changes Require Restart](FRAMEWORK_GOTCHAS.md#gotcha-17-schema-changes-require-server-restart)
 
 ### Authentication & Security
-1. [Integration: Authentication & Session Management](FRAMEWORK_INTEGRATION.md#authentication--session-management)
-2. [Actinium: Capabilities and Roles](ACTINIUM_FRAMEWORK.md#capabilities-and-roles)
-3. [Patterns: Capability-Based Authorization](FRAMEWORK_PATTERNS.md#pattern-10-capability-based-authorization)
-4. [Gotchas: Session Tokens](FRAMEWORK_GOTCHAS.md#gotcha-23-session-tokens-and-authentication)
+1. [Actinium Complete Reference: Capabilities System](ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system) (Complete guide)
+2. [Integration: Authentication & Session Management](FRAMEWORK_INTEGRATION.md#authentication--session-management)
+3. [Actinium: Capabilities and Roles](ACTINIUM_FRAMEWORK.md#capabilities-and-roles)
+4. [Patterns: Capability-Based Authorization](FRAMEWORK_PATTERNS.md#pattern-10-capability-based-authorization)
+5. [Gotchas: Session Tokens](FRAMEWORK_GOTCHAS.md#gotcha-23-session-tokens-and-authentication)
 
 ### Real-Time Features
 1. [Integration: Real-Time Communication](FRAMEWORK_INTEGRATION.md#real-time-communication)
@@ -360,10 +443,12 @@ When designing a new feature:
 ### Building a Backend Plugin
 
 **Docs to Read**:
-- [Actinium: Plugin Development](ACTINIUM_FRAMEWORK.md#plugin-development)
+- [Actinium Complete Reference: Quick Reference](ACTINIUM_COMPLETE_REFERENCE.md#quick-reference) (Start here)
+- [Actinium Complete Reference: Plugin System](ACTINIUM_COMPLETE_REFERENCE.md#plugin-system)
+- [Actinium: Plugin Development](ACTINIUM_FRAMEWORK.md#plugin-development) (Alternative)
 - [Patterns: Plugin SDK Pattern](FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern)
 
-**Example**: See [Actinium: Step-by-Step Plugin Creation](ACTINIUM_FRAMEWORK.md#step-by-step-plugin-creation)
+**Example**: See [Actinium Complete Reference: Essential Plugin Structure](ACTINIUM_COMPLETE_REFERENCE.md#essential-plugin-structure)
 
 ### Implementing CRUD Operations
 
@@ -503,16 +588,20 @@ This documentation suite follows these principles:
 **Update Frequency**: As framework evolves or gaps identified
 
 **Recent Curation Sessions**:
+- November 22, 2025 (Latest): **Documentation Reorganization** - Improved navigation and consolidated Actinium docs
+  - Created `ACTINIUM_COMPLETE_REFERENCE.md` (consolidates 4 files into single comprehensive reference)
+  - Removed redundant `REACTIUM_CONTEXT.md` (content already in index)
+  - Added decision-tree navigation to index ("I need to..." quick lookup)
+  - Updated all Actinium cross-references
+  - Improved navigation paths for faster decision-making
 - November 22, 2025 (PM): Documentation structure cleanup, resolved broken references
   - Fixed REACTIUM_CONTEXT.md broken links
   - Verified .core directory context
-  - Updated issue tracking
   - See: `CURATION_REPORT_2025_11_22.md`
-- November 22, 2025 (AM): Zone System Deep Dive - Comprehensive analysis of Zone architecture, filters/mappers/sorters, performance optimization
+- November 22, 2025 (AM): Zone System Deep Dive
   - See: `ZONE_SYSTEM_DEEP_DIVE.md`
   - See: `ZONE_SYSTEM_QUICK_REFERENCE.md`
-  - See: `ZONE_RESEARCH_REPORT_2025_11_22.md`
-- November 21, 2025: Comprehensive source code verification, identified example code bug, added known issues tracking
+- November 21, 2025: Source code verification
   - See: `CURATION_REPORT_2025_11_21.md`
   - See: `KNOWN_ISSUES.md`
 
@@ -526,13 +615,18 @@ This documentation suite provides everything you need to build full-stack applic
 
 **Core References**:
 - [REACTIUM_FRAMEWORK.md](REACTIUM_FRAMEWORK.md) - Frontend complete guide
-- [ACTINIUM_FRAMEWORK.md](ACTINIUM_FRAMEWORK.md) - Backend complete guide
+- [ACTINIUM_FRAMEWORK.md](ACTINIUM_FRAMEWORK.md) - Backend framework guide
+- [ACTINIUM_COMPLETE_REFERENCE.md](ACTINIUM_COMPLETE_REFERENCE.md) - **NEW** Consolidated Actinium reference (recommended)
 
 **Practical Guides**:
 - [FRAMEWORK_INTEGRATION.md](FRAMEWORK_INTEGRATION.md) - Full-stack patterns
 - [FRAMEWORK_PATTERNS.md](FRAMEWORK_PATTERNS.md) - Best practices
 - [FRAMEWORK_GOTCHAS.md](FRAMEWORK_GOTCHAS.md) - Troubleshooting
 
-Use the navigation above to find exactly what you need, when you need it.
+**Deep Dives**:
+- [ZONE_SYSTEM_DEEP_DIVE.md](ZONE_SYSTEM_DEEP_DIVE.md) - Zone system architecture
+- [HOOK_DOMAINS_DEEP_DIVE.md](HOOK_DOMAINS_DEEP_DIVE.md) - Hook system deep dive
+
+**Quick Start**: Use the [decision tree](#quick-decision-trees) at the top to find what you need fast!
 
 Happy coding with Reactium and Actinium!

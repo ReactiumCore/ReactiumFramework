@@ -432,12 +432,35 @@ The manifest generation follows this process:
 
 2. **Pattern Matching**: Matches files against regex patterns defined in manifest config:
    ```javascript
-   const patterns = [
-       { name: 'allRoutes', pattern: /reactium-route-.+\.js$/, type: 'routes' },
-       { name: 'allHooks', pattern: /reactium-hooks-.+\.js$/, type: 'hooks' },
-       { name: 'allServices', pattern: /reactium-service-.+\.js$/, type: 'services' }
-   ];
+   // Source: reactium-config.js (verified November 21, 2025)
+   const defaultManifestConfig = {
+       patterns: [
+           {
+               name: 'allRoutes',
+               type: 'route',
+               pattern: /(routes?|reactium-routes?.*?)\.jsx?$/,
+           },
+           {
+               name: 'allHooks',
+               type: 'hooks',
+               pattern: /(reactium-)?hooks?.*?\.jsx?$/,
+           },
+           {
+               name: 'allDomains',
+               type: 'domain',
+               pattern: /(domain|reactium-domain.*?)\.js$/,
+           },
+           {
+               name: 'allServices',
+               type: 'services',
+               pattern: /reactium-service-.+\.js$/,
+           },
+           // Additional patterns for plugins, middleware, etc.
+       ]
+   };
    ```
+
+   **Note**: Patterns are flexible - they match variations like `route.js`, `routes.js`, `reactium-route-myroute.js`, etc.
 
 3. **Import Function Generation**: Creates dynamic import functions for each matched file:
    ```javascript
@@ -1022,6 +1045,17 @@ After reviewing `/learning/GEMINI.md` and the actual source code, here are criti
 - `gulp.config.js`
 - `webpack.config.js`
 - `manifest/manifest-tools.js`
+
+**Filesystem Verification** (November 22, 2025):
+- Codebase scan found ONE `.core` directory: `/home/john/reactium-framework/Reactium-Admin-Plugins/.core/`
+- Contains legacy build configuration files (gulp, webpack, babel configs from older framework version)
+- Modern workspace directories using `reactium_modules/@atomic-reactor/reactium-core/` pattern:
+  - `/home/john/reactium-framework/Reactium-Admin-Plugins/reactium_modules`
+  - `/home/john/reactium-framework/Reactium-GraphQL-Plugin/reactium_modules`
+  - `/home/john/reactium-framework/example-reactium-project/reactium_modules`
+  - `/home/john/reactium-framework/Reactium-Core-Plugins/reactium_modules`
+  - `/home/john/reactium-framework/Actinium-Plugins/actinium_modules`
+- **Conclusion**: The single `.core` directory found is legacy artifacts from older project structure. All current projects use the workspace module pattern with `@atomic-reactor/reactium-core` plugin.
 
 #### Correction 2: SDK is Not Simply an Object, It's a Proxy
 

@@ -212,12 +212,6 @@ Updated REACTIUM_CONTEXT.md to serve as a directory index pointing to actual doc
 
 ---
 
-## Resolved Issues
-
-(None yet - this is the first tracked curation session)
-
----
-
 ## How to Report Issues
 
 If you discover:
