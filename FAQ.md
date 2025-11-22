@@ -198,19 +198,18 @@ Component.register('MyComponent', MyComponent);
 
 ### Q: What priority should I use for hooks?
 
-**A:** Use `Enums.priority.neutral` (NOT `.normal` - that doesn't exist and returns undefined). Lower numbers execute first:
+**A:** Use `Enums.priority.neutral` for most plugins. Lower numbers execute first:
 
 ```javascript
-// Verified from reactium-sdk-core/src/core/enums.ts
 Enums.priority.core      // -2000 (framework core - executes first)
 Enums.priority.highest   // -1000
 Enums.priority.high      // -500
-Enums.priority.neutral   // 0 (default - use this for most plugins)
+Enums.priority.neutral   // 0 (default)
 Enums.priority.low       // 500
 Enums.priority.lowest    // 1000
 ```
 
-Only specify a different priority if you need hooks to run in a specific order. **CRITICAL**: Never use `.normal` - it does not exist in the source code!
+Only specify a different priority if you need hooks to run in a specific order.
 
 ### Q: What's the difference between `reactium-hooks-*.js` and `reactium-boot.js`?
 

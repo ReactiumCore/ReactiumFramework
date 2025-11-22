@@ -5,99 +5,114 @@ Topics for future exploration sessions with specialized agents.
 ## Completed Research
 
 - ✅ **Browser SDK React Hooks & Utilities** - Cataloged 16 React hooks and 13 browser utilities from `@atomic-reactor/reactium-sdk-core/browser`
+- ✅ **Hook System Domains** - Comprehensive deep dive into domain functionality, use cases, patterns, and lifecycle management (Nov 21, 2025)
+- ✅ **Zone System Deep Dive** - Complete analysis of Zone architecture, filters/mappers/sorters, zone patterns from core plugins, performance optimization strategies, and best practices (Nov 22, 2025)
+- ✅ **Documentation Structure Cleanup** - Resolved REACTIUM_CONTEXT.md broken references, verified documentation accuracy (Nov 22, 2025)
+- ✅ **Actinium Capabilities System** - Complete deep dive into capability vs ACL architecture, role-based authorization, built-in vs custom capabilities, server/client implementation patterns, Parse Server integration, and workflow capabilities (Nov 22, 2025)
 
 ## Pending Research Topics
 
 ### High Priority
 
-1. **Hook System Domains**
-   - What are domains in the Hook system? (e.g., `@reactium` domain seen in code)
-   - How are they used?
-   - When should developers use domains vs no domain?
-   - Pattern examples from core plugins
-
-2. **Zone System Deep Dive**
-   - How filters, mappers, and sorters work
-   - Common zone patterns from core plugins
-   - Best practices for zone component design
-   - Performance considerations
-
-3. **ReactiumWebpack SDK**
+2. **ReactiumWebpack SDK**
    - How to use `ReactiumWebpack.extend()`
    - Common webpack customizations
    - Migration path from `webpack.override.js`
    - Examples from core plugins
 
-4. **Routing System Architecture**
+3. **Routing System Architecture**
    - Complete lifecycle from file scan to route registration
    - How `register-route` hook modifies routes
    - Transition state machine details
    - Code splitting patterns with routes
 
+### High Priority (Newly Identified)
+
+1. **Example Code Audit & Correction**
+   - Document known bugs in example code (`Enums.priority.normal`)
+   - Create issue list for example code corrections
+   - Verify all example code matches current framework version
+   - Update templates in CLI to use correct patterns
+
 ### Medium Priority
 
-5. **Actinium Capabilities System**
-   - How capabilities differ from ACLs
-   - Defining custom capabilities
-   - Capability checking patterns
-   - Role-based vs capability-based authorization
+6. **Parse Server ACL Patterns in Actinium**
+   - CloudACL utility usage patterns
+   - Combining ACLs with capabilities
+   - Object-level vs feature-level permissions
+   - AclTargets cloud function
+   - Parse CLP configuration from capabilities
 
-6. **Manifest Generation Process**
+7. **Actinium Roles System Deep Dive**
+   - Role levels and hierarchy
+   - Role relations (roles containing roles)
+   - User-role assignment patterns
+   - Built-in roles (super-admin, administrator, banned, anonymous)
+   - Role cache management
+
+8. **Manifest Generation Process**
    - `manifest-tools.js` internals
    - Globby patterns for DDD artifacts
    - How to extend manifest scanning
    - Custom artifact types
 
-7. **Plugin Dependency Resolution**
+9. **Plugin Dependency Resolution**
    - How `pluginDependencies` array works
    - Order vs dependencies
    - Circular dependency handling
    - Plugin activation/deactivation flow
 
-8. **Middleware Auto-Discovery (Actinium)**
+10. **Middleware Auto-Discovery (Actinium)**
    - File patterns for middleware discovery
    - Priority-based registration
    - Express app configuration hooks
    - Common middleware patterns
 
+11. **Content Type System Architecture**
+   - Type registration and schema
+   - Field type plugins
+   - Dynamic capability generation
+   - Content UUID generation (namespace patterns)
+   - Type-specific routes
+
 ### Lower Priority
 
-9. **HMR Configuration**
+12. **HMR Configuration**
    - How HMR works with Reactium
    - BrowserSync integration
    - Webpack dev middleware setup
    - Custom HMR handlers
 
-10. **Handle System Patterns**
+13. **Handle System Patterns**
     - `useSelectHandle` use cases
     - Performance optimization with handles
     - Handle lifecycle management
     - When to use Handle vs Context
 
-11. **Parse Server Integration**
+14. **Parse Server Integration**
     - How `@atomic-reactor/reactium-api` initializes Parse
     - Session management
     - Proxy configuration for `/api`
     - Live Query setup
 
-12. **Pulse System**
+15. **Pulse System**
     - Recurring process patterns
     - Scheduling options
     - Pulse lifecycle
     - Use cases vs setInterval/setTimeout
 
-13. **Prefs System**
+16. **Prefs System**
     - LocalStorage patterns
     - Object-path notation
     - Migration patterns
     - Sync across tabs
 
-14. **Fullscreen API Usage**
+17. **Fullscreen API Usage**
     - Component fullscreen patterns
     - Browser compatibility handling
     - Exit fullscreen edge cases
 
-15. **Component Registry Patterns**
+18. **Component Registry Patterns**
     - Dynamic component replacement
     - Plugin-based component overrides
     - Versioning components

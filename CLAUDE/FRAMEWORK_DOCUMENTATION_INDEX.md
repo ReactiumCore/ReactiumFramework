@@ -19,7 +19,19 @@ Framework Documentation
 │   ├── FRAMEWORK_PATTERNS.md       # Best practices & anti-patterns
 │   └── FRAMEWORK_GOTCHAS.md        # Troubleshooting & common issues
 │
-└── This File
+├── Deep Dives & Research
+│   ├── HOOK_DOMAINS_DEEP_DIVE.md   # Hook domain system comprehensive guide
+│   ├── ZONE_SYSTEM_DEEP_DIVE.md    # Zone system architecture & patterns
+│   ├── ZONE_SYSTEM_QUICK_REFERENCE.md  # Zone API quick reference
+│   ├── REACTIUM_SOURCE_CODE_ANALYSIS.md  # Source code analysis
+│   └── ACTINIUM_SOURCE_ANALYSIS_SUMMARY.md  # Actinium source analysis
+│
+├── Maintenance & Curation
+│   ├── KNOWN_ISSUES.md             # Known bugs & technical debt tracking
+│   ├── CURATION_REPORT_2025_11_21.md  # Nov 21 curation session
+│   └── CURATION_REPORT_2025_11_22.md  # Nov 22 curation session (latest)
+│
+└── Navigation
     └── FRAMEWORK_DOCUMENTATION_INDEX.md  # You are here
 ```
 
@@ -74,12 +86,16 @@ If you know React/Express but are new to Reactium/Actinium:
 
 When something isn't working:
 
-1. **[FRAMEWORK_GOTCHAS.md](/home/john/reactium-framework/FRAMEWORK_GOTCHAS.md)**
+1. **[KNOWN_ISSUES.md](/home/john/reactium-framework/CLAUDE/KNOWN_ISSUES.md)**
+   - Check if your issue is a known bug or quirk
+   - Review workarounds and fix status
+
+2. **[FRAMEWORK_GOTCHAS.md](/home/john/reactium-framework/CLAUDE/FRAMEWORK_GOTCHAS.md)**
    - Check relevant section (Reactium/Actinium/Integration)
    - Review "Common Error Messages"
    - Try "Debugging Strategies"
 
-2. **[FRAMEWORK_PATTERNS.md](/home/john/reactium-framework/FRAMEWORK_PATTERNS.md#anti-patterns-to-avoid)**
+3. **[FRAMEWORK_PATTERNS.md](/home/john/reactium-framework/CLAUDE/FRAMEWORK_PATTERNS.md#anti-patterns-to-avoid)**
    - Verify you're not hitting anti-patterns
    - Compare your code to examples
 
@@ -255,6 +271,14 @@ When designing a new feature:
 2. [Patterns: Domain-Driven Organization](/home/john/reactium-framework/FRAMEWORK_PATTERNS.md#pattern-1-domain-driven-component-organization)
 3. [Patterns: Component Registry](/home/john/reactium-framework/FRAMEWORK_PATTERNS.md#pattern-6-component-registry-pattern)
 4. [Gotchas: Component Registration Timing](/home/john/reactium-framework/FRAMEWORK_GOTCHAS.md#gotcha-9-component-registration-timing)
+
+### Zone System (Dynamic Component Composition)
+1. [Zone System Deep Dive](/home/john/reactium-framework/CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md) - Complete architecture guide
+2. [Zone System Quick Reference](/home/john/reactium-framework/CLAUDE/ZONE_SYSTEM_QUICK_REFERENCE.md) - API reference
+3. [Core Architecture](/home/john/reactium-framework/CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#core-architecture)
+4. [Filters, Mappers, Sorters](/home/john/reactium-framework/CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#filters-mappers-and-sorters)
+5. [Common Zone Patterns](/home/john/reactium-framework/CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#common-zone-patterns)
+6. [Performance Considerations](/home/john/reactium-framework/CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#performance-considerations)
 
 ### Routing
 1. [Reactium: Routing System](/home/john/reactium-framework/REACTIUM_FRAMEWORK.md#routing-system)
@@ -472,11 +496,25 @@ This documentation suite follows these principles:
 
 ## Documentation Maintenance
 
-**Last Updated**: November 20, 2025
+**Last Updated**: November 21, 2025
 
-**Maintained By**: AI Documentation Orchestrator
+**Maintained By**: AI Documentation Steward
 
 **Update Frequency**: As framework evolves or gaps identified
+
+**Recent Curation Sessions**:
+- November 22, 2025 (PM): Documentation structure cleanup, resolved broken references
+  - Fixed REACTIUM_CONTEXT.md broken links
+  - Verified .core directory context
+  - Updated issue tracking
+  - See: `CURATION_REPORT_2025_11_22.md`
+- November 22, 2025 (AM): Zone System Deep Dive - Comprehensive analysis of Zone architecture, filters/mappers/sorters, performance optimization
+  - See: `ZONE_SYSTEM_DEEP_DIVE.md`
+  - See: `ZONE_SYSTEM_QUICK_REFERENCE.md`
+  - See: `ZONE_RESEARCH_REPORT_2025_11_22.md`
+- November 21, 2025: Comprehensive source code verification, identified example code bug, added known issues tracking
+  - See: `CURATION_REPORT_2025_11_21.md`
+  - See: `KNOWN_ISSUES.md`
 
 **Feedback**: Document issues and gaps for future updates
 

@@ -1,15 +1,27 @@
 # Reactium Framework Context
 
-This document provides an overview of the Reactium framework, with detailed sections broken out into separate Markdown files for easier navigation and deeper understanding.
+This document serves as a directory index to Reactium framework documentation.
 
-## Table of Contents
+## Primary Documentation
 
--   [1. Overall Architecture and Core Principles](architecture/reactium-architecture.md)
--   [2. Core Primitives (from `@atomic-reactor/reactium-sdk-core`)](architecture/reactium-core-primitives.md)
--   [3. Domain-Driven Design (DDD) Artifacts and Patterns](architecture/reactium-ddd-artifacts.md)
--   [4. Framework Conventions and `globby` Patterns](architecture/reactium-conventions-globby.md)
--   [5. Core Plugin Functionalities and Extension Examples](architecture/reactium-core-plugins.md)
--   [6. Build System (Gulp & Webpack)](architecture/reactium-build-system.md)
--   [7. State Management](architecture/reactium-state-management.md)
--   [8. Automatic Manifest Construction and Consumption](architecture/reactium-manifest-construction.md)
--   [9. Reactium CLI](architecture/reactium-cli.md)
+For comprehensive Reactium framework documentation, see:
+
+- **[REACTIUM_FRAMEWORK.md](REACTIUM_FRAMEWORK.md)** - Complete framework guide with architecture, patterns, and examples
+- **[FRAMEWORK_PATTERNS.md](FRAMEWORK_PATTERNS.md)** - Proven patterns and best practices
+- **[FRAMEWORK_GOTCHAS.md](FRAMEWORK_GOTCHAS.md)** - Common pitfalls and troubleshooting
+- **[FRAMEWORK_INTEGRATION.md](FRAMEWORK_INTEGRATION.md)** - Reactium + Actinium integration guide
+
+## Specialized Topics
+
+- **[ZONE_SYSTEM_DEEP_DIVE.md](ZONE_SYSTEM_DEEP_DIVE.md)** - Complete zone system documentation
+- **[HOOK_DOMAINS_DEEP_DIVE.md](HOOK_DOMAINS_DEEP_DIVE.md)** - Hook system and domain functionality
+- **[REACTIUM_SOURCE_CODE_ANALYSIS.md](REACTIUM_SOURCE_CODE_ANALYSIS.md)** - Source code analysis and insights
+
+## Quick References
+
+- **[ZONE_SYSTEM_QUICK_REFERENCE.md](ZONE_SYSTEM_QUICK_REFERENCE.md)** - Zone system at a glance
+- **[FAQ.md](../FAQ.md)** - Frequently asked questions
+
+## Note on Deprecated References
+
+Previous versions of this file referenced non-existent architecture subdirectory files. The current documentation structure consolidates all information into the comprehensive guides listed above.

@@ -347,7 +347,7 @@ Hook.register(
         const { HookTester } = await import('./HookTester');
         Component.register('HookTester', HookTester);
     },
-    Enums.priority.normal,
+    Enums.priority.neutral,  // NOTE: Example code incorrectly uses .normal, should be .neutral
     'plugin-init-HookTester',
     // Note: No domain specified, uses 'default'
 );

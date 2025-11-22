@@ -276,7 +276,9 @@ Enums.priority.lowest    // 1000  (executes LAST)
 
 **Lower numbers = HIGHER priority** (executes earlier). This is counterintuitive.
 
-**IMPORTANT**: Always use `.neutral`, NOT `.normal`. The `.normal` property does not exist in the source code and will return `undefined`, which coincidentally evaluates to 0 in numeric sorting but is technically incorrect.
+**CRITICAL BUG IN EXAMPLE CODE**: Many example files incorrectly use `Enums.priority.normal`, which does not exist in the source code. The actual enum defines `Enums.priority.neutral`. Using `.normal` returns `undefined`, which coincidentally evaluates to 0 in numeric sorting but is technically incorrect and could break in future versions.
+
+**Always use `.neutral`** in your code. See CLAUDE/FRAMEWORK_GOTCHAS.md for detailed explanation.
 
 ## Hook System
 
