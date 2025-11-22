@@ -1,3 +1,4 @@
+<!-- v1.0.0 -->
 # Hook System Domains: Deep Dive
 
 **Research Date:** 2025-11-21

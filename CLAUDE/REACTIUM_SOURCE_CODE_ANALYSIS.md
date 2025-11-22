@@ -1,3 +1,4 @@
+<!-- v1.0.0 -->
 # Reactium Framework: Deep Source Code Analysis
 
 **Analyzed by: Claude (Sonnet 4.5)**

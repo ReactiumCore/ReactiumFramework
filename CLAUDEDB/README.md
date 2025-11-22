@@ -1,3 +1,4 @@
+<!-- v1.0.0 -->
 # CLAUDEDB - O(1) Knowledge Access System
 
 **Created**: 2025-11-22

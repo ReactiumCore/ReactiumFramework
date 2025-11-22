@@ -1,3 +1,4 @@
+<!-- v1.0.0 -->
 # CLAUDEDB Link Verification
 
 This file tests a sample of links from CLAUDEDB to verify they work correctly.

@@ -1,3 +1,5 @@
+<!-- v1.0.0 -->
+
 # Reactium Framework - Known Issues & Technical Debt
 
 **Last Updated:** November 21, 2025
@@ -19,20 +21,22 @@ This document tracks known issues, bugs, and technical debt in the Reactium fram
 Many example files throughout the codebase use `Enums.priority.normal`, which does not exist in the source code. The actual enum only defines `Enums.priority.neutral`.
 
 **Source of Truth:**
+
 ```typescript
 // From reactium-sdk-core/src/core/enums.ts
 export enum Priority {
-    core = -2000,
-    highest = -1000,
-    high = -500,
-    neutral = 0,      // ✅ Correct
-    low = 500,
-    lowest = 1000,
+  core = -2000,
+  highest = -1000,
+  high = -500,
+  neutral = 0, // ✅ Correct
+  low = 500,
+  lowest = 1000,
 }
 // Note: NO 'normal' property
 ```
 
 **Affected Files (29+ total):**
+
 ```
 example-reactium-project/src/app/components/HookTester/reactium-hooks-hooktester.js
 example-reactium-project/src/app/components/AdvancedLoader/reactium-hooks-advancedloader.js
@@ -55,6 +59,7 @@ Reactium-Core-Plugins/src/app/components/Test/StateLoader/reactium-hooks-statelo
 ```
 
 **Also Affects CLI Templates:**
+
 ```
 Reactium-Admin-Plugins/.core/.cli/commands/reactium/plugin/module/template/reactium-boot.hbs
 Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/plugin/module/template/reactium-boot.hbs
@@ -62,6 +67,7 @@ Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/comman
 ```
 
 **Impact:**
+
 - Using `.normal` returns `undefined`
 - `undefined` happens to evaluate to 0 in numeric sorting (same as `neutral`)
 - This works accidentally but is fragile and could break in future versions
@@ -71,17 +77,20 @@ Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/comman
 Always use `Enums.priority.neutral` in your code.
 
 **Fix Required:**
+
 1. Systematic search-and-replace across all affected files
 2. Update CLI templates to generate correct code
 3. Add linting rule to prevent future occurrences
 
 **Documentation Status:**
+
 - ✅ Documented in `CLAUDE/FRAMEWORK_GOTCHAS.md` (Gotcha 5)
 - ✅ Warning added to `CLAUDE.md`
 - ✅ Added to `FAQ.md` under "Known Issues"
 - ✅ Noted in `CLAUDE/CURATION_REPORT_2025_11_21.md`
 
 **Grep Command to Find All Instances:**
+
 ```bash
 grep -r "priority\.normal" /home/john/reactium-framework/ --include="*.js" --include="*.jsx" --include="*.ts" --include="*.tsx"
 ```
@@ -99,11 +108,13 @@ grep -r "priority\.normal" /home/john/reactium-framework/ --include="*.js" --inc
 Documentation files outside the `CLAUDE/` directory may contain outdated patterns or information:
 
 **Files to Review:**
+
 - `/example-reactium-project/REACTIUM_FRAMEWORK.md` - Contains `priority.normal` references
 - `/example-reactium-project/GEMINI/*.md` - Unknown accuracy, needs verification
 - `/DOCUMENTATION_HOOK_DOMAINS.md` - Now corrected, but is duplicate of CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md
 
 **Recommendation:**
+
 - Consolidate documentation into `CLAUDE/` directory
 - Mark external docs as "may be outdated" with reference to canonical docs
 - Or: Maintain external docs through automated sync
@@ -125,6 +136,7 @@ Some documentation exists in multiple locations:
   - `/CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md` (canonical)
 
 **Recommendation:**
+
 - Establish `CLAUDE/` as canonical documentation location
 - Root-level docs could be symlinks or contain "see CLAUDE/ for details" redirects
 - Or: Delete duplicates and consolidate
@@ -142,14 +154,15 @@ Some documentation exists in multiple locations:
 Lower priority numbers execute FIRST, which is counter-intuitive:
 
 ```javascript
-Enums.priority.core = -2000      // Executes FIRST
-Enums.priority.highest = -1000
-Enums.priority.neutral = 0
-Enums.priority.low = 500
-Enums.priority.lowest = 1000     // Executes LAST
+Enums.priority.core = -2000; // Executes FIRST
+Enums.priority.highest = -1000;
+Enums.priority.neutral = 0;
+Enums.priority.low = 500;
+Enums.priority.lowest = 1000; // Executes LAST
 ```
 
 **Documentation:**
+
 - Clearly explained in `CLAUDE.md`
 - Covered in `CLAUDE/FRAMEWORK_GOTCHAS.md`
 - FAQ includes examples
@@ -165,6 +178,7 @@ Enums.priority.lowest = 1000     // Executes LAST
 During `npm run local`, adding/removing route/hook/domain files triggers automatic manifest regeneration. This can be surprising if you don't expect it.
 
 **Documentation:**
+
 - Explained in `CLAUDE.md` under "Manifest System"
 - Covered in `CLAUDE/FRAMEWORK_GOTCHAS.md` (Gotcha 1)
 
@@ -179,6 +193,7 @@ During `npm run local`, adding/removing route/hook/domain files triggers automat
 Route transition states don't auto-advance. You must manually call `Reactium.Routing.nextState()`.
 
 **Documentation:**
+
 - Explained in `CLAUDE.md` under "Routing System"
 - Detailed in `CLAUDE/FRAMEWORK_GOTCHAS.md` (Gotcha 7)
 - Examples in `CLAUDE/FRAMEWORK_PATTERNS.md`
@@ -196,7 +211,7 @@ Route transition states don't auto-advance. You must manually call `Reactium.Rou
 `/CLAUDE/REACTIUM_CONTEXT.md` referenced non-existent architecture subdirectory files.
 
 **Resolution:**
-Updated REACTIUM_CONTEXT.md to serve as a directory index pointing to actual documentation files (REACTIUM_FRAMEWORK.md, FRAMEWORK_PATTERNS.md, etc.) rather than referencing non-existent architecture/* files.
+Updated REACTIUM_CONTEXT.md to serve as a directory index pointing to actual documentation files (REACTIUM_FRAMEWORK.md, FRAMEWORK_PATTERNS.md, etc.) rather than referencing non-existent architecture/\* files.
 
 ---
 
@@ -215,6 +230,7 @@ Updated REACTIUM_CONTEXT.md to serve as a directory index pointing to actual doc
 ## How to Report Issues
 
 If you discover:
+
 - Inaccuracies in documentation
 - Source code that doesn't match documentation
 - Missing documentation for features
@@ -222,6 +238,7 @@ If you discover:
 - Technical debt accumulation
 
 **Add them to this file with:**
+
 1. Clear title and severity
 2. Description of the issue
 3. Source code references

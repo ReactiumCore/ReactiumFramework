@@ -1,3 +1,5 @@
+<!-- v1.0.0 -->
+
 # Reactium & Actinium Framework Documentation Index
 
 > **Complete documentation suite** for building full-stack applications with Reactium (frontend) and Actinium (backend) frameworks.
@@ -9,6 +11,7 @@
 ### I Need To...
 
 **Build Something**:
+
 - Create a component → [Component Development](#component-development)
 - Create a route → [Routing](#routing)
 - Build a plugin (frontend) → [Plugin Development (Frontend)](#plugin-development-frontend)
@@ -17,6 +20,7 @@
 - Define a database schema → [Database & Schema](#database--schema)
 
 **Fix Something**:
+
 - Debug an error → [Debugging & Troubleshooting](#debugging--troubleshooting)
 - Check known issues → [KNOWN_ISSUES.md](KNOWN_ISSUES.md)
 - Understand error messages → [Common Errors](FRAMEWORK_GOTCHAS.md#common-error-messages)
@@ -24,6 +28,7 @@
 - Build not working → [Build System Gotchas](FRAMEWORK_GOTCHAS.md#build-system)
 
 **Understand Something**:
+
 - How hooks work → [HOOK_DOMAINS_DEEP_DIVE.md](HOOK_DOMAINS_DEEP_DIVE.md)
 - How zones work → [ZONE_SYSTEM_DEEP_DIVE.md](ZONE_SYSTEM_DEEP_DIVE.md)
 - How capabilities work → [ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system](ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
@@ -31,12 +36,14 @@
 - Integration patterns → [FRAMEWORK_INTEGRATION.md](FRAMEWORK_INTEGRATION.md)
 
 **Work With Data**:
+
 - Fetch from backend → [Integration: Data Flow](FRAMEWORK_INTEGRATION.md#data-flow-patterns)
 - Real-time updates → [Real-Time Features](#real-time-features)
 - Authentication → [Authentication & Security](#authentication--security)
 - File uploads → [Integration: File Uploads](FRAMEWORK_INTEGRATION.md#file-uploads)
 
 **Deploy**:
+
 - Production setup → [Integration: Deployment](FRAMEWORK_INTEGRATION.md#deployment)
 - Environment config → [Actinium: Environment](ACTINIUM_COMPLETE_REFERENCE.md#environment-configuration)
 
@@ -85,16 +92,19 @@ Framework Documentation
 If you're new to Reactium and Actinium:
 
 1. **Start here**: [REACTIUM_FRAMEWORK.md](REACTIUM_FRAMEWORK.md#introduction)
+
    - Read "Introduction" and "Key Differentiators"
    - Understand the project structure
    - Learn about the manifest system
 
 2. **Then read**: [ACTINIUM_FRAMEWORK.md](ACTINIUM_FRAMEWORK.md#introduction)
+
    - Understand backend architecture
    - Learn about Parse Server integration
    - Study the plugin system
 
 3. **Next**: [FRAMEWORK_INTEGRATION.md](FRAMEWORK_INTEGRATION.md#integration-overview)
+
    - See how frontend and backend connect
    - Learn Parse SDK initialization
    - Study data flow patterns
@@ -109,17 +119,20 @@ If you're new to Reactium and Actinium:
 If you know React/Express but are new to Reactium/Actinium:
 
 1. **[REACTIUM_FRAMEWORK.md](REACTIUM_FRAMEWORK.md)**
+
    - Skip to "Core Architecture"
    - Focus on "Plugin System & Registration"
    - Study "Hook System" thoroughly
 
 2. **[ACTINIUM_COMPLETE_REFERENCE.md](ACTINIUM_COMPLETE_REFERENCE.md)** (Recommended)
+
    - Start with "Quick Reference" for common patterns
    - Read "Framework Architecture" for core concepts
    - Review "Plugin System" and "Cloud Functions"
    - Study "Capabilities System" for authorization
 
    **OR** [ACTINIUM_FRAMEWORK.md](ACTINIUM_FRAMEWORK.md) (Traditional guide)
+
    - Skip to "Plugin System"
    - Understand "Hook System"
    - Review "ES Module Requirements"
@@ -134,10 +147,12 @@ If you know React/Express but are new to Reactium/Actinium:
 When something isn't working:
 
 1. **[KNOWN_ISSUES.md](KNOWN_ISSUES.md)**
+
    - Check if your issue is a known bug or quirk
    - Review workarounds and fix status
 
 2. **[FRAMEWORK_GOTCHAS.md](FRAMEWORK_GOTCHAS.md)**
+
    - Check relevant section (Reactium/Actinium/Integration)
    - Review "Common Error Messages"
    - Try "Debugging Strategies"
@@ -151,6 +166,7 @@ When something isn't working:
 When designing a new feature:
 
 1. **[FRAMEWORK_PATTERNS.md](FRAMEWORK_PATTERNS.md)**
+
    - Review relevant patterns
    - Study real-world examples
    - Consider performance implications
@@ -169,6 +185,7 @@ When designing a new feature:
 **Complete frontend framework guide** covering:
 
 #### Key Topics
+
 - **Architecture**: SDK, Manifest System, DDD Structure
 - **Component System**: Registration, Hookable Components, Props
 - **Plugin System**: Lifecycle, Creation, Priority Levels
@@ -179,6 +196,7 @@ When designing a new feature:
 - **CLI Tools**: Component scaffolding, Project management
 
 #### When to Use This Doc
+
 - Building frontend components
 - Creating Reactium plugins
 - Implementing routes with data loading
@@ -186,6 +204,7 @@ When designing a new feature:
 - Understanding build process
 
 #### Key Sections for Quick Reference
+
 - [Component Registration](REACTIUM_FRAMEWORK.md#component-registration)
 - [Route Object Specification](REACTIUM_FRAMEWORK.md#route-object-specification)
 - [Handle-Based State](REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
@@ -199,6 +218,7 @@ When designing a new feature:
 **Complete backend framework guide** covering:
 
 #### Key Topics
+
 - **Architecture**: Global Object, Initialization Lifecycle
 - **Plugin System**: Structure, Registration, Discovery, Validation
 - **Hook System**: Async/Sync Hooks, Priority, Context
@@ -209,6 +229,7 @@ When designing a new feature:
 - **Database**: Schema Definition, Collections, Capabilities
 
 #### When to Use This Doc
+
 - Building backend plugins
 - Creating Cloud Functions
 - Managing database schemas
@@ -216,6 +237,7 @@ When designing a new feature:
 - Adding Express middleware
 
 #### Key Sections for Quick Reference
+
 - [Plugin Structure](ACTINIUM_FRAMEWORK.md#plugin-structure)
 - [Cloud Functions](ACTINIUM_FRAMEWORK.md#cloud-functions)
 - [Hook System](ACTINIUM_FRAMEWORK.md#hook-system)
@@ -229,6 +251,7 @@ When designing a new feature:
 **Consolidated Actinium reference** combining all Actinium documentation:
 
 #### What's Included
+
 - **Quick Reference**: Common patterns, code snippets, rapid lookup
 - **Framework Architecture**: Core concepts, initialization, global objects
 - **Plugin System**: Complete plugin development guide
@@ -239,6 +262,7 @@ When designing a new feature:
 - **Troubleshooting**: Common issues, debugging, best practices
 
 #### When to Use This Doc
+
 - **Quick lookup** of Actinium patterns
 - **Comprehensive reference** for any Actinium topic
 - **Deep dive** into capabilities system
@@ -246,6 +270,7 @@ When designing a new feature:
 - **One-stop** Actinium documentation
 
 #### Key Sections
+
 - [Quick Reference](ACTINIUM_COMPLETE_REFERENCE.md#quick-reference) - Fast pattern lookup
 - [Framework Architecture](ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture) - Core concepts
 - [Capabilities System](ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system) - Complete authorization guide
@@ -261,6 +286,7 @@ When designing a new feature:
 **Full-stack integration patterns** covering:
 
 #### Key Topics
+
 - **Architecture Overview**: Communication protocol, Project structure
 - **Data Flow**: Component → Cloud Function → Database patterns
 - **Authentication**: Parse SDK initialization, Login, Protected routes
@@ -272,6 +298,7 @@ When designing a new feature:
 - **Deployment**: Production setup, CORS, Build process
 
 #### When to Use This Doc
+
 - Connecting frontend to backend
 - Implementing authentication
 - Setting up real-time features
@@ -279,6 +306,7 @@ When designing a new feature:
 - Deploying full-stack app
 
 #### Key Sections for Quick Reference
+
 - [Data Flow Patterns](FRAMEWORK_INTEGRATION.md#data-flow-patterns)
 - [Authentication](FRAMEWORK_INTEGRATION.md#authentication--session-management)
 - [Cloud Function Integration](FRAMEWORK_INTEGRATION.md#cloud-function-integration)
@@ -292,6 +320,7 @@ When designing a new feature:
 **Best practices and anti-patterns** covering:
 
 #### Key Topics
+
 - **Reactium Patterns**: DDD, Static methods, Handles, Hooks, Transitions
 - **Actinium Patterns**: SDK pattern, Validation hooks, Capabilities
 - **Integration Patterns**: Optimistic UI, Caching, Webhooks
@@ -300,6 +329,7 @@ When designing a new feature:
 - **Testing**: Cypress component testing
 
 #### When to Use This Doc
+
 - Learning best practices
 - Code review
 - Refactoring existing code
@@ -307,6 +337,7 @@ When designing a new feature:
 - Avoiding common mistakes
 
 #### Key Sections for Quick Reference
+
 - [Domain-Driven Organization](FRAMEWORK_PATTERNS.md#pattern-1-domain-driven-component-organization)
 - [Handle-Based Shared State](FRAMEWORK_PATTERNS.md#pattern-3-handle-based-shared-state)
 - [Plugin SDK Pattern](FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern)
@@ -320,6 +351,7 @@ When designing a new feature:
 **Troubleshooting and common issues** covering:
 
 #### Key Topics
+
 - **Reactium Gotchas**: Manifest, `useSyncState`, Hooks, Routes, Priority
 - **Actinium Gotchas**: ES Modules, Plugins, Cloud Functions, Master Key
 - **Integration Gotchas**: Parse SDK, CORS, Session Tokens, Environment
@@ -328,6 +360,7 @@ When designing a new feature:
 - **Error Messages**: Common errors and solutions
 
 #### When to Use This Doc
+
 - Something isn't working
 - Getting cryptic error messages
 - Application behaving unexpectedly
@@ -335,6 +368,7 @@ When designing a new feature:
 - Learning what to watch out for
 
 #### Key Sections for Quick Reference
+
 - [Manifest Issues](FRAMEWORK_GOTCHAS.md#gotcha-1-the-manifest-is-sacred)
 - [ES Module Errors](FRAMEWORK_GOTCHAS.md#gotcha-11-es-module-syntax-required)
 - [CORS Errors](FRAMEWORK_GOTCHAS.md#gotcha-22-cors-errors)
@@ -346,12 +380,14 @@ When designing a new feature:
 ## Topic-Based Navigation
 
 ### Component Development
+
 1. [Reactium: Component System](REACTIUM_FRAMEWORK.md#component-system)
 2. [Patterns: Domain-Driven Organization](FRAMEWORK_PATTERNS.md#pattern-1-domain-driven-component-organization)
 3. [Patterns: Component Registry](FRAMEWORK_PATTERNS.md#pattern-6-component-registry-pattern)
 4. [Gotchas: Component Registration Timing](FRAMEWORK_GOTCHAS.md#gotcha-9-component-registration-timing)
 
 ### Zone System (Dynamic Component Composition)
+
 1. [Zone System Deep Dive](ZONE_SYSTEM_DEEP_DIVE.md) - Complete architecture guide
 2. [Zone System Quick Reference](ZONE_SYSTEM_QUICK_REFERENCE.md) - API reference
 3. [Core Architecture](ZONE_SYSTEM_DEEP_DIVE.md#core-architecture)
@@ -360,6 +396,7 @@ When designing a new feature:
 6. [Performance Considerations](ZONE_SYSTEM_DEEP_DIVE.md#performance-considerations)
 
 ### Routing
+
 1. [Reactium: Routing System](REACTIUM_FRAMEWORK.md#routing-system)
 2. [Patterns: Static Method Data Loading](FRAMEWORK_PATTERNS.md#pattern-2-static-method-data-loading)
 3. [Patterns: Transition State Management](FRAMEWORK_PATTERNS.md#pattern-5-transition-state-management)
@@ -367,18 +404,21 @@ When designing a new feature:
 5. [Gotchas: Transition State Progression](FRAMEWORK_GOTCHAS.md#gotcha-7-transition-state-requires-manual-progression)
 
 ### State Management
+
 1. [Reactium: State Management](REACTIUM_FRAMEWORK.md#state-management)
 2. [Patterns: Handle-Based Shared State](FRAMEWORK_PATTERNS.md#pattern-3-handle-based-shared-state)
 3. [Gotchas: useSyncState vs useState](FRAMEWORK_GOTCHAS.md#gotcha-2-usesyncstate-is-not-usestate)
 4. [Gotchas: useHandle vs useSyncHandle](FRAMEWORK_GOTCHAS.md#gotcha-6-usehandle-vs-usesynchandle)
 
 ### Plugin Development (Frontend)
+
 1. [Reactium: Plugin System](REACTIUM_FRAMEWORK.md#plugin-system--registration)
 2. [Patterns: Hook-Based Architecture](FRAMEWORK_PATTERNS.md#pattern-4-hook-based-plugin-architecture)
 3. [Gotchas: Hook Registration IIFE](FRAMEWORK_GOTCHAS.md#gotcha-3-hook-registration-must-be-in-iife)
 4. [Gotchas: Priority Numbers](FRAMEWORK_GOTCHAS.md#gotcha-5-priority-numbers-are-counterintuitive)
 
 ### Plugin Development (Backend)
+
 1. [Actinium Complete Reference: Plugin System](ACTINIUM_COMPLETE_REFERENCE.md#plugin-system) (Recommended)
 2. [Actinium: Plugin System](ACTINIUM_FRAMEWORK.md#plugin-system) (Traditional)
 3. [Patterns: Plugin SDK Pattern](FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern)
@@ -387,6 +427,7 @@ When designing a new feature:
 6. [Gotchas: Plugin Order Matters](FRAMEWORK_GOTCHAS.md#gotcha-18-plugin-order-matters)
 
 ### Cloud Functions & API
+
 1. [Actinium Complete Reference: Cloud Functions](ACTINIUM_COMPLETE_REFERENCE.md#cloud-functions) (Recommended)
 2. [Actinium: Cloud Functions](ACTINIUM_FRAMEWORK.md#cloud-functions) (Traditional)
 3. [Integration: Cloud Function Integration](FRAMEWORK_INTEGRATION.md#cloud-function-integration)
@@ -394,6 +435,7 @@ When designing a new feature:
 5. [Gotchas: Master Key Usage](FRAMEWORK_GOTCHAS.md#gotcha-15-master-key-usage-in-cloud-functions)
 
 ### Database & Schema
+
 1. [Actinium Complete Reference: Quick Ref - Schema](ACTINIUM_COMPLETE_REFERENCE.md#database-schema-definition)
 2. [Actinium: Database and Collections](ACTINIUM_FRAMEWORK.md#database-and-collections)
 3. [Patterns: Schema Initialization](FRAMEWORK_PATTERNS.md#pattern-11-schema-initialization-pattern)
@@ -401,6 +443,7 @@ When designing a new feature:
 5. [Gotchas: Schema Changes Require Restart](FRAMEWORK_GOTCHAS.md#gotcha-17-schema-changes-require-server-restart)
 
 ### Authentication & Security
+
 1. [Actinium Complete Reference: Capabilities System](ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system) (Complete guide)
 2. [Integration: Authentication & Session Management](FRAMEWORK_INTEGRATION.md#authentication--session-management)
 3. [Actinium: Capabilities and Roles](ACTINIUM_FRAMEWORK.md#capabilities-and-roles)
@@ -408,15 +451,18 @@ When designing a new feature:
 5. [Gotchas: Session Tokens](FRAMEWORK_GOTCHAS.md#gotcha-23-session-tokens-and-authentication)
 
 ### Real-Time Features
+
 1. [Integration: Real-Time Communication](FRAMEWORK_INTEGRATION.md#real-time-communication)
 2. [Actinium: Parse Server Integration](ACTINIUM_FRAMEWORK.md#parse-server-integration)
 
 ### Performance
+
 1. [Patterns: Performance Patterns](FRAMEWORK_PATTERNS.md#performance-patterns)
 2. [Patterns: Backend Caching](FRAMEWORK_PATTERNS.md#pattern-15-backend-caching-pattern)
 3. [Patterns: Pagination](FRAMEWORK_PATTERNS.md#pattern-19-pagination-pattern)
 
 ### Debugging & Troubleshooting
+
 1. [Gotchas: Debugging Strategies](FRAMEWORK_GOTCHAS.md#debugging-strategies)
 2. [Gotchas: Common Error Messages](FRAMEWORK_GOTCHAS.md#common-error-messages)
 
@@ -427,6 +473,7 @@ When designing a new feature:
 ### Building a Simple Component
 
 **Docs to Read**:
+
 - [Reactium: Component System](REACTIUM_FRAMEWORK.md#component-system)
 - [Reactium: DDD Structure](REACTIUM_FRAMEWORK.md#domain-driven-design-ddd-structure)
 
@@ -435,6 +482,7 @@ When designing a new feature:
 ### Creating a Route with Data Loading
 
 **Docs to Read**:
+
 - [Reactium: Data Loading with loadState](REACTIUM_FRAMEWORK.md#data-loading-with-loadstate)
 - [Patterns: Static Method Data Loading](FRAMEWORK_PATTERNS.md#pattern-2-static-method-data-loading)
 
@@ -443,6 +491,7 @@ When designing a new feature:
 ### Building a Backend Plugin
 
 **Docs to Read**:
+
 - [Actinium Complete Reference: Quick Reference](ACTINIUM_COMPLETE_REFERENCE.md#quick-reference) (Start here)
 - [Actinium Complete Reference: Plugin System](ACTINIUM_COMPLETE_REFERENCE.md#plugin-system)
 - [Actinium: Plugin Development](ACTINIUM_FRAMEWORK.md#plugin-development) (Alternative)
@@ -453,6 +502,7 @@ When designing a new feature:
 ### Implementing CRUD Operations
 
 **Docs to Read**:
+
 - [Integration: Cloud Function Integration](FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 - [Actinium: Cloud Functions](ACTINIUM_FRAMEWORK.md#cloud-functions)
 
@@ -461,6 +511,7 @@ When designing a new feature:
 ### Adding Real-Time Updates
 
 **Docs to Read**:
+
 - [Integration: Real-Time Communication](FRAMEWORK_INTEGRATION.md#real-time-communication)
 
 **Example**: See [Integration: Parse Live Query Setup](FRAMEWORK_INTEGRATION.md#parse-live-query-setup)
@@ -471,27 +522,27 @@ When designing a new feature:
 
 ### Reactium vs Vanilla React
 
-| Feature | Vanilla React | Reactium |
-|---------|---------------|----------|
-| Routing | React Router manually configured | Auto-discovered from `reactium-route-*.js` |
-| State | `useState`, Context, Redux | `useSyncState`, Handles, Global State, Pulse |
-| Components | Import directly | Component registry, dynamic resolution |
-| Extensibility | HOCs, render props | Hook system, plugins |
-| Data Loading | Custom hooks, useEffect | `loadState` static methods with Handles |
-| Build | Manual Webpack config | Gulp + Webpack, convention-based |
-| CLI | create-react-app | Reactium CLI with scaffolding |
+| Feature       | Vanilla React                    | Reactium                                     |
+| ------------- | -------------------------------- | -------------------------------------------- |
+| Routing       | React Router manually configured | Auto-discovered from `reactium-route-*.js`   |
+| State         | `useState`, Context, Redux       | `useSyncState`, Handles, Global State, Pulse |
+| Components    | Import directly                  | Component registry, dynamic resolution       |
+| Extensibility | HOCs, render props               | Hook system, plugins                         |
+| Data Loading  | Custom hooks, useEffect          | `loadState` static methods with Handles      |
+| Build         | Manual Webpack config            | Gulp + Webpack, convention-based             |
+| CLI           | create-react-app                 | Reactium CLI with scaffolding                |
 
 ### Actinium vs Vanilla Express/Parse
 
-| Feature | Vanilla Express/Parse | Actinium |
-|---------|----------------------|----------|
-| Server Setup | Manual configuration | Framework-managed initialization |
-| Routes/Middleware | Manual `app.use()` | Auto-discovered, priority-based |
-| Cloud Functions | `Parse.Cloud.define()` | `Actinium.Cloud.define()` with plugin gating |
-| Extensibility | Manual module system | Plugin architecture with hooks |
-| Structure | Custom organization | Convention-based plugin structure |
-| Initialization | Sequential, manual | Lifecycle hooks with priorities |
-| Module System | CommonJS or ES Modules | ES Modules required |
+| Feature           | Vanilla Express/Parse  | Actinium                                     |
+| ----------------- | ---------------------- | -------------------------------------------- |
+| Server Setup      | Manual configuration   | Framework-managed initialization             |
+| Routes/Middleware | Manual `app.use()`     | Auto-discovered, priority-based              |
+| Cloud Functions   | `Parse.Cloud.define()` | `Actinium.Cloud.define()` with plugin gating |
+| Extensibility     | Manual module system   | Plugin architecture with hooks               |
+| Structure         | Custom organization    | Convention-based plugin structure            |
+| Initialization    | Sequential, manual     | Lifecycle hooks with priorities              |
+| Module System     | CommonJS or ES Modules | ES Modules required                          |
 
 ---
 
@@ -500,6 +551,7 @@ When designing a new feature:
 **Documentation Current As Of**: November 2025
 
 **Framework Versions Covered**:
+
 - Reactium Core: 5.x
 - Actinium Core: Latest (check `package.json`)
 
@@ -521,15 +573,18 @@ If you find errors, missing information, or opportunities for improvement:
 ## Additional Resources
 
 ### Official Framework Repositories
+
 - **Reactium Core**: `reactium_modules/@atomic-reactor/reactium-core`
 - **Actinium Core**: `actinium_modules/@atomic-reactor/actinium-core`
 
 ### Related Documentation
+
 - Parse Server Documentation: https://docs.parseplatform.org/
 - React Documentation: https://react.dev/
 - Express Documentation: https://expressjs.com/
 
 ### This Project's Examples
+
 - `/ui/src/app/components/` - Reactium component examples
 - `/api/src/app/` - Actinium plugin examples
 
@@ -588,6 +643,7 @@ This documentation suite follows these principles:
 **Update Frequency**: As framework evolves or gaps identified
 
 **Recent Curation Sessions**:
+
 - November 22, 2025 (Latest): **Documentation Reorganization** - Improved navigation and consolidated Actinium docs
   - Created `ACTINIUM_COMPLETE_REFERENCE.md` (consolidates 4 files into single comprehensive reference)
   - Removed redundant `REACTIUM_CONTEXT.md` (content already in index)
@@ -614,16 +670,19 @@ This documentation suite follows these principles:
 This documentation suite provides everything you need to build full-stack applications with Reactium and Actinium:
 
 **Core References**:
+
 - [REACTIUM_FRAMEWORK.md](REACTIUM_FRAMEWORK.md) - Frontend complete guide
 - [ACTINIUM_FRAMEWORK.md](ACTINIUM_FRAMEWORK.md) - Backend framework guide
 - [ACTINIUM_COMPLETE_REFERENCE.md](ACTINIUM_COMPLETE_REFERENCE.md) - **NEW** Consolidated Actinium reference (recommended)
 
 **Practical Guides**:
+
 - [FRAMEWORK_INTEGRATION.md](FRAMEWORK_INTEGRATION.md) - Full-stack patterns
 - [FRAMEWORK_PATTERNS.md](FRAMEWORK_PATTERNS.md) - Best practices
 - [FRAMEWORK_GOTCHAS.md](FRAMEWORK_GOTCHAS.md) - Troubleshooting
 
 **Deep Dives**:
+
 - [ZONE_SYSTEM_DEEP_DIVE.md](ZONE_SYSTEM_DEEP_DIVE.md) - Zone system architecture
 - [HOOK_DOMAINS_DEEP_DIVE.md](HOOK_DOMAINS_DEEP_DIVE.md) - Hook system deep dive
 

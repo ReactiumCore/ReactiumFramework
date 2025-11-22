@@ -1,6 +1,9 @@
+<!-- v1.0.0 -->
+
 # Reactium Framework Guide
 
 ## Table of Contents
+
 1. [Introduction](#introduction)
 2. [Core Architecture](#core-architecture)
 3. [Domain-Driven Design (DDD) Structure](#domain-driven-design-ddd-structure)
@@ -65,17 +68,17 @@ import Reactium from '@atomic-reactor/reactium-core/sdk';
 
 // The SDK object includes:
 const SDK = {
-    Hook,           // Hook registration and execution
-    Enums,          // Priority levels and constants
-    Component,      // Component registry
-    Zone,           // Zone-based rendering (ZoneRegistry)
-    Handle,         // Observable state containers
-    Pulse,          // Pub/sub event system
-    Prefs,          // Preference storage
-    Cache,          // Caching utilities
-    AppContext,     // React context providers
-    State,          // Global state management
-    Routing,        // Enhanced routing system
+  Hook, // Hook registration and execution
+  Enums, // Priority levels and constants
+  Component, // Component registry
+  Zone, // Zone-based rendering (ZoneRegistry)
+  Handle, // Observable state containers
+  Pulse, // Pub/sub event system
+  Prefs, // Preference storage
+  Cache, // Caching utilities
+  AppContext, // React context providers
+  State, // Global state management
+  Routing, // Enhanced routing system
 };
 ```
 
@@ -84,14 +87,14 @@ const SDK = {
 ```javascript
 // From sdk/index.js
 const apiHandler = {
-    get(SDK, prop) {
-        if (prop in SDK) return SDK[prop];
-        if (SDK.API) {
-            if (prop in SDK.API) return SDK.API[prop];
-            if (SDK.API.Actinium && prop in SDK.API.Actinium)
-                return SDK.API.Actinium[prop];
-        }
+  get(SDK, prop) {
+    if (prop in SDK) return SDK[prop];
+    if (SDK.API) {
+      if (prop in SDK.API) return SDK.API[prop];
+      if (SDK.API.Actinium && prop in SDK.API.Actinium)
+        return SDK.API.Actinium[prop];
     }
+  },
 };
 
 export const Reactium = new Proxy(SDK, apiHandler);
@@ -102,6 +105,7 @@ export const Reactium = new Proxy(SDK, apiHandler);
 The manifest is the heart of Reactium's convention-based discovery. At build time, `manifest-tools.js` scans the project for specially-named files and generates `src/manifest.js`.
 
 **Key Artifact Patterns**:
+
 - **Routes**: `reactium-route-*.js` or `route.js`
 - **Hooks**: `reactium-hooks-*.js`
 - **Services**: `reactium-service-*.js` or `service.js`
@@ -110,23 +114,25 @@ The manifest is the heart of Reactium's convention-based discovery. At build tim
 
 ```javascript
 const reqs = {
-    allRoutes: {
-        MyComponent: {
-            req: () => import('../src/app/components/MyComponent/reactium-route-mycomponent'),
-            file: '../src/app/components/MyComponent/reactium-route-mycomponent',
-        },
-        // ... more routes
+  allRoutes: {
+    MyComponent: {
+      req: () =>
+        import('../src/app/components/MyComponent/reactium-route-mycomponent'),
+      file: '../src/app/components/MyComponent/reactium-route-mycomponent',
     },
-    allHooks: {
-        MyComponent: {
-            req: () => import('../src/app/components/MyComponent/reactium-hooks-mycomponent'),
-            file: '../src/app/components/MyComponent/reactium-hooks-mycomponent',
-        },
-        // ... more hooks
+    // ... more routes
+  },
+  allHooks: {
+    MyComponent: {
+      req: () =>
+        import('../src/app/components/MyComponent/reactium-hooks-mycomponent'),
+      file: '../src/app/components/MyComponent/reactium-hooks-mycomponent',
     },
-    allServices: {
-        // Service imports
-    }
+    // ... more hooks
+  },
+  allServices: {
+    // Service imports
+  },
 };
 ```
 
@@ -149,6 +155,7 @@ Reactium uses DDD to organize code by feature/domain rather than by technical la
 Each domain directory can contain these convention-based files:
 
 #### 1. Component File (Required)
+
 **Pattern**: `ComponentName.jsx` or `index.js`
 
 The primary React component:
@@ -158,26 +165,27 @@ import { useSyncState } from '@atomic-reactor/reactium-core/sdk';
 import React from 'react';
 
 export const MyComponent = ({ className }) => {
-    const state = useSyncState({ count: 0 });
+  const state = useSyncState({ count: 0 });
 
-    return (
-        <div className={className}>
-            <p>Count: {state.get('count')}</p>
-            <button onClick={() => state.set('count', state.get('count') + 1)}>
-                Increment
-            </button>
-        </div>
-    );
+  return (
+    <div className={className}>
+      <p>Count: {state.get('count')}</p>
+      <button onClick={() => state.set('count', state.get('count') + 1)}>
+        Increment
+      </button>
+    </div>
+  );
 };
 
 MyComponent.defaultProps = {
-    className: 'my-component',
+  className: 'my-component',
 };
 
 export default MyComponent;
 ```
 
 #### 2. Route Definition
+
 **Pattern**: `reactium-route-*.js`
 
 Defines URL routes for the component:
@@ -187,38 +195,48 @@ import { MyComponent as component } from './MyComponent';
 import { Enums } from '@atomic-reactor/reactium-core/sdk';
 
 export default [
-    {
-        id: 'route-MyComponent-1',
-        exact: true,
-        component,
-        path: '/my-component',
-        order: Enums.priority.neutral,
-    },
+  {
+    id: 'route-MyComponent-1',
+    exact: true,
+    component,
+    path: '/my-component',
+    order: Enums.priority.neutral,
+  },
 ];
 ```
 
 #### 3. Hooks/Plugin File
+
 **Pattern**: `reactium-hooks-*.js`
 
 Registers the component and hooks into framework lifecycle:
 
 ```javascript
 (async () => {
-    const { Hook, Enums, Component } = await import('@atomic-reactor/reactium-core/sdk');
+  const { Hook, Enums, Component } = await import(
+    '@atomic-reactor/reactium-core/sdk'
+  );
 
-    Hook.register('plugin-init', async () => {
-        const { MyComponent } = await import('./MyComponent');
-        Component.register('MyComponent', MyComponent);
-    }, Enums.priority.neutral, 'plugin-init-MyComponent');
+  Hook.register(
+    'plugin-init',
+    async () => {
+      const { MyComponent } = await import('./MyComponent');
+      Component.register('MyComponent', MyComponent);
+    },
+    Enums.priority.neutral,
+    'plugin-init-MyComponent'
+  );
 })();
 ```
 
 #### 4. Styles
+
 **Pattern**: `_reactium-style.scss`
 
 Component-specific styles that get auto-imported into the build.
 
 #### 5. Domain Configuration
+
 **Pattern**: `domain.js`
 
 Optional domain-specific configuration.
@@ -262,11 +280,11 @@ Registered components can be used with the `useHookComponent` hook, enabling dyn
 import { useHookComponent } from '@atomic-reactor/reactium-core/sdk';
 
 const MyContainer = () => {
-    const MyComponent = useHookComponent('MyComponent');
+  const MyComponent = useHookComponent('MyComponent');
 
-    if (!MyComponent) return <div>Loading...</div>;
+  if (!MyComponent) return <div>Loading...</div>;
 
-    return <MyComponent someProp="value" />;
+  return <MyComponent someProp="value" />;
 };
 ```
 
@@ -289,6 +307,7 @@ When a component is rendered by the Routing system, it automatically receives th
 Reactium's plugin system revolves around the hook-based lifecycle:
 
 **Key Lifecycle Hooks**:
+
 1. **`plugin-dependencies`**: Load plugin dependencies first
 2. **`plugin-init`**: Initialize plugins, register components
 3. **`routes-init`**: Register routes from manifest
@@ -301,27 +320,39 @@ Reactium's plugin system revolves around the hook-based lifecycle:
 
 ```javascript
 (async () => {
-    const { Hook, Enums, Component } = await import('@atomic-reactor/reactium-core/sdk');
+  const { Hook, Enums, Component } = await import(
+    '@atomic-reactor/reactium-core/sdk'
+  );
 
-    // Register during plugin-init
-    Hook.register('plugin-init', async () => {
-        const { MyPlugin } = await import('./MyPlugin');
+  // Register during plugin-init
+  Hook.register(
+    'plugin-init',
+    async () => {
+      const { MyPlugin } = await import('./MyPlugin');
 
-        // Register component
-        Component.register('MyPlugin', MyPlugin);
+      // Register component
+      Component.register('MyPlugin', MyPlugin);
 
-        // Add to Reactium SDK
-        Reactium.MyPlugin = {
-            doSomething: () => console.log('Plugin method called!'),
-        };
+      // Add to Reactium SDK
+      Reactium.MyPlugin = {
+        doSomething: () => console.log('Plugin method called!'),
+      };
 
-        console.log('MyPlugin initialized');
-    }, Enums.priority.neutral, 'plugin-init-MyPlugin');
+      console.log('MyPlugin initialized');
+    },
+    Enums.priority.neutral,
+    'plugin-init-MyPlugin'
+  );
 
-    // Hook into other lifecycle events
-    Hook.register('routes-init', async () => {
-        console.log('Routes are being initialized');
-    }, Enums.priority.neutral, 'MyPlugin-routes-init');
+  // Hook into other lifecycle events
+  Hook.register(
+    'routes-init',
+    async () => {
+      console.log('Routes are being initialized');
+    },
+    Enums.priority.neutral,
+    'MyPlugin-routes-init'
+  );
 })();
 ```
 
@@ -334,12 +365,12 @@ Use `Enums.priority` to control execution order:
 ```javascript
 import { Enums } from '@atomic-reactor/reactium-core/sdk';
 
-Enums.priority.highest   // -1000
-Enums.priority.core      // -2000
-Enums.priority.high      // -500
-Enums.priority.neutral   // 0 (NOT .normal - that doesn't exist)
-Enums.priority.low       // 500
-Enums.priority.lowest    // 1000
+Enums.priority.highest; // -1000
+Enums.priority.core; // -2000
+Enums.priority.high; // -500
+Enums.priority.neutral; // 0 (NOT .normal - that doesn't exist)
+Enums.priority.low; // 500
+Enums.priority.lowest; // 1000
 ```
 
 Lower numbers execute first.
@@ -357,6 +388,7 @@ Reactium extends React Router with powerful data loading, transitions, and state
 A Reactium route object supports:
 
 **Standard React Router props**:
+
 - `path`: String or array of strings (e.g., `'/users/:id'`)
 - `exact`: Boolean, exact path matching
 - `component`: React component or string name (resolved via Component registry)
@@ -364,6 +396,7 @@ A Reactium route object supports:
 - `sensitive`: Boolean (React Router)
 
 **Reactium extensions**:
+
 - `id`: Unique route identifier (auto-generated if not provided)
 - `order`: Number, route matching priority (default: 0)
 - `loadState`: Function for data loading (async)
@@ -380,13 +413,13 @@ import { UserDetail as component } from './UserDetail';
 import { Enums } from '@atomic-reactor/reactium-core/sdk';
 
 export default [
-    {
-        id: 'route-UserDetail-1',
-        exact: true,
-        component,
-        path: '/user/:userId',
-        order: Enums.priority.neutral,
-    },
+  {
+    id: 'route-UserDetail-1',
+    exact: true,
+    component,
+    path: '/user/:userId',
+    order: Enums.priority.neutral,
+  },
 ];
 ```
 
@@ -402,30 +435,30 @@ import { useSyncHandle } from '@atomic-reactor/reactium-core/sdk';
 import React from 'react';
 
 export const DataLoader = () => {
-    const handle = useSyncHandle(DataLoader.handleId);
-    const data = handle ? handle.get('data') : null;
-    const isLoading = handle ? handle.get('loading', true) : true;
+  const handle = useSyncHandle(DataLoader.handleId);
+  const data = handle ? handle.get('data') : null;
+  const isLoading = handle ? handle.get('loading', true) : true;
 
-    if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
 
-    return (
-        <div>
-            <h1>Loaded Data</h1>
-            <pre>{JSON.stringify(data, null, 2)}</pre>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Loaded Data</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
 };
 
 // Static loadState method
 DataLoader.loadState = async ({ route, params, search }) => {
-    // Simulate async data fetch
-    const response = await fetch(`/api/data?${new URLSearchParams(search)}`);
-    const data = await response.json();
+  // Simulate async data fetch
+  const response = await fetch(`/api/data?${new URLSearchParams(search)}`);
+  const data = await response.json();
 
-    return {
-        data,
-        loading: false,
-    };
+  return {
+    data,
+    loading: false,
+  };
 };
 
 // Static handleId
@@ -435,6 +468,7 @@ export default DataLoader;
 ```
 
 **How it works**:
+
 1. When route is matched, Routing system detects `component.loadState`
 2. Executes `loadState({ route, params, search })`
 3. Stores resolved value in a Handle with `component.handleId` (or route's `handleId`)
@@ -452,22 +486,23 @@ import { TransitionPage as component } from './TransitionPage';
 import { Enums } from '@atomic-reactor/reactium-core/sdk';
 
 export default [
-    {
-        id: 'route-TransitionPage-1',
-        exact: true,
-        component,
-        path: '/transition',
-        transitions: true,
-        transitionStates: [
-            { state: 'LOADING', active: 'current' },
-            { state: 'ENTERING', active: 'current' },
-            { state: 'READY', active: 'current' },
-        ],
-    },
+  {
+    id: 'route-TransitionPage-1',
+    exact: true,
+    component,
+    path: '/transition',
+    transitions: true,
+    transitionStates: [
+      { state: 'LOADING', active: 'current' },
+      { state: 'ENTERING', active: 'current' },
+      { state: 'READY', active: 'current' },
+    ],
+  },
 ];
 ```
 
 **Transition states**:
+
 - `active: 'current'`: Applied to the incoming component
 - `active: 'previous'`: Applied to the outgoing component
 
@@ -478,35 +513,37 @@ import React, { useEffect } from 'react';
 import Reactium from '@atomic-reactor/reactium-core/sdk';
 
 export const TransitionPage = ({ transitionState }) => {
-    useEffect(() => {
-        if (transitionState === 'LOADING') {
-            // Perform loading logic
-            setTimeout(() => {
-                Reactium.Routing.nextState(); // Advance to next state
-            }, 500);
-        } else if (transitionState === 'ENTERING') {
-            // Perform enter animation
-            setTimeout(() => {
-                Reactium.Routing.nextState(); // Advance to READY
-            }, 300);
-        }
-    }, [transitionState]);
+  useEffect(() => {
+    if (transitionState === 'LOADING') {
+      // Perform loading logic
+      setTimeout(() => {
+        Reactium.Routing.nextState(); // Advance to next state
+      }, 500);
+    } else if (transitionState === 'ENTERING') {
+      // Perform enter animation
+      setTimeout(() => {
+        Reactium.Routing.nextState(); // Advance to READY
+      }, 300);
+    }
+  }, [transitionState]);
 
-    return (
-        <div className={`transition-page transition-${transitionState}`}>
-            <h1>Transition State: {transitionState}</h1>
-        </div>
-    );
+  return (
+    <div className={`transition-page transition-${transitionState}`}>
+      <h1>Transition State: {transitionState}</h1>
+    </div>
+  );
 };
 ```
 
 ### Routing Bootstrap Process
 
 **Build Time**:
+
 1. `manifest-tools.js` scans for `reactium-route-*.js` files
 2. Generates `src/manifest.js` with dynamic imports under `allRoutes`
 
 **Runtime**:
+
 1. `reactium-hooks-App.js` registers `routes-init` hook
 2. During app bootstrap, `routes-init` fires
 3. Loads all route definitions from manifest: `deps().loadAllDefaults('allRoutes')`
@@ -528,29 +565,32 @@ A reactive alternative to React's `useState`:
 import { useSyncState } from '@atomic-reactor/reactium-core/sdk';
 
 const MyComponent = () => {
-    const state = useSyncState({
-        count: 0,
-        name: 'John'
+  const state = useSyncState({
+    count: 0,
+    name: 'John',
+  });
+
+  // Get values
+  const count = state.get('count');
+
+  // Set values
+  const increment = () => state.set('count', state.get('count') + 1);
+
+  // Batch updates
+  const updateMultiple = () =>
+    state.set({
+      count: 10,
+      name: 'Jane',
     });
 
-    // Get values
-    const count = state.get('count');
-
-    // Set values
-    const increment = () => state.set('count', state.get('count') + 1);
-
-    // Batch updates
-    const updateMultiple = () => state.set({
-        count: 10,
-        name: 'Jane',
-    });
-
-    return (
-        <div>
-            <p>{count} - {state.get('name')}</p>
-            <button onClick={increment}>Increment</button>
-        </div>
-    );
+  return (
+    <div>
+      <p>
+        {count} - {state.get('name')}
+      </p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
 };
 ```
 
@@ -573,9 +613,9 @@ const user = Reactium.State.get('user');
 import { useGlobalState } from '@atomic-reactor/reactium-core/sdk';
 
 const UserDisplay = () => {
-    const user = useGlobalState('user');
+  const user = useGlobalState('user');
 
-    return <div>User: {user.name}</div>;
+  return <div>User: {user.name}</div>;
 };
 ```
 
@@ -584,7 +624,11 @@ const UserDisplay = () => {
 Handles are named, observable state containers that multiple components can subscribe to:
 
 ```javascript
-import { Handle, useHandle, useSyncHandle } from '@atomic-reactor/reactium-core/sdk';
+import {
+  Handle,
+  useHandle,
+  useSyncHandle,
+} from '@atomic-reactor/reactium-core/sdk';
 
 // Create a Handle
 const myHandle = new Handle('MyHandleId', { data: 'initial' });
@@ -594,25 +638,26 @@ Handle.register('MyHandleId', myHandle);
 
 // In Component A: Write to Handle
 const ComponentA = () => {
-    const handle = Handle.get('MyHandleId');
+  const handle = Handle.get('MyHandleId');
 
-    const updateData = () => {
-        handle.set('data', 'updated value');
-    };
+  const updateData = () => {
+    handle.set('data', 'updated value');
+  };
 
-    return <button onClick={updateData}>Update</button>;
+  return <button onClick={updateData}>Update</button>;
 };
 
 // In Component B: Read from Handle (reactive)
 const ComponentB = () => {
-    const handle = useSyncHandle('MyHandleId'); // Auto-subscribes
-    const data = handle ? handle.get('data') : 'loading';
+  const handle = useSyncHandle('MyHandleId'); // Auto-subscribes
+  const data = handle ? handle.get('data') : 'loading';
 
-    return <div>Data: {data}</div>;
+  return <div>Data: {data}</div>;
 };
 ```
 
 **`useHandle` vs `useSyncHandle`**:
+
 - **`useHandle`**: Retrieves Handle but does NOT subscribe to changes
 - **`useSyncHandle`**: Retrieves Handle AND subscribes, causing re-renders on updates
 
@@ -625,7 +670,7 @@ import Reactium from '@atomic-reactor/reactium-core/sdk';
 
 // Subscribe to event
 Reactium.Pulse.on('data-updated', (data) => {
-    console.log('Received data:', data);
+  console.log('Received data:', data);
 });
 
 // Publish event
@@ -641,6 +686,8 @@ Reactium.Pulse.off('data-updated', handlerFunction);
 
 Reactium's hook system is event-driven and powers the entire plugin architecture.
 
+**Source**: `reactium-sdk-core/src/core/Hook.ts`
+
 ### Hook Registration
 
 **Async hooks** (most common):
@@ -649,14 +696,15 @@ Reactium's hook system is event-driven and powers the entire plugin architecture
 import Reactium, { Enums } from '@atomic-reactor/reactium-core/sdk';
 
 Reactium.Hook.register(
-    'my-custom-hook',           // Hook name
-    async (arg1, arg2, context) => {  // Callback
-        console.log('Hook fired with:', arg1, arg2);
-        // Async operations allowed
-        await someAsyncOperation();
-    },
-    Enums.priority.neutral,      // Execution priority
-    'unique-hook-id'            // Optional unique ID
+  'my-custom-hook', // Hook name
+  async (arg1, arg2, context) => {
+    // Callback
+    console.log('Hook fired with:', arg1, arg2);
+    // Async operations allowed
+    await someAsyncOperation();
+  },
+  Enums.priority.neutral, // Execution priority
+  'unique-hook-id' // Optional unique ID
 );
 ```
 
@@ -664,13 +712,13 @@ Reactium.Hook.register(
 
 ```javascript
 Reactium.Hook.registerSync(
-    'my-sync-hook',
-    (arg1, arg2, context) => {
-        // Synchronous only
-        console.log('Sync hook:', arg1);
-    },
-    Enums.priority.neutral,
-    'unique-sync-id'
+  'my-sync-hook',
+  (arg1, arg2, context) => {
+    // Synchronous only
+    console.log('Sync hook:', arg1);
+  },
+  Enums.priority.neutral,
+  'unique-sync-id'
 );
 ```
 
@@ -704,6 +752,7 @@ const context = Reactium.Hook.runSync('my-sync-hook', 'data');
 6. **`component-bindings-{ComponentName}`**: Component-specific hooks
 
 **Route hooks**:
+
 - **`routes-init`**: Before any routes registered
 - **`register-route`**: Per-route, allows modification
 - **`history-change`**: URL navigation occurred
@@ -714,9 +763,13 @@ You can define your own hooks for application-specific events:
 
 ```javascript
 // In some initialization code
-Reactium.Hook.register('app-data-loaded', async (data) => {
+Reactium.Hook.register(
+  'app-data-loaded',
+  async (data) => {
     console.log('App data loaded:', data);
-}, Enums.priority.neutral);
+  },
+  Enums.priority.neutral
+);
 
 // Later, trigger the hook
 await Reactium.Hook.run('app-data-loaded', myData);
@@ -742,6 +795,7 @@ Reactium uses **Gulp** for task orchestration and **Webpack** for bundling.
 **Entry point**: `gulpfile.js` (in project root)
 
 The build process:
+
 1. **Manifest Generation**: `manifest-tools.js` scans and generates `src/manifest.js`
 2. **SCSS Compilation**: Compiles SCSS files (including `_reactium-style.scss` files)
 3. **Webpack Bundling**: Bundles JavaScript with Babel transpilation
@@ -784,6 +838,7 @@ npx reactium manifest
 **Location**: `reactium_modules/@atomic-reactor/reactium-core/webpack.config.js`
 
 Key features:
+
 - **Babel transpilation**: ES6+ to browser-compatible JS
 - **Hot Module Replacement (HMR)**: For development
 - **Code splitting**: Dynamic imports for routes
@@ -799,6 +854,7 @@ npx reactium manifest
 ```
 
 **When to regenerate**:
+
 - After adding new `reactium-hooks-*.js` files
 - After adding new `reactium-route-*.js` files
 - After adding services
@@ -829,7 +885,7 @@ Set API endpoint in environment or config:
 ```javascript
 // In reactium-config.js or environment
 Reactium.API = {
-    baseURL: 'http://localhost:9000/api',
+  baseURL: 'http://localhost:9000/api',
 };
 ```
 
@@ -854,9 +910,9 @@ const results = await query.find();
 ```javascript
 // Call an Actinium Cloud Function
 const result = await Parse.Cloud.run('getOHLC', {
-    coinId: 'bitcoin',
-    vsCurrency: 'usd',
-    days: '7',
+  coinId: 'bitcoin',
+  vsCurrency: 'usd',
+  days: '7',
 });
 ```
 
@@ -928,6 +984,7 @@ npm run local
 ### Best Practices
 
 #### 1. Use Domain-Driven Design
+
 Organize by feature, not by technical layer:
 
 ```
@@ -955,6 +1012,7 @@ src/
 ```
 
 #### 2. Leverage Static Methods for Route Data
+
 Define `loadState` and `handleId` as static properties on components:
 
 ```javascript
@@ -963,6 +1021,7 @@ MyComponent.handleId = 'MyComponentHandle';
 ```
 
 #### 3. Use `useSyncHandle` for Reactive Handle Access
+
 When you need a component to re-render on Handle changes:
 
 ```javascript
@@ -971,6 +1030,7 @@ const handle = useSyncHandle('MyHandleId'); // Subscribes
 ```
 
 #### 4. Prioritize Hooks Appropriately
+
 Use priority constants for predictable execution order:
 
 ```javascript
@@ -985,28 +1045,37 @@ Hook.register('plugin-init', callback, Enums.priority.low);
 ```
 
 #### 5. Name Files Correctly for Auto-Discovery
+
 Follow exact naming conventions:
+
 - Routes: `reactium-route-{name}.js`
 - Hooks: `reactium-hooks-{name}.js`
 - Services: `reactium-service-{name}.js`
 - Styles: `_reactium-style.scss`
 
 #### 6. Register Components in plugin-init Hook
+
 Always register components during the `plugin-init` lifecycle:
 
 ```javascript
-Hook.register('plugin-init', async () => {
+Hook.register(
+  'plugin-init',
+  async () => {
     const { MyComponent } = await import('./MyComponent');
     Component.register('MyComponent', MyComponent);
-}, Enums.priority.neutral);
+  },
+  Enums.priority.neutral
+);
 ```
 
 ### Gotchas
 
 #### 1. DO NOT Edit `src/manifest.js`
+
 This file is auto-generated. Changes will be overwritten on next build.
 
 #### 2. `useSyncState` Returns an Object, Not a Value
+
 ```javascript
 // WRONG
 const [count, setCount] = useSyncState({ count: 0 });
@@ -1018,6 +1087,7 @@ state.set('count', 5);
 ```
 
 #### 3. Route Path Must Be Specified
+
 The CLI may generate routes with empty paths if you don't use the `-r` flag. Always verify:
 
 ```javascript
@@ -1029,23 +1099,26 @@ path: '/my-component',
 ```
 
 #### 4. Handle IDs Must Be Unique
+
 If multiple routes use the same `handleId`, they'll share state. Use unique IDs or be intentional about sharing.
 
 #### 5. Async Hook Errors Are Silently Swallowed
+
 Errors in async hooks are logged but don't crash the app. Monitor console for hook errors:
 
 ```javascript
 Hook.register('my-hook', async () => {
-    try {
-        await riskyOperation();
-    } catch (error) {
-        console.error('Error in my-hook:', error);
-        throw error; // Will be logged by Hook.run()
-    }
+  try {
+    await riskyOperation();
+  } catch (error) {
+    console.error('Error in my-hook:', error);
+    throw error; // Will be logged by Hook.run()
+  }
 });
 ```
 
 #### 6. Manifest Doesn't Update While Dev Server Runs
+
 After adding new DDD artifact files, restart the dev server or manually regenerate manifest:
 
 ```bash
@@ -1054,21 +1127,24 @@ npx reactium manifest
 ```
 
 #### 7. Priority Order Can Be Confusing
+
 Lower numbers = higher priority (execute first):
 
 ```javascript
-priority.core = -2000        // First (core framework)
-priority.highest = -1000
-priority.high = -500
-priority.neutral = 0
-priority.low = 500
-priority.lowest = 1000       // Last
+priority.core = -2000; // First (core framework)
+priority.highest = -1000;
+priority.high = -500;
+priority.neutral = 0;
+priority.low = 500;
+priority.lowest = 1000; // Last
 ```
 
 #### 8. Transition States Require nextState() Calls
+
 If you enable transitions but forget to call `Reactium.Routing.nextState()`, the UI will hang in the current transition state.
 
 #### 9. IIFE Wrapper Required in Hooks Files
+
 Hooks files use an async IIFE to enable top-level await:
 
 ```javascript
@@ -1084,6 +1160,7 @@ Hook.register('plugin-init', ...);
 ```
 
 #### 10. Case Sensitivity in File Names
+
 File names are case-sensitive on Linux/macOS but not on Windows. Use consistent casing:
 
 ```javascript
@@ -1106,22 +1183,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export const Hello = ({ className }) => {
-    const state = useSyncState({ content: 'Hello World' });
+  const state = useSyncState({ content: 'Hello World' });
 
-    return (
-        <div className={className}>
-            <h1>{state.get('content')}</h1>
-            <nav>
-                <ul>
-                    <li><Link to='/data-loader'>Go to Data Loader</Link></li>
-                </ul>
-            </nav>
-        </div>
-    );
+  return (
+    <div className={className}>
+      <h1>{state.get('content')}</h1>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/data-loader">Go to Data Loader</Link>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  );
 };
 
 Hello.defaultProps = {
-    className: 'hello',
+  className: 'hello',
 };
 
 export default Hello;
@@ -1133,12 +1212,12 @@ export default Hello;
 import { Hello as component } from './Hello';
 
 export default [
-    {
-        id: 'route-Hello-1',
-        exact: true,
-        component,
-        path: '/',
-    },
+  {
+    id: 'route-Hello-1',
+    exact: true,
+    component,
+    path: '/',
+  },
 ];
 ```
 
@@ -1151,49 +1230,47 @@ import { useSyncHandle } from '@atomic-reactor/reactium-core/sdk';
 import React from 'react';
 
 export const DataLoader = ({ className }) => {
-    const handle = useSyncHandle(DataLoader.handleId);
-    const loadedData = handle ? handle.get('data') : null;
-    const isLoading = handle ? handle.get('loading', true) : true;
+  const handle = useSyncHandle(DataLoader.handleId);
+  const loadedData = handle ? handle.get('data') : null;
+  const isLoading = handle ? handle.get('loading', true) : true;
 
-    return (
-        <div className={className}>
-            <h1>Data Loader</h1>
-            {isLoading && <p data-cy='loading'>Loading...</p>}
-            {loadedData && (
-                <div>
-                    <h2>Data:</h2>
-                    <pre data-cy='data-loaded'>
-                        {JSON.stringify(loadedData, null, 2)}
-                    </pre>
-                </div>
-            )}
+  return (
+    <div className={className}>
+      <h1>Data Loader</h1>
+      {isLoading && <p data-cy="loading">Loading...</p>}
+      {loadedData && (
+        <div>
+          <h2>Data:</h2>
+          <pre data-cy="data-loaded">{JSON.stringify(loadedData, null, 2)}</pre>
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 // Static loadState method for route-based data fetching
 DataLoader.loadState = async ({ route, params, search }) => {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            console.log('DataLoader: loadState called for route:', route.id);
-            resolve({
-                data: {
-                    message: 'This data was loaded from loadState!',
-                    timestamp: Date.now(),
-                    routeId: route.id,
-                    routeParams: params,
-                    queryParams: search,
-                },
-                loading: false,
-            });
-        }, 1000);
-    });
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('DataLoader: loadState called for route:', route.id);
+      resolve({
+        data: {
+          message: 'This data was loaded from loadState!',
+          timestamp: Date.now(),
+          routeId: route.id,
+          routeParams: params,
+          queryParams: search,
+        },
+        loading: false,
+      });
+    }, 1000);
+  });
 };
 
 DataLoader.handleId = 'DataLoaderHandle';
 
 DataLoader.defaultProps = {
-    className: 'data-loader',
+  className: 'data-loader',
 };
 
 export default DataLoader;
@@ -1205,12 +1282,19 @@ export default DataLoader;
 
 ```javascript
 (async () => {
-    const { Hook, Enums, Component } = await import('@atomic-reactor/reactium-core/sdk');
+  const { Hook, Enums, Component } = await import(
+    '@atomic-reactor/reactium-core/sdk'
+  );
 
-    Hook.register('plugin-init', async () => {
-        const { DataLoader } = await import('./DataLoader');
-        Component.register('DataLoader', DataLoader);
-    }, Enums.priority.neutral, 'plugin-init-DataLoader');
+  Hook.register(
+    'plugin-init',
+    async () => {
+      const { DataLoader } = await import('./DataLoader');
+      Component.register('DataLoader', DataLoader);
+    },
+    Enums.priority.neutral,
+    'plugin-init-DataLoader'
+  );
 })();
 ```
 

@@ -1,3 +1,5 @@
+<!-- v1.0.0 -->
+
 # Actinium Framework - Deep Source Code Analysis
 
 **Generated**: 2025-11-20
@@ -36,6 +38,7 @@ Actinium = { ...Parse };
 ```
 
 **Critical Finding**: Actinium spreads all Parse SDK methods into the global Actinium object. This means:
+
 - All `Parse.*` methods are available as `Actinium.*`
 - `Actinium.Query`, `Actinium.Object`, `Actinium.User`, etc. are Parse classes
 - Parse Server is the data layer, not a separate service
@@ -50,7 +53,9 @@ The framework creates multiple global objects:
 global.Actinium = {};
 global.ACTINIUM_CONFIG = ACTINIUM_CONFIG;
 global.CORE_DIR = __dirname;
-global.BASE_DIR = path.normalize(path.resolve(path.join(__dirname, '../../..')));
+global.BASE_DIR = path.normalize(
+  path.resolve(path.join(__dirname, '../../..'))
+);
 global.SRC_DIR = path.normalize(path.resolve(path.join(BASE_DIR, 'src')));
 global.APP_DIR = path.normalize(path.resolve(path.join(SRC_DIR, 'app')));
 global.ENV = baseENV.environment;
@@ -61,6 +66,7 @@ global.FEATURES = new Registry('Features');
 ```
 
 **Key Globals Available Everywhere**:
+
 - `Actinium` - The main framework object
 - `ENV` - Environment configuration
 - `PORT` - Server port
@@ -76,8 +82,8 @@ Actinium has custom logic for normalizing file paths for ES module imports:
 
 ```javascript
 export const normalizeImportPath = (filePath) => {
-    // Converts absolute paths to file:// URLs for ES module imports
-    // Handles Windows vs. Unix path differences
+  // Converts absolute paths to file:// URLs for ES module imports
+  // Handles Windows vs. Unix path differences
 };
 ```
 
@@ -92,7 +98,7 @@ This is why plugin discovery works across different operating systems.
 **Source**: `/api/actinium_modules/@atomic-reactor/actinium-core/actinium.js` (lines 36-68)
 
 ```javascript
-Actinium = { ...Parse };  // Start with all Parse SDK methods
+Actinium = { ...Parse }; // Start with all Parse SDK methods
 
 // Core properties
 Actinium.ready = false;
@@ -104,11 +110,11 @@ Actinium.app = express();
 // Core modules
 Actinium.Utils = ActiniumUtils;
 Actinium.Hook = ActiniumHook;
-Actinium.Object = ActiniumObject;      // Extended Parse.Object
+Actinium.Object = ActiniumObject; // Extended Parse.Object
 Actinium.User = ActiniumUser;
-Actinium.Harness = ActiniumHarness;    // Test harness
+Actinium.Harness = ActiniumHarness; // Test harness
 Actinium.Enums = ActiniumEnums;
-Actinium.Exp = ActiniumExp;            // Express settings
+Actinium.Exp = ActiniumExp; // Express settings
 Actinium.Cache = ActiniumCache;
 Actinium.FilesAdapter = ActiniumFileAdapter;
 Actinium.File = ActiniumFile;
@@ -118,7 +124,7 @@ Actinium.Cloud = ActiniumCloud;
 Actinium.Plugin = ActiniumPlugin;
 Actinium.Warnings = ActiniumWarnings;
 Actinium.Middleware = ActiniumMiddleware;
-Actinium.Pulse = ActiniumPulse;        // Pub/sub event system
+Actinium.Pulse = ActiniumPulse; // Pub/sub event system
 Actinium.Collection = ActiniumCollection;
 Actinium.Type = ActiniumType;
 Actinium.Capability = ActiniumCapabilities();
@@ -141,43 +147,43 @@ Actinium.Roles.capabilities = Actinium.Capability.Role.get;
 
 ```javascript
 Actinium.init = async (options) => {
-    Actinium.ready = false;
-    Actinium.started = false;
+  Actinium.ready = false;
+  Actinium.started = false;
 
-    // 1. Create Express app
-    const app = Actinium.app || express();
-    Actinium.app = app;
+  // 1. Create Express app
+  const app = Actinium.app || express();
+  Actinium.app = app;
 
-    // 2. Initialize Express settings
-    Actinium.Exp.init(app, options);
+  // 2. Initialize Express settings
+  Actinium.Exp.init(app, options);
 
-    // 3. Initialize Middlewares (auto-discover and register)
-    await Actinium.Middleware.init(app);
+  // 3. Initialize Middlewares (auto-discover and register)
+  await Actinium.Middleware.init(app);
 
-    // 4. Initialize Plugins (auto-discover and register)
-    await Actinium.Plugin.init();
+  // 4. Initialize Plugins (auto-discover and register)
+  await Actinium.Plugin.init();
 
-    // 5. Initialize FileAdapter
-    await Actinium.FilesAdapter.init();
+  // 5. Initialize FileAdapter
+  await Actinium.FilesAdapter.init();
 
-    // 6. Initialize Settings
-    Actinium.Setting.init();
+  // 6. Initialize Settings
+  Actinium.Setting.init();
 
-    // 7. Initialize Type system
-    Actinium.Type.init();
+  // 7. Initialize Type system
+  Actinium.Type.init();
 
-    Actinium.ready = true;
+  Actinium.ready = true;
 
-    // 8. Run init hook
-    await Actinium.Hook.run('init', app, options);
+  // 8. Run init hook
+  await Actinium.Hook.run('init', app, options);
 
-    // 9. Run live-query-classnames hook
-    await Actinium.Hook.run(
-        'live-query-classnames',
-        op.get(ENV.LIVE_QUERY_SETTINGS, 'classNames', [])
-    );
+  // 9. Run live-query-classnames hook
+  await Actinium.Hook.run(
+    'live-query-classnames',
+    op.get(ENV.LIVE_QUERY_SETTINGS, 'classNames', [])
+  );
 
-    return Promise.resolve(Actinium.app);
+  return Promise.resolve(Actinium.app);
 };
 ```
 
@@ -187,79 +193,83 @@ Actinium.init = async (options) => {
 
 ```javascript
 Actinium.start = (options) =>
-    new Promise(async (resolve, reject) => {
-        // Skip if already started
-        if (Actinium.started === true && Actinium.server !== null) {
-            resolve(Actinium.server);
-            return;
-        }
+  new Promise(async (resolve, reject) => {
+    // Skip if already started
+    if (Actinium.started === true && Actinium.server !== null) {
+      resolve(Actinium.server);
+      return;
+    }
 
-        // Ensure initialized
-        if (Actinium.ready !== true) {
-            await Actinium.init(options);
-        }
+    // Ensure initialized
+    if (Actinium.ready !== true) {
+      await Actinium.init(options);
+    }
 
-        // Create HTTP or HTTPS server
-        Actinium.server = ENV.TLS_MODE
-            ? https.createServer({
-                cert: ENV.APP_TLS_CERT,
-                key: ENV.APP_TLS_KEY,
-            }, Actinium.app)
-            : http.createServer(Actinium.app);
+    // Create HTTP or HTTPS server
+    Actinium.server = ENV.TLS_MODE
+      ? https.createServer(
+          {
+            cert: ENV.APP_TLS_CERT,
+            key: ENV.APP_TLS_KEY,
+          },
+          Actinium.app
+        )
+      : http.createServer(Actinium.app);
 
-        // Start listening
-        Actinium.server.listen(PORT, async (err) => {
-            if (err) reject(err);
+    // Start listening
+    Actinium.server.listen(PORT, async (err) => {
+      if (err) reject(err);
 
-            // Start Live Query Server (if enabled)
-            if (!ENV.NO_PARSE && ENV.LIVE_QUERY_SERVER) {
-                await ParseServer.createLiveQueryServer(Actinium.server);
-            }
+      // Start Live Query Server (if enabled)
+      if (!ENV.NO_PARSE && ENV.LIVE_QUERY_SERVER) {
+        await ParseServer.createLiveQueryServer(Actinium.server);
+      }
 
-            Actinium.started = true;
+      Actinium.started = true;
 
-            // Load Settings from database
-            await Actinium.Setting.load();
+      // Load Settings from database
+      await Actinium.Setting.load();
 
-            // Load Plugins from database
-            await Actinium.Plugin.load();
+      // Load Plugins from database
+      await Actinium.Plugin.load();
 
-            // Load File Adapter
-            Actinium.FilesAdapter.getProxy().bootMessage();
+      // Load File Adapter
+      Actinium.FilesAdapter.getProxy().bootMessage();
 
-            // Load User Roles
-            await Actinium.Roles.load();
+      // Load User Roles
+      await Actinium.Roles.load();
 
-            // Load Capabilities
-            await Actinium.Capability.load(false, 'boot');
+      // Load Capabilities
+      await Actinium.Capability.load(false, 'boot');
 
-            // Runtime schema initialization
-            await Actinium.Hook.run('schema', {}, {});
+      // Runtime schema initialization
+      await Actinium.Hook.run('schema', {}, {});
 
-            // Load Collection Schemas
-            await Actinium.Collection.load();
+      // Load Collection Schemas
+      await Actinium.Collection.load();
 
-            // Run start-up hook
-            await Actinium.Hook.run('start');
+      // Run start-up hook
+      await Actinium.Hook.run('start');
 
-            // Log cloud function info
-            Actinium.Cloud.info();
+      // Log cloud function info
+      Actinium.Cloud.info();
 
-            // Run tests in local development
-            await Actinium.Harness.run();
+      // Run tests in local development
+      await Actinium.Harness.run();
 
-            // Run warnings hook
-            await Actinium.Warnings.run();
+      // Run warnings hook
+      await Actinium.Warnings.run();
 
-            Actinium.running = true;
-            await Actinium.Hook.run('running');
+      Actinium.running = true;
+      await Actinium.Hook.run('running');
 
-            resolve(Actinium.server);
-        });
+      resolve(Actinium.server);
     });
+  });
 ```
 
 **Key Hook Execution Order**:
+
 1. `init` - After initialization, before server starts
 2. `live-query-classnames` - Configure live query classes
 3. `schema` - Runtime schema initialization
@@ -278,20 +288,21 @@ Actinium.start = (options) =>
 
 ```javascript
 const defaults = {
-    glob: {
-        plugins: [
-            `${ACTINIUM_DIR}/plugin/**/*plugin.js`,
-            `${BASE_DIR}/node_modules/**/actinium/*plugin.js`,
-            `${BASE_DIR}/actinium_modules/**/*plugin.js`,
-            `${APP_DIR}/**/*plugin.js`,
-            `!${ACTINIUM_DIR}/plugin/**/assets/**/*.js`,
-            `!${ACTINIUM_DIR}/plugin/**/plugin-assets/**/*.js`,
-        ],
-    }
+  glob: {
+    plugins: [
+      `${ACTINIUM_DIR}/plugin/**/*plugin.js`,
+      `${BASE_DIR}/node_modules/**/actinium/*plugin.js`,
+      `${BASE_DIR}/actinium_modules/**/*plugin.js`,
+      `${APP_DIR}/**/*plugin.js`,
+      `!${ACTINIUM_DIR}/plugin/**/assets/**/*.js`,
+      `!${ACTINIUM_DIR}/plugin/**/plugin-assets/**/*.js`,
+    ],
+  },
 };
 ```
 
 **Search Order**:
+
 1. Core plugins in `actinium-core/plugin/`
 2. Node modules with actinium plugins
 3. actinium_modules directory
@@ -303,44 +314,45 @@ const defaults = {
 
 ```javascript
 Plugable.register = (plugin, active = false) => {
-    const coredir = path.normalize(`${BASE_DIR}/.core`);
-    const callerFileName = Actinium.Utils.getCallerFile();
-    const ID = op.get(plugin, 'ID');
-    plugin['active'] = active;
+  const coredir = path.normalize(`${BASE_DIR}/.core`);
+  const callerFileName = Actinium.Utils.getCallerFile();
+  const ID = op.get(plugin, 'ID');
+  plugin['active'] = active;
 
-    // Validate plugin ID
-    if (!ID || blacklist.includes(ID)) {
-        return;
-    }
+  // Validate plugin ID
+  if (!ID || blacklist.includes(ID)) {
+    return;
+  }
 
-    const meta = op.get(plugin, 'meta', {}) || {};
-    const version = op.get(plugin, 'version', {}) || {};
+  const meta = op.get(plugin, 'meta', {}) || {};
+  const version = op.get(plugin, 'version', {}) || {};
 
-    // Core plugins auto-detection
-    if (
-        callerFileName &&
-        !/^[.]{2}/.test(path.relative(coredir, callerFileName))
-    ) {
-        op.set(meta, 'builtIn', true);
-        if (!op.get(meta, 'group')) op.set(meta, 'group', 'core');
+  // Core plugins auto-detection
+  if (
+    callerFileName &&
+    !/^[.]{2}/.test(path.relative(coredir, callerFileName))
+  ) {
+    op.set(meta, 'builtIn', true);
+    if (!op.get(meta, 'group')) op.set(meta, 'group', 'core');
 
-        // core plugin are always valid for this version of actinium
-        op.set(version, 'actinium', `>=${ACTINIUM_CONFIG.version}`);
+    // core plugin are always valid for this version of actinium
+    op.set(version, 'actinium', `>=${ACTINIUM_CONFIG.version}`);
 
-        // core plugins that have no version information follow actinium core versioning
-        const pluginVersion = op.get(version, 'plugin');
-        if (!pluginVersion || !semver.valid(pluginVersion))
-            op.set(version, 'plugin', ACTINIUM_CONFIG.version);
-    }
+    // core plugins that have no version information follow actinium core versioning
+    const pluginVersion = op.get(version, 'plugin');
+    if (!pluginVersion || !semver.valid(pluginVersion))
+      op.set(version, 'plugin', ACTINIUM_CONFIG.version);
+  }
 
-    op.set(plugin, 'meta', meta);
-    op.set(plugin, 'version', version);
+  op.set(plugin, 'meta', meta);
+  op.set(plugin, 'version', version);
 
-    if (_isValid(plugin)) Actinium.Cache.set(`plugins.${ID}`, plugin);
+  if (_isValid(plugin)) Actinium.Cache.set(`plugins.${ID}`, plugin);
 };
 ```
 
 **Key Implementation Details**:
+
 - Uses stack trace to detect if plugin is in core directory
 - Core plugins automatically marked as `builtIn: true`
 - Core plugins inherit framework version if no version specified
@@ -352,35 +364,36 @@ Plugable.register = (plugin, active = false) => {
 
 ```javascript
 const _isValid = (plugin = {}, strict = false) => {
-    const { ID } = plugin;
-    if (!ID || blacklist.includes(ID)) {
-        return false;
-    }
+  const { ID } = plugin;
+  if (!ID || blacklist.includes(ID)) {
+    return false;
+  }
 
-    // Validate if the plugin exists
-    if (!plugin) {
-        return false;
-    }
+  // Validate if the plugin exists
+  if (!plugin) {
+    return false;
+  }
 
-    // Validate Actinium version
-    const actiniumVer = op.get(ACTINIUM_CONFIG, 'version');
-    const versionRange = op.get(plugin, 'version.actinium', `>=${actiniumVer}`);
-    if (versionRange && semverValidRange(versionRange)) {
-        if (!semver.satisfies(actiniumVer, versionRange)) {
-            return false;
-        }
+  // Validate Actinium version
+  const actiniumVer = op.get(ACTINIUM_CONFIG, 'version');
+  const versionRange = op.get(plugin, 'version.actinium', `>=${actiniumVer}`);
+  if (versionRange && semverValidRange(versionRange)) {
+    if (!semver.satisfies(actiniumVer, versionRange)) {
+      return false;
     }
+  }
 
-    // Validate if the plugin is active
-    if (strict === true && Plugable.isActive(ID) !== true) {
-        return false;
-    }
+  // Validate if the plugin is active
+  if (strict === true && Plugable.isActive(ID) !== true) {
+    return false;
+  }
 
-    return true;
+  return true;
 };
 ```
 
 **Validation Rules**:
+
 1. Must have unique ID not in blacklist
 2. Must satisfy semver version range for Actinium
 3. If strict mode, must be active
@@ -391,11 +404,11 @@ const _isValid = (plugin = {}, strict = false) => {
 
 ```javascript
 Plugable.gate = async ({ req, ID, name, callback }) => {
-    if (Plugable.isValid(ID, true) !== true) {
-        return Promise.reject(`Plugin: ${ID} is not active.`);
-    }
+  if (Plugable.isValid(ID, true) !== true) {
+    return Promise.reject(`Plugin: ${ID} is not active.`);
+  }
 
-    return callback(req);
+  return callback(req);
 };
 ```
 
@@ -411,8 +424,8 @@ Plugable.gate = async ({ req, ID, name, callback }) => {
 
 ```javascript
 const Hook = {
-    action: {},      // Stores all registered hooks
-    actionIds: {},   // Maps hook IDs to action paths
+  action: {}, // Stores all registered hooks
+  actionIds: {}, // Maps hook IDs to action paths
 };
 ```
 
@@ -421,40 +434,43 @@ const Hook = {
 **Source**: Lines 30-45
 
 ```javascript
-Hook._register = (type = 'async') => (
+Hook._register =
+  (type = 'async') =>
+  (
     name,
     callback,
-    order = Enums.priority.neutral,  // Default: 0
-    id,
-) => {
+    order = Enums.priority.neutral, // Default: 0
+    id
+  ) => {
     id = id || uuid();
     const path = `${type}.${name}.${id}`;
     op.set(Hook.actionIds, [id], path);
     op.set(Hook.action, `${type}.${name}.${id}`, { id, order, callback });
 
     return id;
-};
+  };
 
 Hook.register = Hook._register('async');
 Hook.registerSync = Hook._register('sync');
 ```
 
 **Storage Structure**:
+
 ```javascript
 Hook.action = {
-    async: {
-        'hook-name': {
-            'uuid-1': { id: 'uuid-1', order: -1000, callback: fn },
-            'uuid-2': { id: 'uuid-2', order: 0, callback: fn },
-            'uuid-3': { id: 'uuid-3', order: 1000, callback: fn },
-        }
+  async: {
+    'hook-name': {
+      'uuid-1': { id: 'uuid-1', order: -1000, callback: fn },
+      'uuid-2': { id: 'uuid-2', order: 0, callback: fn },
+      'uuid-3': { id: 'uuid-3', order: 1000, callback: fn },
     },
-    sync: {
-        'sync-hook': {
-            'uuid-4': { id: 'uuid-4', order: 0, callback: fn },
-        }
-    }
-}
+  },
+  sync: {
+    'sync-hook': {
+      'uuid-4': { id: 'uuid-4', order: 0, callback: fn },
+    },
+  },
+};
 ```
 
 ### Hook Execution
@@ -463,51 +479,60 @@ Hook.action = {
 
 ```javascript
 Hook._actions = (name, type = 'async', params) =>
-    _.sortBy(
-        Object.values(op.get(Hook.action, `${type}.${name}`, {})),
-        'order',  // Sort by order (priority)
-    ).reduce((acts, action) => {
-        const { callback = noop[type], id } = action;
-        acts[id] = ({ context }) => callback(...params, context);
-        return acts;
-    }, {});
+  _.sortBy(
+    Object.values(op.get(Hook.action, `${type}.${name}`, {})),
+    'order' // Sort by order (priority)
+  ).reduce((acts, action) => {
+    const { callback = noop[type], id } = action;
+    acts[id] = ({ context }) => callback(...params, context);
+    return acts;
+  }, {});
 
 Hook.run = async (name, ...params) => {
-    const context = { hook: name, params };
-    try {
-        await ActionSequence({
-            actions: Hook._actions(name, 'async', params),
-            context,
-        });
+  const context = { hook: name, params };
+  try {
+    await ActionSequence({
+      actions: Hook._actions(name, 'async', params),
+      context,
+    });
 
-        return context;
-    } catch (errors) {
-        Object.entries(errors).forEach(([id, error]) => {
-            ERROR(chalk.magenta(`Error in action.${name}[${id}]`));
-            if (op.get(error, 'error') instanceof assert.AssertionError) {
-                const assertion = error.error;
-                DEBUG(chalk.cyan('Assertion: ' + assertion.message));
-                DEBUG(chalk.cyan('operator: ' + JSON.stringify(assertion.operator, null, 2)));
-                DEBUG(chalk.green('expected: ' + JSON.stringify(assertion.expected, null, 2)));
-                DEBUG(chalk.red('actual: ' + JSON.stringify(assertion.actual, null, 2)));
-            } else {
-                ERROR(error);
-            }
-        });
-    }
+    return context;
+  } catch (errors) {
+    Object.entries(errors).forEach(([id, error]) => {
+      ERROR(chalk.magenta(`Error in action.${name}[${id}]`));
+      if (op.get(error, 'error') instanceof assert.AssertionError) {
+        const assertion = error.error;
+        DEBUG(chalk.cyan('Assertion: ' + assertion.message));
+        DEBUG(
+          chalk.cyan('operator: ' + JSON.stringify(assertion.operator, null, 2))
+        );
+        DEBUG(
+          chalk.green(
+            'expected: ' + JSON.stringify(assertion.expected, null, 2)
+          )
+        );
+        DEBUG(
+          chalk.red('actual: ' + JSON.stringify(assertion.actual, null, 2))
+        );
+      } else {
+        ERROR(error);
+      }
+    });
+  }
 };
 
 Hook.runSync = (name, ...params) => {
-    const context = { hook: name, params };
-    Object.values(Hook._actions(name, 'sync', params)).forEach(callback =>
-        callback({ context }),
-    );
+  const context = { hook: name, params };
+  Object.values(Hook._actions(name, 'sync', params)).forEach((callback) =>
+    callback({ context })
+  );
 
-    return context;
+  return context;
 };
 ```
 
 **Key Implementation Details**:
+
 1. Hooks sorted by `order` (lower = earlier execution)
 2. All hooks receive `(...params, context)` where context is `{ hook, params }`
 3. Uses `action-sequence` library for async orchestration
@@ -519,12 +544,12 @@ Hook.runSync = (name, ...params) => {
 **Source**: Lines 22-28
 
 ```javascript
-Hook.unregister = id => {
-    const path = op.get(Hook.actionIds, [id]);
-    if (path) {
-        op.del(Hook.action, path);
-        op.del(Hook.actionIds, [id]);
-    }
+Hook.unregister = (id) => {
+  const path = op.get(Hook.actionIds, [id]);
+  if (path) {
+    op.del(Hook.action, path);
+    op.del(Hook.actionIds, [id]);
+  }
 };
 ```
 
@@ -534,7 +559,7 @@ Hook.unregister = id => {
 
 ```javascript
 Hook.flush = (name, type = 'async') =>
-    op.set(Hook.action, `${type}.${name}`, {});
+  op.set(Hook.action, `${type}.${name}`, {});
 ```
 
 ---
@@ -549,26 +574,27 @@ Hook.flush = (name, type = 'async') =>
 
 ```javascript
 Cloud.init = async () => {
-    const output = [];
-    const files = globby(ENV.GLOB_CLOUD);
+  const output = [];
+  const files = globby(ENV.GLOB_CLOUD);
 
-    // Load cloud functions
-    global.CLOUD_FUNCTIONS = await Promise.all(
-        files.map((item) => {
-            const p = normalizeImportPath(item);
-            const name = String(path.basename(item)).split('.').shift();
+  // Load cloud functions
+  global.CLOUD_FUNCTIONS = await Promise.all(
+    files.map((item) => {
+      const p = normalizeImportPath(item);
+      const name = String(path.basename(item)).split('.').shift();
 
-            output.push({ name, path: p });
+      output.push({ name, path: p });
 
-            return import(p);
-        }),
-    );
+      return import(p);
+    })
+  );
 
-    return output;
+  return output;
 };
 ```
 
 **Discovery Patterns** (from globals.js):
+
 ```javascript
 glob: {
     cloud: [
@@ -587,22 +613,23 @@ glob: {
 
 ```javascript
 Cloud.define = (plugin, name, callback) => {
-    if (!plugin || !name || !callback) {
-        throw new Error(
-            `Cloud.define(plugin, name, callback) all parameters required: ${
-                (!!plugin, !!name, !!callback)
-            }`,
-        );
-    }
-
-    Parse.Cloud.define(name, (req) =>
-        Actinium.Plugin.gate({ req, ID: plugin, name, callback })
+  if (!plugin || !name || !callback) {
+    throw new Error(
+      `Cloud.define(plugin, name, callback) all parameters required: ${
+        (!!plugin, !!name, !!callback)
+      }`
     );
-    CLOUD_FUNCTIONS.push({ name });
+  }
+
+  Parse.Cloud.define(name, (req) =>
+    Actinium.Plugin.gate({ req, ID: plugin, name, callback })
+  );
+  CLOUD_FUNCTIONS.push({ name });
 };
 ```
 
 **Critical Flow**:
+
 1. `Actinium.Cloud.define(pluginID, functionName, callback)` called
 2. Wraps `Parse.Cloud.define()` with plugin gate
 3. When function is called, checks if plugin is active
@@ -615,54 +642,55 @@ Cloud.define = (plugin, name, callback) => {
 
 ```javascript
 Parse.Cloud.define('plugins', async (req) => {
-    if (!CloudHasCapabilities(req, ['Plugin.retrieve']))
-        throw new Error('Permission denied.');
+  if (!CloudHasCapabilities(req, ['Plugin.retrieve']))
+    throw new Error('Permission denied.');
 
-    let pages = 0, total = 0;
-    let { page = 0, limit = 1000 } = req.params;
+  let pages = 0,
+    total = 0;
+  let { page = 0, limit = 1000 } = req.params;
 
-    page = Math.max(page, 0);
-    limit = Math.min(limit, 1000);
+  page = Math.max(page, 0);
+  limit = Math.min(limit, 1000);
 
-    const skip = page > 0 ? page * limit - limit : 0;
-    const query = new Parse.Query(COLLECTION);
-    const options = CloudCapOptions(req, ['Plugin.retrieve']);
+  const skip = page > 0 ? page * limit - limit : 0;
+  const query = new Parse.Query(COLLECTION);
+  const options = CloudCapOptions(req, ['Plugin.retrieve']);
 
-    // Pagination
-    total = await query.count(options);
+  // Pagination
+  total = await query.count(options);
 
-    // Find
-    query.skip(skip);
-    query.limit(limit);
+  // Find
+  query.skip(skip);
+  query.limit(limit);
 
-    let plugins = [];
-    let results = await query.find(options);
-    while (results.length > 0) {
-        plugins = plugins.concat(results);
+  let plugins = [];
+  let results = await query.find(options);
+  while (results.length > 0) {
+    plugins = plugins.concat(results);
 
-        if (page < 1) {
-            query.skip(plugins.length);
-            results = await query.find(options);
-        } else {
-            break;
-        }
+    if (page < 1) {
+      query.skip(plugins.length);
+      results = await query.find(options);
+    } else {
+      break;
     }
-    plugins = mapPlugins(plugins);
+  }
+  plugins = mapPlugins(plugins);
 
-    pages = Math.ceil(total / limit);
+  pages = Math.ceil(total / limit);
 
-    const list = {
-        timestamp: Date.now(),
-        limit,
-        page,
-        pages,
-        total,
-        plugins,
-    };
+  const list = {
+    timestamp: Date.now(),
+    limit,
+    page,
+    pages,
+    total,
+    plugins,
+  };
 
-    await Actinium.Hook.run('plugins-list', list);
+  await Actinium.Hook.run('plugins-list', list);
 
-    return list;
+  return list;
 });
 ```
 
@@ -680,17 +708,17 @@ Parse.Cloud.define('plugins', async (req) => {
 
 ```javascript
 const matches = [
-    'Actinium.Middleware.register',
-    'Actinium.Middleware.unregister',
+  'Actinium.Middleware.register',
+  'Actinium.Middleware.unregister',
 ];
 
 const isMiddleware = (fileContent) =>
-    matches.reduce((valid, match) => {
-        if (valid !== true && String(fileContent).includes(match) === true) {
-            valid = true;
-        }
-        return valid;
-    }, false);
+  matches.reduce((valid, match) => {
+    if (valid !== true && String(fileContent).includes(match) === true) {
+      valid = true;
+    }
+    return valid;
+  }, false);
 ```
 
 **Detection Method**: Reads file content and checks if it contains middleware registration code. This is a string-based heuristic.
@@ -701,54 +729,58 @@ const isMiddleware = (fileContent) =>
 
 ```javascript
 mw.init = async (app) => {
-    app = app || Actinium.app;
+  app = app || Actinium.app;
 
-    // 1. Auto-discover middleware files
-    await Promise.all(
-        globby(ENV.GLOB_MIDDLEWARE)
-            .filter((file) => isMiddleware(fs.readFileSync(file, 'utf8')))
-            .map(normalizeImportPath)
-            .map((file) => import(file)),
+  // 1. Auto-discover middleware files
+  await Promise.all(
+    globby(ENV.GLOB_MIDDLEWARE)
+      .filter((file) => isMiddleware(fs.readFileSync(file, 'utf8')))
+      .map(normalizeImportPath)
+      .map((file) => import(file))
+  );
+
+  // 2. Sort by order
+  const sorted = _.sortBy(mw.sort, 'order');
+
+  // 3. Build action sequence
+  const actions = sorted.reduce((acts, { callback = noop, id }) => {
+    acts[id] = () => {
+      BOOT(chalk.cyan('  Middleware'), chalk.cyan('→'), chalk.magenta(id));
+      callback(app);
+    };
+    return acts;
+  }, {});
+
+  // 4. Replace middleware
+  Object.entries(mw.replacements).forEach(([id, callback]) => {
+    actions[id] = () => callback(app);
+  });
+
+  if (Object.keys(mw.replacements).length > 0) {
+    BOOT(
+      chalk.cyan('  Middleware'),
+      chalk.cyan('→'),
+      chalk.magenta('Replaced')
     );
+    BOOT(' ', Object.keys(mw.replacements).join(', '));
+  }
 
-    // 2. Sort by order
-    const sorted = _.sortBy(mw.sort, 'order');
+  // 5. Unregister middleware
+  _.uniq(mw.unregistered).forEach((id) => op.del(actions, id));
 
-    // 3. Build action sequence
-    const actions = sorted.reduce((acts, { callback = noop, id }) => {
-        acts[id] = () => {
-            BOOT(
-                chalk.cyan('  Middleware'),
-                chalk.cyan('→'),
-                chalk.magenta(id),
-            );
-            callback(app);
-        };
-        return acts;
-    }, {});
+  if (mw.unregistered.length > 0) {
+    BOOT(
+      chalk.cyan('  Middleware'),
+      chalk.cyan('→'),
+      chalk.magenta('Unregistered')
+    );
+    BOOT(' ', mw.unregistered.join(', '));
+  }
 
-    // 4. Replace middleware
-    Object.entries(mw.replacements).forEach(([id, callback]) => {
-        actions[id] = () => callback(app);
-    });
+  mw.list = actions;
 
-    if (Object.keys(mw.replacements).length > 0) {
-        BOOT(chalk.cyan('  Middleware'), chalk.cyan('→'), chalk.magenta('Replaced'));
-        BOOT(' ', Object.keys(mw.replacements).join(', '));
-    }
-
-    // 5. Unregister middleware
-    _.uniq(mw.unregistered).forEach((id) => op.del(actions, id));
-
-    if (mw.unregistered.length > 0) {
-        BOOT(chalk.cyan('  Middleware'), chalk.cyan('→'), chalk.magenta('Unregistered'));
-        BOOT(' ', mw.unregistered.join(', '));
-    }
-
-    mw.list = actions;
-
-    // 6. Execute all middleware registrations
-    return ActionSequence({ actions });
+  // 6. Execute all middleware registrations
+  return ActionSequence({ actions });
 };
 ```
 
@@ -758,28 +790,28 @@ mw.init = async (app) => {
 
 ```javascript
 mw.register = (id, callback, order = 100) => {
-    if (!Array.isArray(op.get(mw, 'sort'))) {
-        mw.sort = [];
-    }
+  if (!Array.isArray(op.get(mw, 'sort'))) {
+    mw.sort = [];
+  }
 
-    mw.sort.push({ id, callback, order });
+  mw.sort.push({ id, callback, order });
 };
 
 mw.registerHook = (...params) => {
-    let [id, path, order = 100] = params;
-    if (typeof path === 'number') order = path;
-    if (typeof order !== 'number') order = 100;
+  let [id, path, order = 100] = params;
+  if (typeof path === 'number') order = path;
+  if (typeof order !== 'number') order = 100;
 
-    let args = [
-        async (req, res, next) => {
-            const mw = new HookMiddleware(req, res, next);
-            await Actinium.Hook.run(`${id}-middleware`, mw);
-            mw.next();
-        },
-    ];
+  let args = [
+    async (req, res, next) => {
+      const mw = new HookMiddleware(req, res, next);
+      await Actinium.Hook.run(`${id}-middleware`, mw);
+      mw.next();
+    },
+  ];
 
-    if (typeof path === 'string') args = [path, ...args];
-    mw.register(id, (app) => app.use(...args), order);
+  if (typeof path === 'string') args = [path, ...args];
+  mw.register(id, (app) => app.use(...args), order);
 };
 
 mw.replace = (id, callback) => op.set(mw.replacements, id, callback);
@@ -795,12 +827,12 @@ mw.unregister = (id) => mw.unregistered.push(id);
 import cors from 'cors';
 
 Actinium.Middleware.register(
-    'cors',
-    app => {
-        app.use(cors());
-        return Promise.resolve();
-    },
-    -100000,  // Very high priority (runs early)
+  'cors',
+  (app) => {
+    app.use(cors());
+    return Promise.resolve();
+  },
+  -100000 // Very high priority (runs early)
 );
 ```
 
@@ -818,15 +850,15 @@ Actinium.Middleware.registerHook('plugin-assets', '/api/plugin-assets', -10000);
 
 // Register static file serving
 Actinium.Middleware.register(
-    'static',
-    app => {
-        fs.ensureDirSync(path.normalize(ENV.STATIC_PATH));
-        app.use(
-            ENV.PARSE_MOUNT + '/static',
-            express.static(path.normalize(ENV.STATIC_PATH))
-        );
-    },
-    -10000,
+  'static',
+  (app) => {
+    fs.ensureDirSync(path.normalize(ENV.STATIC_PATH));
+    app.use(
+      ENV.PARSE_MOUNT + '/static',
+      express.static(path.normalize(ENV.STATIC_PATH))
+    );
+  },
+  -10000
 );
 ```
 
@@ -844,21 +876,22 @@ Actinium.Middleware.register(
 
 ```javascript
 function environmentFile() {
-    const envFile = process.env.ACTINIUM_ENV_FILE;
-    const envId = process.env.ACTINIUM_ENV_ID;
+  const envFile = process.env.ACTINIUM_ENV_FILE;
+  const envId = process.env.ACTINIUM_ENV_ID;
 
-    if (envFile) {
-        return envFile;
-    } else if (envId) {
-        validateReactorEnvId(envId);
-        return path.resolve(path.join(SRC_DIR, `env.${envId}.json`));
-    } else {
-        return path.resolve(path.join(SRC_DIR, 'env.json'));
-    }
+  if (envFile) {
+    return envFile;
+  } else if (envId) {
+    validateReactorEnvId(envId);
+    return path.resolve(path.join(SRC_DIR, `env.${envId}.json`));
+  } else {
+    return path.resolve(path.join(SRC_DIR, 'env.json'));
+  }
 }
 ```
 
 **Priority Order**:
+
 1. `ACTINIUM_ENV_FILE` - Explicit file path
 2. `ACTINIUM_ENV_ID` - Environment ID (e.g., `dev`, `prod`) → `src/env.{id}.json`
 3. Default: `src/env.json`
@@ -869,41 +902,42 @@ function environmentFile() {
 
 ```javascript
 const boot = {
-    get environment() {
-        const file = environmentFile();
-        let env = {
-            ENV_WARNING: false,
-        };
+  get environment() {
+    const file = environmentFile();
+    let env = {
+      ENV_WARNING: false,
+    };
 
-        try {
-            const ENV_WARNING = envDev();
+    try {
+      const ENV_WARNING = envDev();
 
-            env = {
-                ...env,
-                ...JSON.parse(fs.readFileSync(file, 'utf8')),
-                ENV_WARNING,
-            };
+      env = {
+        ...env,
+        ...JSON.parse(fs.readFileSync(file, 'utf8')),
+        ENV_WARNING,
+      };
 
-            const PORT = ensurePortEnvironment(env);
-            const SERVER_URI = getServerURI(env, PORT);
-            const PUBLIC_SERVER_URI = getPublicServerURI(env, SERVER_URI);
+      const PORT = ensurePortEnvironment(env);
+      const SERVER_URI = getServerURI(env, PORT);
+      const PUBLIC_SERVER_URI = getPublicServerURI(env, SERVER_URI);
 
-            return {
-                ...env,
-                ...process.env,  // process.env overrides file
-                PORT,
-                SERVER_URI,
-                PUBLIC_SERVER_URI,
-            };
-        } catch (err) {
-            console.error(err);
-            process.exit(1);
-        }
-    },
+      return {
+        ...env,
+        ...process.env, // process.env overrides file
+        PORT,
+        SERVER_URI,
+        PUBLIC_SERVER_URI,
+      };
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  },
 };
 ```
 
 **Key Points**:
+
 1. Reads JSON file from `src/env.json` (or variant)
 2. Merges with `process.env` (process.env wins)
 3. Calculates `PORT`, `SERVER_URI`, `PUBLIC_SERVER_URI`
@@ -916,30 +950,31 @@ const boot = {
 ```javascript
 const LOG_THRESHOLD = op.get(Enums, ['logLevels', LOG_LEVEL], 0);
 for (const [LEVEL, THRESHOLD] of Object.entries(Enums.logLevels)) {
-    global[LEVEL] = (...args) => {
-        if (!ENV.LOG || THRESHOLD > LOG_THRESHOLD) {
-            return;
-        }
+  global[LEVEL] = (...args) => {
+    if (!ENV.LOG || THRESHOLD > LOG_THRESHOLD) {
+      return;
+    }
 
-        const _W = THRESHOLD <= Enums.logLevels.WARN;
-        const _E = THRESHOLD <= Enums.logLevels.ERROR;
-        let color = _W ? chalk.yellow.bold : chalk.cyan;
-        color = _E ? chalk.red.bold : color;
+    const _W = THRESHOLD <= Enums.logLevels.WARN;
+    const _E = THRESHOLD <= Enums.logLevels.ERROR;
+    let color = _W ? chalk.yellow.bold : chalk.cyan;
+    color = _E ? chalk.red.bold : color;
 
-        const time = `[${chalk.magenta(moment().format('HH:mm:ss'))}]`;
-        let name = `${color(String(ENV.APP_NAME))}`;
-        name = _E ? `%${name}%` : _W ? `!${name}!` : `[${name}]`;
+    const time = `[${chalk.magenta(moment().format('HH:mm:ss'))}]`;
+    let name = `${color(String(ENV.APP_NAME))}`;
+    name = _E ? `%${name}%` : _W ? `!${name}!` : `[${name}]`;
 
-        let logMethod = op.get(console, LEVEL, console.log);
-        logMethod = typeof logMethod === 'function' ? logMethod : console.log;
-        logMethod(time, name, ...args);
-    };
+    let logMethod = op.get(console, LEVEL, console.log);
+    logMethod = typeof logMethod === 'function' ? logMethod : console.log;
+    logMethod(time, name, ...args);
+  };
 }
 
 global.LOG = global.BOOT;
 ```
 
 **Available Global Log Functions**:
+
 - `DEBUG(...args)` - Debug level (threshold: 1000)
 - `INFO(...args)` - Info level (threshold: 500)
 - `BOOT(...args)` - Boot level (threshold: 0)
@@ -959,48 +994,49 @@ global.LOG = global.BOOT;
 
 ```javascript
 class ParseObject extends Parse.Object {
-    async save(arg1, arg2, arg3, context) {
-        context = context || {};
+  async save(arg1, arg2, arg3, context) {
+    context = context || {};
 
-        // ... argument parsing ...
+    // ... argument parsing ...
 
-        const hooksToRun = {
-            before: ['beforeSave', `beforeSave_${this.className}`],
-            after: ['afterSave', `afterSave_${this.className}`],
-        };
+    const hooksToRun = {
+      before: ['beforeSave', `beforeSave_${this.className}`],
+      after: ['afterSave', `afterSave_${this.className}`],
+    };
 
-        // Special handling for Content_ classes
-        if (String(this.className).toLowerCase().startsWith('content_')) {
-            hooksToRun.before.push('beforeSave_content');
-            hooksToRun.after.push('afterSave_content');
-        }
-
-        const req = { object: this, options: saveOptions, context };
-
-        // Run before hooks
-        for (let hook of hooksToRun.before) {
-            await Actinium.Hook.run(hook, req, arg1, arg2, arg3);
-        }
-
-        // Handle cascade save
-        const unsaved =
-            options.cascadeSave !== false ? unsavedChildren(this) : null;
-        await controller.save(unsaved, saveOptions);
-
-        // Actual save
-        const result = await controller.save(this, saveOptions);
-
-        // Run after hooks
-        for (let hook of hooksToRun.after) {
-            await Actinium.Hook.run(hook, req, arg1, arg2, arg3);
-        }
-
-        return result;
+    // Special handling for Content_ classes
+    if (String(this.className).toLowerCase().startsWith('content_')) {
+      hooksToRun.before.push('beforeSave_content');
+      hooksToRun.after.push('afterSave_content');
     }
+
+    const req = { object: this, options: saveOptions, context };
+
+    // Run before hooks
+    for (let hook of hooksToRun.before) {
+      await Actinium.Hook.run(hook, req, arg1, arg2, arg3);
+    }
+
+    // Handle cascade save
+    const unsaved =
+      options.cascadeSave !== false ? unsavedChildren(this) : null;
+    await controller.save(unsaved, saveOptions);
+
+    // Actual save
+    const result = await controller.save(this, saveOptions);
+
+    // Run after hooks
+    for (let hook of hooksToRun.after) {
+      await Actinium.Hook.run(hook, req, arg1, arg2, arg3);
+    }
+
+    return result;
+  }
 }
 ```
 
 **Hook Execution for Save**:
+
 1. `beforeSave` - Generic before save
 2. `beforeSave_{ClassName}` - Class-specific before save
 3. `beforeSave_content` - If class starts with `Content_`
@@ -1054,31 +1090,32 @@ async destroy(options, context) {
 
 ```javascript
 const Enums = {
-    priority: {
-        highest: -1000,
-        high: -500,
-        neutral: 0,
-        low: 500,
-        lowest: 1000,
-    },
-    weight: {
-        highest: 1000,
-        high: 500,
-        neutral: 0,
-        low: -500,
-        lowest: -1000,
-    },
-    logLevels: {
-        DEBUG: 1000,
-        INFO: 500,
-        BOOT: 0,
-        WARN: -500,
-        ERROR: -1000,
-    },
+  priority: {
+    highest: -1000,
+    high: -500,
+    neutral: 0,
+    low: 500,
+    lowest: 1000,
+  },
+  weight: {
+    highest: 1000,
+    high: 500,
+    neutral: 0,
+    low: -500,
+    lowest: -1000,
+  },
+  logLevels: {
+    DEBUG: 1000,
+    INFO: 500,
+    BOOT: 0,
+    WARN: -500,
+    ERROR: -1000,
+  },
 };
 ```
 
 **Priority Rules**:
+
 - **Lower numbers execute earlier**
 - Priority determines hook execution order
 - Middleware with high priority (negative numbers) runs first
@@ -1086,6 +1123,7 @@ const Enums = {
 - Use `Actinium.Enums.priority.lowest` for cleanup hooks
 
 **Common Patterns**:
+
 ```javascript
 // Very early (before most things)
 Actinium.Middleware.register('cors', callback, -100000);
@@ -1110,30 +1148,30 @@ Actinium.Hook.register('cleanup', callback, Actinium.Enums.priority.lowest);
 
 ```javascript
 const defaults = {
-    glob: {
-        cloud: [
-            `${ACTINIUM_DIR}/cloud/**/*.js`,
-            `${BASE_DIR}/node_modules/**/actinium/*cloud.js`,
-            `${BASE_DIR}/actinium_modules/**/*cloud.js`,
-            `${APP_DIR}/cloud/**/*.js`,      // deprecated 3.1.8
-            `${APP_DIR}/**/*cloud.js`,       // since 3.1.8
-        ],
-        plugins: [
-            `${ACTINIUM_DIR}/plugin/**/*plugin.js`,
-            `${BASE_DIR}/node_modules/**/actinium/*plugin.js`,
-            `${BASE_DIR}/actinium_modules/**/*plugin.js`,
-            `${APP_DIR}/**/*plugin.js`,
-            `!${ACTINIUM_DIR}/plugin/**/assets/**/*.js`,
-            `!${ACTINIUM_DIR}/plugin/**/plugin-assets/**/*.js`,
-        ],
-        middleware: [
-            `${ACTINIUM_DIR}/middleware/**/*.js`,
-            `${ACTINIUM_DIR}/**/*middleware.js`,
-            `${BASE_DIR}/node_modules/**/actinium/*middleware.js`,
-            `${BASE_DIR}/actinium_modules/**/*middleware.js`,
-            `${APP_DIR}/**/*middleware.js`,
-        ],
-    },
+  glob: {
+    cloud: [
+      `${ACTINIUM_DIR}/cloud/**/*.js`,
+      `${BASE_DIR}/node_modules/**/actinium/*cloud.js`,
+      `${BASE_DIR}/actinium_modules/**/*cloud.js`,
+      `${APP_DIR}/cloud/**/*.js`, // deprecated 3.1.8
+      `${APP_DIR}/**/*cloud.js`, // since 3.1.8
+    ],
+    plugins: [
+      `${ACTINIUM_DIR}/plugin/**/*plugin.js`,
+      `${BASE_DIR}/node_modules/**/actinium/*plugin.js`,
+      `${BASE_DIR}/actinium_modules/**/*plugin.js`,
+      `${APP_DIR}/**/*plugin.js`,
+      `!${ACTINIUM_DIR}/plugin/**/assets/**/*.js`,
+      `!${ACTINIUM_DIR}/plugin/**/plugin-assets/**/*.js`,
+    ],
+    middleware: [
+      `${ACTINIUM_DIR}/middleware/**/*.js`,
+      `${ACTINIUM_DIR}/**/*middleware.js`,
+      `${BASE_DIR}/node_modules/**/actinium/*middleware.js`,
+      `${BASE_DIR}/actinium_modules/**/*middleware.js`,
+      `${APP_DIR}/**/*middleware.js`,
+    ],
+  },
 };
 ```
 
@@ -1167,66 +1205,68 @@ src/app/my-plugin/
 
 ```javascript
 Plugable.addMetaAsset = (ID, filePath, assetObjectPath = 'admin.assetURL') => {
-    const objectPath = `meta.assets.${assetObjectPath}`;
+  const objectPath = `meta.assets.${assetObjectPath}`;
 
-    const installAsset = async (pluginObj, obj) => {
-        if (ID !== pluginObj.ID) return;
+  const installAsset = async (pluginObj, obj) => {
+    if (ID !== pluginObj.ID) return;
 
-        const metaAsset = {
-            ID,
-            filePath,
-            objectPath,
-            targetPath: `plugins/${ID}`,
-            targetFileName: path.basename(filePath),
-        };
-
-        await Actinium.Hook.run('add-meta-asset', metaAsset);
-
-        let url;
-        const file = await Actinium.File.create(
-            metaAsset.filePath,
-            metaAsset.targetPath,
-            metaAsset.targetFileName,
-        );
-
-        url = String(file.url()).replace(
-            `${ENV.PUBLIC_SERVER_URI}${ENV.PARSE_MOUNT}`,
-            '',
-        );
-
-        const plugin = Actinium.Cache.get(`plugins.${ID}`);
-        op.set(plugin, metaAsset.objectPath, url);
-        obj.set('meta', op.get(plugin, 'meta'));
+    const metaAsset = {
+      ID,
+      filePath,
+      objectPath,
+      targetPath: `plugins/${ID}`,
+      targetFileName: path.basename(filePath),
     };
 
-    Actinium.Hook.register('plugin-before-save', async (data, obj, existing) =>
-        installMissingAsset(data, obj, existing),
+    await Actinium.Hook.run('add-meta-asset', metaAsset);
+
+    let url;
+    const file = await Actinium.File.create(
+      metaAsset.filePath,
+      metaAsset.targetPath,
+      metaAsset.targetFileName
     );
-    Actinium.Hook.register('activate', async (data, req) =>
-        installAsset(data, req.object),
+
+    url = String(file.url()).replace(
+      `${ENV.PUBLIC_SERVER_URI}${ENV.PARSE_MOUNT}`,
+      ''
     );
-    Actinium.Hook.register('update', async (data, req) =>
-        installAsset(data, req.object),
-    );
+
+    const plugin = Actinium.Cache.get(`plugins.${ID}`);
+    op.set(plugin, metaAsset.objectPath, url);
+    obj.set('meta', op.get(plugin, 'meta'));
+  };
+
+  Actinium.Hook.register('plugin-before-save', async (data, obj, existing) =>
+    installMissingAsset(data, obj, existing)
+  );
+  Actinium.Hook.register('activate', async (data, req) =>
+    installAsset(data, req.object)
+  );
+  Actinium.Hook.register('update', async (data, req) =>
+    installAsset(data, req.object)
+  );
 };
 ```
 
 **How It Works**:
+
 1. Registers hooks for plugin activation/update
 2. Uploads file to Parse Files API
 3. Stores URL in plugin meta object
 4. Allows versioning via `add-meta-asset` hook
 
 **Convenience Methods**:
+
 ```javascript
 Plugable.addLogo = (ID, filePath, app = 'admin') =>
-    Plugable.addMetaAsset(ID, filePath, `${app}.logo`);
+  Plugable.addMetaAsset(ID, filePath, `${app}.logo`);
 
 Plugable.addScript = (ID, filePath, app = 'admin') =>
-    Plugable.addMetaAsset(ID, filePath, `${app}.script`);
+  Plugable.addMetaAsset(ID, filePath, `${app}.script`);
 
 Plugable.addStylesheet = (ID, filePath, app = 'admin') =>
-    Plugable.addMetaAsset(ID, filePath, `${app}.style`);
+  Plugable.addMetaAsset(ID, filePath, `${app}.style`);
 ```
 
 ### 2. Plugin Lifecycle Hooks
@@ -1235,49 +1275,50 @@ Plugable.addStylesheet = (ID, filePath, app = 'admin') =>
 
 ```javascript
 Parse.Cloud.beforeSave(COLLECTION, async (req) => {
-    await Actinium.Hook.run('beforeSave-plugin', req);
+  await Actinium.Hook.run('beforeSave-plugin', req);
 
-    const obj = req.object.toJSON();
-    const { active, version } = obj;
+  const obj = req.object.toJSON();
+  const { active, version } = obj;
 
-    if (req.object.isNew()) {
-        await Actinium.Hook.run('install', obj, req);
-        if (active) {
-            Actinium.Cache.set(`plugins.${obj.ID}.active`, true);
-            await Actinium.Hook.run('schema', obj, req);
-            await Actinium.Hook.run('activate', obj, req);
-        }
-    } else {
-        let old = await new Parse.Query(COLLECTION)
-            .equalTo('ID', obj.ID)
-            .first({ useMasterKey: true });
-
-        old = old.toJSON();
-
-        const { active: prev } = old;
-        const prevVer = op.get(old, 'version') || version;
-
-        if (active === true) {
-            if (semver.gt(semver.coerce(version), semver.coerce(prevVer))) {
-                await Actinium.Hook.run('update', obj, req, old);
-            }
-        }
-
-        if (active === true && active !== prev) {
-            Actinium.Cache.set(`plugins.${obj.ID}.active`, true);
-            await Actinium.Hook.run('schema', obj, req);
-            await Actinium.Hook.run('activate', obj, req);
-        }
-
-        if (active === false && active !== prev) {
-            Actinium.Cache.set(`plugins.${obj.ID}.active`, false);
-            await Actinium.Hook.run('deactivate', obj, req);
-        }
+  if (req.object.isNew()) {
+    await Actinium.Hook.run('install', obj, req);
+    if (active) {
+      Actinium.Cache.set(`plugins.${obj.ID}.active`, true);
+      await Actinium.Hook.run('schema', obj, req);
+      await Actinium.Hook.run('activate', obj, req);
     }
+  } else {
+    let old = await new Parse.Query(COLLECTION)
+      .equalTo('ID', obj.ID)
+      .first({ useMasterKey: true });
+
+    old = old.toJSON();
+
+    const { active: prev } = old;
+    const prevVer = op.get(old, 'version') || version;
+
+    if (active === true) {
+      if (semver.gt(semver.coerce(version), semver.coerce(prevVer))) {
+        await Actinium.Hook.run('update', obj, req, old);
+      }
+    }
+
+    if (active === true && active !== prev) {
+      Actinium.Cache.set(`plugins.${obj.ID}.active`, true);
+      await Actinium.Hook.run('schema', obj, req);
+      await Actinium.Hook.run('activate', obj, req);
+    }
+
+    if (active === false && active !== prev) {
+      Actinium.Cache.set(`plugins.${obj.ID}.active`, false);
+      await Actinium.Hook.run('deactivate', obj, req);
+    }
+  }
 });
 ```
 
 **Plugin Lifecycle Hooks**:
+
 - `install` - First time plugin is saved to database
 - `schema` - Run when plugin needs to create/update database schemas
 - `activate` - Plugin activated (can happen multiple times)
@@ -1291,54 +1332,53 @@ Parse.Cloud.beforeSave(COLLECTION, async (req) => {
 
 ```javascript
 Plugable.updateHookHelper = (pluginId, migrations = {}) => {
-    const versions = Object.keys(migrations).sort((a, b) => {
-        if (semver.gt(semver.coerce(a), semver.coerce(b))) return 1;
-        if (semver.gt(semver.coerce(b), semver.coerce(a))) return -1;
-        return 0;
-    });
+  const versions = Object.keys(migrations).sort((a, b) => {
+    if (semver.gt(semver.coerce(a), semver.coerce(b))) return 1;
+    if (semver.gt(semver.coerce(b), semver.coerce(a))) return -1;
+    return 0;
+  });
 
-    return async (current, req, old) => {
-        if (pluginId === current.ID) {
-            const newVer = semver.coerce(op.get(current, 'version'));
-            const oldVer = semver.coerce(op.get(old, 'version'));
+  return async (current, req, old) => {
+    if (pluginId === current.ID) {
+      const newVer = semver.coerce(op.get(current, 'version'));
+      const oldVer = semver.coerce(op.get(old, 'version'));
 
-            for (const version of versions) {
-                const spec = migrations[version];
-                const test = op.get(spec, 'test', () =>
-                    semver.gt(version, oldVer),
-                );
-                const migration = op.get(spec, 'migration', () => {});
-                if (typeof test === 'function') {
-                    const runnable = await test(newVer, oldVer, current);
-                    if (runnable) {
-                        await migration(current, req, old);
-                    }
-                }
-            }
+      for (const version of versions) {
+        const spec = migrations[version];
+        const test = op.get(spec, 'test', () => semver.gt(version, oldVer));
+        const migration = op.get(spec, 'migration', () => {});
+        if (typeof test === 'function') {
+          const runnable = await test(newVer, oldVer, current);
+          if (runnable) {
+            await migration(current, req, old);
+          }
         }
-    };
+      }
+    }
+  };
 };
 ```
 
 **Usage Example**:
+
 ```javascript
 const migrations = {
-    '1.0.6': {
-        migration: async (plugin, req, oldPlugin) => {
-            console.log('Migrating to 1.0.6');
-            // Update database schemas, migrate data, etc.
-        }
+  '1.0.6': {
+    migration: async (plugin, req, oldPlugin) => {
+      console.log('Migrating to 1.0.6');
+      // Update database schemas, migrate data, etc.
     },
-    '1.0.5': {
-        migration: async (plugin, req, oldPlugin) => {
-            console.log('Migrating to 1.0.5');
-        }
+  },
+  '1.0.5': {
+    migration: async (plugin, req, oldPlugin) => {
+      console.log('Migrating to 1.0.5');
     },
+  },
 };
 
 Actinium.Hook.register(
-    'update',
-    Actinium.Plugin.updateHookHelper('MY_PLUGIN', migrations)
+  'update',
+  Actinium.Plugin.updateHookHelper('MY_PLUGIN', migrations)
 );
 ```
 
@@ -1364,50 +1404,51 @@ const options = MasterOptions();
 
 ```javascript
 class HookMiddleware {
-    constructor(req, res, next) {
-        this.req = req;
-        this.res = res;
-        this.stack = () => next();
-    }
+  constructor(req, res, next) {
+    this.req = req;
+    this.res = res;
+    this.stack = () => next();
+  }
 
-    use(cb) {
-        const next = this.stack;
-        this.stack = () => cb(this.req, this.res, next);
-    }
+  use(cb) {
+    const next = this.stack;
+    this.stack = () => cb(this.req, this.res, next);
+  }
 
-    next() {
-        this.stack();
-    }
+  next() {
+    this.stack();
+  }
 }
 
 mw.registerHook = (...params) => {
-    let [id, path, order = 100] = params;
+  let [id, path, order = 100] = params;
 
-    let args = [
-        async (req, res, next) => {
-            const mw = new HookMiddleware(req, res, next);
-            await Actinium.Hook.run(`${id}-middleware`, mw);
-            mw.next();
-        },
-    ];
+  let args = [
+    async (req, res, next) => {
+      const mw = new HookMiddleware(req, res, next);
+      await Actinium.Hook.run(`${id}-middleware`, mw);
+      mw.next();
+    },
+  ];
 
-    if (typeof path === 'string') args = [path, ...args];
-    mw.register(id, (app) => app.use(...args), order);
+  if (typeof path === 'string') args = [path, ...args];
+  mw.register(id, (app) => app.use(...args), order);
 };
 ```
 
 **Usage**:
+
 ```javascript
 // Register hook-based middleware
 Actinium.Middleware.registerHook('plugin-assets', '/api/plugin-assets', -10000);
 
 // Now plugins can hook into this middleware
 Actinium.Hook.register('plugin-assets-middleware', async (mw) => {
-    mw.use((req, res, next) => {
-        // Custom middleware logic
-        console.log('Plugin assets request:', req.url);
-        next();
-    });
+  mw.use((req, res, next) => {
+    // Custom middleware logic
+    console.log('Plugin assets request:', req.url);
+    next();
+  });
 });
 ```
 
@@ -1416,41 +1457,49 @@ Actinium.Hook.register('plugin-assets-middleware', async (mw) => {
 ## Summary of Critical Implementation Details
 
 ### 1. **Actinium = Parse + Extensions**
+
 - Actinium spreads all Parse SDK methods
 - Parse.Object is extended with hook integration
 - Parse Server is the database layer
 
 ### 2. **Global-First Architecture**
+
 - Heavy use of global variables for convenience
 - `Actinium`, `ENV`, logging functions all global
 - Plugin code doesn't need imports for globals
 
 ### 3. **Plugin Gating is Mandatory for Cloud Functions**
+
 - `Actinium.Cloud.define()` wraps functions with plugin gate
 - Inactive plugins throw errors on function calls
 - Use `Parse.Cloud.define()` directly only for core functions
 
 ### 4. **Hook System is Async-First**
+
 - Uses `action-sequence` library for orchestration
 - Hooks sorted by priority (lower = earlier)
 - Errors caught and logged, don't crash server
 
 ### 5. **Middleware is Pre-Sorted**
+
 - Middleware discovered and sorted before execution
 - Order determined by numeric priority
 - Can be replaced or unregistered after discovery
 
 ### 6. **Environment Overrides**
+
 - File-based config < process.env
 - Multiple environment files supported
 - PORT calculation has complex fallback logic
 
 ### 7. **Plugin Lifecycle is Rich**
+
 - Install, activate, update, deactivate, uninstall hooks
 - Version-based migration support
 - Asset management integrated
 
 ### 8. **Parse Hooks Auto-Generated**
+
 - beforeSave, afterSave, beforeDelete, afterDelete
 - Class-specific hooks: `beforeSave_{ClassName}`
 - Content types get special treatment
@@ -1472,6 +1521,7 @@ Based on source code analysis, the following statements from the existing docume
 - ES module requirement
 
 **Corrections Made**:
+
 - Priority constants: `Enums.priority.normal` should be `Enums.priority.neutral` (value: 0)
 - Middleware priority for CORS: -100000 (not -1000000 as documented)
 - Cloud function discovery pattern changed in v3.1.8
@@ -1481,6 +1531,7 @@ Based on source code analysis, the following statements from the existing docume
 ## Related Files for Reference
 
 ### Core Framework Files
+
 - `/api/actinium_modules/@atomic-reactor/actinium-core/actinium.js` - Main entry point
 - `/api/actinium_modules/@atomic-reactor/actinium-core/globals.js` - Global setup
 - `/api/actinium_modules/@atomic-reactor/actinium-core/boot.js` - Environment loading
@@ -1488,6 +1539,7 @@ Based on source code analysis, the following statements from the existing docume
 - `/api/actinium_modules/@atomic-reactor/actinium-core/package.json` - Dependencies
 
 ### Core Libraries
+
 - `/api/actinium_modules/@atomic-reactor/actinium-core/lib/plugable.js` - Plugin system
 - `/api/actinium_modules/@atomic-reactor/actinium-core/lib/hook.js` - Hook system
 - `/api/actinium_modules/@atomic-reactor/actinium-core/lib/cloud.js` - Cloud functions
@@ -1497,6 +1549,7 @@ Based on source code analysis, the following statements from the existing docume
 - `/api/actinium_modules/@atomic-reactor/actinium-core/lib/utils/index.js` - Utilities
 
 ### Example Implementations
+
 - `/api/actinium_modules/@atomic-reactor/actinium-core/cloud/actinium-plugin.js` - Plugin management Cloud Functions
 - `/api/actinium_modules/@atomic-reactor/actinium-core/middleware/cors/middleware.js` - CORS middleware
 - `/api/actinium_modules/@atomic-reactor/actinium-core/middleware/static/middleware.js` - Static files + hook middleware

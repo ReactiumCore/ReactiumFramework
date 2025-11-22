@@ -1,3 +1,4 @@
+<!-- v1.0.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections

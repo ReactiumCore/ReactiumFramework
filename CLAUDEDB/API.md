@@ -1,3 +1,4 @@
+<!-- v1.0.0 -->
 # CLAUDEDB - API Quick Reference
 
 **Purpose**: Common functions/hooks with signatures + direct links

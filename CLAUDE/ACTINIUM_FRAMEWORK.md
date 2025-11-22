@@ -1,6 +1,9 @@
+<!-- v1.0.0 -->
+
 # Actinium Framework Guide
 
 ## Table of Contents
+
 1. [Introduction](#introduction)
 2. [Core Architecture](#core-architecture)
 3. [Plugin System](#plugin-system)
@@ -60,25 +63,25 @@ Actinium extends the Parse SDK and provides a global `Actinium` object with exte
 ```javascript
 // Actinium is a global object available everywhere
 Actinium = {
-    ...Parse,  // Inherits all Parse SDK methods
+  ...Parse, // Inherits all Parse SDK methods
 
-    // Actinium-specific modules
-    Hook,           // Hook system
-    Plugin,         // Plugin management
-    Cloud,          // Cloud Function registration
-    Middleware,     // Express middleware management
-    Utils,          // Utility functions
-    Cache,          // Caching layer
-    Setting,        // Settings management
-    Roles,          // Role management
-    Capability,     // Capability-based permissions
-    User,           // User utilities
-    Collection,     // MongoDB collection utilities
-    Type,           // Content type management
-    Pulse,          // Pub/sub event system
-    Enums,          // Constants and enums
-    File,           // File handling
-    FilesAdapter,   // File storage adapter
+  // Actinium-specific modules
+  Hook, // Hook system
+  Plugin, // Plugin management
+  Cloud, // Cloud Function registration
+  Middleware, // Express middleware management
+  Utils, // Utility functions
+  Cache, // Caching layer
+  Setting, // Settings management
+  Roles, // Role management
+  Capability, // Capability-based permissions
+  User, // User utilities
+  Collection, // MongoDB collection utilities
+  Type, // Content type management
+  Pulse, // Pub/sub event system
+  Enums, // Constants and enums
+  File, // File handling
+  FilesAdapter, // File storage adapter
 };
 ```
 
@@ -89,6 +92,7 @@ Actinium = {
 The Actinium initialization process follows this sequence:
 
 1. **`Actinium.init(options)`** - Initializes all core systems:
+
    ```javascript
    // Express app setup
    const app = express();
@@ -119,6 +123,7 @@ The Actinium initialization process follows this sequence:
    ```
 
 2. **`Actinium.start(options)`** - Starts the HTTP server:
+
    ```javascript
    // Create HTTP or HTTPS server
    Actinium.server = http.createServer(Actinium.app);
@@ -137,8 +142,8 @@ The Actinium initialization process follows this sequence:
 import Actinium from '@atomic-reactor/actinium-core';
 
 (async () => {
-    await Actinium.init();
-    await Actinium.start();
+  await Actinium.init();
+  await Actinium.start();
 })();
 ```
 
@@ -165,17 +170,17 @@ Defines plugin identity and configuration:
 ```javascript
 // src/app/my-plugin/info.js
 const PLUGIN = {
-    ID: 'MyPlugin',                      // Unique identifier
-    name: 'My Plugin',                   // Display name
-    description: 'Description of plugin functionality',
-    version: '1.0.0',                    // Plugin version
-    pluginDependencies: [],              // Array of plugin IDs this depends on
-    order: 100,                          // Load order (lower = earlier)
-    bundle: [],                          // Files to bundle
-    meta: {
-        group: 'MyPluginGroup',          // Grouping for organization
-        builtIn: false,                  // true for core plugins
-    },
+  ID: 'MyPlugin', // Unique identifier
+  name: 'My Plugin', // Display name
+  description: 'Description of plugin functionality',
+  version: '1.0.0', // Plugin version
+  pluginDependencies: [], // Array of plugin IDs this depends on
+  order: 100, // Load order (lower = earlier)
+  bundle: [], // Files to bundle
+  meta: {
+    group: 'MyPluginGroup', // Grouping for organization
+    builtIn: false, // true for core plugins
+  },
 };
 
 export default PLUGIN;
@@ -192,25 +197,26 @@ import PLUGIN from './info.js';
 import SDK from './sdk.js';
 
 const MOD = () => {
-    // Attach SDK to global Actinium object
-    Actinium.MyPlugin = Actinium.MyPlugin || SDK;
+  // Attach SDK to global Actinium object
+  Actinium.MyPlugin = Actinium.MyPlugin || SDK;
 
-    // Register the plugin
-    Actinium.Plugin.register(PLUGIN, true);  // true = activate immediately
+  // Register the plugin
+  Actinium.Plugin.register(PLUGIN, true); // true = activate immediately
 
-    // Register Cloud Functions
-    Actinium.Cloud.define(PLUGIN.ID, 'myCloudFunction', async (req) => {
-        const { param1, param2 } = req.params;
-        return SDK.doSomething(param1, param2);
-    });
+  // Register Cloud Functions
+  Actinium.Cloud.define(PLUGIN.ID, 'myCloudFunction', async (req) => {
+    const { param1, param2 } = req.params;
+    return SDK.doSomething(param1, param2);
+  });
 
-    console.log('MyPlugin registered');
+  console.log('MyPlugin registered');
 };
 
-export default MOD();  // IMPORTANT: Execute immediately
+export default MOD(); // IMPORTANT: Execute immediately
 ```
 
 **Key Points**:
+
 - Export the result of calling `MOD()` immediately, not just the function
 - Register plugin with `Actinium.Plugin.register(PLUGIN, active)`
 - Attach SDK to `Actinium` object for global access
@@ -225,11 +231,11 @@ Optional SDK exposing plugin methods:
 import MyService from './my-service.js';
 
 export default {
-    doSomething: MyService.doSomething.bind(MyService),
-    anotherMethod: async (param) => {
-        // Implementation
-        return { result: 'success' };
-    },
+  doSomething: MyService.doSomething.bind(MyService),
+  anotherMethod: async (param) => {
+    // Implementation
+    return { result: 'success' };
+  },
 };
 ```
 
@@ -241,13 +247,13 @@ Plugins are auto-discovered via globbing patterns defined in `ENV.GLOB_PLUGINS`:
 
 ```javascript
 Actinium.Plugin.init = async () => {
-    const files = globby(ENV.GLOB_PLUGINS);  // e.g., 'src/app/**/plugin.js'
+  const files = globby(ENV.GLOB_PLUGINS); // e.g., 'src/app/**/plugin.js'
 
-    // Import all plugin.js files
-    await Promise.all(files.map(file => import(normalizeImportPath(file))));
+  // Import all plugin.js files
+  await Promise.all(files.map((file) => import(normalizeImportPath(file))));
 
-    // Activate plugins based on database settings
-    await Actinium.Plugin.activate();
+  // Activate plugins based on database settings
+  await Actinium.Plugin.activate();
 };
 ```
 
@@ -262,20 +268,20 @@ Plugins are validated before registration:
 
 ```javascript
 const _isValid = (plugin, strict = false) => {
-    const { ID } = plugin;
+  const { ID } = plugin;
 
-    // Must have unique ID
-    if (!ID || blacklist.includes(ID)) return false;
+  // Must have unique ID
+  if (!ID || blacklist.includes(ID)) return false;
 
-    // Validate Actinium version compatibility
-    const actiniumVer = ACTINIUM_CONFIG.version;
-    const versionRange = plugin.version.actinium || `>=${actiniumVer}`;
-    if (!semver.satisfies(actiniumVer, versionRange)) return false;
+  // Validate Actinium version compatibility
+  const actiniumVer = ACTINIUM_CONFIG.version;
+  const versionRange = plugin.version.actinium || `>=${actiniumVer}`;
+  if (!semver.satisfies(actiniumVer, versionRange)) return false;
 
-    // If strict, must be active
-    if (strict && !Plugable.isActive(ID)) return false;
+  // If strict, must be active
+  if (strict && !Plugable.isActive(ID)) return false;
 
-    return true;
+  return true;
 };
 ```
 
@@ -290,6 +296,7 @@ Actinium's hook system is the backbone of its extensibility, allowing plugins to
 **Location**: `/api/actinium_modules/@atomic-reactor/actinium-core/lib/hook.js`
 
 The Hook system provides:
+
 - **Async hooks**: Most common, allows `await` in callbacks
 - **Sync hooks**: For synchronous operations
 - **Priority-based execution**: Hooks execute in order of priority
@@ -303,18 +310,19 @@ The Hook system provides:
 import Actinium from '@atomic-reactor/actinium-core';
 
 Actinium.Hook.register(
-    'my-custom-hook',           // Hook name
-    async (arg1, arg2, context) => {  // Callback
-        console.log('Hook fired:', arg1, arg2);
+  'my-custom-hook', // Hook name
+  async (arg1, arg2, context) => {
+    // Callback
+    console.log('Hook fired:', arg1, arg2);
 
-        // Async operations allowed
-        const result = await someAsyncOperation();
+    // Async operations allowed
+    const result = await someAsyncOperation();
 
-        // Can modify context
-        context.customData = result;
-    },
-    Actinium.Enums.priority.neutral,  // Priority
-    'unique-hook-id'            // Optional unique ID
+    // Can modify context
+    context.customData = result;
+  },
+  Actinium.Enums.priority.neutral, // Priority
+  'unique-hook-id' // Optional unique ID
 );
 ```
 
@@ -322,13 +330,13 @@ Actinium.Hook.register(
 
 ```javascript
 Actinium.Hook.registerSync(
-    'my-sync-hook',
-    (arg1, arg2, context) => {
-        // Synchronous only, no await
-        console.log('Sync hook:', arg1);
-    },
-    Actinium.Enums.priority.neutral,
-    'sync-hook-id'
+  'my-sync-hook',
+  (arg1, arg2, context) => {
+    // Synchronous only, no await
+    console.log('Sync hook:', arg1);
+  },
+  Actinium.Enums.priority.neutral,
+  'sync-hook-id'
 );
 ```
 
@@ -353,9 +361,10 @@ const context = Actinium.Hook.runSync('my-sync-hook', 'data');
 
 1. **`warning`**: Early warnings before initialization
 2. **`init`**: Core initialization complete, app and options available
+
    ```javascript
    Actinium.Hook.register('init', async (app, options) => {
-       console.log('Actinium initialized');
+     console.log('Actinium initialized');
    });
    ```
 
@@ -367,13 +376,14 @@ const context = Actinium.Hook.runSync('my-sync-hook', 'data');
 **Request/Response Hooks**:
 
 - **`before-save-{ClassName}`**: Before saving a Parse object
+
   ```javascript
   Actinium.Hook.register('before-save-User', async (req, context) => {
-      const { object, user, master } = req;
-      // Validate or modify object before save
-      if (!object.get('email')) {
-          throw new Error('Email required');
-      }
+    const { object, user, master } = req;
+    // Validate or modify object before save
+    if (!object.get('email')) {
+      throw new Error('Email required');
+    }
   });
   ```
 
@@ -395,7 +405,7 @@ Define your own hooks for plugin communication:
 ```javascript
 // In plugin A
 Actinium.Hook.register('data-processed', async (data, context) => {
-    console.log('Data processed:', data);
+  console.log('Data processed:', data);
 });
 
 // In plugin B
@@ -408,12 +418,12 @@ await Actinium.Hook.run('data-processed', processedData);
 
 ```javascript
 Actinium.Enums.priority = {
-    highest: -1000000,   // Execute first
-    core: -1000,
-    high: -100,
-    normal: 0,           // Default
-    low: 100,
-    lowest: 1000000,     // Execute last
+  highest: -1000000, // Execute first
+  core: -1000,
+  high: -100,
+  normal: 0, // Default
+  low: 100,
+  lowest: 1000000, // Execute last
 };
 ```
 
@@ -452,16 +462,16 @@ Errors in async hooks are caught and logged but don't crash the server:
 
 ```javascript
 try {
-    await ActionSequence({ actions: hookActions, context });
+  await ActionSequence({ actions: hookActions, context });
 } catch (errors) {
-    Object.entries(errors).forEach(([id, error]) => {
-        ERROR(`Error in action.${name}[${id}]`);
-        if (error.error instanceof assert.AssertionError) {
-            // Log assertion details
-        } else {
-            ERROR(error);
-        }
-    });
+  Object.entries(errors).forEach(([id, error]) => {
+    ERROR(`Error in action.${name}[${id}]`);
+    if (error.error instanceof assert.AssertionError) {
+      // Log assertion details
+    } else {
+      ERROR(error);
+    }
+  });
 }
 ```
 
@@ -482,16 +492,16 @@ import PLUGIN from './info.js';
 import SDK from './sdk.js';
 
 Actinium.Cloud.define(PLUGIN.ID, 'myCloudFunction', async (req) => {
-    // req.params: Client-provided parameters
-    // req.user: Authenticated user (if any)
-    // req.master: Master key usage flag
+  // req.params: Client-provided parameters
+  // req.user: Authenticated user (if any)
+  // req.master: Master key usage flag
 
-    const { param1, param2 } = req.params;
+  const { param1, param2 } = req.params;
 
-    // Perform operations
-    const result = await SDK.doSomething(param1, param2);
+  // Perform operations
+  const result = await SDK.doSomething(param1, param2);
 
-    return result;  // Returned to client
+  return result; // Returned to client
 });
 ```
 
@@ -499,9 +509,9 @@ Actinium.Cloud.define(PLUGIN.ID, 'myCloudFunction', async (req) => {
 
 ```javascript
 Actinium.Cloud.define(
-    pluginID,        // Plugin ID (for permission gating)
-    functionName,    // Cloud Function name
-    callback         // async function(req) => result
+  pluginID, // Plugin ID (for permission gating)
+  functionName, // Cloud Function name
+  callback // async function(req) => result
 );
 ```
 
@@ -513,15 +523,17 @@ Actinium.Cloud.define(
 
 ```javascript
 Cloud.define = (plugin, name, callback) => {
-    if (!plugin || !name || !callback) {
-        throw new Error('Cloud.define(plugin, name, callback) all parameters required');
-    }
-
-    Parse.Cloud.define(name, (req) =>
-        Actinium.Plugin.gate({ req, ID: plugin, name, callback })
+  if (!plugin || !name || !callback) {
+    throw new Error(
+      'Cloud.define(plugin, name, callback) all parameters required'
     );
+  }
 
-    CLOUD_FUNCTIONS.push({ name });
+  Parse.Cloud.define(name, (req) =>
+    Actinium.Plugin.gate({ req, ID: plugin, name, callback })
+  );
+
+  CLOUD_FUNCTIONS.push({ name });
 };
 ```
 
@@ -535,18 +547,22 @@ Cloud.define = (plugin, name, callback) => {
 import Parse from 'parse';
 
 const result = await Parse.Cloud.run('myCloudFunction', {
-    param1: 'value1',
-    param2: 'value2',
+  param1: 'value1',
+  param2: 'value2',
 });
 ```
 
 **From backend (another plugin)**:
 
 ```javascript
-const result = await Actinium.Cloud.run('myCloudFunction', {
+const result = await Actinium.Cloud.run(
+  'myCloudFunction',
+  {
     param1: 'value1',
     param2: 'value2',
-}, { sessionToken: user.getSessionToken() });
+  },
+  { sessionToken: user.getSessionToken() }
+);
 ```
 
 ### Cloud Function Hooks
@@ -556,24 +572,27 @@ Intercept Cloud Function execution:
 ```javascript
 // Before execution
 Actinium.Hook.register('before-cloud-myCloudFunction', async (req, context) => {
-    console.log('About to execute myCloudFunction');
+  console.log('About to execute myCloudFunction');
 
-    // Can modify req.params
-    req.params.injectedParam = 'value';
+  // Can modify req.params
+  req.params.injectedParam = 'value';
 
-    // Can throw to prevent execution
-    if (!req.user) {
-        throw new Error('Authentication required');
-    }
+  // Can throw to prevent execution
+  if (!req.user) {
+    throw new Error('Authentication required');
+  }
 });
 
 // After execution
-Actinium.Hook.register('after-cloud-myCloudFunction', async (req, result, context) => {
+Actinium.Hook.register(
+  'after-cloud-myCloudFunction',
+  async (req, result, context) => {
     console.log('myCloudFunction returned:', result);
 
     // Can modify result (if returned from context)
     context.result = modifiedResult;
-});
+  }
+);
 ```
 
 ### Example: Real-World Cloud Function
@@ -586,22 +605,20 @@ import PLUGIN from './info.js';
 import SDK from './sdk.js';
 
 const MOD = () => {
-    Actinium.CoinGecko = Actinium.CoinGecko || SDK;
-    Actinium.Plugin.register(PLUGIN, true);
+  Actinium.CoinGecko = Actinium.CoinGecko || SDK;
+  Actinium.Plugin.register(PLUGIN, true);
 
-    // Register Cloud Function
-    // Accessible at: POST http://localhost:9000/api/functions/getOHLC
-    Actinium.Cloud.define(PLUGIN.ID, 'getOHLC', async (req) => {
-        const {
-            coinId = 'ethereum',
-            vsCurrency = 'usd',
-            days = '1',
-        } = req.params;
+  // Register Cloud Function
+  // Accessible at: POST http://localhost:9000/api/functions/getOHLC
+  Actinium.Cloud.define(PLUGIN.ID, 'getOHLC', async (req) => {
+    const { coinId = 'ethereum', vsCurrency = 'usd', days = '1' } = req.params;
 
-        return SDK.getOHLC(coinId, vsCurrency, days);
-    });
+    return SDK.getOHLC(coinId, vsCurrency, days);
+  });
 
-    console.log('CoinGeckoPlugin registered with Cloud Function on /api/functions/getOHLC');
+  console.log(
+    'CoinGeckoPlugin registered with Cloud Function on /api/functions/getOHLC'
+  );
 };
 
 export default MOD();
@@ -613,7 +630,7 @@ export default MOD();
 import CoinGeckoService from './coingecko-service.js';
 
 export default {
-    getOHLC: CoinGeckoService.getOHLC.bind(CoinGeckoService),
+  getOHLC: CoinGeckoService.getOHLC.bind(CoinGeckoService),
 };
 ```
 
@@ -621,18 +638,18 @@ export default {
 
 ```javascript
 class CoinGeckoService {
-    async getOHLC(coinId, vsCurrency, days) {
-        const url = `https://api.coingecko.com/api/v3/coins/${coinId}/ohlc`;
-        const params = new URLSearchParams({
-            vs_currency: vsCurrency,
-            days: days,
-        });
+  async getOHLC(coinId, vsCurrency, days) {
+    const url = `https://api.coingecko.com/api/v3/coins/${coinId}/ohlc`;
+    const params = new URLSearchParams({
+      vs_currency: vsCurrency,
+      days: days,
+    });
 
-        const response = await fetch(`${url}?${params}`);
-        const data = await response.json();
+    const response = await fetch(`${url}?${params}`);
+    const data = await response.json();
 
-        return data;
-    }
+    return data;
+  }
 }
 
 export default new CoinGeckoService();
@@ -652,13 +669,14 @@ Middleware files are discovered via glob patterns:
 
 ```javascript
 await Promise.all(
-    globby(ENV.GLOB_MIDDLEWARE)  // e.g., 'src/app/**/middleware.js'
-        .filter(file => isMiddleware(fs.readFileSync(file, 'utf8')))
-        .map(file => import(normalizeImportPath(file)))
+  globby(ENV.GLOB_MIDDLEWARE) // e.g., 'src/app/**/middleware.js'
+    .filter((file) => isMiddleware(fs.readFileSync(file, 'utf8')))
+    .map((file) => import(normalizeImportPath(file)))
 );
 ```
 
 A file is considered middleware if it contains:
+
 - `Actinium.Middleware.register`
 - `Actinium.Middleware.unregister`
 
@@ -670,22 +688,24 @@ A file is considered middleware if it contains:
 import Actinium from '@atomic-reactor/actinium-core';
 
 Actinium.Middleware.register(
-    'my-middleware',                    // Middleware ID
-    (app) => {                          // Callback receives Express app
-        app.use((req, res, next) => {
-            // Express middleware logic
-            console.log('Request:', req.method, req.url);
-            next();
-        });
-    },
-    Actinium.Enums.priority.neutral,     // Priority
-    'unique-middleware-id'              // Optional unique ID
+  'my-middleware', // Middleware ID
+  (app) => {
+    // Callback receives Express app
+    app.use((req, res, next) => {
+      // Express middleware logic
+      console.log('Request:', req.method, req.url);
+      next();
+    });
+  },
+  Actinium.Enums.priority.neutral, // Priority
+  'unique-middleware-id' // Optional unique ID
 );
 ```
 
 ### Middleware Registration Order
 
 Middleware is registered in priority order (lowest priority number first). This is crucial for:
+
 - **Body parsers** need to run early
 - **CORS** should be before routes
 - **Authentication** before protected routes
@@ -715,12 +735,12 @@ import Actinium from '@atomic-reactor/actinium-core';
 import cors from 'cors';
 
 Actinium.Middleware.register(
-    'cors',
-    (app) => {
-        app.use(cors());
-    },
-    Actinium.Enums.priority.highest,
-    'ACTINIUM-MIDDLEWARE-CORS'
+  'cors',
+  (app) => {
+    app.use(cors());
+  },
+  Actinium.Enums.priority.highest,
+  'ACTINIUM-MIDDLEWARE-CORS'
 );
 ```
 
@@ -731,27 +751,27 @@ Actinium.Middleware.register(
 import Actinium from '@atomic-reactor/actinium-core';
 
 Actinium.Middleware.register(
-    'request-logger',
-    (app) => {
-        app.use((req, res, next) => {
-            console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-            next();
-        });
-    },
-    Actinium.Enums.priority.high,  // Run early
-    'my-plugin-logger'
+  'request-logger',
+  (app) => {
+    app.use((req, res, next) => {
+      console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+      next();
+    });
+  },
+  Actinium.Enums.priority.high, // Run early
+  'my-plugin-logger'
 );
 
 // Add custom routes
 Actinium.Middleware.register(
-    'custom-routes',
-    (app) => {
-        app.get('/api/custom-endpoint', (req, res) => {
-            res.json({ message: 'Custom endpoint response' });
-        });
-    },
-    Actinium.Enums.priority.neutral,
-    'my-plugin-routes'
+  'custom-routes',
+  (app) => {
+    app.get('/api/custom-endpoint', (req, res) => {
+      res.json({ message: 'Custom endpoint response' });
+    });
+  },
+  Actinium.Enums.priority.neutral,
+  'my-plugin-routes'
 );
 ```
 
@@ -775,13 +795,13 @@ Parse Server is mounted as Express middleware:
 
 ```javascript
 const parseConfig = {
-    appId: ENV.APP_ID,
-    masterKey: ENV.MASTER_KEY,
-    serverURL: ENV.SERVER_URL,
-    databaseURI: ENV.DATABASE_URI,
-    fileKey: ENV.FILE_KEY,
-    javascriptKey: ENV.JAVASCRIPT_KEY,
-    // ... more configuration
+  appId: ENV.APP_ID,
+  masterKey: ENV.MASTER_KEY,
+  serverURL: ENV.SERVER_URL,
+  databaseURI: ENV.DATABASE_URI,
+  fileKey: ENV.FILE_KEY,
+  javascriptKey: ENV.JAVASCRIPT_KEY,
+  // ... more configuration
 };
 
 const parseServer = new ParseServer(parseConfig);
@@ -800,6 +820,7 @@ Parse Server uses MongoDB for data storage:
 ```
 
 **Parse Collections** (MongoDB collections):
+
 - `_User`: User accounts
 - `_Role`: Roles
 - `_Session`: User sessions
@@ -888,20 +909,20 @@ Actinium automatically creates hooks for Parse lifecycle events:
 ```javascript
 // Before save
 Actinium.Hook.register('before-save-MyClass', async (req, context) => {
-    const { object, user, master } = req;
-    // Validate or modify object
+  const { object, user, master } = req;
+  // Validate or modify object
 });
 
 // After save
 Actinium.Hook.register('after-save-MyClass', async (req, context) => {
-    const { object } = req;
-    // Perform post-save actions
+  const { object } = req;
+  // Perform post-save actions
 });
 
 // Before find
 Actinium.Hook.register('before-find-MyClass', async (req, context) => {
-    const { query } = req;
-    // Modify query
+  const { query } = req;
+  // Modify query
 });
 ```
 
@@ -1003,8 +1024,8 @@ ES modules support top-level await:
 const data = await fetchData();
 
 Actinium.Hook.register('init', async () => {
-    // Also allowed in async functions
-    await initializePlugin();
+  // Also allowed in async functions
+  await initializePlugin();
 });
 ```
 
@@ -1026,17 +1047,17 @@ cd api/src/app/my-plugin
 ```javascript
 // info.js
 const PLUGIN = {
-    ID: 'MyPlugin',
-    name: 'My Plugin',
-    description: 'My custom Actinium plugin',
-    version: '1.0.0',
-    pluginDependencies: [],
-    order: 100,
-    bundle: [],
-    meta: {
-        group: 'Custom',
-        builtIn: false,
-    },
+  ID: 'MyPlugin',
+  name: 'My Plugin',
+  description: 'My custom Actinium plugin',
+  version: '1.0.0',
+  pluginDependencies: [],
+  order: 100,
+  bundle: [],
+  meta: {
+    group: 'Custom',
+    builtIn: false,
+  },
 };
 
 export default PLUGIN;
@@ -1047,20 +1068,20 @@ export default PLUGIN;
 ```javascript
 // sdk.js
 class MyPluginSDK {
-    async doSomething(param) {
-        console.log('Doing something with:', param);
-        return { success: true, param };
+  async doSomething(param) {
+    console.log('Doing something with:', param);
+    return { success: true, param };
+  }
+
+  async queryData(filters) {
+    const query = new Actinium.Query('MyData');
+
+    if (filters.name) {
+      query.equalTo('name', filters.name);
     }
 
-    async queryData(filters) {
-        const query = new Actinium.Query('MyData');
-
-        if (filters.name) {
-            query.equalTo('name', filters.name);
-        }
-
-        return query.find({ useMasterKey: true });
-    }
+    return query.find({ useMasterKey: true });
+  }
 }
 
 export default new MyPluginSDK();
@@ -1075,52 +1096,62 @@ import PLUGIN from './info.js';
 import SDK from './sdk.js';
 
 const MOD = () => {
-    // Attach SDK to Actinium global
-    Actinium.MyPlugin = Actinium.MyPlugin || SDK;
+  // Attach SDK to Actinium global
+  Actinium.MyPlugin = Actinium.MyPlugin || SDK;
 
-    // Register plugin
-    Actinium.Plugin.register(PLUGIN, true);
+  // Register plugin
+  Actinium.Plugin.register(PLUGIN, true);
 
-    // Register hooks
-    Actinium.Hook.register('init', async () => {
-        console.log('MyPlugin initialized');
+  // Register hooks
+  Actinium.Hook.register(
+    'init',
+    async () => {
+      console.log('MyPlugin initialized');
 
-        // Perform initialization tasks
-        await initializeDatabase();
-    }, Actinium.Enums.priority.neutral, 'MyPlugin-init');
+      // Perform initialization tasks
+      await initializeDatabase();
+    },
+    Actinium.Enums.priority.neutral,
+    'MyPlugin-init'
+  );
 
-    // Register Cloud Functions
-    Actinium.Cloud.define(PLUGIN.ID, 'myCloudFunction', async (req) => {
-        const { param } = req.params;
-        return SDK.doSomething(param);
-    });
+  // Register Cloud Functions
+  Actinium.Cloud.define(PLUGIN.ID, 'myCloudFunction', async (req) => {
+    const { param } = req.params;
+    return SDK.doSomething(param);
+  });
 
-    // Register schemas
-    Actinium.Hook.register('schema-created', async () => {
-        await createMySchema();
-    }, Actinium.Enums.priority.neutral, 'MyPlugin-schema');
+  // Register schemas
+  Actinium.Hook.register(
+    'schema-created',
+    async () => {
+      await createMySchema();
+    },
+    Actinium.Enums.priority.neutral,
+    'MyPlugin-schema'
+  );
 };
 
 const initializeDatabase = async () => {
-    const schema = new Actinium.Schema('MyData');
+  const schema = new Actinium.Schema('MyData');
 
-    try {
-        await schema.get({ useMasterKey: true });
-    } catch (err) {
-        // Schema doesn't exist, create it
-        schema.addString('name');
-        schema.addNumber('value');
-        schema.addBoolean('active');
+  try {
+    await schema.get({ useMasterKey: true });
+  } catch (err) {
+    // Schema doesn't exist, create it
+    schema.addString('name');
+    schema.addNumber('value');
+    schema.addBoolean('active');
 
-        await schema.save(null, { useMasterKey: true });
-    }
+    await schema.save(null, { useMasterKey: true });
+  }
 };
 
 const createMySchema = async () => {
-    // Additional schema setup
+  // Additional schema setup
 };
 
-export default MOD();  // Execute immediately
+export default MOD(); // Execute immediately
 ```
 
 #### Step 5: Create Middleware (optional)
@@ -1130,27 +1161,27 @@ export default MOD();  // Execute immediately
 import Actinium from '@atomic-reactor/actinium-core';
 
 Actinium.Middleware.register(
-    'my-plugin-routes',
-    (app) => {
-        // Add custom Express routes
-        app.get('/api/my-plugin/status', (req, res) => {
-            res.json({
-                status: 'active',
-                version: '1.0.0',
-            });
-        });
+  'my-plugin-routes',
+  (app) => {
+    // Add custom Express routes
+    app.get('/api/my-plugin/status', (req, res) => {
+      res.json({
+        status: 'active',
+        version: '1.0.0',
+      });
+    });
 
-        app.post('/api/my-plugin/action', async (req, res) => {
-            try {
-                const result = await Actinium.MyPlugin.doSomething(req.body);
-                res.json(result);
-            } catch (error) {
-                res.status(500).json({ error: error.message });
-            }
-        });
-    },
-    Actinium.Enums.priority.neutral,
-    'MyPlugin-middleware'
+    app.post('/api/my-plugin/action', async (req, res) => {
+      try {
+        const result = await Actinium.MyPlugin.doSomething(req.body);
+        res.json(result);
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    });
+  },
+  Actinium.Enums.priority.neutral,
+  'MyPlugin-middleware'
 );
 ```
 
@@ -1188,7 +1219,7 @@ schema.addBoolean('active');
 schema.addDate('createdAt');
 schema.addArray('tags');
 schema.addObject('metadata');
-schema.addPointer('user', '_User');  // Relation to User
+schema.addPointer('user', '_User'); // Relation to User
 schema.addRelation('items', 'Item'); // Many-to-many relation
 
 // Indexes
@@ -1205,10 +1236,10 @@ await schema.save(null, { useMasterKey: true });
 ```javascript
 // Register a collection
 Actinium.Collection.register('MyCollection', {
-    create: true,    // Allow creation
-    retrieve: true,  // Allow retrieval
-    update: true,    // Allow updates
-    delete: true,    // Allow deletion
+  create: true, // Allow creation
+  retrieve: true, // Allow retrieval
+  update: true, // Allow updates
+  delete: true, // Allow deletion
 });
 
 // List registered collections
@@ -1231,8 +1262,8 @@ await role.save(null, { useMasterKey: true });
 
 // Add user to role
 const user = await new Actinium.Query('_User')
-    .equalTo('username', 'john')
-    .first({ useMasterKey: true });
+  .equalTo('username', 'john')
+  .first({ useMasterKey: true });
 
 role.getUsers().add(user);
 await role.save(null, { useMasterKey: true });
@@ -1246,15 +1277,15 @@ const hasRole = await Actinium.Roles.User.is(user, 'Editor');
 ```javascript
 // Register capability
 Actinium.Capability.register('myPlugin.create', {
-    allowed: ['Editor', 'Admin'],
-    excluded: ['Banned'],
+  allowed: ['Editor', 'Admin'],
+  excluded: ['Banned'],
 });
 
 // Check user capability
 const canCreate = await Actinium.Capability.User.can(user, 'myPlugin.create');
 
 if (!canCreate) {
-    throw new Error('Permission denied');
+  throw new Error('Permission denied');
 }
 ```
 
@@ -1267,18 +1298,18 @@ Plugins define their own capabilities:
 ```javascript
 // In plugin.js
 PLUGIN.capabilities = [
-    {
-        capability: 'MyPlugin.create',
-        roles: {
-            allowed: ['Admin'],
-        },
+  {
+    capability: 'MyPlugin.create',
+    roles: {
+      allowed: ['Admin'],
     },
-    {
-        capability: 'MyPlugin.retrieve',
-        roles: {
-            allowed: ['anonymous'],  // Public access
-        },
+  },
+  {
+    capability: 'MyPlugin.retrieve',
+    roles: {
+      allowed: ['anonymous'], // Public access
     },
+  },
 ];
 ```
 
@@ -1331,7 +1362,7 @@ Actinium.MyPlugin = Actinium.MyPlugin || SDK;
 ```javascript
 // In plugin A
 Actinium.Hook.register('data-updated', async (data) => {
-    // Handle data update
+  // Handle data update
 });
 
 // In plugin B
@@ -1341,18 +1372,22 @@ await Actinium.Hook.run('data-updated', newData);
 #### 6. Register Schemas in Hooks
 
 ```javascript
-Actinium.Hook.register('schema-created', async () => {
+Actinium.Hook.register(
+  'schema-created',
+  async () => {
     const schema = new Actinium.Schema('MyClass');
     // Define schema
     await schema.save(null, { useMasterKey: true });
-}, Actinium.Enums.priority.neutral);
+  },
+  Actinium.Enums.priority.neutral
+);
 ```
 
 #### 7. Use Environment Variables
 
 ```javascript
 // In .env
-MY_API_KEY=secret_key_here
+MY_API_KEY = secret_key_here;
 
 // In plugin
 const apiKey = process.env.MY_API_KEY || ENV.MY_API_KEY;
@@ -1391,7 +1426,7 @@ Plugins load in order specified by the `order` property in `info.js`. If Plugin 
 await Actinium.Hook.run('my-hook', data);
 
 // DON'T forget await
-Actinium.Hook.run('my-hook', data);  // Hook may not complete
+Actinium.Hook.run('my-hook', data); // Hook may not complete
 ```
 
 #### 5. Cloud Function Parameters in req.params
@@ -1399,12 +1434,12 @@ Actinium.Hook.run('my-hook', data);  // Hook may not complete
 ```javascript
 // CORRECT
 Actinium.Cloud.define(PLUGIN.ID, 'myFunc', async (req) => {
-    const { param1 } = req.params;  // Client params are in req.params
+  const { param1 } = req.params; // Client params are in req.params
 });
 
 // WRONG
 Actinium.Cloud.define(PLUGIN.ID, 'myFunc', async (param1) => {
-    // This won't work
+  // This won't work
 });
 ```
 
@@ -1415,7 +1450,7 @@ Actinium.Cloud.define(PLUGIN.ID, 'myFunc', async (param1) => {
 const results = await query.find({ useMasterKey: true });
 
 // WRONG
-const results = query.find({ useMasterKey: true });  // Returns Promise
+const results = query.find({ useMasterKey: true }); // Returns Promise
 ```
 
 #### 7. ACLs Don't Apply with Master Key
@@ -1453,82 +1488,83 @@ After modifying Parse schemas, restart the server for changes to take effect.
 Complete example from this project:
 
 **info.js**:
+
 ```javascript
 const PLUGIN = {
-    ID: 'CoinGeckoPlugin',
-    name: 'Coinbase Plugin',
-    description: 'CoinGecko API integration for crypto market data.',
-    version: '1.0.0',
-    pluginDependencies: [],
-    order: 100,
-    bundle: [],
-    meta: {
-        group: 'CoinGecko',
-        builtIn: false,
-    },
+  ID: 'CoinGeckoPlugin',
+  name: 'Coinbase Plugin',
+  description: 'CoinGecko API integration for crypto market data.',
+  version: '1.0.0',
+  pluginDependencies: [],
+  order: 100,
+  bundle: [],
+  meta: {
+    group: 'CoinGecko',
+    builtIn: false,
+  },
 };
 
 export default PLUGIN;
 ```
 
 **plugin.js**:
+
 ```javascript
 import Actinium from '@atomic-reactor/actinium-core';
 import PLUGIN from './info.js';
 import SDK from './sdk.js';
 
 const MOD = () => {
-    Actinium.CoinGecko = Actinium.CoinGecko || SDK;
-    Actinium.Plugin.register(PLUGIN, true);
+  Actinium.CoinGecko = Actinium.CoinGecko || SDK;
+  Actinium.Plugin.register(PLUGIN, true);
 
-    Actinium.Cloud.define(PLUGIN.ID, 'getOHLC', async (req) => {
-        const {
-            coinId = 'ethereum',
-            vsCurrency = 'usd',
-            days = '1',
-        } = req.params;
-        return SDK.getOHLC(coinId, vsCurrency, days);
-    });
+  Actinium.Cloud.define(PLUGIN.ID, 'getOHLC', async (req) => {
+    const { coinId = 'ethereum', vsCurrency = 'usd', days = '1' } = req.params;
+    return SDK.getOHLC(coinId, vsCurrency, days);
+  });
 
-    console.log('CoinGeckoPlugin registered');
+  console.log('CoinGeckoPlugin registered');
 };
 
 export default MOD();
 ```
 
 **sdk.js**:
+
 ```javascript
 import CoinGeckoService from './coingecko-service.js';
 
 export default {
-    getOHLC: CoinGeckoService.getOHLC.bind(CoinGeckoService),
+  getOHLC: CoinGeckoService.getOHLC.bind(CoinGeckoService),
 };
 ```
 
 **coingecko-service.js**:
+
 ```javascript
 class CoinGeckoService {
-    async getOHLC(coinId, vsCurrency, days) {
-        const url = `https://api.coingecko.com/api/v3/coins/${coinId}/ohlc`;
-        const params = new URLSearchParams({
-            vs_currency: vsCurrency,
-            days: days,
-        });
+  async getOHLC(coinId, vsCurrency, days) {
+    const url = `https://api.coingecko.com/api/v3/coins/${coinId}/ohlc`;
+    const params = new URLSearchParams({
+      vs_currency: vsCurrency,
+      days: days,
+    });
 
-        const response = await fetch(`${url}?${params}`);
-        return response.json();
-    }
+    const response = await fetch(`${url}?${params}`);
+    return response.json();
+  }
 }
 
 export default new CoinGeckoService();
 ```
 
 **Usage from frontend**:
+
 ```javascript
 const data = await Parse.Cloud.run('getOHLC', {
-    coinId: 'bitcoin',
-    vsCurrency: 'usd',
-    days: '7',
+  coinId: 'bitcoin',
+  vsCurrency: 'usd',
+  days: '7',
 });
 ```
 

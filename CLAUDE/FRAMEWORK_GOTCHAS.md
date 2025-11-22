@@ -1,3 +1,5 @@
+<!-- v1.0.0 -->
+
 # Reactium & Actinium Framework Gotchas and Troubleshooting Guide
 
 > **Purpose**: This guide catalogs common pitfalls, confusing behaviors, debugging strategies, and solutions for issues developers encounter when working with Reactium and Actinium frameworks.
@@ -22,6 +24,7 @@
 **Explanation**: The manifest (`src/manifest.js`) is auto-generated at build time. It doesn't update during development unless you restart the dev server or manually regenerate it.
 
 **Symptoms**:
+
 - New `reactium-route-*.js` file added but route doesn't work
 - New `reactium-hooks-*.js` file added but hook doesn't fire
 - Renamed files still reference old paths
@@ -47,27 +50,28 @@ npm run local  # Ctrl+C first to stop current server
 **Bad Code**:
 
 ```javascript
-const [count, setCount] = useSyncState({ count: 0 });  // Wrong!
-console.log(count);  // Logs entire object, not 0
+const [count, setCount] = useSyncState({ count: 0 }); // Wrong!
+console.log(count); // Logs entire object, not 0
 ```
 
 **Correct Code**:
 
 ```javascript
 const state = useSyncState({ count: 0 });
-console.log(state.get('count'));  // Logs 0
+console.log(state.get('count')); // Logs 0
 
 // Setting values
 state.set('count', state.get('count') + 1);
 
 // Setting multiple values
 state.set({
-    count: 10,
-    name: 'Updated',
+  count: 10,
+  name: 'Updated',
 });
 ```
 
 **Key Differences**:
+
 - `useSyncState` returns an observable object, not a value
 - Access via `.get(key)`
 - Update via `.set(key, value)` or `.set(object)`
@@ -86,8 +90,8 @@ state.set({
 const { Hook, Component } = await import('reactium-core/sdk');
 
 Hook.register('plugin-init', async () => {
-    // This never runs!
-    Component.register('MyComponent', MyComponent);
+  // This never runs!
+  Component.register('MyComponent', MyComponent);
 });
 ```
 
@@ -98,13 +102,13 @@ Hook.register('plugin-init', async () => {
 ```javascript
 // reactium-hooks-mycomponent.js
 (async () => {
-    const { Hook, Component } = await import('reactium-core/sdk');
+  const { Hook, Component } = await import('reactium-core/sdk');
 
-    Hook.register('plugin-init', async () => {
-        const { MyComponent } = await import('./MyComponent');
-        Component.register('MyComponent', MyComponent);
-    });
-})();  // Immediately invoked!
+  Hook.register('plugin-init', async () => {
+    const { MyComponent } = await import('./MyComponent');
+    Component.register('MyComponent', MyComponent);
+  });
+})(); // Immediately invoked!
 ```
 
 ---
@@ -146,20 +150,20 @@ export default [
 
 ```javascript
 export default [
-    {
-        path: '/my-route',  // Always start with /
-        exact: true,
-        component: MyComponent,
-    },
-    {
-        path: '/user/:userId',  // URL parameters
-        exact: true,
-        component: UserProfile,
-    },
-    {
-        path: ['/about', '/about-us'],  // Multiple paths
-        component: About,
-    },
+  {
+    path: '/my-route', // Always start with /
+    exact: true,
+    component: MyComponent,
+  },
+  {
+    path: '/user/:userId', // URL parameters
+    exact: true,
+    component: UserProfile,
+  },
+  {
+    path: ['/about', '/about-us'], // Multiple paths
+    component: About,
+  },
 ];
 ```
 
@@ -176,6 +180,7 @@ export default [
 **Existing Application Code Has This Bug**: All component hooks in `/ui/src/` and `/learning/src/` currently use `.normal`.
 
 **Correct Code**:
+
 ```javascript
 // WRONG - returns undefined, accidentally works
 Hook.register('plugin-init', callback, Enums.priority.normal);
@@ -195,25 +200,25 @@ Hook.register('plugin-init', callback, Enums.priority.neutral);
 **Confusing Truth**: Lower numbers = higher priority = execute first
 
 ```javascript
-Enums.priority.core      = -2000      // Core framework (HIGHEST - runs first)
-Enums.priority.highest   = -1000      // Very high priority
-Enums.priority.high      = -500       // High priority
-Enums.priority.neutral   = 0          // Default
-Enums.priority.low       = 500        // Low priority
-Enums.priority.lowest    = 1000       // LOWEST - runs last
+Enums.priority.core = -2000; // Core framework (HIGHEST - runs first)
+Enums.priority.highest = -1000; // Very high priority
+Enums.priority.high = -500; // High priority
+Enums.priority.neutral = 0; // Default
+Enums.priority.low = 500; // Low priority
+Enums.priority.lowest = 1000; // LOWEST - runs last
 ```
 
 **Example**:
 
 ```javascript
 // Plugin A - wants to run first
-Hook.register('init', setupA, Enums.priority.high);  // -500
+Hook.register('init', setupA, Enums.priority.high); // -500
 
 // Plugin B - wants to run after A
-Hook.register('init', setupB, Enums.priority.neutral);  // 0
+Hook.register('init', setupB, Enums.priority.neutral); // 0
 
 // Plugin C - wants to run last
-Hook.register('init', setupC, Enums.priority.low);  // 500
+Hook.register('init', setupC, Enums.priority.low); // 500
 
 // Execution order: A → B → C
 ```
@@ -230,11 +235,11 @@ Hook.register('init', setupC, Enums.priority.low);  // 500
 
 ```javascript
 const ComponentA = () => {
-    const handle = useHandle('MyHandle');  // No subscription!
-    const data = handle?.get('data');
+  const handle = useHandle('MyHandle'); // No subscription!
+  const data = handle?.get('data');
 
-    // Component won't re-render when handle.set('data', newData) is called
-    return <div>{data}</div>;
+  // Component won't re-render when handle.set('data', newData) is called
+  return <div>{data}</div>;
 };
 ```
 
@@ -242,15 +247,16 @@ const ComponentA = () => {
 
 ```javascript
 const ComponentA = () => {
-    const handle = useSyncHandle('MyHandle');  // Subscribes to changes
-    const data = handle?.get('data');
+  const handle = useSyncHandle('MyHandle'); // Subscribes to changes
+  const data = handle?.get('data');
 
-    // Component re-renders automatically when data changes
-    return <div>{data}</div>;
+  // Component re-renders automatically when data changes
+  return <div>{data}</div>;
 };
 ```
 
 **When to Use Each**:
+
 - `useSyncHandle`: When component needs to re-render on data changes (most common)
 - `useHandle`: When you only need to read/write data without re-rendering
 
@@ -266,23 +272,23 @@ const ComponentA = () => {
 
 ```javascript
 export const MyPage = ({ transitionState }) => {
-    // Expects automatic progression from LOADING → READY
-    // Will hang in LOADING forever!
+  // Expects automatic progression from LOADING → READY
+  // Will hang in LOADING forever!
 
-    return <div>{transitionState}</div>;
+  return <div>{transitionState}</div>;
 };
 
 // Route config
 export default [
-    {
-        path: '/my-page',
-        component: MyPage,
-        transitions: true,
-        transitionStates: [
-            { state: 'LOADING', active: 'current' },
-            { state: 'READY', active: 'current' },
-        ],
-    },
+  {
+    path: '/my-page',
+    component: MyPage,
+    transitions: true,
+    transitionStates: [
+      { state: 'LOADING', active: 'current' },
+      { state: 'READY', active: 'current' },
+    ],
+  },
 ];
 ```
 
@@ -293,20 +299,20 @@ import Reactium from 'reactium-core/sdk';
 import { useEffect } from 'react';
 
 export const MyPage = ({ transitionState }) => {
-    useEffect(() => {
-        if (transitionState === 'LOADING') {
-            // Manually advance to next state
-            setTimeout(() => {
-                Reactium.Routing.nextState();
-            }, 500);
-        }
-    }, [transitionState]);
-
+  useEffect(() => {
     if (transitionState === 'LOADING') {
-        return <div>Loading...</div>;
+      // Manually advance to next state
+      setTimeout(() => {
+        Reactium.Routing.nextState();
+      }, 500);
     }
+  }, [transitionState]);
 
-    return <div>Page Content</div>;
+  if (transitionState === 'LOADING') {
+    return <div>Loading...</div>;
+  }
+
+  return <div>Page Content</div>;
 };
 ```
 
@@ -326,7 +332,7 @@ ComponentA.handleId = 'DataHandle';
 ComponentA.loadState = async () => ({ dataA: 'A' });
 
 // Component B
-ComponentB.handleId = 'DataHandle';  // Same handleId!
+ComponentB.handleId = 'DataHandle'; // Same handleId!
 ComponentB.loadState = async () => ({ dataB: 'B' });
 
 // When navigating between routes, data gets overwritten
@@ -344,7 +350,7 @@ ComponentB.handleId = 'ComponentBHandle';
 ```javascript
 // If you want components to share data, use same handleId
 UserProfile.handleId = 'UserData';
-UserSettings.handleId = 'UserData';  // Shares user data
+UserSettings.handleId = 'UserData'; // Shares user data
 ```
 
 ---
@@ -359,14 +365,18 @@ UserSettings.handleId = 'UserData';  // Shares user data
 
 ```javascript
 // Registering too late
-Hook.register('routes-init', async () => {
+Hook.register(
+  'routes-init',
+  async () => {
     Component.register('MyComponent', MyComponent);
-}, priority);
+  },
+  priority
+);
 
 // Component that tries to use it
 const Container = () => {
-    const MyComp = useHookComponent('MyComponent');
-    // MyComp is null - not registered yet!
+  const MyComp = useHookComponent('MyComponent');
+  // MyComp is null - not registered yet!
 };
 ```
 
@@ -374,10 +384,14 @@ const Container = () => {
 
 ```javascript
 // Register during plugin-init (earlier lifecycle)
-Hook.register('plugin-init', async () => {
+Hook.register(
+  'plugin-init',
+  async () => {
     const { MyComponent } = await import('./MyComponent');
     Component.register('MyComponent', MyComponent);
-}, Enums.priority.neutral);
+  },
+  Enums.priority.neutral
+);
 ```
 
 ---
@@ -392,21 +406,21 @@ Hook.register('plugin-init', async () => {
 
 ```javascript
 export const MyComponent = ({ handleId }) => {
-    // If route defines handleId, it overwrites this default
-    console.log(handleId);
+  // If route defines handleId, it overwrites this default
+  console.log(handleId);
 };
 
 MyComponent.defaultProps = {
-    handleId: 'DefaultHandle',
+  handleId: 'DefaultHandle',
 };
 
 // Route
 export default [
-    {
-        path: '/my-route',
-        component: MyComponent,
-        handleId: 'RouteHandle',  // Overwrites default!
-    },
+  {
+    path: '/my-route',
+    component: MyComponent,
+    handleId: 'RouteHandle', // Overwrites default!
+  },
 ];
 ```
 
@@ -414,7 +428,7 @@ export default [
 
 ```javascript
 export const MyComponent = ({ routeHandleId, componentHandleId }) => {
-    const handleId = routeHandleId || componentHandleId;
+  const handleId = routeHandleId || componentHandleId;
 };
 ```
 
@@ -431,11 +445,12 @@ export const MyComponent = ({ routeHandleId, componentHandleId }) => {
 **Bad Code**:
 
 ```javascript
-const Actinium = require('@atomic-reactor/actinium-core');  // Error!
-module.exports = MyClass;  // Error!
+const Actinium = require('@atomic-reactor/actinium-core'); // Error!
+module.exports = MyClass; // Error!
 ```
 
 **Error Messages**:
+
 - `ReferenceError: require is not defined`
 - `ReferenceError: module is not defined`
 - `ReferenceError: exports is not defined`
@@ -456,21 +471,21 @@ export default MyClass;
 **Bad Code**:
 
 ```javascript
-import SDK from './sdk';  // Error: Cannot find module
-import config from './config';  // Error: Cannot find module
+import SDK from './sdk'; // Error: Cannot find module
+import config from './config'; // Error: Cannot find module
 ```
 
 **Correct Code**:
 
 ```javascript
-import SDK from './sdk.js';  // Must include .js
+import SDK from './sdk.js'; // Must include .js
 import config from './config.js';
 ```
 
 **Note**: Node package imports don't need extensions:
 
 ```javascript
-import express from 'express';  // OK - no extension needed for packages
+import express from 'express'; // OK - no extension needed for packages
 ```
 
 ---
@@ -484,11 +499,11 @@ import express from 'express';  // OK - no extension needed for packages
 ```javascript
 // plugin.js
 const MOD = () => {
-    Actinium.Plugin.register(PLUGIN, true);
-    // Registration code
+  Actinium.Plugin.register(PLUGIN, true);
+  // Registration code
 };
 
-export default MOD;  // Function reference, never called!
+export default MOD; // Function reference, never called!
 ```
 
 **Symptom**: No console logs, Cloud Functions don't register, hooks don't fire.
@@ -498,11 +513,11 @@ export default MOD;  // Function reference, never called!
 ```javascript
 // plugin.js
 const MOD = () => {
-    Actinium.Plugin.register(PLUGIN, true);
-    console.log('MyPlugin loaded');  // Should see this on startup
+  Actinium.Plugin.register(PLUGIN, true);
+  console.log('MyPlugin loaded'); // Should see this on startup
 };
 
-export default MOD();  // Execute immediately with ()
+export default MOD(); // Execute immediately with ()
 ```
 
 ---
@@ -546,9 +561,9 @@ Actinium.Cloud.define(PLUGIN_B.ID, 'pluginB.getData', handlerB);
 
 ```javascript
 Actinium.Cloud.define(PLUGIN.ID, 'getPrivateData', async (req) => {
-    const query = new Actinium.Query('PrivateData');
-    const results = await query.find();  // May fail due to ACLs
-    return results;
+  const query = new Actinium.Query('PrivateData');
+  const results = await query.find(); // May fail due to ACLs
+  return results;
 });
 ```
 
@@ -556,15 +571,15 @@ Actinium.Cloud.define(PLUGIN.ID, 'getPrivateData', async (req) => {
 
 ```javascript
 Actinium.Cloud.define(PLUGIN.ID, 'getPrivateData', async (req) => {
-    // Verify user authorization first
-    if (!req.user) {
-        throw new Error('Authentication required');
-    }
+  // Verify user authorization first
+  if (!req.user) {
+    throw new Error('Authentication required');
+  }
 
-    // Use master key for backend operations
-    const query = new Actinium.Query('PrivateData');
-    const results = await query.find({ useMasterKey: true });
-    return results;
+  // Use master key for backend operations
+  const query = new Actinium.Query('PrivateData');
+  const results = await query.find({ useMasterKey: true });
+  return results;
 });
 ```
 
@@ -581,25 +596,33 @@ Actinium.Cloud.define(PLUGIN.ID, 'getPrivateData', async (req) => {
 **Bad Code**:
 
 ```javascript
-Actinium.Hook.register('init', async () => {
-    const result = await riskyOperation();  // Throws error
+Actinium.Hook.register(
+  'init',
+  async () => {
+    const result = await riskyOperation(); // Throws error
     // Error is logged to console but swallowed
-}, priority);
+  },
+  priority
+);
 ```
 
 **How to Debug**:
 
 ```javascript
-Actinium.Hook.register('init', async () => {
+Actinium.Hook.register(
+  'init',
+  async () => {
     try {
-        const result = await riskyOperation();
+      const result = await riskyOperation();
     } catch (error) {
-        console.error('ERROR in init hook:', error);
-        console.error(error.stack);
-        // Re-throw if critical
-        throw error;
+      console.error('ERROR in init hook:', error);
+      console.error(error.stack);
+      // Re-throw if critical
+      throw error;
     }
-}, priority);
+  },
+  priority
+);
 ```
 
 **Check Logs**: Always check server console for hook errors.
@@ -613,6 +636,7 @@ Actinium.Hook.register('init', async () => {
 **Explanation**: Parse Server caches schema definitions. Changes require restart.
 
 **Symptom**:
+
 - Added new field in `schema-created` hook
 - Queries don't return new field
 - Frontend can't save new field
@@ -627,7 +651,9 @@ npm start  # Stop with Ctrl+C first
 **Best Practice**: Define schemas completely upfront to avoid mid-development restarts:
 
 ```javascript
-Actinium.Hook.register('schema-created', async () => {
+Actinium.Hook.register(
+  'schema-created',
+  async () => {
     const schema = new Actinium.Schema('MyClass');
 
     // Define ALL fields at once
@@ -637,7 +663,9 @@ Actinium.Hook.register('schema-created', async () => {
     // ... etc
 
     await schema.save(null, { useMasterKey: true });
-}, priority);
+  },
+  priority
+);
 ```
 
 ---
@@ -653,15 +681,15 @@ Actinium.Hook.register('schema-created', async () => {
 ```javascript
 // Plugin A (depended upon)
 const PLUGIN_A = {
-    ID: 'PluginA',
-    order: 200,  // Loads second
+  ID: 'PluginA',
+  order: 200, // Loads second
 };
 
 // Plugin B (depends on A)
 const PLUGIN_B = {
-    ID: 'PluginB',
-    order: 100,  // Loads first - Plugin A not ready yet!
-    pluginDependencies: ['PluginA'],
+  ID: 'PluginB',
+  order: 100, // Loads first - Plugin A not ready yet!
+  pluginDependencies: ['PluginA'],
 };
 ```
 
@@ -670,19 +698,20 @@ const PLUGIN_B = {
 ```javascript
 // Plugin A
 const PLUGIN_A = {
-    ID: 'PluginA',
-    order: 100,  // Lower number = loads first
+  ID: 'PluginA',
+  order: 100, // Lower number = loads first
 };
 
 // Plugin B
 const PLUGIN_B = {
-    ID: 'PluginB',
-    order: 200,  // Higher number = loads after dependencies
-    pluginDependencies: ['PluginA'],
+  ID: 'PluginB',
+  order: 200, // Higher number = loads after dependencies
+  pluginDependencies: ['PluginA'],
 };
 ```
 
 **Guideline**:
+
 - Core plugins: `order: 100`
 - Normal plugins: `order: 100-500`
 - Plugins depending on many others: `order: 500+`
@@ -700,11 +729,13 @@ const PLUGIN_B = {
 ```javascript
 // Error handler registered early - won't catch errors!
 Actinium.Middleware.register(
-    'error-handler',
-    (app) => {
-        app.use((err, req, res, next) => { /* ... */ });
-    },
-    Actinium.Enums.priority.neutral  // Too early!
+  'error-handler',
+  (app) => {
+    app.use((err, req, res, next) => {
+      /* ... */
+    });
+  },
+  Actinium.Enums.priority.neutral // Too early!
 );
 ```
 
@@ -713,32 +744,34 @@ Actinium.Middleware.register(
 ```javascript
 // CORS - highest priority
 Actinium.Middleware.register(
-    'cors',
-    (app) => app.use(cors()),
-    Actinium.Enums.priority.highest
+  'cors',
+  (app) => app.use(cors()),
+  Actinium.Enums.priority.highest
 );
 
 // Body parser - high priority
 Actinium.Middleware.register(
-    'body-parser',
-    (app) => app.use(express.json()),
-    Actinium.Enums.priority.high
+  'body-parser',
+  (app) => app.use(express.json()),
+  Actinium.Enums.priority.high
 );
 
 // Custom routes - normal priority
 Actinium.Middleware.register(
-    'custom-routes',
-    (app) => app.get('/api/custom', handler),
-    Actinium.Enums.priority.neutral
+  'custom-routes',
+  (app) => app.get('/api/custom', handler),
+  Actinium.Enums.priority.neutral
 );
 
 // Error handler - lowest priority (must be last!)
 Actinium.Middleware.register(
-    'error-handler',
-    (app) => {
-        app.use((err, req, res, next) => { /* ... */ });
-    },
-    Actinium.Enums.priority.lowest
+  'error-handler',
+  (app) => {
+    app.use((err, req, res, next) => {
+      /* ... */
+    });
+  },
+  Actinium.Enums.priority.lowest
 );
 ```
 
@@ -755,7 +788,7 @@ Actinium.Middleware.register(
 ```javascript
 // No plugin gating!
 Parse.Cloud.define('myFunction', async (req) => {
-    // This runs even if plugin is deactivated
+  // This runs even if plugin is deactivated
 });
 ```
 
@@ -764,7 +797,7 @@ Parse.Cloud.define('myFunction', async (req) => {
 ```javascript
 // Plugin gating included
 Actinium.Cloud.define(PLUGIN.ID, 'myFunction', async (req) => {
-    // This only runs if plugin is active
+  // This only runs if plugin is active
 });
 ```
 
@@ -779,6 +812,7 @@ Actinium.Cloud.define(PLUGIN.ID, 'myFunction', async (req) => {
 **Explanation**: Parse SDK must be initialized with App ID and Server URL before use.
 
 **Symptom**:
+
 - `Parse is not configured correctly`
 - `XMLHttpRequest cannot load`
 - `Application ID not found`
@@ -788,15 +822,19 @@ Actinium.Cloud.define(PLUGIN.ID, 'myFunction', async (req) => {
 ```javascript
 // Frontend initialization (Reactium)
 // In reactium-hooks-App.js or similar
-Hook.register('plugin-init', async () => {
+Hook.register(
+  'plugin-init',
+  async () => {
     Parse.initialize(
-        process.env.REACT_APP_PARSE_APP_ID,
-        process.env.REACT_APP_PARSE_JS_KEY
+      process.env.REACT_APP_PARSE_APP_ID,
+      process.env.REACT_APP_PARSE_JS_KEY
     );
     Parse.serverURL = process.env.REACT_APP_PARSE_SERVER_URL;
 
     console.log('Parse SDK initialized');
-}, Enums.priority.highest);
+  },
+  Enums.priority.highest
+);
 ```
 
 **Environment Variables**:
@@ -815,6 +853,7 @@ REACT_APP_PARSE_SERVER_URL=http://localhost:9000/parse
 **Problem**: Frontend can't communicate with backend, CORS errors in console.
 
 **Error Messages**:
+
 - `Access to fetch at 'http://localhost:9000/...' has been blocked by CORS policy`
 - `No 'Access-Control-Allow-Origin' header is present`
 
@@ -826,29 +865,31 @@ import Actinium from '@atomic-reactor/actinium-core';
 import cors from 'cors';
 
 Actinium.Middleware.register(
-    'cors',
-    (app) => {
-        const allowedOrigins = [
-            'http://localhost:3000',  // Reactium dev server
-            'http://localhost:3030',  // Alternative port
-            process.env.FRONTEND_URL,  // Production URL
-        ].filter(Boolean);
+  'cors',
+  (app) => {
+    const allowedOrigins = [
+      'http://localhost:3000', // Reactium dev server
+      'http://localhost:3030', // Alternative port
+      process.env.FRONTEND_URL, // Production URL
+    ].filter(Boolean);
 
-        app.use(cors({
-            origin: (origin, callback) => {
-                // Allow requests with no origin (mobile apps, Postman)
-                if (!origin) return callback(null, true);
+    app.use(
+      cors({
+        origin: (origin, callback) => {
+          // Allow requests with no origin (mobile apps, Postman)
+          if (!origin) return callback(null, true);
 
-                if (allowedOrigins.includes(origin)) {
-                    callback(null, true);
-                } else {
-                    callback(new Error('Not allowed by CORS'));
-                }
-            },
-            credentials: true,  // Important for cookies/sessions
-        }));
-    },
-    Actinium.Enums.priority.highest  // Must be first!
+          if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+          } else {
+            callback(new Error('Not allowed by CORS'));
+          }
+        },
+        credentials: true, // Important for cookies/sessions
+      })
+    );
+  },
+  Actinium.Enums.priority.highest // Must be first!
 );
 ```
 
@@ -894,16 +935,16 @@ await Parse.User.logOut();
 
 ```javascript
 Actinium.Cloud.define(PLUGIN.ID, 'protectedFunction', async (req) => {
-    // req.user is automatically populated if valid session token sent
-    if (!req.user) {
-        throw new Parse.Error(
-            Parse.Error.INVALID_SESSION_TOKEN,
-            'Authentication required'
-        );
-    }
+  // req.user is automatically populated if valid session token sent
+  if (!req.user) {
+    throw new Parse.Error(
+      Parse.Error.INVALID_SESSION_TOKEN,
+      'Authentication required'
+    );
+  }
 
-    // User is authenticated, proceed
-    return { userId: req.user.id };
+  // User is authenticated, proceed
+  return { userId: req.user.id };
 });
 ```
 
@@ -956,6 +997,7 @@ console.log(process.env.DATABASE_URI);  // Works!
 **Explanation**: Webpack HMR can't preserve all state. Some state patterns break during hot reload.
 
 **Symptom**:
+
 - Edit component file
 - Save
 - Form inputs clear
@@ -967,14 +1009,14 @@ console.log(process.env.DATABASE_URI);  // Works!
 ```javascript
 // Option 1: Store critical state in localStorage
 useEffect(() => {
-    const savedState = localStorage.getItem('myComponentState');
-    if (savedState) {
-        state.set(JSON.parse(savedState));
-    }
+  const savedState = localStorage.getItem('myComponentState');
+  if (savedState) {
+    state.set(JSON.parse(savedState));
+  }
 }, []);
 
 useEffect(() => {
-    localStorage.setItem('myComponentState', JSON.stringify(state.get()));
+  localStorage.setItem('myComponentState', JSON.stringify(state.get()));
 }, [state.get()]);
 
 // Option 2: Use Reactium global state (survives HMR better)
@@ -990,6 +1032,7 @@ Reactium.State.set('criticalData', data);
 **Problem**: Stale build artifacts cause confusing errors.
 
 **Symptom**:
+
 - Old component still renders after deletion
 - Routes don't update
 - Styles from deleted files still apply
@@ -1050,14 +1093,22 @@ netstat -anv | grep 3000
 
 ```javascript
 // Add to reactium-hooks file
-Reactium.Hook.register('plugin-init', async () => {
+Reactium.Hook.register(
+  'plugin-init',
+  async () => {
     console.log('[DEBUG] Plugin init running');
 
     // Log all hook executions
-    Reactium.Hook.register('*', async (hookName) => {
+    Reactium.Hook.register(
+      '*',
+      async (hookName) => {
         console.log('[HOOK]', hookName);
-    }, Reactium.Enums.priority.lowest);
-}, priority);
+      },
+      Reactium.Enums.priority.lowest
+    );
+  },
+  priority
+);
 ```
 
 **Actinium**:
@@ -1065,15 +1116,19 @@ Reactium.Hook.register('plugin-init', async () => {
 ```javascript
 // In plugin.js
 const MOD = () => {
-    console.log('[PLUGIN] MyPlugin loading...');
+  console.log('[PLUGIN] MyPlugin loading...');
 
-    Actinium.Plugin.register(PLUGIN, true);
-    console.log('[PLUGIN] MyPlugin registered');
+  Actinium.Plugin.register(PLUGIN, true);
+  console.log('[PLUGIN] MyPlugin registered');
 
-    // Log all hooks
-    Actinium.Hook.register('init', async () => {
-        console.log('[HOOK] init fired');
-    }, Actinium.Enums.priority.lowest);
+  // Log all hooks
+  Actinium.Hook.register(
+    'init',
+    async () => {
+      console.log('[HOOK] init fired');
+    },
+    Actinium.Enums.priority.lowest
+  );
 };
 ```
 
@@ -1085,13 +1140,13 @@ const MOD = () => {
 
 ```javascript
 // In browser console
-Reactium.Component.list
+Reactium.Component.list;
 // Shows all registered components
 
-Reactium.Routing.routes
+Reactium.Routing.routes;
 // Shows all registered routes
 
-Reactium.Hook.list()
+Reactium.Hook.list();
 // Shows all registered hooks
 ```
 
@@ -1119,9 +1174,10 @@ const query = new Parse.Query('MyClass');
 query.equalTo('field', 'value');
 
 // Enable query logging
-query._getRequestTask()
-    .then(task => console.log('Query:', task.request))
-    .catch(err => console.error('Query error:', err));
+query
+  ._getRequestTask()
+  .then((task) => console.log('Query:', task.request))
+  .catch((err) => console.error('Query error:', err));
 
 // Check query JSON
 console.log('Query JSON:', query.toJSON());
@@ -1131,8 +1187,8 @@ const results = await query.find({ useMasterKey: true });
 console.log('Results:', results);
 
 // Check ACLs on results
-results.forEach(obj => {
-    console.log('ACL:', obj.getACL()?.toJSON());
+results.forEach((obj) => {
+  console.log('ACL:', obj.getACL()?.toJSON());
 });
 ```
 
@@ -1151,6 +1207,7 @@ results.forEach(obj => {
 5. Inspect request/response
 
 **Look for**:
+
 - Request URL: Is it correct?
 - Request headers: Is session token included?
 - Request payload: Are parameters correct?
@@ -1172,6 +1229,7 @@ results.forEach(obj => {
 5. Inspect props, state, hooks
 
 **Check**:
+
 - Are props passed correctly?
 - Is handle data populated?
 - Is component even rendering?
@@ -1230,8 +1288,8 @@ import xyz from './xyz.js';
 
 ```javascript
 // Check hook name spelling
-Reactium.Hook.run('plugin-init');  // Correct
-Reactium.Hook.run('plugin-initialize');  // Wrong!
+Reactium.Hook.run('plugin-init'); // Correct
+Reactium.Hook.run('plugin-initialize'); // Wrong!
 
 // Check hook was registered
 console.log(Reactium.Hook.list());
@@ -1249,8 +1307,8 @@ console.log(Reactium.Hook.list());
 // Check handle exists
 const handle = useSyncHandle('MyHandle');
 if (!handle) {
-    console.error('Handle not registered:', 'MyHandle');
-    return <div>Loading...</div>;
+  console.error('Handle not registered:', 'MyHandle');
+  return <div>Loading...</div>;
 }
 
 const data = handle.get('data');
@@ -1286,18 +1344,18 @@ console.log('APP_ID:', process.env.REACT_APP_PARSE_APP_ID);
 // Check current user
 const currentUser = Parse.User.current();
 if (!currentUser) {
-    // Redirect to login
-    window.location.href = '/login';
+  // Redirect to login
+  window.location.href = '/login';
 }
 
 // Re-login if token expired
 try {
-    await Parse.Cloud.run('myFunction');
+  await Parse.Cloud.run('myFunction');
 } catch (error) {
-    if (error.code === Parse.Error.INVALID_SESSION_TOKEN) {
-        await Parse.User.logOut();
-        window.location.href = '/login';
-    }
+  if (error.code === Parse.Error.INVALID_SESSION_TOKEN) {
+    await Parse.User.logOut();
+    window.location.href = '/login';
+  }
 }
 ```
 
@@ -1317,7 +1375,7 @@ const results = await query.find({ useMasterKey: true });
 // Frontend - ensure user logged in
 const currentUser = Parse.User.current();
 if (!currentUser) {
-    throw new Error('Login required');
+  throw new Error('Login required');
 }
 ```
 
@@ -1339,6 +1397,7 @@ Key Takeaways:
 10. **Check logs first** - Most issues visible in console output
 
 When debugging:
+
 - Check console logs (browser and server)
 - Inspect network requests
 - Verify hook/component registration
@@ -1346,6 +1405,7 @@ When debugging:
 - Restart servers after config/schema changes
 
 For more details, see:
+
 - [REACTIUM_FRAMEWORK.md](REACTIUM_FRAMEWORK.md)
 - [ACTINIUM_FRAMEWORK.md](ACTINIUM_FRAMEWORK.md)
 - [FRAMEWORK_PATTERNS.md](FRAMEWORK_PATTERNS.md)

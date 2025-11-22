@@ -1,3 +1,4 @@
+<!-- v1.0.0 -->
 # CLAUDEDB - Keyword Index
 
 **Purpose**: O(1) keyword lookup → direct section links

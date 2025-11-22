@@ -1,3 +1,4 @@
+<!-- v1.0.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
