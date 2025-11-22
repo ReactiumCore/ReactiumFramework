@@ -1359,5 +1359,5 @@ This integration guide demonstrates how Reactium and Actinium work together to c
 By following these patterns, you can build scalable, maintainable full-stack applications with minimal boilerplate and maximum flexibility.
 
 For framework-specific details, see:
-- [REACTIUM_FRAMEWORK.md](/home/john/reactium-framework/REACTIUM_FRAMEWORK.md) - Frontend framework guide
-- [ACTINIUM_FRAMEWORK.md](/home/john/reactium-framework/ACTINIUM_FRAMEWORK.md) - Backend framework guide
+- [REACTIUM_FRAMEWORK.md](REACTIUM_FRAMEWORK.md) - Frontend framework guide
+- [ACTINIUM_FRAMEWORK.md](ACTINIUM_FRAMEWORK.md) - Backend framework guide

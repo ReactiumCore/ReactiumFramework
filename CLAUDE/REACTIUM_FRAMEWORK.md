@@ -1057,11 +1057,12 @@ npx reactium manifest
 Lower numbers = higher priority (execute first):
 
 ```javascript
-priority.highest = -1000000  // First
-priority.core = -1000
+priority.core = -2000        // First (core framework)
+priority.highest = -1000
+priority.high = -500
 priority.neutral = 0
-priority.low = 100
-priority.lowest = 1000000    // Last
+priority.low = 500
+priority.lowest = 1000       // Last
 ```
 
 #### 8. Transition States Require nextState() Calls

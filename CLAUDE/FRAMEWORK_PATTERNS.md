@@ -1492,6 +1492,6 @@ These patterns represent battle-tested approaches to building applications with 
 By following these patterns and avoiding anti-patterns, you'll build more maintainable, performant, and extensible applications.
 
 For more details, see:
-- [REACTIUM_FRAMEWORK.md](/home/john/reactium-framework/REACTIUM_FRAMEWORK.md)
-- [ACTINIUM_FRAMEWORK.md](/home/john/reactium-framework/ACTINIUM_FRAMEWORK.md)
-- [FRAMEWORK_INTEGRATION.md](/home/john/reactium-framework/FRAMEWORK_INTEGRATION.md)
+- [REACTIUM_FRAMEWORK.md](REACTIUM_FRAMEWORK.md)
+- [ACTINIUM_FRAMEWORK.md](ACTINIUM_FRAMEWORK.md)
+- [FRAMEWORK_INTEGRATION.md](FRAMEWORK_INTEGRATION.md)

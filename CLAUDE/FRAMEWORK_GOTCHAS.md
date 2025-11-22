@@ -1346,7 +1346,7 @@ When debugging:
 - Restart servers after config/schema changes
 
 For more details, see:
-- [REACTIUM_FRAMEWORK.md](/home/john/reactium-framework/REACTIUM_FRAMEWORK.md)
-- [ACTINIUM_FRAMEWORK.md](/home/john/reactium-framework/ACTINIUM_FRAMEWORK.md)
-- [FRAMEWORK_PATTERNS.md](/home/john/reactium-framework/FRAMEWORK_PATTERNS.md)
-- [FRAMEWORK_INTEGRATION.md](/home/john/reactium-framework/FRAMEWORK_INTEGRATION.md)
+- [REACTIUM_FRAMEWORK.md](REACTIUM_FRAMEWORK.md)
+- [ACTINIUM_FRAMEWORK.md](ACTINIUM_FRAMEWORK.md)
+- [FRAMEWORK_PATTERNS.md](FRAMEWORK_PATTERNS.md)
+- [FRAMEWORK_INTEGRATION.md](FRAMEWORK_INTEGRATION.md)

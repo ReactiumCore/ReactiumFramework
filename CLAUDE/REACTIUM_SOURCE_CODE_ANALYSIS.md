@@ -1373,7 +1373,7 @@ const myHook: HookCallback<[string, number], void> =
 Hook.register<[string, number], void>(
     'user-data-loaded',
     myHook,
-    Enums.priority.normal,
+    Enums.priority.neutral,
     'my-hook-id'
 );
 ```

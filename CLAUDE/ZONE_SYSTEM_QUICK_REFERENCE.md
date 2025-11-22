@@ -154,7 +154,7 @@ Hook.register(
             order: Enums.priority.neutral,
         });
     },
-    Enums.priority.normal,
+    Enums.priority.neutral,
     'plugin-init-MyPlugin',
 );
 ```
