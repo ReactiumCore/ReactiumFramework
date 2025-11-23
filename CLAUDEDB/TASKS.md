@@ -1,4 +1,4 @@
-<!-- v1.0.0 -->
+<!-- v1.2.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -69,6 +69,11 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Actinium: Middleware System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#middleware-system)
 → [Patterns: Middleware Priority Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-13-middleware-priority-pattern)
 
+### Create a custom registry for plugins
+→ [Registry System: Overview](../CLAUDE/REGISTRY_SYSTEM.md#overview)
+→ [Registry System: Core API](../CLAUDE/REGISTRY_SYSTEM.md#core-api)
+→ [Registry System: Best Practices](../CLAUDE/REGISTRY_SYSTEM.md#best-practices)
+
 ---
 
 ## Work With Data
@@ -89,6 +94,9 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 ### Manage local component state
 → [Reactium: useSyncState](../CLAUDE/REACTIUM_FRAMEWORK.md#1-local-component-state-usesyncstate)
 → [Gotchas: useSyncState Is Not useState](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-2-usesyncstate-is-not-usestate)
+
+### Use LocalStorage/Prefs
+→ [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 
 ### Optimize Handle re-renders (select specific state)
 → [FAQ: useSelectHandle Performance](../FAQ.md#q-when-should-i-use-useselecthandle-instead-of-usesynchandle)
@@ -147,6 +155,12 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 ---
 
 ## UI & Zones
+
+### Use fullscreen mode
+→ [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
+
+### Check window size or breakpoint
+→ [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 
 ### Add component to zone
 → [Zone System Quick Ref: Component Registration](../CLAUDE/ZONE_SYSTEM_QUICK_REFERENCE.md#component-registration)

@@ -72,6 +72,9 @@ Framework Documentation
 │   ├── HOOK_DOMAINS_DEEP_DIVE.md       # Hook domain system comprehensive guide
 │   ├── ZONE_SYSTEM_DEEP_DIVE.md        # Zone system architecture & patterns
 │   ├── ZONE_SYSTEM_QUICK_REFERENCE.md  # Zone API quick reference
+│   ├── ROUTING_SYSTEM.md               # Routing system comprehensive guide
+│   ├── REACTIUM_WEBPACK.md             # ReactiumWebpack SDK guide
+│   ├── REGISTRY_SYSTEM.md              # Registry pattern deep dive (NEW)
 │   └── REACTIUM_SOURCE_CODE_ANALYSIS.md # Reactium source analysis
 │
 ├── Maintenance & Curation

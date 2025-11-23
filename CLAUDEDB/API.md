@@ -1,4 +1,4 @@
-<!-- v1.0.0 -->
+<!-- v1.2.0 -->
 # CLAUDEDB - API Quick Reference
 
 **Purpose**: Common functions/hooks with signatures + direct links
@@ -60,6 +60,32 @@ Reactium.Pulse.emit(event, data)
 Reactium.Pulse.off(event, callback)
 ```
 → [Reactium: Pulse](../CLAUDE/REACTIUM_FRAMEWORK.md#4-pulse-pubsub-events)
+
+### Browser Utilities
+
+```javascript
+Reactium.Prefs.get(key, defaultValue?)
+Reactium.Prefs.set(key, value)
+Reactium.Prefs.clear(key)
+// LocalStorage wrapper with reactivity
+```
+→ [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
+
+```javascript
+Reactium.Fullscreen.isFullScreen()
+Reactium.Fullscreen.enter(element?)
+Reactium.Fullscreen.exit()
+Reactium.Fullscreen.toggle(element?)
+```
+→ [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
+
+```javascript
+// Window size & breakpoint utilities
+Reactium.Window.get('width')
+Reactium.Window.get('height')
+Reactium.breakpoint      // Current breakpoint name
+```
+→ [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 
 ### Hooks
 
@@ -253,6 +279,104 @@ Reactium.Enums.priority.lowest    // 1000 (runs last)
 
 **Note**: `Enums.priority.normal` does NOT exist (common bug)
 → [Gotchas: Enums.priority.normal Does Not Exist](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-5-enumsprioritynormal-does-not-exist-critical-bug)
+
+---
+
+## Registry API
+
+### Factory & Constructor
+
+```javascript
+import { registryFactory } from '@atomic-reactor/reactium-sdk-core';
+
+const registry = registryFactory(name, idField?, mode?)
+// name: string (registry name)
+// idField: string (default: 'id')
+// mode: Registry.MODES.CLEAN | Registry.MODES.HISTORY (default: CLEAN)
+```
+→ [Registry System: Constructor & Factory](../CLAUDE/REGISTRY_SYSTEM.md#constructor--factory)
+
+### Registration
+
+```javascript
+registry.register(id, item)
+// id: string (unique identifier)
+// item: object (must contain idField property matching id)
+
+registry.register(item)
+// Auto-uses item[idField] as id
+```
+→ [Registry System: Registration](../CLAUDE/REGISTRY_SYSTEM.md#registration)
+
+### Retrieval
+
+```javascript
+registry.get(path, defaultValue?)
+// path: string (id or 'id.nested.property') | array
+// Returns: item or property value
+
+registry.list
+// Returns: Array (all active items, sorted by 'order' property)
+
+registry.listById
+// Returns: Object (items indexed by ID)
+```
+→ [Registry System: Retrieval](../CLAUDE/REGISTRY_SYSTEM.md#retrieval)
+
+### Unregistration
+
+```javascript
+registry.unregister(id)
+// Removes from active list (memory behavior depends on mode)
+
+registry.isRegistered(id)
+// Returns: boolean
+
+registry.isUnRegistered(id)
+// Returns: boolean
+```
+→ [Registry System: Unregistration](../CLAUDE/REGISTRY_SYSTEM.md#unregistration)
+
+### Protection & Banning
+
+```javascript
+registry.protect(id)
+// Prevents unregistration and replacement
+
+registry.unprotect(id)
+// Removes protection
+
+registry.ban(id)
+// Prevents registration (preemptive blocking)
+
+registry.unban(id)
+// Removes ban
+```
+→ [Registry System: Protection](../CLAUDE/REGISTRY_SYSTEM.md#protection-prevent-unregistration)
+→ [Registry System: Banning](../CLAUDE/REGISTRY_SYSTEM.md#banning-prevent-registration)
+
+### Subscriptions
+
+```javascript
+const unsubscribe = registry.subscribe((registry, notification) => {
+    // notification.type: 'register' | 'unregister' | 'protect' | 'ban' | etc.
+    // notification.id: item ID
+    // notification.data: item data (on register)
+}, subscriberId?)
+// Returns: unsubscribe function
+```
+→ [Registry System: Notifications](../CLAUDE/REGISTRY_SYSTEM.md#notifications-pubsub)
+
+### Memory Management
+
+```javascript
+registry.cleanup(id)
+// Remove item from memory (manual cleanup in HISTORY mode)
+
+registry.flush()
+// Clear entire registry
+```
+→ [Registry System: Cleanup & Flush](../CLAUDE/REGISTRY_SYSTEM.md#cleanup--flush)
 
 ---
 

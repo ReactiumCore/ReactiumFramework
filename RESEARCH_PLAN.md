@@ -11,16 +11,20 @@ Topics for future exploration sessions with specialized agents.
 - ✅ **Actinium Capabilities System** - Complete deep dive into capability vs ACL architecture, role-based authorization, built-in vs custom capabilities, server/client implementation patterns, Parse Server integration, and workflow capabilities (Nov 22, 2025)
 - ✅ **Routing System Architecture** - Complete lifecycle from file discovery to route registration, register-route hook modification patterns, transition state machine (EXITING→LOADING→ENTERING→READY), code splitting via dynamic imports, loadState data preloading, and Handle-based state management (Nov 22, 2025)
 - ✅ **ReactiumWebpack SDK** - Hook-driven webpack configuration system, WebpackSDK class with registry-based architecture (rules, plugins, externals, ignores, aliases, transpiled dependencies), core methods (addRule, addPlugin, addIgnore, etc.), optimization helpers, property getters/setters, Hook system integration (before-config, after-config, registry hooks), DDD discovery pattern via reactium-webpack.js, migration path from webpack.override.js to Hook-based pattern, real examples from TypeScript support and core plugins, common customizations, best practices, and gotchas (Nov 22, 2025)
+- ✅ **Registry System Architecture** - Foundational pattern for ordered, priority-based collections; two operational modes (CLEAN vs HISTORY); protection/banning mechanisms; subscription notifications; real-world usage in routing, webpack, middleware, gulp, babel; comparison with specialized implementations (Hook, Component, Zone use custom approaches); type-safe TypeScript implementation with deep path access; comprehensive testing patterns (Nov 23, 2025)
 
 ## Pending Research Topics
 
 ### High Priority
 
-1.  Registry System Architecture
+1. Handle System Architecture
 
-- The foundational building block behind Hook, Component, Zone, Handle systems
-- Never comprehensively documented despite being critical
-- Would unlock deeper understanding of ALL framework extension points
+- Discovered during Registry research - completely different pattern from Registry
+- Observable state containers used throughout framework (routing data loading, plugin state)
+- Critical for understanding state management patterns (separate from React state)
+- Used heavily: `Handle.register()`, `Handle.get()`, `Handle.unregister()` in routing (line 106-107, 129, 146)
+- Integrates with ReactiumSyncState for reactive updates
+- Unclear: lifecycle, subscription model, comparison to Redux/MobX patterns
 
 2. Component Event System Deep Dive
 

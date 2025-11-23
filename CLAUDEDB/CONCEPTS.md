@@ -1,4 +1,4 @@
-<!-- v1.0.0 -->
+<!-- v1.1.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -77,6 +77,18 @@
 6. [Zone System: Performance](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#performance-considerations) - Optimization
 
 **Related**: Dynamic UI, Component composition, Registry
+
+### Registry System
+**Learning Path**:
+1. [Registry System: Overview](../CLAUDE/REGISTRY_SYSTEM.md#overview) - What is Registry
+2. [Registry System: When Registry Is Used](../CLAUDE/REGISTRY_SYSTEM.md#when-registry-is-and-isnt-used) - Framework usage patterns
+3. [Registry System: Registry Modes](../CLAUDE/REGISTRY_SYSTEM.md#registry-modes) - CLEAN vs HISTORY
+4. [Registry System: Core API](../CLAUDE/REGISTRY_SYSTEM.md#core-api) - Methods & properties
+5. [Registry System: Real-World Usage Patterns](../CLAUDE/REGISTRY_SYSTEM.md#real-world-usage-patterns) - Implementation examples
+6. [Registry System: Best Practices](../CLAUDE/REGISTRY_SYSTEM.md#best-practices) - Do's and don'ts
+7. [Registry System: Common Gotchas](../CLAUDE/REGISTRY_SYSTEM.md#common-gotchas) - Avoid mistakes
+
+**Related**: Priority system, Plugin extensibility, Middleware, Routing, Webpack
 
 ### Manifest System
 **Learning Path**:

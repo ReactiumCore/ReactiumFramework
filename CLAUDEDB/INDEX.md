@@ -1,4 +1,4 @@
-<!-- v1.0.0 -->
+<!-- v1.2.0 -->
 # CLAUDEDB - Keyword Index
 
 **Purpose**: O(1) keyword lookup → direct section links
@@ -67,6 +67,7 @@
 
 - **File uploads** → [Integration: File Uploads](../CLAUDE/FRAMEWORK_INTEGRATION.md#file-uploads)
 - **Filters** → [Zone System: Filters](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#filters-mappers-and-sorters)
+- **Fullscreen** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 
 ## G
 
@@ -101,6 +102,7 @@
 - **Live Query** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
 - **Loaders (webpack)** → [ReactiumWebpack: addRule Method](../CLAUDE/REACTIUM_WEBPACK.md#addruleid-rule-order)
 - **loadState** → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
+- **LocalStorage** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **Login** → [Integration: Authentication](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 
 ## M
@@ -121,6 +123,7 @@
 
 - **Pagination** → [Patterns: Pagination Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-19-pagination-pattern)
 - **Parse** → [Integration: Parse Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#parse-integration)
+- **Prefs** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **Parse SDK** → [Integration: Data Flow](../CLAUDE/FRAMEWORK_INTEGRATION.md#data-flow-patterns)
 - **Parse.Cloud.run** → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 - **Patterns** → [Framework Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md)
@@ -145,6 +148,10 @@
 - **reactium_modules** → [Reactium: Project Structure](../CLAUDE/REACTIUM_FRAMEWORK.md#project-structure)
 - **Real-time** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
 - **register-route** → [Routing System: The register-route Hook](../CLAUDE/ROUTING_SYSTEM.md#the-register-route-hook)
+- **Registry** → [Registry System Architecture](../CLAUDE/REGISTRY_SYSTEM.md#overview)
+- **Registry.MODES.CLEAN** → [Registry System: CLEAN Mode](../CLAUDE/REGISTRY_SYSTEM.md#clean-mode-recommended-default)
+- **Registry.MODES.HISTORY** → [Registry System: HISTORY Mode](../CLAUDE/REGISTRY_SYSTEM.md#history-mode)
+- **registryFactory** → [Registry System: Constructor & Factory](../CLAUDE/REGISTRY_SYSTEM.md#constructor--factory)
 - **Roles** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
 - **Route** → [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview)
 - **Route discovery** → [Routing System: File Discovery & Manifest Generation](../CLAUDE/ROUTING_SYSTEM.md#file-discovery--manifest-generation)
@@ -191,6 +198,7 @@
 - **webpack.override.js** → [ReactiumWebpack: Migration from webpack.override.js](../CLAUDE/REACTIUM_WEBPACK.md#migration-from-webpackoverridejs)
 - **WebpackSDK** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md#webpacksdk-class)
 - **Webhooks** → [Patterns: Webhook Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-16-webhook-pattern)
+- **Window utilities** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 
 ## Z
 
@@ -202,14 +210,19 @@
 
 ## Synonyms & Aliases
 
+- **API calls** = **Cloud Functions** = **Parse.Cloud.run** → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 - **Authorization** = **Permissions** = **Capabilities** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
+- **Breakpoints** = **Responsive** = **Window utilities** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **Backend** = **Actinium** → [Actinium Complete Reference](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md)
 - **Build customization** = **webpack.override.js** = **reactium-webpack.js** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
 - **Domain (hooks)** = **Hook namespace** = **Hook lifecycle** → [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
 - **Frontend** = **Reactium** → [Reactium Framework](../CLAUDE/REACTIUM_FRAMEWORK.md)
+- **LocalStorage** = **Prefs** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **Observable state** = **Handle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
+- **Page animations** = **Route transitions** = **transitionState** → [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine)
 - **Plugin** = **Extension** → [Reactium: Plugin System](../CLAUDE/REACTIUM_FRAMEWORK.md#plugin-system--registration)
 - **Priority** = **Order** = **Execution order** → [Actinium Quick Ref: Priority Constants](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#priority-constants)
+- **Pub/sub** = **Events** = **Pulse** → [Reactium: Pulse - Pub/Sub Events](../CLAUDE/REACTIUM_FRAMEWORK.md#4-pulse-pubsub-events)
 - **Real-time** = **Live Query** = **WebSocket** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
 - **Route data** = **loadState** → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
 - **Route transitions** = **Page animations** = **transitionState** → [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine)
