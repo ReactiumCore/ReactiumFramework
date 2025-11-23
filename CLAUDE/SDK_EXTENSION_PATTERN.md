@@ -1,4 +1,4 @@
-<!-- v1.0.0 -->
+<!-- v1.1.0 -->
 
 # SDK Extension Pattern (Browser-Side)
 
@@ -623,6 +623,7 @@ describe('sdk-init hook', () => {
 - **Zone System** (`Reactium.Zone.addComponent()`) - For positioning UI in designated zones
 - **Handle System** (`Reactium.Handle.register()`) - For observable state containers
 - **Hook System** (`Reactium.Hook.register()`) - For lifecycle and event-driven extensions
+- **[AppContext Provider System](APPCONTEXT_PROVIDER_SYSTEM.md)** - For registering React Context providers (commonly used with SDK extensions like Apollo, Redux)
 
 ## Summary
 

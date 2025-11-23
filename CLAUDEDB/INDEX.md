@@ -1,4 +1,4 @@
-<!-- v1.3.0 -->
+<!-- v1.4.0 -->
 # CLAUDEDB - Keyword Index
 
 **Purpose**: O(1) keyword lookup → direct section links
@@ -13,9 +13,13 @@
 - **actinium-core** → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
 - **actinium_modules** → [Actinium: Plugin Discovery](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-discovery)
 - **afterSave** → [Actinium Quick Ref: Lifecycle Hooks](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#common-lifecycle-hooks)
+- **Apollo** → [AppContext: Apollo GraphQL Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#1-apollo-graphql-client)
 - **API** → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 - **API registry** → [SDK Extension: APIRegistry Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-2-apiregistry-extension)
 - **APIRegistry** → [SDK Extension: APIRegistry Internals](../CLAUDE/SDK_EXTENSION_PATTERN.md#apiregistry-internals)
+- **AppContext** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
+- **AppContext.register** → [AppContext: Registration API](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#reactiumappcontextregistername-data-order)
+- **app-context-provider** → [AppContext: Hook Timeline](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#hook-timeline)
 - **app-ready** → [Reactium: Hook System](../CLAUDE/REACTIUM_FRAMEWORK.md#common-framework-hooks)
 - **Authentication** → [Integration: Authentication & Session Management](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 - **Authorization** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
@@ -41,6 +45,7 @@
 - **Component** → [Reactium: Component System](../CLAUDE/REACTIUM_FRAMEWORK.md#component-system)
 - **Component.register** → [Reactium: Component Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#component-registration)
 - **Component Registry** → [Patterns: Component Registry Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-6-component-registry-pattern)
+- **Context providers** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
 - **Convention** → [Reactium: Domain-Driven Design](../CLAUDE/REACTIUM_FRAMEWORK.md#domain-driven-design-ddd-structure)
 - **.core directory** → [KNOWN_ISSUES: Hallucinated Patterns](../CLAUDE/KNOWN_ISSUES.md)
 - **CORS** → [Gotchas: CORS Errors](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-22-cors-errors)
@@ -149,7 +154,9 @@
 - **reactium-route** → [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview)
 - **reactium-webpack.js** → [ReactiumWebpack: DDD Discovery Pattern](../CLAUDE/REACTIUM_WEBPACK.md#reactium-webpackjs)
 - **reactium_modules** → [Reactium: Project Structure](../CLAUDE/REACTIUM_FRAMEWORK.md#project-structure)
+- **React Context** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
 - **Real-time** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
+- **Redux** → [AppContext: Redux Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#2-redux-store)
 - **register-route** → [Routing System: The register-route Hook](../CLAUDE/ROUTING_SYSTEM.md#the-register-route-hook)
 - **Registry** → [Registry System Architecture](../CLAUDE/REGISTRY_SYSTEM.md#overview)
 - **Registry.MODES.CLEAN** → [Registry System: CLEAN Mode](../CLAUDE/REGISTRY_SYSTEM.md#clean-mode-recommended-default)
@@ -180,6 +187,8 @@
 ## T
 
 - **Testing** → [Patterns: Testing Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md#testing-patterns)
+- **Theme** → [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
+- **ThemeProvider** → [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
 - **Transitions** → [Reactium: Route Transitions](../CLAUDE/REACTIUM_FRAMEWORK.md#route-transitions)
 - **transitionState** → [Reactium: Route Transitions](../CLAUDE/REACTIUM_FRAMEWORK.md#route-transitions)
 - **Troubleshooting** → [Framework Gotchas](../CLAUDE/FRAMEWORK_GOTCHAS.md)
@@ -221,13 +230,16 @@
 - **Breakpoints** = **Responsive** = **Window utilities** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **Backend** = **Actinium** → [Actinium Complete Reference](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md)
 - **Build customization** = **webpack.override.js** = **reactium-webpack.js** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
+- **Context providers** = **React Context** = **AppContext** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
 - **Domain (hooks)** = **Hook namespace** = **Hook lifecycle** → [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
 - **Frontend** = **Reactium** → [Reactium Framework](../CLAUDE/REACTIUM_FRAMEWORK.md)
+- **GraphQL** = **Apollo** → [AppContext: Apollo GraphQL Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#1-apollo-graphql-client)
 - **LocalStorage** = **Prefs** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **Observable state** = **Handle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
 - **Page animations** = **Route transitions** = **transitionState** → [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine)
 - **Plugin** = **Extension** → [Reactium: Plugin System](../CLAUDE/REACTIUM_FRAMEWORK.md#plugin-system--registration)
 - **Priority** = **Order** = **Execution order** → [Actinium Quick Ref: Priority Constants](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#priority-constants)
+- **Provider nesting** = **Provider order** → [AppContext: Nesting Order & Priority](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#nesting-order--priority)
 - **Pub/sub** = **Events** = **Pulse** → [Reactium: Pulse - Pub/Sub Events](../CLAUDE/REACTIUM_FRAMEWORK.md#4-pulse-pubsub-events)
 - **Real-time** = **Live Query** = **WebSocket** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
 - **Route data** = **loadState** → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)

@@ -1,4 +1,4 @@
-<!-- v1.3.0 -->
+<!-- v1.4.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -53,6 +53,21 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [SDK Extension: Direct Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-1-direct-sdk-extension)
 → [SDK Extension: APIRegistry Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-2-apiregistry-extension)
 → [SDK Extension: Best Practices](../CLAUDE/SDK_EXTENSION_PATTERN.md#best-practices)
+
+### Add React Context provider
+→ [AppContext: Overview](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
+→ [AppContext: Registration API](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#reactiumappcontextregistername-data-order)
+→ [AppContext: Common Use Cases](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#common-use-cases)
+
+### Integrate Apollo GraphQL
+→ [AppContext: Apollo GraphQL Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#1-apollo-graphql-client)
+→ [SDK Extension: APIRegistry Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#example-graphql-integration)
+
+### Integrate Redux
+→ [AppContext: Redux Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#2-redux-store)
+
+### Add Material-UI theme
+→ [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
 
 ### Create a Cloud Function
 → [Actinium: Cloud Functions](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#cloud-functions)
