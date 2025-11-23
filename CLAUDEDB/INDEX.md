@@ -1,4 +1,4 @@
-<!-- v1.2.0 -->
+<!-- v1.3.0 -->
 # CLAUDEDB - Keyword Index
 
 **Purpose**: O(1) keyword lookup → direct section links
@@ -14,6 +14,8 @@
 - **actinium_modules** → [Actinium: Plugin Discovery](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-discovery)
 - **afterSave** → [Actinium Quick Ref: Lifecycle Hooks](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#common-lifecycle-hooks)
 - **API** → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
+- **API registry** → [SDK Extension: APIRegistry Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-2-apiregistry-extension)
+- **APIRegistry** → [SDK Extension: APIRegistry Internals](../CLAUDE/SDK_EXTENSION_PATTERN.md#apiregistry-internals)
 - **app-ready** → [Reactium: Hook System](../CLAUDE/REACTIUM_FRAMEWORK.md#common-framework-hooks)
 - **Authentication** → [Integration: Authentication & Session Management](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 - **Authorization** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
@@ -133,6 +135,7 @@
 - **Plugin gating** → [Actinium: Plugin Gating](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-gating)
 - **plugin-init** → [Reactium: Plugin Lifecycle](../CLAUDE/REACTIUM_FRAMEWORK.md#plugin-lifecycle)
 - **Priority** → [Actinium Quick Ref: Priority Constants](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#priority-constants)
+- **Proxy** → [SDK Extension: SDK Proxy Fallback Chain](../CLAUDE/SDK_EXTENSION_PATTERN.md#sdk-proxy-fallback-chain)
 - **Pulse** → [Reactium: Pulse - Pub/Sub Events](../CLAUDE/REACTIUM_FRAMEWORK.md#4-pulse-pubsub-events)
 
 ## Q
@@ -166,7 +169,9 @@
 
 - **Schema** → [Actinium Quick Ref: Database Schema](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#database-schema-definition)
 - **SDK** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
-- **SDK pattern** → [Patterns: Plugin SDK Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern)
+- **SDK extension** → [SDK Extension Pattern](../CLAUDE/SDK_EXTENSION_PATTERN.md#overview)
+- **SDK pattern** → [Patterns: Plugin SDK Pattern (server)](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern-server-side)
+- **sdk-init** → [SDK Extension: Overview](../CLAUDE/SDK_EXTENSION_PATTERN.md#overview)
 - **Session** → [Integration: Authentication](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 - **Sorters** → [Zone System: Filters, Mappers, Sorters](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#filters-mappers-and-sorters)
 - **State** → [Reactium: State Management](../CLAUDE/REACTIUM_FRAMEWORK.md#state-management)
@@ -211,6 +216,7 @@
 ## Synonyms & Aliases
 
 - **API calls** = **Cloud Functions** = **Parse.Cloud.run** → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
+- **API extension** = **SDK extension** = **sdk-init** → [SDK Extension Pattern](../CLAUDE/SDK_EXTENSION_PATTERN.md#overview)
 - **Authorization** = **Permissions** = **Capabilities** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
 - **Breakpoints** = **Responsive** = **Window utilities** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **Backend** = **Actinium** → [Actinium Complete Reference](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md)

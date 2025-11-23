@@ -418,11 +418,13 @@ Reactium.Hook.register(
 
 ## Actinium Patterns
 
-### Pattern 8: Plugin SDK Pattern
+### Pattern 8: Plugin SDK Pattern (Server-Side)
 
 **Problem**: Plugin logic scattered across multiple files.
 
 **Solution**: Centralize plugin logic in an SDK, export via `sdk.js`.
+
+**Note:** This pattern covers Actinium (server-side) SDK extensions. For Reactium (browser-side) SDK extension patterns, see [SDK_EXTENSION_PATTERN.md](SDK_EXTENSION_PATTERN.md).
 
 **Good**:
 

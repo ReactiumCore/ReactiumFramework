@@ -1,4 +1,4 @@
-<!-- v1.2.0 -->
+<!-- v1.3.0 -->
 # CLAUDEDB - API Quick Reference
 
 **Purpose**: Common functions/hooks with signatures + direct links
@@ -86,6 +86,28 @@ Reactium.Window.get('height')
 Reactium.breakpoint      // Current breakpoint name
 ```
 → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
+
+### SDK Extension
+
+```javascript
+// Pattern 1: Direct SDK extension
+Reactium.Hook.register('sdk-init', async (SDK) => {
+    const { default: MyFeature } = await import('./sdk');
+    Reactium.MyFeature = MyFeature;
+}, Reactium.Enums.highest, 'MY-SDK-EXTENSION-ID');
+```
+→ [SDK Extension: Direct Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-1-direct-sdk-extension)
+
+```javascript
+// Pattern 2: APIRegistry extension
+Reactium.API.register('MyAPI', { api: apiClient, config: apiConfig });
+// Access via:
+Reactium.API.MyAPI        // → apiClient
+Reactium.API.MyAPIConfig  // → apiConfig
+Reactium.MyAPI            // → fallback via Proxy
+```
+→ [SDK Extension: APIRegistry Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-2-apiregistry-extension)
+→ [SDK Extension: SDK Proxy Fallback Chain](../CLAUDE/SDK_EXTENSION_PATTERN.md#sdk-proxy-fallback-chain)
 
 ### Hooks
 

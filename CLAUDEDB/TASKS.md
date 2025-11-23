@@ -1,4 +1,4 @@
-<!-- v1.2.0 -->
+<!-- v1.3.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -46,7 +46,13 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 ### Create a backend plugin
 → [Actinium: Plugin System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-system)
 → [Actinium Quick Ref: Essential Plugin Structure](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#essential-plugin-structure)
-→ [Patterns: Plugin SDK Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern)
+→ [Patterns: Plugin SDK Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern-server-side)
+
+### Extend the Reactium SDK (browser-side)
+→ [SDK Extension Pattern: Overview](../CLAUDE/SDK_EXTENSION_PATTERN.md#overview)
+→ [SDK Extension: Direct Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-1-direct-sdk-extension)
+→ [SDK Extension: APIRegistry Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-2-apiregistry-extension)
+→ [SDK Extension: Best Practices](../CLAUDE/SDK_EXTENSION_PATTERN.md#best-practices)
 
 ### Create a Cloud Function
 → [Actinium: Cloud Functions](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#cloud-functions)

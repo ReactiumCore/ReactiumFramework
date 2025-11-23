@@ -12,12 +12,28 @@ Topics for future exploration sessions with specialized agents.
 - ✅ **Routing System Architecture** - Complete lifecycle from file discovery to route registration, register-route hook modification patterns, transition state machine (EXITING→LOADING→ENTERING→READY), code splitting via dynamic imports, loadState data preloading, and Handle-based state management (Nov 22, 2025)
 - ✅ **ReactiumWebpack SDK** - Hook-driven webpack configuration system, WebpackSDK class with registry-based architecture (rules, plugins, externals, ignores, aliases, transpiled dependencies), core methods (addRule, addPlugin, addIgnore, etc.), optimization helpers, property getters/setters, Hook system integration (before-config, after-config, registry hooks), DDD discovery pattern via reactium-webpack.js, migration path from webpack.override.js to Hook-based pattern, real examples from TypeScript support and core plugins, common customizations, best practices, and gotchas (Nov 22, 2025)
 - ✅ **Registry System Architecture** - Foundational pattern for ordered, priority-based collections; two operational modes (CLEAN vs HISTORY); protection/banning mechanisms; subscription notifications; real-world usage in routing, webpack, middleware, gulp, babel; comparison with specialized implementations (Hook, Component, Zone use custom approaches); type-safe TypeScript implementation with deep path access; comprehensive testing patterns (Nov 23, 2025)
+- ✅ **SDK Extension Pattern (Browser-Side)** - Complete pattern documentation for extending Reactium SDK via `sdk-init` hook; two approaches (Direct Extension vs APIRegistry); SDK Proxy fallback chain mechanism; all core plugins cataloged (User, API, Capability, Role, Setting, ServiceWorker, GraphQL); real examples with source references; lifecycle integration; best practices and gotchas (Nov 23, 2025)
 
 ## Pending Research Topics
 
 ### High Priority
 
-1. Handle System Architecture
+1. AppContext Provider System
+
+   - **Discovered during**: SDK Extension Pattern research - GraphQL plugin integration
+   - **Why it matters**: Critical pattern for integrating React Context providers into application bootstrap
+   - **Current gap**: Hook `app-context-provider` is used but never documented; unclear how providers are registered, ordered, and composed
+   - **Key mechanisms**:
+     - `Reactium.AppContext.register(name, { provider, ...props })` pattern
+     - Hook `app-context-provider` fires during app initialization
+     - Provider composition and nesting order
+     - Real example: GraphQL plugin registers ApolloProvider via this system
+   - **Real usage**: `Reactium.AppContext.register('ApolloProvider', { provider: ApolloProvider, client: Reactium.GraphQL })`
+   - **Source reference**: `Reactium-GraphQL-Plugin/reactium_modules/@reactium/graphql/reactium-hooks-graphql-client.js:44-49`
+   - **Critical for**: Plugin authors integrating context-dependent libraries (Apollo, React Query, Redux, etc.)
+   - **Research scope**: Understand AppContext registry, provider composition mechanism, hook lifecycle, order of wrapping, best practices
+
+2. Handle System Architecture
 
 - Discovered during Registry research - completely different pattern from Registry
 - Observable state containers used throughout framework (routing data loading, plugin state)
@@ -25,6 +41,18 @@ Topics for future exploration sessions with specialized agents.
 - Used heavily: `Handle.register()`, `Handle.get()`, `Handle.unregister()` in routing (line 106-107, 129, 146)
 - Integrates with ReactiumSyncState for reactive updates
 - Unclear: lifecycle, subscription model, comparison to Redux/MobX patterns
+
+1a. Reactium-Style Partial System (Gulp)
+
+- Registry-based SCSS partial discovery and aggregation system
+- Priority-based compilation order (VARIABLES → MIXINS → BASE → ATOMS → MOLECULES → ORGANISMS → OVERRIDES)
+- Hook-driven extensibility (`ddd-styles-partial`, `ddd-styles-partial-glob`)
+- Atomic Design System integration with DDD artifacts
+- Auto-discovery of `_reactium-style*.scss` files with pattern matching
+- Dynamic path transformation for workspace module imports (`reactium_modules/` → `+` prefix)
+- Plugin style injection patterns
+- Critical for: component development, plugin authoring, debugging SCSS compilation errors
+- Questions: SassPartialRegistry pattern matching, priority level purposes, custom partial registration, naming conventions, webpack integration
 
 2. Component Event System Deep Dive
 
