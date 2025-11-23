@@ -75,9 +75,7 @@ Framework Documentation
 │   └── REACTIUM_SOURCE_CODE_ANALYSIS.md # Reactium source analysis
 │
 ├── Maintenance & Curation
-│   ├── KNOWN_ISSUES.md             # Known bugs & technical debt tracking
-│   ├── CURATION_REPORT_2025_11_21.md  # Nov 21 curation session
-│   └── CURATION_REPORT_2025_11_22.md  # Nov 22 curation session (latest)
+│   └── KNOWN_ISSUES.md             # Known bugs & technical debt tracking
 │
 └── Navigation
     └── FRAMEWORK_DOCUMENTATION_INDEX.md  # You are here
@@ -277,7 +275,7 @@ When designing a new feature:
 - [Source Code Insights](ACTINIUM_COMPLETE_REFERENCE.md#source-code-insights) - Internals
 - [Troubleshooting](ACTINIUM_COMPLETE_REFERENCE.md#troubleshooting) - Common issues
 
-**Replaces**: ACTINIUM_DEEP_DIVE.md, ACTINIUM_CAPABILITIES.md, ACTINIUM_QUICK_REFERENCE.md, ACTINIUM_SOURCE_ANALYSIS_SUMMARY.md (now consolidated)
+**Consolidates**: Previously separate files for quick reference, capabilities deep dive, framework deep dive, and source analysis (now integrated into single comprehensive reference)
 
 ---
 
@@ -644,22 +642,22 @@ This documentation suite follows these principles:
 
 **Recent Curation Sessions**:
 
-- November 22, 2025 (Latest): **Documentation Reorganization** - Improved navigation and consolidated Actinium docs
-  - Created `ACTINIUM_COMPLETE_REFERENCE.md` (consolidates 4 files into single comprehensive reference)
-  - Removed redundant `REACTIUM_CONTEXT.md` (content already in index)
-  - Added decision-tree navigation to index ("I need to..." quick lookup)
-  - Updated all Actinium cross-references
-  - Improved navigation paths for faster decision-making
-- November 22, 2025 (PM): Documentation structure cleanup, resolved broken references
-  - Fixed REACTIUM_CONTEXT.md broken links
-  - Verified .core directory context
-  - See: `CURATION_REPORT_2025_11_22.md`
-- November 22, 2025 (AM): Zone System Deep Dive
-  - See: `ZONE_SYSTEM_DEEP_DIVE.md`
-  - See: `ZONE_SYSTEM_QUICK_REFERENCE.md`
-- November 21, 2025: Source code verification
-  - See: `CURATION_REPORT_2025_11_21.md`
-  - See: `KNOWN_ISSUES.md`
+- November 22, 2025 (Latest): **Documentation Consolidation & Cleanup**
+  - Created `ACTINIUM_COMPLETE_REFERENCE.md` (consolidated 4 separate Actinium files)
+  - Deleted redundant files: ACTINIUM_DEEP_DIVE.md, ACTINIUM_CAPABILITIES.md, ACTINIUM_QUICK_REFERENCE.md, ACTINIUM_SOURCE_ANALYSIS_SUMMARY.md
+  - Removed temporary curation report references
+  - Updated index cross-references
+  - Improved decision-tree navigation ("I need to..." quick lookup)
+- November 22, 2025: Zone System Deep Dive
+  - Created comprehensive zone system documentation
+  - Added `ZONE_SYSTEM_DEEP_DIVE.md` and `ZONE_SYSTEM_QUICK_REFERENCE.md`
+- November 22, 2025: Routing System Deep Dive
+  - Created `ROUTING_SYSTEM.md` with complete lifecycle documentation
+- November 22, 2025: ReactiumWebpack Deep Dive
+  - Created `REACTIUM_WEBPACK.md` with hook-driven configuration patterns
+- November 21, 2025: Hook Domains Deep Dive
+  - Created `HOOK_DOMAINS_DEEP_DIVE.md`
+  - Source code verification and known issues tracking
 
 **Feedback**: Document issues and gaps for future updates
 

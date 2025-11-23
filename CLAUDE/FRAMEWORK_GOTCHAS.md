@@ -1,4 +1,4 @@
-<!-- v1.0.0 -->
+<!-- v1.0.2 -->
 
 # Reactium & Actinium Framework Gotchas and Troubleshooting Guide
 
@@ -79,9 +79,9 @@ state.set({
 
 ---
 
-### Gotcha 3: Hook Registration Must Be in IIFE
+### Gotcha 3: Hook Registration Requires IIFE for Top-Level Await
 
-**Problem**: Hook registration code doesn't execute.
+**Problem**: Hook registration code doesn't execute when using top-level await without IIFE.
 
 **Bad Code**:
 
@@ -95,7 +95,7 @@ Hook.register('plugin-init', async () => {
 });
 ```
 
-**Why It Fails**: Top-level `await` without IIFE doesn't execute on file import.
+**Why It Fails**: Top-level `await` without IIFE wrapper doesn't execute properly during file import in the manifest system.
 
 **Correct Code**:
 
@@ -225,7 +225,7 @@ Hook.register('init', setupC, Enums.priority.low); // 500
 
 ---
 
-### Gotcha 11: `useHandle` vs `useSyncHandle`
+### Gotcha 7: `useHandle` vs `useSyncHandle`
 
 **Problem**: Component doesn't re-render when Handle data changes.
 
@@ -262,7 +262,7 @@ const ComponentA = () => {
 
 ---
 
-### Gotcha 11: Transition State Requires Manual Progression
+### Gotcha 8: Transition State Requires Manual Progression
 
 **Problem**: Component hangs in LOADING state forever.
 
@@ -318,7 +318,7 @@ export const MyPage = ({ transitionState }) => {
 
 ---
 
-### Gotcha 11: Handle IDs Must Be Unique (or Intentionally Shared)
+### Gotcha 9: Handle IDs Must Be Unique (or Intentionally Shared)
 
 **Problem**: Multiple routes/components overwrite each other's data.
 
@@ -355,7 +355,7 @@ UserSettings.handleId = 'UserData'; // Shares user data
 
 ---
 
-### Gotcha 11: Component Registration Timing
+### Gotcha 10: Component Registration Timing
 
 **Problem**: `useHookComponent` returns `null` even though component is registered.
 
@@ -436,7 +436,7 @@ export const MyComponent = ({ routeHandleId, componentHandleId }) => {
 
 ## Actinium Gotchas
 
-### Gotcha 11: ES Module Syntax Required
+### Gotcha 12: ES Module Syntax Required
 
 **Problem**: `require()` causes cryptic errors.
 
@@ -464,7 +464,7 @@ export default MyClass;
 
 ---
 
-### Gotcha 12: File Extensions Required for Relative Imports
+### Gotcha 13: File Extensions Required for Relative Imports
 
 **Problem**: Import statements fail even though file exists.
 
@@ -490,7 +490,7 @@ import express from 'express'; // OK - no extension needed for packages
 
 ---
 
-### Gotcha 13: Plugin Function Must Execute
+### Gotcha 14: Plugin Function Must Execute
 
 **Problem**: Plugin doesn't load even though file exists.
 
@@ -522,7 +522,7 @@ export default MOD(); // Execute immediately with ()
 
 ---
 
-### Gotcha 14: Cloud Function Naming Conflicts
+### Gotcha 15: Cloud Function Naming Conflicts
 
 **Problem**: Cloud Function doesn't work or overwrites another function.
 
@@ -551,7 +551,7 @@ Actinium.Cloud.define(PLUGIN_B.ID, 'pluginB.getData', handlerB);
 
 ---
 
-### Gotcha 15: Master Key Usage in Cloud Functions
+### Gotcha 16: Master Key Usage in Cloud Functions
 
 **Problem**: Parse queries fail with "Permission denied" even in Cloud Functions.
 
@@ -587,7 +587,7 @@ Actinium.Cloud.define(PLUGIN.ID, 'getPrivateData', async (req) => {
 
 ---
 
-### Gotcha 16: Async Hook Errors Are Swallowed
+### Gotcha 17: Async Hook Errors Are Swallowed
 
 **Problem**: Hook fails silently, no error visible.
 
@@ -629,7 +629,7 @@ Actinium.Hook.register(
 
 ---
 
-### Gotcha 17: Schema Changes Require Server Restart
+### Gotcha 18: Schema Changes Require Server Restart
 
 **Problem**: Schema modifications don't take effect.
 
@@ -670,7 +670,7 @@ Actinium.Hook.register(
 
 ---
 
-### Gotcha 18: Plugin Order Matters
+### Gotcha 19: Plugin Order Matters
 
 **Problem**: Plugin B fails because Plugin A hasn't loaded yet.
 
@@ -718,7 +718,7 @@ const PLUGIN_B = {
 
 ---
 
-### Gotcha 19: Middleware Order Is Critical
+### Gotcha 20: Middleware Order Is Critical
 
 **Problem**: Middleware doesn't work or causes errors.
 

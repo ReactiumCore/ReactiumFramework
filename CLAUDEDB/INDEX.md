@@ -21,6 +21,7 @@
 ## B
 
 - **babel** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
+- **babel-loader** → [ReactiumWebpack: Babel Configuration](../CLAUDE/REACTIUM_WEBPACK.md#adding-a-custom-loader)
 - **beforeSave** → [Actinium Quick Ref: Lifecycle Hooks](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#common-lifecycle-hooks)
 - **Build** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
 - **Build errors** → [Gotchas: Build System](../CLAUDE/FRAMEWORK_GOTCHAS.md#build-system-gotchas)
@@ -34,6 +35,7 @@
 - **Cloud Functions** → [Actinium: Cloud Functions](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#cloud-functions)
 - **CloudHasCapabilities** → [Actinium Quick Ref: Capability Checking](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capability-checking)
 - **Code splitting** → [Routing System: Code Splitting Patterns](../CLAUDE/ROUTING_SYSTEM.md#code-splitting-patterns)
+- **Code splitting (webpack)** → [ReactiumWebpack: Optimization Methods](../CLAUDE/REACTIUM_WEBPACK.md#setcodesplittingoptimizeenv)
 - **Component** → [Reactium: Component System](../CLAUDE/REACTIUM_FRAMEWORK.md#component-system)
 - **Component.register** → [Reactium: Component Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#component-registration)
 - **Component Registry** → [Patterns: Component Registry Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-6-component-registry-pattern)
@@ -97,6 +99,7 @@
 ## L
 
 - **Live Query** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
+- **Loaders (webpack)** → [ReactiumWebpack: addRule Method](../CLAUDE/REACTIUM_WEBPACK.md#addruleid-rule-order)
 - **loadState** → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
 - **Login** → [Integration: Authentication](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 
@@ -138,6 +141,7 @@
 - **reactium-core** → [Reactium: Core Architecture](../CLAUDE/REACTIUM_FRAMEWORK.md#core-architecture)
 - **reactium-hooks** → [Reactium: Plugin System](../CLAUDE/REACTIUM_FRAMEWORK.md#creating-a-plugin)
 - **reactium-route** → [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview)
+- **reactium-webpack.js** → [ReactiumWebpack: DDD Discovery Pattern](../CLAUDE/REACTIUM_WEBPACK.md#reactium-webpackjs)
 - **reactium_modules** → [Reactium: Project Structure](../CLAUDE/REACTIUM_FRAMEWORK.md#project-structure)
 - **Real-time** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
 - **register-route** → [Routing System: The register-route Hook](../CLAUDE/ROUTING_SYSTEM.md#the-register-route-hook)
@@ -170,7 +174,7 @@
 
 ## U
 
-- **useHandle** → [Gotchas: useHandle vs useSyncHandle](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-11-usehandle-vs-usesynchandle)
+- **useHandle** → [Gotchas: useHandle vs useSyncHandle](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-7-usehandle-vs-usesynchandle)
 - **useHookComponent** → [Reactium: Hookable Components](../CLAUDE/REACTIUM_FRAMEWORK.md#hookable-components)
 - **useSyncHandle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
 - **useSyncState** → [Reactium: useSyncState](../CLAUDE/REACTIUM_FRAMEWORK.md#1-local-component-state-usesyncstate)
@@ -182,7 +186,9 @@
 
 ## W
 
-- **Webpack** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
+- **Webpack** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
+- **webpack.override.js** → [ReactiumWebpack: Migration from webpack.override.js](../CLAUDE/REACTIUM_WEBPACK.md#migration-from-webpackoverridejs)
+- **WebpackSDK** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md#webpacksdk-class)
 - **Webhooks** → [Patterns: Webhook Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-16-webhook-pattern)
 
 ## Z
@@ -197,6 +203,7 @@
 
 - **Authorization** = **Permissions** = **Capabilities** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
 - **Backend** = **Actinium** → [Actinium Complete Reference](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md)
+- **Build customization** = **webpack.override.js** = **reactium-webpack.js** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
 - **Domain (hooks)** = **Hook namespace** = **Hook lifecycle** → [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
 - **Frontend** = **Reactium** → [Reactium Framework](../CLAUDE/REACTIUM_FRAMEWORK.md)
 - **Observable state** = **Handle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
@@ -206,6 +213,7 @@
 - **Route data** = **loadState** → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
 - **Route transitions** = **Page animations** = **transitionState** → [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine)
 - **Shared state** = **Handle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
+- **Webpack config** = **Build customization** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
 
 ---
 

@@ -253,6 +253,135 @@ Reactium.Enums.priority.lowest    // 1000 (runs last)
 
 ---
 
+## ReactiumWebpack SDK
+
+### Webpack Configuration
+
+```javascript
+const sdk = new WebpackSDK(name, dddFilename, context)
+// name: 'reactium'
+// dddFilename: 'reactium-webpack.js'
+// context: config object from webpack.config.js
+```
+→ [ReactiumWebpack: WebpackSDK Class](../CLAUDE/REACTIUM_WEBPACK.md#webpacksdk-class)
+
+### Core Methods
+
+```javascript
+// Add module rule (loader)
+sdk.addRule(id, rule, order?)
+// Example: sdk.addRule('sass-loader', { test: /\.scss$/, use: ['sass-loader'] }, 100)
+```
+→ [ReactiumWebpack: addRule](../CLAUDE/REACTIUM_WEBPACK.md#addruleid-rule-order)
+
+```javascript
+// Add webpack plugin
+sdk.addPlugin(id, pluginInstance)
+// Example: sdk.addPlugin('compression', new CompressionPlugin())
+```
+→ [ReactiumWebpack: addPlugin](../CLAUDE/REACTIUM_WEBPACK.md#addpluginid-plugin)
+
+```javascript
+// Ignore files
+sdk.addIgnore(id, resourceRegExp, contextRegExp?)
+// Example: sdk.addIgnore('test-files', /\.test\.js$/)
+```
+→ [ReactiumWebpack: addIgnore](../CLAUDE/REACTIUM_WEBPACK.md#addignoreid-resourceregexp-contextregexp)
+
+```javascript
+// Add module alias
+sdk.addResolveAlias(id, path)
+// Example: sdk.addResolveAlias('components', './src/app/components')
+```
+→ [ReactiumWebpack: addResolveAlias](../CLAUDE/REACTIUM_WEBPACK.md#addresolvealiasid-alias)
+
+```javascript
+// Add external dependency
+sdk.addExternal(id, config)
+// Example: sdk.addExternal('react', { key: 'react', value: 'React' })
+```
+→ [ReactiumWebpack: addExternal](../CLAUDE/REACTIUM_WEBPACK.md#addexternalid-config)
+
+```javascript
+// Transpile node_modules package
+sdk.addTranspiledDependency(moduleName)
+// Example: sdk.addTranspiledDependency('my-es6-package')
+```
+→ [ReactiumWebpack: addTranspiledDependency](../CLAUDE/REACTIUM_WEBPACK.md#addtranspileddependencymodule)
+
+```javascript
+// Add context replacement
+sdk.addContext(id, { from: RegExp, to: string })
+// Example: sdk.addContext('translations', { from: /translations$/, to: './src/translations' })
+```
+→ [ReactiumWebpack: addContext](../CLAUDE/REACTIUM_WEBPACK.md#addcontextid-context)
+
+### Optimization Methods
+
+```javascript
+// Enable aggressive code splitting
+sdk.setCodeSplittingOptimize(env)
+
+// Use webpack default optimization
+sdk.setWebpackDefaultOptimize(env)
+
+// Disable code splitting (single bundle)
+sdk.setNoCodeSplitting(env)
+```
+→ [ReactiumWebpack: Optimization Methods](../CLAUDE/REACTIUM_WEBPACK.md#optimization-methods)
+
+### Properties
+
+```javascript
+sdk.mode = 'development' | 'production' | 'none'
+sdk.entry = { main: './src/index.js' }
+sdk.target = 'web' | 'node'
+sdk.output = { path, publicPath, filename }
+sdk.devtool = 'source-map' | false
+sdk.optimization = { minimize, splitChunks }
+sdk.extensions = ['.js', '.jsx', '.json']
+sdk.overrides = { /* direct webpack config */ }
+```
+→ [ReactiumWebpack: Properties](../CLAUDE/REACTIUM_WEBPACK.md#properties-getterssetters)
+
+### Webpack Hooks
+
+```javascript
+// Modify SDK before config generation
+Hook.registerSync('before-config', (sdk) => {
+    sdk.addRule('my-loader', rule);
+}, 'my-plugin-id');
+
+// Modify final config after generation
+Hook.registerSync('after-config', (config, sdk) => {
+    config.resolve.fallback = { /* ... */ };
+}, 'my-plugin-id');
+
+// Modify registries
+Hook.registerSync('rules', (rulesRegistry, name, context) => {
+    // Inspect or modify rules
+}, 'my-plugin-id');
+
+Hook.registerSync('plugins', (pluginsRegistry, name, context) => {
+    // Inspect or modify plugins
+}, 'my-plugin-id');
+```
+→ [ReactiumWebpack: Hook System Integration](../CLAUDE/REACTIUM_WEBPACK.md#hook-system-integration)
+
+### DDD Pattern
+
+```javascript
+// File: src/my-feature/reactium-webpack.js
+const { Hook } = require('@atomic-reactor/reactium-sdk-core/core');
+
+Hook.registerSync('before-config', sdk => {
+    sdk.addRule('my-rule', { /* ... */ });
+}, 'my-feature-webpack');
+```
+→ [ReactiumWebpack: DDD Discovery Pattern](../CLAUDE/REACTIUM_WEBPACK.md#reactium-webpackjs)
+
+---
+
 ## Actinium API
 
 ### Plugin Registration

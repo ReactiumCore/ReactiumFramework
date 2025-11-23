@@ -91,10 +91,14 @@
 **Learning Path**:
 1. [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system) - Overview
 2. [Reactium: Build Process](../CLAUDE/REACTIUM_FRAMEWORK.md#build-process-overview) - How it works
-3. [Reactium: Webpack Configuration](../CLAUDE/REACTIUM_FRAMEWORK.md#webpack-configuration) - Customization
-4. [Gotchas: Build System](../CLAUDE/FRAMEWORK_GOTCHAS.md#build-system-gotchas) - Common issues
+3. [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md) - Webpack customization
+4. [ReactiumWebpack: Architecture](../CLAUDE/REACTIUM_WEBPACK.md#architecture) - SDK design
+5. [ReactiumWebpack: Core Methods](../CLAUDE/REACTIUM_WEBPACK.md#core-methods) - API reference
+6. [ReactiumWebpack: Hook System](../CLAUDE/REACTIUM_WEBPACK.md#hook-system-integration) - Extensibility
+7. [ReactiumWebpack: Migration Guide](../CLAUDE/REACTIUM_WEBPACK.md#migration-from-webpackoverridejs) - From old patterns
+8. [Gotchas: Build System](../CLAUDE/FRAMEWORK_GOTCHAS.md#build-system-gotchas) - Common issues
 
-**Related**: Gulp, Webpack, Babel, HMR, Manifest
+**Related**: Gulp, Webpack, Babel, HMR, Manifest, reactium-webpack.js
 
 ---
 

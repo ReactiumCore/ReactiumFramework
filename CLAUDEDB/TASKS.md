@@ -209,7 +209,27 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Integration: Development Workflow](../CLAUDE/FRAMEWORK_INTEGRATION.md#development-workflow)
 
 ### Customize webpack
-→ [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
+→ [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
+→ [ReactiumWebpack: Migration Guide](../CLAUDE/REACTIUM_WEBPACK.md#migration-from-webpackoverridejs)
+→ [ReactiumWebpack: Common Customizations](../CLAUDE/REACTIUM_WEBPACK.md#common-webpack-customizations)
+
+### Add webpack loader
+→ [ReactiumWebpack: Adding Custom Loader](../CLAUDE/REACTIUM_WEBPACK.md#adding-a-custom-loader)
+→ [ReactiumWebpack: addRule Method](../CLAUDE/REACTIUM_WEBPACK.md#addruleid-rule-order)
+
+### Add webpack plugin
+→ [ReactiumWebpack: addPlugin Method](../CLAUDE/REACTIUM_WEBPACK.md#addpluginid-plugin)
+→ [ReactiumWebpack: Environment-Specific Plugins](../CLAUDE/REACTIUM_WEBPACK.md#environment-specific-plugins)
+
+### Configure code splitting
+→ [ReactiumWebpack: Optimization Methods](../CLAUDE/REACTIUM_WEBPACK.md#optimization-methods)
+→ [ReactiumWebpack: setCodeSplittingOptimize](../CLAUDE/REACTIUM_WEBPACK.md#setcodesplittingoptimizeenv)
+
+### Add resolve aliases
+→ [ReactiumWebpack: addResolveAlias](../CLAUDE/REACTIUM_WEBPACK.md#addresolvealiasid-alias)
+
+### Transpile node_modules packages
+→ [ReactiumWebpack: addTranspiledDependency](../CLAUDE/REACTIUM_WEBPACK.md#addtranspileddependencymodule)
 
 ### Regenerate manifest
 → [Reactium: Manifest System](../CLAUDE/REACTIUM_FRAMEWORK.md#manifest-regeneration)
