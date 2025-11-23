@@ -16,111 +16,166 @@ Topics for future exploration sessions with specialized agents.
 
 ### High Priority
 
+1.  Registry System Architecture
 
-### High Priority (Newly Identified)
+- The foundational building block behind Hook, Component, Zone, Handle systems
+- Never comprehensively documented despite being critical
+- Would unlock deeper understanding of ALL framework extension points
 
-1. **Example Code Audit & Correction**
-   - Document known bugs in example code (`Enums.priority.normal`)
-   - Create issue list for example code corrections
-   - Verify all example code matches current framework version
-   - Update templates in CLI to use correct patterns
+2. Component Event System Deep Dive
+
+- ComponentEvent and useEventEffect are mentioned but never explored
+- Essential for reactive, decoupled component patterns
+
+3. Prefs System Architecture
+
+- LocalStorage management with reactivity - critical gap
+- Important for persistent user preferences and app state
+
+4. Pulse System Patterns
+
+- Recurring process scheduler - unique framework feature
+- Essential for background tasks, polling, real-time updates
+
+5. Testing Strategies & Patterns
+
+- Critical gap for production apps
+- Need guidance on testing DDD artifacts, plugins, Handle-based state
 
 ### Medium Priority
 
-6. **Parse Server ACL Patterns in Actinium**
+6. **Collection Registration**
+
+   - Identify how Parse Collections are registered
+   - How collection permissions are registered
+   - How capabilities are mapped
+   - Actinium specific extensions to Parse collections
+
+7. **Parse Server ACL Patterns in Actinium**
+
    - CloudACL utility usage patterns
    - Combining ACLs with capabilities
    - Object-level vs feature-level permissions
    - AclTargets cloud function
    - Parse CLP configuration from capabilities
 
-7. **Actinium Roles System Deep Dive**
+8. **Actinium Roles System Deep Dive**
+
    - Role levels and hierarchy
    - Role relations (roles containing roles)
    - User-role assignment patterns
    - Built-in roles (super-admin, administrator, banned, anonymous)
    - Role cache management
 
-8. **Manifest Generation Process**
+9. **Manifest Generation Process**
+
    - `manifest-tools.js` internals
    - Globby patterns for DDD artifacts
    - How to extend manifest scanning
    - Custom artifact types
 
-9. **Plugin Dependency Resolution**
+10. **Plugin Dependency Resolution**
+
    - How `pluginDependencies` array works
    - Order vs dependencies
    - Circular dependency handling
    - Plugin activation/deactivation flow
 
-10. **Middleware Auto-Discovery (Actinium)**
-   - File patterns for middleware discovery
-   - Priority-based registration
-   - Express app configuration hooks
-   - Common middleware patterns
+11. **Middleware Auto-Discovery (Actinium)**
 
-11. **Content Type System Architecture**
-   - Type registration and schema
-   - Field type plugins
-   - Dynamic capability generation
-   - Content UUID generation (namespace patterns)
-   - Type-specific routes
+- File patterns for middleware discovery
+- Priority-based registration
+- Express app configuration hooks
+- Common middleware patterns
+
+12. **Content Type System Architecture**
+
+- Type registration and schema
+- Field type plugins
+- Dynamic capability generation
+- Content UUID generation (namespace patterns)
+- Type-specific routes
 
 ### Lower Priority
 
-12. **HMR Configuration**
-   - How HMR works with Reactium
-   - BrowserSync integration
-   - Webpack dev middleware setup
-   - Custom HMR handlers
+13. **Parse Server Integration**
 
-13. **Handle System Patterns**
-    - `useSelectHandle` use cases
-    - Performance optimization with handles
-    - Handle lifecycle management
-    - When to use Handle vs Context
+    - Session management patterns (user context propagation)
+    - Live Query setup and usage
+    - Advanced proxy configuration patterns
+    - Parse SDK initialization flow
 
-14. **Parse Server Integration**
-    - How `@atomic-reactor/reactium-api` initializes Parse
-    - Session management
-    - Proxy configuration for `/api`
-    - Live Query setup
-
-15. **Pulse System**
-    - Recurring process patterns
-    - Scheduling options
-    - Pulse lifecycle
-    - Use cases vs setInterval/setTimeout
-
-16. **Prefs System**
-    - LocalStorage patterns
-    - Object-path notation
-    - Migration patterns
-    - Sync across tabs
-
-17. **Fullscreen API Usage**
-    - Component fullscreen patterns
-    - Browser compatibility handling
-    - Exit fullscreen edge cases
-
-18. **Component Registry Patterns**
+14. **Component Registry Patterns**
     - Dynamic component replacement
     - Plugin-based component overrides
     - Versioning components
     - Component decoration
 
-## Research Guidelines
+## RESEARCH MODE DIRECTIVES
+
+### DIRECTIVE 1: Topic Selection (Pre-Research)
+
+**BEFORE starting any research topic, evaluate it against this criterion:**
+
+> "Will this help Claude Code assist developers more effectively?"
+
+**✅ RESEARCH if the topic:**
+- Helps understand codebase architecture deeply
+- Enables more accurate guidance to developers
+- Supports effective debugging of issues
+- Reveals framework patterns for better code generation
+- Explains complex system interactions
+- Addresses critical knowledge gaps
+
+**❌ SKIP/REMOVE if the topic:**
+- Contains trivial implementation details easily found in source
+- Covers rarely used edge-case features
+- Is self-explanatory from API signatures
+- Is better learned through experimentation than documentation
+
+**ACTION**: If you determine a topic is trivial during evaluation, REMOVE it from the research plan immediately.
+
+### DIRECTIVE 2: Self-Sustaining Research (Post-Research)
+
+**IMMEDIATELY after finishing research on ANY deep dive topic:**
+
+1. Reflect on what new questions emerged during your research
+2. Identify **ONE** new Claude-relevant topic you discovered that would help Claude as a developer
+3. Add that topic to this research plan under the appropriate priority level
+4. Include a clear rationale: "Discovered during [previous topic] research - [why it matters]"
+
+**RATIONALE**: This keeps the research process self-sustaining and ensures emerging knowledge gaps are captured while context is fresh.
+
+**ACTION**: Do not mark research as "complete" until you have added the next topic.
+
+### DIRECTIVE 3: Research Execution
+
+**During research, you MUST:**
 
 - Keep explorations focused and time-boxed
-- Document findings concisely
-- Include real examples from core plugins
-- Note patterns, not just APIs
-- Identify common pitfalls
+- Document findings concisely in CLAUDEDB/ directory
+- Include real code examples from actual framework usage (not hypothetical)
+- Note **patterns**, not just APIs
+- Identify common pitfalls and gotchas
+- Cross-reference related systems and documentation
 
-## Output Goals
+**During research, you MUST NOT:**
 
-Each research session should produce:
-1. Concise summary document
-2. Code examples from actual framework usage
-3. Best practices identified
-4. Common gotchas documented
+- Create hypothetical examples when real ones exist
+- Document every API method exhaustively
+- Include trivial details that don't aid understanding
+- Drift into tangential topics without adding them to the plan
+
+### DIRECTIVE 4: Research Output Requirements
+
+**Each research session MUST produce:**
+
+1. **CLAUDEDB markdown file** - Concise, scannable, focused on patterns
+2. **Real code examples** - From actual framework usage in core plugins
+3. **Best practices section** - What Claude should recommend
+4. **Common gotchas section** - What Claude should warn about
+5. **Updated RESEARCH_PLAN.md** - Topic marked complete, new topic added
+
+**File naming convention**: `CLAUDEDB/[TOPIC_NAME]_DEEP_DIVE.md` or `CLAUDEDB/[SYSTEM_NAME]_ARCHITECTURE.md`
+
+**Quality check**: Before finishing, ask "Would this document help Claude Code write better Reactium/Actinium code?"
