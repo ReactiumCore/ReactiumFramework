@@ -91,9 +91,15 @@ Reactium.Hook.runSync(name, ...args)
 
 ```javascript
 Reactium.Hook.unregister(hookId)
+// Unregister single hook by ID
+
 Reactium.Hook.unregisterDomain(hookName, domain)
+// Unregister all hooks in domain for specific hook name
+
+Reactium.Hook.flush(hookName, type = 'async')
+// Remove ALL hooks for a hook name (use sparingly)
 ```
-→ [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
+→ [Hook Domains Deep Dive: API Reference](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#api-reference-summary)
 
 ### Routing
 
@@ -110,26 +116,56 @@ Reactium.Hook.unregisterDomain(hookName, domain)
     persistHandle: false,
     transitions: true,
     transitionStates: [
+        { state: 'EXITING', active: 'previous' },
         { state: 'LOADING', active: 'current' },
+        { state: 'ENTERING', active: 'current' },
         { state: 'READY', active: 'current' }
     ]
 }
 ```
 → [Reactium: Route Object Specification](../CLAUDE/REACTIUM_FRAMEWORK.md#route-object-specification)
+→ [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview)
 
 ```javascript
+await Reactium.Routing.register(routeObject, update = true)
+// Returns: routeId (string)
+```
+→ [Routing System: Route Registration Method](../CLAUDE/ROUTING_SYSTEM.md#4-route-registration-method)
+
+```javascript
+Reactium.Routing.unregister(routeId, update = true)
+```
+→ [Routing System: Advanced Features](../CLAUDE/ROUTING_SYSTEM.md#route-unregistration)
+
+```javascript
+// Transition state management
+Reactium.Routing.nextState()
+Reactium.Routing.jumpCurrent()
+```
+→ [Routing System: Advancing States](../CLAUDE/ROUTING_SYSTEM.md#advancing-states)
+
+```javascript
+// Access routing state
+const routing = useRouting()
+// Returns: {
+//   current: currentRoute,
+//   previous: previousRoute,
+//   active: activeRoute,
+//   transitionState: 'EXITING' | 'LOADING' | 'ENTERING' | 'READY',
+//   transitionStates: [],
+//   changes: {}
+// }
+```
+→ [Routing System: Listening to Transitions](../CLAUDE/ROUTING_SYSTEM.md#listening-to-transitions)
+
+```javascript
+// Data loading pattern
 Component.loadState = async ({ route, params, search }) => {
     return { data, loading: false };
 }
 Component.handleId = 'HandleId';
 ```
-→ [Reactium: Data Loading with loadState](../CLAUDE/REACTIUM_FRAMEWORK.md#data-loading-with-loadstate)
-
-```javascript
-Reactium.Routing.register(routeObject)
-Reactium.Routing.nextState()
-```
-→ [Reactium: Route Transitions](../CLAUDE/REACTIUM_FRAMEWORK.md#route-transitions)
+→ [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
 
 ### Zone System
 

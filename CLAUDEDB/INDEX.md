@@ -33,6 +33,7 @@
 - **CLI** → [Reactium: CLI Tools](../CLAUDE/REACTIUM_FRAMEWORK.md#cli-tools)
 - **Cloud Functions** → [Actinium: Cloud Functions](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#cloud-functions)
 - **CloudHasCapabilities** → [Actinium Quick Ref: Capability Checking](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capability-checking)
+- **Code splitting** → [Routing System: Code Splitting Patterns](../CLAUDE/ROUTING_SYSTEM.md#code-splitting-patterns)
 - **Component** → [Reactium: Component System](../CLAUDE/REACTIUM_FRAMEWORK.md#component-system)
 - **Component.register** → [Reactium: Component Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#component-registration)
 - **Component Registry** → [Patterns: Component Registry Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-6-component-registry-pattern)
@@ -96,7 +97,7 @@
 ## L
 
 - **Live Query** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
-- **loadState** → [Reactium: Data Loading with loadState](../CLAUDE/REACTIUM_FRAMEWORK.md#data-loading-with-loadstate)
+- **loadState** → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
 - **Login** → [Integration: Authentication](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 
 ## M
@@ -136,13 +137,19 @@
 
 - **reactium-core** → [Reactium: Core Architecture](../CLAUDE/REACTIUM_FRAMEWORK.md#core-architecture)
 - **reactium-hooks** → [Reactium: Plugin System](../CLAUDE/REACTIUM_FRAMEWORK.md#creating-a-plugin)
-- **reactium-route** → [Reactium: Routing System](../CLAUDE/REACTIUM_FRAMEWORK.md#routing-system)
+- **reactium-route** → [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview)
 - **reactium_modules** → [Reactium: Project Structure](../CLAUDE/REACTIUM_FRAMEWORK.md#project-structure)
 - **Real-time** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
+- **register-route** → [Routing System: The register-route Hook](../CLAUDE/ROUTING_SYSTEM.md#the-register-route-hook)
 - **Roles** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
-- **Route** → [Reactium: Routing System](../CLAUDE/REACTIUM_FRAMEWORK.md#routing-system)
+- **Route** → [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview)
+- **Route discovery** → [Routing System: File Discovery & Manifest Generation](../CLAUDE/ROUTING_SYSTEM.md#file-discovery--manifest-generation)
+- **Route lifecycle** → [Routing System: Route Registration Lifecycle](../CLAUDE/ROUTING_SYSTEM.md#route-registration-lifecycle)
 - **Route object** → [Reactium: Route Object Specification](../CLAUDE/REACTIUM_FRAMEWORK.md#route-object-specification)
-- **Routing** → [Reactium: Routing System](../CLAUDE/REACTIUM_FRAMEWORK.md#routing-system)
+- **Route transitions** → [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine)
+- **Routing** → [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview)
+- **Routing.register** → [Routing System: Route Registration Method](../CLAUDE/ROUTING_SYSTEM.md#4-route-registration-method)
+- **Routing.nextState** → [Routing System: Advancing States](../CLAUDE/ROUTING_SYSTEM.md#advancing-states)
 
 ## S
 
@@ -190,12 +197,14 @@
 
 - **Authorization** = **Permissions** = **Capabilities** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
 - **Backend** = **Actinium** → [Actinium Complete Reference](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md)
+- **Domain (hooks)** = **Hook namespace** = **Hook lifecycle** → [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
 - **Frontend** = **Reactium** → [Reactium Framework](../CLAUDE/REACTIUM_FRAMEWORK.md)
 - **Observable state** = **Handle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
 - **Plugin** = **Extension** → [Reactium: Plugin System](../CLAUDE/REACTIUM_FRAMEWORK.md#plugin-system--registration)
 - **Priority** = **Order** = **Execution order** → [Actinium Quick Ref: Priority Constants](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#priority-constants)
 - **Real-time** = **Live Query** = **WebSocket** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
-- **Route data** = **loadState** → [Reactium: Data Loading](../CLAUDE/REACTIUM_FRAMEWORK.md#data-loading-with-loadstate)
+- **Route data** = **loadState** → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
+- **Route transitions** = **Page animations** = **transitionState** → [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine)
 - **Shared state** = **Handle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
 
 ---

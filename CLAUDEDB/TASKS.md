@@ -19,12 +19,24 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 ```
 
 ### Create a route
-→ [Reactium: Routing System](../CLAUDE/REACTIUM_FRAMEWORK.md#routing-system)
+→ [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview)
+→ [Routing System: File Discovery & Manifest Generation](../CLAUDE/ROUTING_SYSTEM.md#file-discovery--manifest-generation)
 → [Reactium: Route Object Specification](../CLAUDE/REACTIUM_FRAMEWORK.md#route-object-specification)
 
 ### Create a route with data loading
-→ [Reactium: Data Loading with loadState](../CLAUDE/REACTIUM_FRAMEWORK.md#data-loading-with-loadstate)
+→ [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
 → [Patterns: Static Method Data Loading](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-2-static-method-data-loading)
+
+### Create a route with transitions
+→ [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine)
+→ [Routing System: Best Practices](../CLAUDE/ROUTING_SYSTEM.md#best-practices)
+
+### Modify routes before registration
+→ [Routing System: The register-route Hook](../CLAUDE/ROUTING_SYSTEM.md#the-register-route-hook)
+
+### Debug route matching issues
+→ [Routing System: Route Sorting & Matching](../CLAUDE/ROUTING_SYSTEM.md#5-route-sorting--matching)
+→ [Routing System: Common Gotchas](../CLAUDE/ROUTING_SYSTEM.md#common-gotchas)
 
 ### Create a frontend plugin
 → [Reactium: Plugin System](../CLAUDE/REACTIUM_FRAMEWORK.md#plugin-system--registration)
@@ -66,7 +78,8 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 
 ### Load data on route navigation
-→ [Reactium: Data Loading with loadState](../CLAUDE/REACTIUM_FRAMEWORK.md#data-loading-with-loadstate)
+→ [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
+→ [Routing System: Handle Persistence](../CLAUDE/ROUTING_SYSTEM.md#handle-persistence)
 → [Patterns: Static Method Data Loading](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-2-static-method-data-loading)
 
 ### Share state between components
@@ -166,7 +179,13 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Reactium: Common Framework Hooks](../CLAUDE/REACTIUM_FRAMEWORK.md#common-framework-hooks)
 
 ### Manage hook domains
-→ [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
+→ [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#what-are-hook-domains)
+→ [Hook Domains: When to Use](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#when-should-developers-use-domains)
+→ [Hook Domains: Best Practices](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#best-practices)
+
+### Clean up plugin hooks
+→ [Hook Domains: Plugin Lifecycle Management](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#use-case-1-plugin-lifecycle-management-primary-use-case)
+→ [Hook Domains: Complete Plugin Teardown](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#complete-plugin-teardown-example)
 
 ### Control execution order
 → [Actinium Quick Ref: Priority Constants](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#priority-constants)
@@ -216,6 +235,7 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Gotchas: Component Registration Timing](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-9-component-registration-timing)
 
 ### Fix route not working
+→ [Routing System: Common Gotchas](../CLAUDE/ROUTING_SYSTEM.md#common-gotchas)
 → [Gotchas: Route Path Syntax](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-4-route-path-syntax-matters)
 
 ### Fix hook not firing
@@ -241,6 +261,7 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Patterns: Performance Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md#performance-patterns)
 
 ### Reduce bundle size
+→ [Routing System: Code Splitting Patterns](../CLAUDE/ROUTING_SYSTEM.md#code-splitting-patterns)
 → [Patterns: Code Splitting with Dynamic Imports](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-17-code-splitting-with-dynamic-imports)
 
 ### Optimize queries

@@ -17,16 +17,19 @@
 
 **Related**: CLI Tools, DDD Structure, Hookable Components
 
-### Routing
+### Routing System
 **Learning Path**:
-1. [Reactium: Routing System](../CLAUDE/REACTIUM_FRAMEWORK.md#routing-system) - Basic routing
-2. [Reactium: Route Object Specification](../CLAUDE/REACTIUM_FRAMEWORK.md#route-object-specification) - Route configuration
-3. [Reactium: Data Loading with loadState](../CLAUDE/REACTIUM_FRAMEWORK.md#data-loading-with-loadstate) - Route data
-4. [Reactium: Route Transitions](../CLAUDE/REACTIUM_FRAMEWORK.md#route-transitions) - Animations
-5. [Patterns: Static Method Data Loading](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-2-static-method-data-loading) - Best practices
-6. [Gotchas: Route Path Syntax](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-4-route-path-syntax-matters) - Common mistakes
+1. [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview) - Complete architecture
+2. [Routing System: File Discovery & Manifest Generation](../CLAUDE/ROUTING_SYSTEM.md#file-discovery--manifest-generation) - Auto-discovery
+3. [Routing System: Route Registration Lifecycle](../CLAUDE/ROUTING_SYSTEM.md#route-registration-lifecycle) - Initialization
+4. [Routing System: The register-route Hook](../CLAUDE/ROUTING_SYSTEM.md#the-register-route-hook) - Hook-based modification
+5. [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine) - Page animations
+6. [Routing System: Code Splitting Patterns](../CLAUDE/ROUTING_SYSTEM.md#code-splitting-patterns) - Performance
+7. [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading) - Data loading
+8. [Routing System: Best Practices](../CLAUDE/ROUTING_SYSTEM.md#best-practices) - Patterns
+9. [Routing System: Common Gotchas](../CLAUDE/ROUTING_SYSTEM.md#common-gotchas) - Avoid mistakes
 
-**Related**: Navigation, handleId, transitionState
+**Related**: Navigation, handleId, transitionState, React Router, Code splitting
 
 ### State Management
 **Learning Path**:
@@ -45,11 +48,14 @@
 1. [Reactium: Hook System](../CLAUDE/REACTIUM_FRAMEWORK.md#hook-system) - Basic hooks
 2. [Reactium: Hook Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#hook-registration) - Register/execute
 3. [Reactium: Common Framework Hooks](../CLAUDE/REACTIUM_FRAMEWORK.md#common-framework-hooks) - Lifecycle
-4. [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md) - Advanced organization
-5. [Patterns: Hook-Based Plugin Architecture](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-4-hook-based-plugin-architecture) - Best practices
-6. [Gotchas: Hook Registration Must Be in IIFE](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-3-hook-registration-must-be-in-iife) - Common mistakes
+4. [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#what-are-hook-domains) - Definition & purpose
+5. [Hook Domains: When to Use](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#when-should-developers-use-domains) - Use cases
+6. [Hook Domains: API Reference](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#api-reference-summary) - Functions
+7. [Hook Domains: Best Practices](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#best-practices) - Patterns
+8. [Patterns: Hook-Based Plugin Architecture](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-4-hook-based-plugin-architecture) - Architecture
+9. [Gotchas: Hook Registration Must Be in IIFE](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-3-hook-registration-must-be-in-iife) - Common mistakes
 
-**Related**: Events, Lifecycle, Plugins, Priority
+**Related**: Events, Lifecycle, Plugins, Priority, Domains
 
 ### Plugin System (Reactium)
 **Learning Path**:
@@ -112,10 +118,12 @@
 1. [Actinium: Hook System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#hook-system) - Overview
 2. [Actinium Quick Ref: Hook Registration Patterns](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#hook-registration-patterns) - Basic usage
 3. [Actinium Quick Ref: Common Lifecycle Hooks](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#common-lifecycle-hooks) - Key hooks
-4. [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md) - Advanced organization
-5. [Patterns: Hook-Based Data Validation](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-9-hook-based-data-validation) - Use cases
+4. [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#what-are-hook-domains) - Definition & purpose
+5. [Hook Domains: Plugin Lifecycle Management](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#use-case-1-plugin-lifecycle-management-primary-use-case) - Primary use case
+6. [Hook Domains: Best Practices](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#best-practices) - Patterns
+7. [Patterns: Hook-Based Data Validation](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-9-hook-based-data-validation) - Use cases
 
-**Related**: Events, Lifecycle, beforeSave, afterSave, Priority
+**Related**: Events, Lifecycle, beforeSave, afterSave, Priority, Domains
 
 ### Cloud Functions
 **Learning Path**:
@@ -171,11 +179,12 @@
 **Learning Path**:
 1. [Integration: Data Flow Patterns](../CLAUDE/FRAMEWORK_INTEGRATION.md#data-flow-patterns) - Overview
 2. [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration) - Backend calls
-3. [Reactium: Data Loading with loadState](../CLAUDE/REACTIUM_FRAMEWORK.md#data-loading-with-loadstate) - Route data
-4. [Patterns: Static Method Data Loading](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-2-static-method-data-loading) - Best practices
-5. [Patterns: Optimistic UI Updates](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-14-optimistic-ui-updates) - UX patterns
+3. [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading) - Route data loading
+4. [Routing System: Handle Persistence](../CLAUDE/ROUTING_SYSTEM.md#handle-persistence) - State management
+5. [Patterns: Static Method Data Loading](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-2-static-method-data-loading) - Best practices
+6. [Patterns: Optimistic UI Updates](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-14-optimistic-ui-updates) - UX patterns
 
-**Related**: Parse SDK, Cloud Functions, State management
+**Related**: Parse SDK, Cloud Functions, State management, Handles
 
 ### Authentication
 **Learning Path**:

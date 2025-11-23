@@ -21,6 +21,21 @@ Hook domains in Reactium provide a **namespace and lifecycle management mechanis
 
 A **domain** is a string identifier (5th parameter) passed to `Hook.register()` or `Hook.registerSync()` that groups related hook callbacks together. All hooks registered with the same domain can be unregistered in a single operation using `Hook.unregisterDomain(hookName, domain)`.
 
+### Purpose and Benefits
+
+1. **Bulk Cleanup**: Remove all hooks registered by a plugin or feature in one operation
+2. **Lifecycle Management**: Tie hook lifecycles to plugin activation/deactivation
+3. **Namespace Organization**: Group related functionality logically
+4. **Hot Module Replacement (HMR)**: Clean up hooks during development when modules reload
+5. **Prevent Memory Leaks**: Ensure hooks are properly removed when components unmount or plugins unload
+
+### Default Behavior
+
+When no domain is specified, hooks default to the `'default'` domain. This is suitable for:
+- Hooks that should persist for the entire application lifetime
+- Global application-level hooks
+- Hooks that don't need grouped lifecycle management
+
 ### Implementation Source
 
 **File:** `/reactium-sdk-core/src/core/Hook.ts`
@@ -586,9 +601,374 @@ Removes ALL hooks for a hook name (regardless of domain).
 
 **Warning:** Use sparingly - this clears all hooks including those from other plugins.
 
+### `Hook.list(type)`
+
+Lists all registered hook names of a certain type.
+
+**Parameters:**
+- `type` (String, optional): `'async'` or `'sync'` (default: `'async'`)
+
+**Returns:** `string[]` - Sorted array of hook names
+
+**Example:**
+```javascript
+const asyncHooks = Reactium.Hook.list();
+console.log(asyncHooks); // ['app-ready', 'plugin-init', 'user-login', ...]
+```
+
+### `Hook.run(name, ...params)`
+
+Executes all registered async hooks for a given name.
+
+**Parameters:**
+- `name` (String, required): Hook name
+- `...params` (any, variadic): Parameters passed to each callback
+
+**Returns:** `Promise<HookRunContext>` - Context object with results
+
+**Example:**
+```javascript
+const context = await Reactium.Hook.run('app-ready', initialData);
+console.log(context.params); // [initialData]
+console.log(context.hook);   // 'app-ready'
+```
+
+### `Hook.runSync(name, ...params)`
+
+Executes all registered sync hooks for a given name.
+
+**Parameters:**
+- `name` (String, required): Hook name
+- `...params` (any, variadic): Parameters passed to each callback
+
+**Returns:** `object` - Context object
+
+**Example:**
+```javascript
+const context = Reactium.Hook.runSync('config-init', config);
+console.log(context.params); // [config]
+```
+
 ---
 
-## Common Pitfalls and Best Practices
+## Best Practices
+
+### 1. Always Use Domains for Plugins
+
+```javascript
+// GOOD: Plugin with domain
+import domain from './domain';
+
+Reactium.Plugin.register(domain.name).then(() => {
+    const hooks = [
+        'app-ready',
+        'plugin-init',
+        'before-route',
+    ];
+
+    hooks.forEach(hookName => {
+        Reactium.Hook.register(
+            hookName,
+            myCallback,
+            Enums.priority.neutral,
+            `${domain.name}-${hookName}`,
+            domain.name  // <-- Consistent domain
+        );
+    });
+
+    // Cleanup
+    Reactium.Hook.register(
+        'plugin-unregister',
+        ({ ID }) => {
+            if (ID === domain.name) {
+                hooks.forEach(hookName => {
+                    Reactium.Hook.unregisterDomain(hookName, domain.name);
+                });
+            }
+        },
+        Enums.priority.neutral,
+        `${domain.name}-cleanup`,
+        domain.name
+    );
+});
+```
+
+### 2. Match Domain to Plugin Name
+
+```javascript
+// domain.js
+module.exports = {
+    name: 'MyPlugin',
+};
+
+// reactium-hooks.js
+Reactium.Plugin.register(domain.name).then(() => {
+    // All hooks use domain.name
+    Reactium.Hook.register('app-ready', callback, order, id, domain.name);
+});
+```
+
+### 3. Document Your Hook Registrations
+
+```javascript
+/**
+ * MyPlugin Hook Registrations
+ *
+ * Hooks:
+ * - app-ready: Initialize plugin state
+ * - user-login: Track user analytics
+ * - plugin-unregister: Cleanup resources
+ *
+ * Domain: MyPlugin
+ * Cleanup: All hooks unregistered on 'plugin-unregister'
+ */
+Reactium.Plugin.register(domain.name).then(() => {
+    // Implementation...
+});
+```
+
+### 4. Use Consistent Hook IDs
+
+```javascript
+// GOOD: Predictable, unique IDs
+const hookId = `${domain.name}-${hookName}`;
+
+// AVOID: Random or missing IDs
+Hook.register('my-hook', callback); // ID will be random UUID
+```
+
+### 5. Cleanup in Plugin Unregister
+
+```javascript
+Reactium.Hook.register('plugin-unregister', ({ ID }) => {
+    if (ID === domain.name) {
+        // Unregister all domain hooks
+        ['app-ready', 'user-login', 'data-sync'].forEach(hookName => {
+            Reactium.Hook.unregisterDomain(hookName, domain.name);
+        });
+
+        // Clean up SDK additions
+        if (Reactium[domain.name]) {
+            delete Reactium[domain.name];
+        }
+
+        // Clean up other resources
+        // - Event listeners
+        // - Timers
+        // - Subscriptions
+    }
+}, Enums.priority.neutral, `${domain.name}-cleanup`, domain.name);
+```
+
+### 6. Consider React Component Lifecycle
+
+```javascript
+import React, { useEffect } from 'react';
+import Reactium from 'reactium-core/sdk';
+
+const MyComponent = () => {
+    useEffect(() => {
+        // Register hooks when component mounts
+        const hookId = Reactium.Hook.register(
+            'data-updated',
+            handleUpdate,
+            0,
+            'mycomponent-data-hook',
+            'MyComponent'  // Component name as domain
+        );
+
+        return () => {
+            // Cleanup when component unmounts
+            Reactium.Hook.unregister(hookId);
+        };
+    }, []);
+
+    return <div>My Component</div>;
+};
+```
+
+### 7. Avoid Domain Collisions
+
+```javascript
+// GOOD: Unique, descriptive domains
+'MyAwesomePlugin'
+'UserManagement'
+'AnalyticsDashboard'
+
+// BAD: Generic, collision-prone domains
+'plugin'
+'app'
+'component'
+'default'
+```
+
+---
+
+## Common Patterns
+
+### Pattern 1: Plugin Lifecycle Management
+
+```javascript
+import domain from './domain';
+
+Reactium.Plugin.register(domain.name).then(() => {
+    // Track all registered hooks
+    const registeredHooks = [];
+
+    const registerHook = (hookName, callback, order = Enums.priority.neutral) => {
+        const id = Reactium.Hook.register(
+            hookName,
+            callback,
+            order,
+            `${domain.name}-${hookName}`,
+            domain.name
+        );
+        registeredHooks.push({ hookName, id });
+        return id;
+    };
+
+    // Register all plugin hooks
+    registerHook('app-ready', onAppReady);
+    registerHook('user-login', onUserLogin);
+    registerHook('before-route', onBeforeRoute);
+
+    // Cleanup on plugin unregister
+    registerHook('plugin-unregister', ({ ID }) => {
+        if (ID === domain.name) {
+            registeredHooks.forEach(({ hookName }) => {
+                Reactium.Hook.unregisterDomain(hookName, domain.name);
+            });
+            delete Reactium[domain.name];
+        }
+    });
+});
+```
+
+### Pattern 2: Feature Toggle with Domains
+
+```javascript
+const FEATURE_DOMAIN = 'premium-analytics';
+
+const enableFeature = () => {
+    Reactium.Hook.register(
+        'page-view',
+        trackPageView,
+        Enums.priority.neutral,
+        'premium-track-pv',
+        FEATURE_DOMAIN
+    );
+
+    Reactium.Hook.register(
+        'user-action',
+        trackUserAction,
+        Enums.priority.neutral,
+        'premium-track-action',
+        FEATURE_DOMAIN
+    );
+};
+
+const disableFeature = () => {
+    Reactium.Hook.unregisterDomain('page-view', FEATURE_DOMAIN);
+    Reactium.Hook.unregisterDomain('user-action', FEATURE_DOMAIN);
+};
+
+// Toggle based on user subscription
+if (user.isPremium) {
+    enableFeature();
+} else {
+    disableFeature();
+}
+```
+
+### Pattern 3: Multi-Instance with Domain Namespacing
+
+```javascript
+class FeatureManager {
+    constructor(featureName) {
+        this.domain = `feature-${featureName}`;
+        this.hooks = [];
+    }
+
+    register(hookName, callback, order = Enums.priority.neutral) {
+        const id = Reactium.Hook.register(
+            hookName,
+            callback,
+            order,
+            `${this.domain}-${hookName}`,
+            this.domain
+        );
+        this.hooks.push({ hookName, id });
+        return id;
+    }
+
+    cleanup() {
+        this.hooks.forEach(({ hookName }) => {
+            Reactium.Hook.unregisterDomain(hookName, this.domain);
+        });
+        this.hooks = [];
+    }
+}
+
+// Usage
+const analytics = new FeatureManager('analytics');
+analytics.register('page-view', trackView);
+
+const notifications = new FeatureManager('notifications');
+notifications.register('user-action', showNotification);
+
+// Independent cleanup
+analytics.cleanup();
+notifications.cleanup();
+```
+
+### Pattern 4: Tenant-Specific Hooks
+
+```javascript
+const TenantHooks = {
+    current: null,
+
+    activate(tenantId, tenantConfig) {
+        // Clean up previous tenant's hooks
+        if (this.current) {
+            this.deactivate(this.current);
+        }
+
+        const domain = `tenant-${tenantId}`;
+
+        // Register tenant-specific hooks
+        Reactium.Hook.register(
+            'data-load',
+            () => loadTenantData(tenantId),
+            Enums.priority.high,
+            `${domain}-data-load`,
+            domain
+        );
+
+        Reactium.Hook.register(
+            'permissions',
+            () => checkTenantPermissions(tenantId),
+            Enums.priority.high,
+            `${domain}-permissions`,
+            domain
+        );
+
+        this.current = tenantId;
+    },
+
+    deactivate(tenantId) {
+        const domain = `tenant-${tenantId}`;
+        Reactium.Hook.unregisterDomain('data-load', domain);
+        Reactium.Hook.unregisterDomain('permissions', domain);
+    },
+};
+
+// Switch tenants
+TenantHooks.activate('tenant-123', config);
+```
+
+---
+
+## Common Pitfalls and Solutions
 
 ### Pitfall 1: Forgetting to Clean Up
 
@@ -665,69 +1045,141 @@ HOOK_NAMES.forEach(name => {
 });
 ```
 
-### Best Practice 1: Domain Constant Pattern
+---
 
+## Troubleshooting
+
+### Issue: Hooks Not Cleaning Up on HMR
+
+**Symptom:** During development, hooks fire multiple times after module reload.
+
+**Cause:** Hooks registered without proper domain cleanup aren't removed on hot reload.
+
+**Solution:**
 ```javascript
-// domain.js
-export default {
-    name: 'MyPlugin',
-};
-
-// reactium-hooks.js
-import domain from './domain';
-
-const registerHooks = () => {
-    const HOOKS = {
-        'app-ready': async () => { /* ... */ },
-        'plugin-init': async () => { /* ... */ },
-        'before-route': async (route, context) => { /* ... */ },
-    };
-
-    Object.entries(HOOKS).forEach(([name, callback]) => {
-        Reactium.Hook.register(
-            name,
-            callback,
-            Reactium.Enums.priority.neutral,
-            `${domain.name}-${name}`,
-            domain.name  // <-- Consistent domain
-        );
+// Use domains and implement cleanup
+if (module.hot) {
+    module.hot.dispose(() => {
+        // Clean up hooks on module reload
+        Reactium.Hook.unregisterDomain('my-hook', domain.name);
     });
-};
-
-const unregisterHooks = () => {
-    ['app-ready', 'plugin-init', 'before-route'].forEach(name => {
-        Reactium.Hook.unregisterDomain(name, domain.name);
-    });
-};
-
-Reactium.Plugin.register(domain.name).then(() => {
-    registerHooks();
-
-    Reactium.Hook.register('plugin-unregister', ({ ID }) => {
-        if (ID === domain.name) {
-            unregisterHooks();
-        }
-    });
-});
+}
 ```
 
-### Best Practice 2: Documentation Pattern
+### Issue: Hook Fires After Component Unmounts
 
+**Symptom:** React warnings about setState on unmounted component.
+
+**Cause:** Hooks not unregistered in component cleanup.
+
+**Solution:**
 ```javascript
-/**
- * MyPlugin Hook Domain Registration
- *
- * Domain: 'MyPlugin'
- *
- * Registered Hooks:
- * - app-ready: Initialize plugin services
- * - before-route: Route guard for protected pages
- * - component-render: Inject analytics tracking
- * - data-loaded: Cache optimization
- *
- * Cleanup: All hooks unregistered on 'plugin-unregister'
- */
-const domain = { name: 'MyPlugin' };
+useEffect(() => {
+    const hookId = Reactium.Hook.register(
+        'data-updated',
+        handleUpdate,
+        0,
+        'component-hook',
+        'MyComponent'
+    );
+
+    return () => {
+        Reactium.Hook.unregister(hookId);
+    };
+}, []);
+```
+
+### Issue: Multiple Plugins Using Same Domain
+
+**Symptom:** Unregistering one plugin's hooks removes another plugin's hooks.
+
+**Cause:** Domain name collision.
+
+**Solution:** Use unique, descriptive domain names:
+```javascript
+// BAD: Generic domain
+const domain = { name: 'plugin' };
+
+// GOOD: Specific domain
+const domain = { name: 'UserAuthenticationPlugin' };
+```
+
+### Issue: Can't Find Hook IDs to Unregister
+
+**Symptom:** Unable to track which hooks to clean up.
+
+**Solution:** Store hook IDs during registration:
+```javascript
+const pluginHooks = {
+    ids: [],
+
+    register(hookName, callback) {
+        const id = Reactium.Hook.register(
+            hookName,
+            callback,
+            Enums.priority.neutral,
+            `${domain.name}-${hookName}`,
+            domain.name
+        );
+        this.ids.push({ hookName, id });
+        return id;
+    },
+
+    cleanup() {
+        this.ids.forEach(({ hookName }) => {
+            Reactium.Hook.unregisterDomain(hookName, domain.name);
+        });
+    },
+};
+```
+
+### Issue: Hooks Execute in Wrong Order
+
+**Symptom:** Hook callbacks don't execute in expected sequence.
+
+**Cause:** Incorrect or missing `order` parameter.
+
+**Solution:** Use `Enums.priority` constants:
+```javascript
+// Execute early
+Reactium.Hook.register('init', earlyCallback, Enums.priority.highest);
+
+// Execute normally
+Reactium.Hook.register('init', normalCallback, Enums.priority.neutral);
+
+// Execute late
+Reactium.Hook.register('init', lateCallback, Enums.priority.lowest);
+```
+
+Priority values:
+```javascript
+Enums.priority.core = -2000      // Framework internals
+Enums.priority.highest = -1000   // High priority plugins
+Enums.priority.high = -500       // Above normal
+Enums.priority.neutral = 0       // Default (most plugins)
+Enums.priority.low = 500         // Below normal
+Enums.priority.lowest = 1000     // Low priority / cleanup
+```
+
+### Issue: Domain Unregistration Doesn't Work
+
+**Symptom:** `Hook.unregisterDomain()` doesn't remove hooks.
+
+**Cause:** Mismatch between registration and unregistration hook names or domains.
+
+**Solution:** Use exact same hook name and domain:
+```javascript
+// Registration
+Reactium.Hook.register('app-ready', cb, 0, 'id1', 'MyPlugin');
+
+// Unregistration - must match exactly
+Reactium.Hook.unregisterDomain('app-ready', 'MyPlugin');
+
+// WRONG: Different hook name
+Reactium.Hook.unregisterDomain('app-init', 'MyPlugin');  // Won't work
+
+// WRONG: Different domain
+Reactium.Hook.unregisterDomain('app-ready', 'my-plugin');  // Won't work
 ```
 
 ---
@@ -807,6 +1259,21 @@ Reactium.Hook.flush('app-ready');  // Removes cb1, cb2, cb3 and any others
 ```
 
 **Key Insight:** The `domains` data structure provides an index of hook IDs grouped by domain, enabling efficient bulk unregistration without iterating over all hooks.
+
+---
+
+## Summary
+
+Hook domains are a powerful organizational and lifecycle management tool in Reactium. Key takeaways:
+
+1. **Use domains for plugins** - Essential for proper cleanup and lifecycle management
+2. **Match domain to plugin name** - Consistency makes code easier to understand
+3. **Default domain for globals** - Application-level hooks that never unload
+4. **Implement cleanup** - Always unregister domain hooks in `plugin-unregister`
+5. **Component lifecycle** - Use domains to manage component-mounted hooks
+6. **Document your domains** - Help other developers understand your hook organization
+
+By following these patterns, you'll create maintainable, memory-leak-free plugins that integrate cleanly with Reactium's hook system.
 
 ---
 
