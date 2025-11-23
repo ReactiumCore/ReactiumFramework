@@ -353,6 +353,30 @@ return (
 const headerEl = refs.get('header');
 ```
 
+### Q: When should I use useSelectHandle instead of useSyncHandle?
+
+**A:** Use `useSelectHandle` when you only need a specific part of a Handle's state and want to optimize re-renders:
+
+```javascript
+// useSyncHandle - re-renders on ANY change to the Handle
+const handle = useSyncHandle('UserHandle');
+const username = handle?.get('profile.username');
+
+// useSelectHandle - re-renders ONLY when the selected value changes
+const { handle, selected: username } = useSelectHandle(
+    'UserHandle',
+    'profile.username'  // path to specific value
+);
+
+// Or use a selector function
+const { handle, selected } = useSelectHandle(
+    'UserHandle',
+    state => state.get('profile.username')
+);
+```
+
+**Performance benefit**: If the Handle has 20 properties but you only care about 1, `useSelectHandle` prevents unnecessary re-renders when other properties change.
+
 ## More Information
 
 For comprehensive documentation, see the `CLAUDE/` directory with detailed framework guides.

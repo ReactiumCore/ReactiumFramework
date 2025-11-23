@@ -176,6 +176,7 @@
 
 - **useHandle** → [Gotchas: useHandle vs useSyncHandle](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-7-usehandle-vs-usesynchandle)
 - **useHookComponent** → [Reactium: Hookable Components](../CLAUDE/REACTIUM_FRAMEWORK.md#hookable-components)
+- **useSelectHandle** → [FAQ: useSelectHandle Performance](../FAQ.md#q-when-should-i-use-useselecthandle-instead-of-usesynchandle)
 - **useSyncHandle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
 - **useSyncState** → [Reactium: useSyncState](../CLAUDE/REACTIUM_FRAMEWORK.md#1-local-component-state-usesyncstate)
 - **useState** → [Gotchas: useSyncState Is Not useState](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-2-usesyncstate-is-not-usestate)

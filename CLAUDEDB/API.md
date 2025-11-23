@@ -47,9 +47,12 @@ Handle.register(id, handle)
 Handle.get(id)
 useHandle(id)  // No subscription
 useSyncHandle(id)  // With subscription
+useSelectHandle(id, selector, defaultValue?)  // Optimized - only re-renders on selected value change
+// Returns: { handle, selected }
 ```
 → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
 → [Gotchas: useHandle vs useSyncHandle](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-11-usehandle-vs-usesynchandle)
+→ [FAQ: useSelectHandle Performance](../FAQ.md#q-when-should-i-use-useselecthandle-instead-of-usesynchandle)
 
 ```javascript
 Reactium.Pulse.on(event, callback)
