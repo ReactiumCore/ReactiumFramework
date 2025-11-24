@@ -1,4 +1,4 @@
-<!-- v1.4.0 -->
+<!-- v1.6.0 -->
 # CLAUDEDB - API Quick Reference
 
 **Purpose**: Common functions/hooks with signatures + direct links
@@ -43,13 +43,59 @@ hookableComponent(name)
 ```
 → [hookableComponent: hookableComponent Factory](../CLAUDE/HOOKABLE_COMPONENT.md#hookablecomponent-factory)
 
+### Events & Communication
+
+```javascript
+// ComponentEvent - Type-safe custom event with payload flattening
+new ComponentEvent<T>(type, payload?)
+// Creates CustomEvent where payload properties are flattened onto event
+// Access: event.myProp instead of event.detail.myProp
+// Prototype pollution protection: filters __proto__ and proto__
+// Property collision: prefixes conflicting keys with __
+```
+→ [ComponentEvent System: Overview](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#overview)
+
+```javascript
+useEventEffect<Target>(target, handlers, deps?)
+// Manages addEventListener/removeEventListener with automatic cleanup
+// handlers: { eventName: callback, ... }
+// Returns: void
+```
+→ [ComponentEvent: useEventEffect Hook](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#useeventeffect-hook)
+
+```javascript
+isTarget(target)
+// Checks if target has addEventListener/removeEventListener
+// Returns: boolean
+```
+→ [ComponentEvent: isTarget Helper](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#istarget-helper)
+
 ### State Management
 
 ```javascript
-useSyncState(initialState)
-// Returns: { get(key), set(key, value) | set(object) }
+// ReactiumSyncState - Observable state (EventTarget-based)
+new ReactiumSyncState<T>(initialState, options?)
+state.get<T>(path, defaultValue?)        // Get value at path
+state.set(path, value, update?, forceMerge?)  // Set value with merge
+state.del(path, update?)                 // Delete path
+state.insert(path, value, index, update?)     // Array insertion
+state.reset()                            // Reset to initial
+state.extend(prop, method)               // Add custom method
+state.dispatch(type, payload?)           // Manual event dispatch (uses ComponentEvent)
+state.addEventListener(type, listener, options?, id?)  // Subscribe
+state.removeEventListenerById(type, id)  // Unsubscribe by ID
+// Events: before-set, set, change, before-del, del, before-insert, insert
+```
+→ [ReactiumSyncState Architecture](../CLAUDE/REACTIUM_SYNC_STATE.md#core-concept)
+→ [ReactiumSyncState: Core API](../CLAUDE/REACTIUM_SYNC_STATE.md#core-api)
+→ [ReactiumSyncState: Event System](../CLAUDE/REACTIUM_SYNC_STATE.md#event-system)
+
+```javascript
+useSyncState<T>(initialState, updateEvent = 'set')
+// Returns: ReactiumSyncState<T> (with get/set methods)
 ```
 → [Reactium: useSyncState](../CLAUDE/REACTIUM_FRAMEWORK.md#1-local-component-state-usesyncstate)
+→ [ReactiumSyncState: useSyncState Integration](../CLAUDE/REACTIUM_SYNC_STATE.md#1-usesyncstate-hook)
 → [Gotchas: useSyncState Is Not useState](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-2-usesyncstate-is-not-usestate)
 
 ```javascript
@@ -58,6 +104,7 @@ Reactium.State.set(key, value)
 useGlobalState(key)
 ```
 → [Reactium: Global State](../CLAUDE/REACTIUM_FRAMEWORK.md#2-global-state-reactiumstate)
+→ [ReactiumSyncState: Global State Singleton](../CLAUDE/REACTIUM_SYNC_STATE.md#2-global-state-singleton)
 
 ```javascript
 new Handle(id, initialState)

@@ -1,4 +1,4 @@
-<!-- v1.2.0 -->
+<!-- v1.3.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -107,6 +107,88 @@
 10. [hookableComponent: Common Gotchas](../CLAUDE/HOOKABLE_COMPONENT.md#common-gotchas) - Avoid mistakes (priority bug, non-reactive updates)
 
 **Related**: Component Registry, Component.register, useHookComponent, RegisteredComponents, AppParent, NotFound, Router
+
+### Component Event System
+**Learning Path**:
+1. [ComponentEvent System: Overview](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#overview) - Event foundation for framework
+2. [ComponentEvent System: Core Architecture](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#core-architecture) - ComponentEvent class design
+3. [ComponentEvent System: Payload Flattening](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#payload-flattening) - Convenient event property access
+4. [ComponentEvent System: Integration with ReactiumSyncState](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#integration-with-reactiumsyncstate) - State event lifecycle
+5. [ComponentEvent System: useEventEffect Hook](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#useeventeffect-hook) - React subscription pattern
+6. [ComponentEvent System: Real-World Usage Patterns](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#real-world-usage-patterns) - Practical examples
+7. [ComponentEvent System: Best Practices](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#best-practices) - Do's and don'ts
+8. [ComponentEvent System: Common Gotchas](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#common-gotchas) - Avoid mistakes
+
+**Related**: ReactiumSyncState events, Handle system, useEventEffect, Global State, Component registry communication
+
+### ReactiumSyncState
+**Learning Path**:
+1. [ReactiumSyncState: Core Concept](../CLAUDE/REACTIUM_SYNC_STATE.md#core-concept) - Observable state foundation
+2. [ReactiumSyncState: Architecture Overview](../CLAUDE/REACTIUM_SYNC_STATE.md#architecture-overview) - Internal structure
+3. [ReactiumSyncState: Event System](../CLAUDE/REACTIUM_SYNC_STATE.md#event-system) - Event types and lifecycle
+4. [ReactiumSyncState: Core API](../CLAUDE/REACTIUM_SYNC_STATE.md#core-api) - get, set, del, insert methods
+5. [ReactiumSyncState: Smart Merging System](../CLAUDE/REACTIUM_SYNC_STATE.md#smart-merging-system) - Merge behavior and customization
+6. [ReactiumSyncState: Integration with Framework](../CLAUDE/REACTIUM_SYNC_STATE.md#integration-with-framework) - useSyncState, Global State, Handles
+7. [ReactiumSyncState: Real-World Examples](../CLAUDE/REACTIUM_SYNC_STATE.md#real-world-usage-examples) - Component state, routing sync
+8. [ReactiumSyncState: Best Practices](../CLAUDE/REACTIUM_SYNC_STATE.md#best-practices) - Choosing events, namespacing, cleanup
+9. [ReactiumSyncState: Common Gotchas](../CLAUDE/REACTIUM_SYNC_STATE.md#common-gotchas) - Array merging, reset(), direct mutation
+
+**Related**: useSyncState, Component registry, Handle system, Global State, ComponentEvent
+
+### Handle System
+**Learning Path**:
+1. [Handle System: Overview](../CLAUDE/HANDLE_SYSTEM.md#overview) - Global component communication
+2. [Handle System: Core Architecture](../CLAUDE/HANDLE_SYSTEM.md#core-architecture) - Handle registry singleton
+3. [Handle System: React Hook Integration](../CLAUDE/HANDLE_SYSTEM.md#react-hook-integration) - Provider and consumer patterns
+4. [Handle System: useRegisterHandle](../CLAUDE/HANDLE_SYSTEM.md#provider-pattern-useregisterhandle) - Provider pattern
+5. [Handle System: useHandle vs useSyncHandle](../CLAUDE/HANDLE_SYSTEM.md#consumer-pattern-usehandle) - Consumer patterns (critical difference)
+6. [Handle System: useRegisterSyncHandle](../CLAUDE/HANDLE_SYSTEM.md#observable-state-provider-useregistersynchandle) - Observable state provider
+7. [Handle System: useSelectHandle](../CLAUDE/HANDLE_SYSTEM.md#selective-re-rendering-useselecthandle) - Performance optimization
+8. [Handle System: Real-World Patterns](../CLAUDE/HANDLE_SYSTEM.md#real-world-usage-patterns) - Global state, routing, plugin APIs
+9. [Handle System: Best Practices](../CLAUDE/HANDLE_SYSTEM.md#best-practices) - Naming, types, documentation
+10. [Handle System: Common Gotchas](../CLAUDE/HANDLE_SYSTEM.md#common-gotchas) - useHandle vs useSyncHandle confusion
+
+**Related**: ReactiumSyncState, Global state, Plugin communication, Route data, object-path addressing
+
+### Style Partial System
+**Learning Path**:
+1. [Style Partial System: Overview](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#overview) - Auto-discovery and aggregation
+2. [Style Partial System: Priority Levels](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#priority-levels-enumsstyle) - Atomic Design hierarchy
+3. [Style Partial System: Naming Patterns](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#naming-patterns) - Directory-based vs DDD-based
+4. [Style Partial System: File Discovery Process](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#file-discovery-process) - Registry, hooks, sorting
+5. [Style Partial System: Real-World Usage](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#real-world-usage) - Component styles, variables, plugins
+6. [Style Partial System: Compilation Workflow](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#compilation-workflow) - Build process and watch mode
+7. [Style Partial System: Best Practices](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#best-practices) - Naming, priorities, organization
+8. [Style Partial System: Common Gotchas](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#common-gotchas) - Priority confusion, workspace paths
+
+**Related**: SCSS, Gulp build system, Registry pattern, DDD structure, Atomic Design, Plugin styles
+
+### AppContext Provider System
+**Learning Path**:
+1. [AppContext: Overview](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview) - React Context integration
+2. [AppContext: Core Architecture](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#core-architecture) - Registry pattern for providers
+3. [AppContext: Lifecycle Integration](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#lifecycle-integration) - Hook timeline and timing
+4. [AppContext: Registration API](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#registration-api) - How to register providers
+5. [AppContext: Nesting Order & Priority](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#nesting-order--priority) - Provider wrapping hierarchy
+6. [AppContext: Common Use Cases](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#common-use-cases) - Apollo, Redux, Material-UI
+7. [AppContext: Best Practices](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#best-practices) - Initialize deps, naming, priority
+8. [AppContext: Common Gotchas](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#common-gotchas) - Name collisions, priority confusion
+
+**Related**: React Context, Apollo Client, Redux, Material-UI, Plugin integration, Priority system
+
+### Component Binding System
+**Learning Path**:
+1. [Component Binding: Overview](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#overview) - Multi-root React architecture
+2. [Component Binding: Lifecycle Integration](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#lifecycle-integration) - Hook timeline
+3. [Component Binding: data-reactium-bind Attribute](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#the-data-reactium-bind-attribute) - Bind point pattern
+4. [Component Binding: React 18 Multi-Root Pattern](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#react-18-multi-root-pattern) - Root management
+5. [Component Binding: Adding Custom Bind Points](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#adding-custom-bind-points) - Server and client registration
+6. [Component Binding: Real-World Use Cases](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#real-world-use-cases) - Dev tools, admin UI, widgets
+7. [Component Binding: SSR Hydration Pattern](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#ssr-hydration-pattern) - Server and client flow
+8. [Component Binding: Best Practices](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#best-practices) - Use zones vs bind points
+9. [Component Binding: Common Gotchas](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#common-gotchas) - Timing, registration, discovery
+
+**Related**: React 18 roots, hookableComponent, AppContexts, Zone system, SSR, Plugin UI injection
 
 ### Manifest System
 **Learning Path**:
@@ -297,4 +379,4 @@
 ---
 
 **Usage**: Find concept → Follow learning path → Build understanding step-by-step
-**Coverage**: 25+ major framework concepts with multi-step learning paths
+**Coverage**: 32+ major framework concepts with multi-step learning paths

@@ -1,4 +1,4 @@
-<!-- v1.7.0 -->
+<!-- v1.10.0 -->
 # CLAUDEDB - Keyword Index
 
 **Purpose**: O(1) keyword lookup → direct section links
@@ -24,6 +24,7 @@
 - **app-ready** → [Reactium: Hook System](../CLAUDE/REACTIUM_FRAMEWORK.md#common-framework-hooks)
 - **AppBindings** → [Component Binding: Server-Side](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#server-side-register-bind-point-markup)
 - **AppContexts** → [Component Binding: AppContexts Wrapper](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#appcontexts-wrapper)
+- **Atomic Design** → [Style Partial System: Priority Levels](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#priority-levels-enumsstyle)
 - **Authentication** → [Integration: Authentication & Session Management](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 - **Authorization** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
 
@@ -48,6 +49,9 @@
 - **Component** → [Reactium: Component System](../CLAUDE/REACTIUM_FRAMEWORK.md#component-system)
 - **Component.register** → [hookableComponent: Registration Pattern](../CLAUDE/HOOKABLE_COMPONENT.md#registration-pattern)
 - **Component binding** → [Component Binding System](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#overview)
+- **ComponentEvent** → [ComponentEvent System](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#overview)
+- **Component events** → [ComponentEvent: Real-World Usage](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#real-world-usage-patterns)
+- **Custom events** → [ComponentEvent: Overview](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#overview)
 - **component-bindings** → [Component Binding: Lifecycle Integration](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#lifecycle-integration)
 - **Component Registry** → [hookableComponent: Component Registry](../CLAUDE/HOOKABLE_COMPONENT.md#component-registry)
 - **Component replacement** → [hookableComponent: Component Replacement Strategy](../CLAUDE/HOOKABLE_COMPONENT.md#component-replacement-strategy)
@@ -76,6 +80,9 @@
 - **Environment** → [Integration: Development Workflow](../CLAUDE/FRAMEWORK_INTEGRATION.md#development-workflow)
 - **Errors** → [Gotchas: Common Error Messages](../CLAUDE/FRAMEWORK_GOTCHAS.md#common-error-messages)
 - **ES Modules** → [Gotchas: ES Module Syntax](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-11-es-module-syntax-required)
+- **Event flattening** → [ComponentEvent: Payload Flattening](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#1-payload-flattening)
+- **EventPayload** → [ComponentEvent: EventPayload Interface](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#eventpayload-interface)
+- **Events** → [ComponentEvent System](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#overview)
 - **Express** → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
 
 ## F
@@ -167,6 +174,10 @@
 - **reactium-webpack.js** → [ReactiumWebpack: DDD Discovery Pattern](../CLAUDE/REACTIUM_WEBPACK.md#reactium-webpackjs)
 - **reactium_modules** → [Reactium: Project Structure](../CLAUDE/REACTIUM_FRAMEWORK.md#project-structure)
 - **React Context** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
+- **ReactiumSyncState** → [ReactiumSyncState Architecture](../CLAUDE/REACTIUM_SYNC_STATE.md#core-concept)
+- **ReactiumSyncState.get** → [ReactiumSyncState: get() method](../CLAUDE/REACTIUM_SYNC_STATE.md#getpath-defaultvalue)
+- **ReactiumSyncState.set** → [ReactiumSyncState: set() method](../CLAUDE/REACTIUM_SYNC_STATE.md#setpath-value-update-forcemerge)
+- **ReactiumSyncState.extend** → [ReactiumSyncState: extend() method](../CLAUDE/REACTIUM_SYNC_STATE.md#extendprop-method)
 - **Real-time** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
 - **Redux** → [AppContext: Redux Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#2-redux-store)
 - **register-route** → [Routing System: The register-route Hook](../CLAUDE/ROUTING_SYSTEM.md#the-register-route-hook)
@@ -207,6 +218,7 @@
 
 ## U
 
+- **useEventEffect** → [ComponentEvent: useEventEffect Hook](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#useeventeffect-hook)
 - **useHandle** → [Handle System: Consumer Pattern](../CLAUDE/HANDLE_SYSTEM.md#consumer-pattern-usehandle)
 - **useHookComponent** → [hookableComponent: useHookComponent Hook](../CLAUDE/HOOKABLE_COMPONENT.md#usehookcomponent-hook)
 - **useRegisterHandle** → [Handle System: Provider Pattern](../CLAUDE/HANDLE_SYSTEM.md#provider-pattern-useregisterhandle)
@@ -254,7 +266,9 @@
 - **GraphQL** = **Apollo** → [AppContext: Apollo GraphQL Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#1-apollo-graphql-client)
 - **LocalStorage** = **Prefs** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **Global communication** = **Handle** = **Cross-component state** → [Handle System Architecture](../CLAUDE/HANDLE_SYSTEM.md#overview)
-- **Observable state** = **Handle** = **ReactiumSyncState** → [Handle System Architecture](../CLAUDE/HANDLE_SYSTEM.md#integration-with-reactiumsyncstate)
+- **Observable state** = **ReactiumSyncState** = **EventTarget state** → [ReactiumSyncState Architecture](../CLAUDE/REACTIUM_SYNC_STATE.md#core-concept)
+- **Event-driven state** = **ReactiumSyncState** = **Observable state** → [ReactiumSyncState Architecture](../CLAUDE/REACTIUM_SYNC_STATE.md#event-system)
+- **State merging** = **Smart merge** = **Merge conditions** → [ReactiumSyncState: Smart Merging](../CLAUDE/REACTIUM_SYNC_STATE.md#smart-merging-system)
 - **Page animations** = **Route transitions** = **transitionState** → [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine)
 - **NotFound** = **404 page** → [hookableComponent: Original Component Implementation](../CLAUDE/HOOKABLE_COMPONENT.md#original-component-implementation)
 - **Plugin** = **Extension** → [Reactium: Plugin System](../CLAUDE/REACTIUM_FRAMEWORK.md#plugin-system--registration)

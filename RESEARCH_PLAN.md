@@ -17,30 +17,33 @@ Topics for future exploration sessions with specialized agents.
 - ✅ **hookableComponent System** - Complete pattern for replaceable/extensible components via Component Registry; useHookComponent hook retrieves from RegisteredComponents (ReactiumSyncState singleton); hookableComponent factory creates wrapper components; registration patterns (core components on init, plugins on plugin-init); component replacement strategy (same ID, later priority wins); integration with routing (string component resolution); lifecycle timing (init→plugin-init→routes-init); real-world use cases (theming, A/B testing, feature flags, error boundaries); replacement patterns for AppParent, NotFound, Router; props forwarding; code splitting best practices; TypeScript support; critical bug fix (Enums.priority.neutral not .normal); non-reactive updates gotcha; all core components cataloged (AppParent, NotFound, RoutedContent, AppContent, Router); complete source references (Nov 23, 2025)
 - ✅ **Handle System Architecture** - Global component communication registry with publish-subscribe model; singleton ReactiumHandle instance with object-path addressing; five React hooks (useHandle, useSyncHandle, useRegisterHandle, useRegisterSyncHandle, useSelectHandle); integration with ReactiumSyncState for observable state; routing data loading pattern with automatic cleanup; handle lifecycle tied to component lifecycle; performance optimization with selective subscriptions; comparison with Context/Redux/MobX; real-world patterns (global state, plugin communication, route data loading, component instance control); common gotchas (useHandle vs useSyncHandle confusion, handle not yet registered, deps array omission, direct mutation); best practices (naming conventions, type safety, documentation); debugging techniques; comprehensive source references from reactium-sdk-core/src/browser/Handle.ts and routing system (Nov 23, 2025)
 - ✅ **Component Binding and DOM Integration** - Multi-root React 18 architecture using data-reactium-bind attribute; hook-driven discovery via component-bindings hook; dynamic component resolution through hookableComponent; SSR-compatible with server-rendered bind points and client hydration; plugin-extensible bind point registration; lifecycle integration (plugin-init → component-bindings → app-bindpoint → ReactDOM render); AppContexts wrapper for all bind points; main App bind point special handling; real-world use cases (DevTools, admin toolbars, embedded widgets, plugin UI injection); performance considerations (multiple reconciliation trees, isolated re-renders); comparison with Zones and Portals; common gotchas (component not registered before binding, bind point markup missing from server, dynamic bind points not discovered); best practices (use zones for in-app UI, reserve bind points for independent apps, capability-gate sensitive UI); debugging techniques; comprehensive source references from reactium-core/app/index.jsx and server/renderer (Nov 23, 2025)
+- ✅ **ReactiumSyncState Deep Dive** - Foundational observable state pattern extending EventTarget; object-path addressing with get/set/del/insert API; event lifecycle (before-set → set → change, before-del → del, before-insert → insert); smart merging with hook-extensible conditions (use-sync-state-merge-conditions); extend() method for custom instance methods; integration with useSyncState hook, global State singleton, RegisteredComponents registry, Handle system, routing handles; real examples from StateLoader component, RoutedContent routing sync, State.registerDataLoader extension; comparison with useState/MobX/Redux; best practices (event selection, namespacing, batching, cleanup); common gotchas (change event not firing, array replacement, reset without events, direct mutation, noMerge scope, path confusion, listener ID collision); performance considerations (event overhead, deep equality, memory leaks); comprehensive source references from reactium-sdk-core/src/browser/ReactiumSyncState.ts:68-532 (Nov 23, 2025)
+- ✅ **ComponentEvent System** - Type-safe custom event class providing payload flattening, prototype pollution protection, and framework-wide event communication backbone; extends CustomEvent with automatic property spreading (access event.prop instead of event.detail.prop); property collision resolution (prefixes with __ when property exists); reserved property removal (type/target); integration with ReactiumSyncState.dispatch(), useEventEffect hook, global State, Component registry, Handle system; real-world patterns from core plugins; common event naming conventions; comparison with native CustomEvent and React SyntheticEvent; comprehensive source references from reactium-sdk-core/src/browser/Events.ts:21-78 (Nov 23, 2025)
+- ✅ **Reactium Style Partial System** - Registry-based SCSS partial discovery and aggregation system with priority-based compilation order (VARIABLES → MIXINS → BASE → ATOMS → MOLECULES → ORGANISMS → OVERRIDES); hook-driven extensibility (ddd-styles-partial, ddd-styles-partial-glob hooks); auto-discovery of _reactium-style*.scss files; Atomic Design System integration; dynamic path transformation for workspace modules (reactium_modules/ → + prefix); multi-level sorting (directory, filename, numeric, priority); plugin style injection patterns; real-world usage from core plugins; comprehensive source references from Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/gulp.tasks.js:559-770 and gulp.bootup.js:15-23 (Nov 23, 2025)
 
 ## Pending Research Topics
 
 ### High Priority
 
-1. ReactiumSyncState Deep Dive
+1. Prefs System Architecture
 
-   - **Discovered during**: Handle System research - fundamental observable state pattern
-   - **Why it matters**: Core building block for Handle system, useSyncState, and global state patterns
-   - **Current gap**: While Handle system is documented, ReactiumSyncState itself needs dedicated coverage
+   - **Discovered during**: ComponentEvent research - noticed Prefs extends ReactiumSyncState but never fully explored
+   - **Why it matters**: LocalStorage management with reactivity is critical for persistent user preferences and app state
+   - **Current gap**: Prefs API patterns, localStorage synchronization, event-driven updates, expiration/validation not documented
    - **Key mechanisms**:
-     - EventTarget-based observable pattern (extends native EventTarget)
-     - object-path integration for nested state access
-     - Event lifecycle (before-set, set, change, before-del, del, before-insert, insert)
-     - Smart merging logic with Hook-based extensibility (use-sync-state-merge-conditions)
-     - extend() method for adding custom methods to state instances
-     - Comparison with useState/useReducer patterns
-   - **Real usage**: Foundation for useSyncState, useRegisterSyncHandle, Reactium.State, routing handles
-   - **Source**: `reactium-sdk-core/src/browser/ReactiumSyncState.ts:68-532`
-   - **Integration**: Used throughout framework (State singleton, routing handles, plugin state)
-   - **Critical for**: Understanding state management philosophy, building custom state patterns, debugging state issues
-   - **Research scope**: Event system details, merge conditions hook, extend pattern, performance characteristics, comparison with MobX observables
+     - Extends ReactiumSyncState for observable localStorage
+     - Automatic localStorage sync on state changes
+     - JSON serialization/deserialization with validation
+     - Expiration/TTL support for cached preferences
+     - Integration with global State and Handles
+     - Hook-driven extensibility for preference validation
+     - Cross-tab synchronization via storage events
+   - **Real usage**: `reactium-sdk-core/src/browser/Prefs.ts` (need to locate and analyze)
+   - **Integration**: Works with State system, Handle system, browser utilities
+   - **Critical for**: User preferences, session persistence, offline-first patterns, cross-tab sync
+   - **Research scope**: Prefs API methods, localStorage sync patterns, validation/expiration, real-world usage in core plugins, comparison with raw localStorage
 
-1. Server-Side Rendering (SSR) Architecture
+3. Server-Side Rendering (SSR) Architecture
 
    - **Discovered during**: Component Binding research - noticed SSR template generation but never fully explored
    - **Why it matters**: Critical for understanding production builds, SEO, performance, and initial page load
@@ -57,41 +60,32 @@ Topics for future exploration sessions with specialized agents.
    - **Critical for**: Production deployments, performance optimization, SEO implementation
    - **Research scope**: Template generation workflow, state hydration pattern, static vs SSR builds, asset management
 
-1a. Reactium-Style Partial System (Gulp)
+2. Pulse System Patterns
 
-- Registry-based SCSS partial discovery and aggregation system
-- Priority-based compilation order (VARIABLES → MIXINS → BASE → ATOMS → MOLECULES → ORGANISMS → OVERRIDES)
-- Hook-driven extensibility (`ddd-styles-partial`, `ddd-styles-partial-glob`)
-- Atomic Design System integration with DDD artifacts
-- Auto-discovery of `_reactium-style*.scss` files with pattern matching
-- Dynamic path transformation for workspace module imports (`reactium_modules/` → `+` prefix)
-- Plugin style injection patterns
-- Critical for: component development, plugin authoring, debugging SCSS compilation errors
-- Questions: SassPartialRegistry pattern matching, priority level purposes, custom partial registration, naming conventions, webpack integration
+   - **Discovered during**: Style Partial research - noticed Pulse mentioned in SDK but never explored
+   - **Why it matters**: Recurring process scheduler is a unique Reactium feature for background tasks, polling, and real-time updates
+   - **Current gap**: Pulse API, scheduling patterns, lifecycle management, real-world usage not documented
+   - **Key mechanisms**:
+     - Registry-based recurring task scheduler
+     - Interval-based execution (like cron for React)
+     - Priority-based execution order
+     - Start/stop/pause/resume lifecycle
+     - Integration with browser visibility API (pause when tab hidden)
+     - Memory leak prevention with automatic cleanup
+     - Hook-driven extensibility
+   - **Real usage**: `reactium-sdk-core/src/core/Pulse.ts` (need to locate and analyze)
+   - **Integration**: Works with Hook system, browser utilities, performance optimization
+   - **Critical for**: Polling APIs, auto-save, real-time data refresh, background sync, performance monitoring
+   - **Research scope**: Pulse API methods, scheduling patterns, lifecycle hooks, real-world usage in core plugins, comparison with setInterval/setTimeout
 
-2. Component Event System Deep Dive
-
-- ComponentEvent and useEventEffect are mentioned but never explored
-- Essential for reactive, decoupled component patterns
-
-3. Prefs System Architecture
-
-- LocalStorage management with reactivity - critical gap
-- Important for persistent user preferences and app state
-
-4. Pulse System Patterns
-
-- Recurring process scheduler - unique framework feature
-- Essential for background tasks, polling, real-time updates
-
-5. Testing Strategies & Patterns
+3. Testing Strategies & Patterns
 
 - Critical gap for production apps
 - Need guidance on testing DDD artifacts, plugins, Handle-based state
 
 ### Medium Priority
 
-6. **Collection Registration**
+4. **Collection Registration**
 
    - Identify how Parse Collections are registered
    - How collection permissions are registered
@@ -123,10 +117,10 @@ Topics for future exploration sessions with specialized agents.
 
 10. **Plugin Dependency Resolution**
 
-   - How `pluginDependencies` array works
-   - Order vs dependencies
-   - Circular dependency handling
-   - Plugin activation/deactivation flow
+- How `pluginDependencies` array works
+- Order vs dependencies
+- Circular dependency handling
+- Plugin activation/deactivation flow
 
 11. **Middleware Auto-Discovery (Actinium)**
 
@@ -167,6 +161,7 @@ Topics for future exploration sessions with specialized agents.
 > "Will this help Claude Code assist developers more effectively?"
 
 **✅ RESEARCH if the topic:**
+
 - Helps understand codebase architecture deeply
 - Enables more accurate guidance to developers
 - Supports effective debugging of issues
@@ -175,6 +170,7 @@ Topics for future exploration sessions with specialized agents.
 - Addresses critical knowledge gaps
 
 **❌ SKIP/REMOVE if the topic:**
+
 - Contains trivial implementation details easily found in source
 - Covers rarely used edge-case features
 - Is self-explanatory from API signatures

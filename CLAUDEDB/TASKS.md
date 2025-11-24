@@ -1,4 +1,4 @@
-<!-- v1.7.0 -->
+<!-- v1.9.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -59,6 +59,15 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [AppContext: Registration API](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#reactiumappcontextregistername-data-order)
 → [AppContext: Common Use Cases](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#common-use-cases)
 
+### Add component styles
+→ [Style Partial System: Overview](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#overview)
+→ [Style Partial System: Real-World Usage](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#real-world-usage)
+→ [Style Partial System: Naming Patterns](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#naming-patterns)
+
+### Register custom SCSS patterns
+→ [Style Partial System: Hook Extension](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#2-pre-registration--hook-extension)
+→ [Style Partial System: Pattern 4 - Custom Priority](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#pattern-4-custom-priority-registration)
+
 ### Integrate Apollo GraphQL
 → [AppContext: Apollo GraphQL Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#1-apollo-graphql-client)
 → [SDK Extension: APIRegistry Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#example-graphql-integration)
@@ -112,6 +121,15 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Handle System: Overview](../CLAUDE/HANDLE_SYSTEM.md#overview)
 → [Handle System: Real-World Usage Patterns](../CLAUDE/HANDLE_SYSTEM.md#real-world-usage-patterns)
 → [Patterns: Handle-Based Shared State](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-3-handle-based-shared-state)
+
+### Listen to state changes
+→ [ComponentEvent: useEventEffect Hook](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#useeventeffect-hook)
+→ [ReactiumSyncState: Event Lifecycle](../CLAUDE/REACTIUM_SYNC_STATE.md#event-lifecycle)
+→ [ComponentEvent: Real-World Usage Patterns](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#real-world-usage-patterns)
+
+### Dispatch custom events
+→ [ComponentEvent: Overview](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#overview)
+→ [ReactiumSyncState: dispatch() Method](../CLAUDE/REACTIUM_SYNC_STATE.md#dispatchpayload-type-string-payload-payload--this)
 
 ### Provide an API/service globally
 → [Handle System: Provider Pattern](../CLAUDE/HANDLE_SYSTEM.md#provider-pattern-useregisterhandle)

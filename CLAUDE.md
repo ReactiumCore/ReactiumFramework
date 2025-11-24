@@ -242,6 +242,8 @@ state.set({ count: 10, name: 'Alice' });
 
 **Why use it**: Synchronous (unlike `useState`), easier to pass around, integrates with Reactium's reactive systems.
 
+**For comprehensive details**, see [CLAUDE/REACTIUM_SYNC_STATE.md](/home/john/reactium-framework/CLAUDE/REACTIUM_SYNC_STATE.md).
+
 ### 2. `useHandle` vs `useSyncHandle` - Critical Difference
 
 ```javascript

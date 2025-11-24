@@ -485,6 +485,8 @@ const VideoControls = () => {
 
 **Key Insight:** Handles can store **any value**, but using `ReactiumSyncState` enables reactive patterns.
 
+**See also:** [REACTIUM_SYNC_STATE.md](REACTIUM_SYNC_STATE.md) for comprehensive ReactiumSyncState documentation.
+
 **Three state management approaches:**
 
 ### 1. Static Handle (no reactivity)
@@ -917,3 +919,8 @@ useEffect(() => {
 - ❌ Simple component state (use `useState`/`useSyncState`)
 - ❌ Truly local state (use React state)
 - ❌ Need advanced debugging tools (consider Redux)
+
+**Related Documentation:**
+- [ReactiumSyncState Deep Dive](REACTIUM_SYNC_STATE.md) - Foundation for handle observability
+- [ComponentEvent System](COMPONENT_EVENT_SYSTEM.md) - Event communication backbone
+- [Routing System Architecture](ROUTING_SYSTEM.md) - Route data loading with handles
