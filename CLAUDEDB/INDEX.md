@@ -1,4 +1,4 @@
-<!-- v1.5.0 -->
+<!-- v1.7.0 -->
 # CLAUDEDB - Keyword Index
 
 **Purpose**: O(1) keyword lookup → direct section links
@@ -19,8 +19,11 @@
 - **APIRegistry** → [SDK Extension: APIRegistry Internals](../CLAUDE/SDK_EXTENSION_PATTERN.md#apiregistry-internals)
 - **AppContext** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
 - **AppContext.register** → [AppContext: Registration API](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#reactiumappcontextregistername-data-order)
+- **app-bindpoint** → [Component Binding: app-bindpoint Hook](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#integration-with-app-bindpoint-hook)
 - **app-context-provider** → [AppContext: Hook Timeline](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#hook-timeline)
 - **app-ready** → [Reactium: Hook System](../CLAUDE/REACTIUM_FRAMEWORK.md#common-framework-hooks)
+- **AppBindings** → [Component Binding: Server-Side](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#server-side-register-bind-point-markup)
+- **AppContexts** → [Component Binding: AppContexts Wrapper](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#appcontexts-wrapper)
 - **Authentication** → [Integration: Authentication & Session Management](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 - **Authorization** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
 
@@ -44,6 +47,8 @@
 - **Code splitting (webpack)** → [ReactiumWebpack: Optimization Methods](../CLAUDE/REACTIUM_WEBPACK.md#setcodesplittingoptimizeenv)
 - **Component** → [Reactium: Component System](../CLAUDE/REACTIUM_FRAMEWORK.md#component-system)
 - **Component.register** → [hookableComponent: Registration Pattern](../CLAUDE/HOOKABLE_COMPONENT.md#registration-pattern)
+- **Component binding** → [Component Binding System](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#overview)
+- **component-bindings** → [Component Binding: Lifecycle Integration](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#lifecycle-integration)
 - **Component Registry** → [hookableComponent: Component Registry](../CLAUDE/HOOKABLE_COMPONENT.md#component-registry)
 - **Component replacement** → [hookableComponent: Component Replacement Strategy](../CLAUDE/HOOKABLE_COMPONENT.md#component-replacement-strategy)
 - **Context providers** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
@@ -54,8 +59,10 @@
 ## D
 
 - **Data loading** → [Reactium: Data Loading with loadState](../CLAUDE/REACTIUM_FRAMEWORK.md#data-loading-with-loadstate)
+- **data-reactium-bind** → [Component Binding: Attribute Pattern](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#the-data-reactium-bind-attribute)
 - **Database** → [Actinium Quick Ref: Database Schema](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#database-schema-definition)
 - **DDD** → [Reactium: Domain-Driven Design](../CLAUDE/REACTIUM_FRAMEWORK.md#domain-driven-design-ddd-structure)
+- **DevTools binding** → [Component Binding: Development Tools](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#1-development-tools)
 - **Debugging** → [Gotchas: Debugging Strategies](../CLAUDE/FRAMEWORK_GOTCHAS.md#debugging-strategies)
 - **Dependencies** → [Patterns: Plugin Dependency Management](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-12-plugin-dependency-management)
 - **Deploy** → [Integration: Deployment](../CLAUDE/FRAMEWORK_INTEGRATION.md#deployment)
@@ -84,8 +91,11 @@
 
 ## H
 
-- **Handle** → [Reactium: Handles - Shared Observable State](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
-- **handleId** → [Reactium: Data Loading with loadState](../CLAUDE/REACTIUM_FRAMEWORK.md#data-loading-with-loadstate)
+- **Handle** → [Handle System Architecture](../CLAUDE/HANDLE_SYSTEM.md#overview)
+- **Handle.register** → [Handle System: Core Architecture](../CLAUDE/HANDLE_SYSTEM.md#the-handle-registry)
+- **Handle.get** → [Handle System: Core Architecture](../CLAUDE/HANDLE_SYSTEM.md#the-handle-registry)
+- **Handle.unregister** → [Handle System: Core Architecture](../CLAUDE/HANDLE_SYSTEM.md#the-handle-registry)
+- **handleId** → [Routing System: Data Loading Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
 - **HMR** → [Gotchas: Build System](../CLAUDE/FRAMEWORK_GOTCHAS.md#build-system-gotchas)
 - **Hook** → [Reactium: Hook System](../CLAUDE/REACTIUM_FRAMEWORK.md#hook-system)
 - **Hook.register** → [Reactium: Hook Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#hook-registration)
@@ -197,10 +207,12 @@
 
 ## U
 
-- **useHandle** → [Gotchas: useHandle vs useSyncHandle](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-7-usehandle-vs-usesynchandle)
+- **useHandle** → [Handle System: Consumer Pattern](../CLAUDE/HANDLE_SYSTEM.md#consumer-pattern-usehandle)
 - **useHookComponent** → [hookableComponent: useHookComponent Hook](../CLAUDE/HOOKABLE_COMPONENT.md#usehookcomponent-hook)
-- **useSelectHandle** → [FAQ: useSelectHandle Performance](../FAQ.md#q-when-should-i-use-useselecthandle-instead-of-usesynchandle)
-- **useSyncHandle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
+- **useRegisterHandle** → [Handle System: Provider Pattern](../CLAUDE/HANDLE_SYSTEM.md#provider-pattern-useregisterhandle)
+- **useRegisterSyncHandle** → [Handle System: Observable State Provider](../CLAUDE/HANDLE_SYSTEM.md#observable-state-provider-useregistersynchandle)
+- **useSelectHandle** → [Handle System: Selective Re-rendering](../CLAUDE/HANDLE_SYSTEM.md#selective-re-rendering-useselecthandle)
+- **useSyncHandle** → [Handle System: Reactive Consumer Pattern](../CLAUDE/HANDLE_SYSTEM.md#reactive-consumer-pattern-usesynchandle)
 - **useSyncState** → [Reactium: useSyncState](../CLAUDE/REACTIUM_FRAMEWORK.md#1-local-component-state-usesyncstate)
 - **useState** → [Gotchas: useSyncState Is Not useState](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-2-usesyncstate-is-not-usestate)
 
@@ -241,7 +253,8 @@
 - **Frontend** = **Reactium** → [Reactium Framework](../CLAUDE/REACTIUM_FRAMEWORK.md)
 - **GraphQL** = **Apollo** → [AppContext: Apollo GraphQL Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#1-apollo-graphql-client)
 - **LocalStorage** = **Prefs** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
-- **Observable state** = **Handle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
+- **Global communication** = **Handle** = **Cross-component state** → [Handle System Architecture](../CLAUDE/HANDLE_SYSTEM.md#overview)
+- **Observable state** = **Handle** = **ReactiumSyncState** → [Handle System Architecture](../CLAUDE/HANDLE_SYSTEM.md#integration-with-reactiumsyncstate)
 - **Page animations** = **Route transitions** = **transitionState** → [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine)
 - **NotFound** = **404 page** → [hookableComponent: Original Component Implementation](../CLAUDE/HOOKABLE_COMPONENT.md#original-component-implementation)
 - **Plugin** = **Extension** → [Reactium: Plugin System](../CLAUDE/REACTIUM_FRAMEWORK.md#plugin-system--registration)
@@ -250,10 +263,11 @@
 - **Provider nesting** = **Provider order** → [AppContext: Nesting Order & Priority](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#nesting-order--priority)
 - **Pub/sub** = **Events** = **Pulse** → [Reactium: Pulse - Pub/Sub Events](../CLAUDE/REACTIUM_FRAMEWORK.md#4-pulse-pubsub-events)
 - **Real-time** = **Live Query** = **WebSocket** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
+- **Multi-root React** = **Component binding** = **data-reactium-bind** → [Component Binding System](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#overview)
 - **Replaceable components** = **hookableComponent** = **Component.register** → [hookableComponent System](../CLAUDE/HOOKABLE_COMPONENT.md#overview)
 - **Route data** = **loadState** → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
 - **Route transitions** = **Page animations** = **transitionState** → [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine)
-- **Shared state** = **Handle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
+- **Shared state** = **Handle** = **Global state** → [Handle System Architecture](../CLAUDE/HANDLE_SYSTEM.md#overview)
 - **Theming** = **AppParent replacement** → [hookableComponent: Real-World Use Cases](../CLAUDE/HOOKABLE_COMPONENT.md#real-world-use-cases)
 - **Webpack config** = **Build customization** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
 

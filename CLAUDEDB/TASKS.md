@@ -1,4 +1,4 @@
-<!-- v1.5.0 -->
+<!-- v1.7.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -109,8 +109,17 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Patterns: Static Method Data Loading](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-2-static-method-data-loading)
 
 ### Share state between components
-→ [Reactium: Handles - Shared Observable State](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
+→ [Handle System: Overview](../CLAUDE/HANDLE_SYSTEM.md#overview)
+→ [Handle System: Real-World Usage Patterns](../CLAUDE/HANDLE_SYSTEM.md#real-world-usage-patterns)
 → [Patterns: Handle-Based Shared State](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-3-handle-based-shared-state)
+
+### Provide an API/service globally
+→ [Handle System: Provider Pattern](../CLAUDE/HANDLE_SYSTEM.md#provider-pattern-useregisterhandle)
+→ [Handle System: Pattern 4 - Plugin Communication](../CLAUDE/HANDLE_SYSTEM.md#pattern-4-plugin-communication)
+
+### Consume global state reactively
+→ [Handle System: Reactive Consumer Pattern](../CLAUDE/HANDLE_SYSTEM.md#reactive-consumer-pattern-usesynchandle)
+→ [Handle System: Observable State Provider](../CLAUDE/HANDLE_SYSTEM.md#observable-state-provider-useregistersynchandle)
 
 ### Manage local component state
 → [Reactium: useSyncState](../CLAUDE/REACTIUM_FRAMEWORK.md#1-local-component-state-usesyncstate)
@@ -120,7 +129,12 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 
 ### Optimize Handle re-renders (select specific state)
+→ [Handle System: Selective Re-rendering](../CLAUDE/HANDLE_SYSTEM.md#selective-re-rendering-useselecthandle)
 → [FAQ: useSelectHandle Performance](../FAQ.md#q-when-should-i-use-useselecthandle-instead-of-usesynchandle)
+
+### Debug Handle issues
+→ [Handle System: Debugging Handles](../CLAUDE/HANDLE_SYSTEM.md#debugging-handles)
+→ [Handle System: Common Gotchas](../CLAUDE/HANDLE_SYSTEM.md#common-gotchas)
 
 ### Query database
 → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
@@ -200,6 +214,20 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 ### Create dynamic UI
 → [Zone System Deep Dive](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md)
 → [Patterns: Component Registry Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-6-component-registry-pattern)
+
+### Add independent React app to page
+→ [Component Binding: Overview](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#overview)
+→ [Component Binding: Adding Custom Bind Points](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#adding-custom-bind-points)
+→ [Component Binding: Real-World Use Cases](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#real-world-use-cases)
+
+### Add dev tools outside main app
+→ [Component Binding: Development Tools](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#1-development-tools)
+
+### Add admin toolbar
+→ [Component Binding: Admin Toolbars](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#2-admin-toolbars)
+
+### Embed widget on marketing page
+→ [Component Binding: Multi-App Portals](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#3-multi-app-portals)
 
 ### Replace a core component
 → [hookableComponent: Component Replacement Strategy](../CLAUDE/HOOKABLE_COMPONENT.md#component-replacement-strategy)

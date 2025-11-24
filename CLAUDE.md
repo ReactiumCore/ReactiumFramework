@@ -130,7 +130,7 @@ The SDK provides 16 React hooks in `/browser`:
 - **Hook** - Async/sync callbacks for lifecycle hooks
 - **Component** - Registry for replaceable React components (string tokens)
 - **Zone** - Registry for rendering components in designated zones via `<Zone />`
-- **Handle** - Observable state containers (similar to observables)
+- **Handle** - Global component communication registry (see [CLAUDE/HANDLE_SYSTEM.md](/home/john/reactium-framework/CLAUDE/HANDLE_SYSTEM.md))
 - **Pulse** - Recurring processes (like cron for React)
 - **Prefs** - Local storage management
 - **Cache** - Runtime object cache
@@ -253,6 +253,8 @@ const handle = useSyncHandle('MyHandleId');
 ```
 
 **Use `useSyncHandle`** when you want reactive updates. You can manually subscribe with `useEventEffect` if using `useHandle`.
+
+**For comprehensive details**, see [CLAUDE/HANDLE_SYSTEM.md](/home/john/reactium-framework/CLAUDE/HANDLE_SYSTEM.md).
 
 ### 3. Global State
 
