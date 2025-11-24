@@ -1,4 +1,4 @@
-<!-- v1.1.0 -->
+<!-- v1.2.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -11,11 +11,14 @@
 ### Component Development
 **Learning Path**:
 1. [Reactium: Component System](../CLAUDE/REACTIUM_FRAMEWORK.md#component-system) - Basic component creation
-2. [Reactium: Component Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#component-registration) - Registry pattern
-3. [Patterns: Domain-Driven Organization](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-1-domain-driven-component-organization) - Best practices
-4. [Gotchas: Component Registration Timing](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-9-component-registration-timing) - Common issues
+2. [hookableComponent: Overview](../CLAUDE/HOOKABLE_COMPONENT.md#overview) - Replaceable components concept
+3. [hookableComponent: Component Registry](../CLAUDE/HOOKABLE_COMPONENT.md#component-registry) - Registry architecture
+4. [hookableComponent: Registration Pattern](../CLAUDE/HOOKABLE_COMPONENT.md#registration-pattern) - How to register
+5. [hookableComponent: Usage Patterns](../CLAUDE/HOOKABLE_COMPONENT.md#usage-patterns) - How to use
+6. [Patterns: Domain-Driven Organization](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-1-domain-driven-component-organization) - Best practices
+7. [Gotchas: Component Registration Timing](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-9-component-registration-timing) - Common issues
 
-**Related**: CLI Tools, DDD Structure, Hookable Components
+**Related**: CLI Tools, DDD Structure, Hookable Components, Component Registry
 
 ### Routing System
 **Learning Path**:
@@ -89,6 +92,21 @@
 7. [Registry System: Common Gotchas](../CLAUDE/REGISTRY_SYSTEM.md#common-gotchas) - Avoid mistakes
 
 **Related**: Priority system, Plugin extensibility, Middleware, Routing, Webpack
+
+### hookableComponent System
+**Learning Path**:
+1. [hookableComponent: Overview](../CLAUDE/HOOKABLE_COMPONENT.md#overview) - Replaceable components concept
+2. [hookableComponent: Component Registry](../CLAUDE/HOOKABLE_COMPONENT.md#component-registry) - ReactiumSyncState singleton
+3. [hookableComponent: useHookComponent Hook](../CLAUDE/HOOKABLE_COMPONENT.md#usehookcomponent-hook) - Retrieval mechanism
+4. [hookableComponent: hookableComponent Factory](../CLAUDE/HOOKABLE_COMPONENT.md#hookablecomponent-factory) - Wrapper pattern
+5. [hookableComponent: Registration Pattern](../CLAUDE/HOOKABLE_COMPONENT.md#registration-pattern) - Core & plugin registration
+6. [hookableComponent: Component Replacement Strategy](../CLAUDE/HOOKABLE_COMPONENT.md#component-replacement-strategy) - Override patterns
+7. [hookableComponent: Integration with Routing](../CLAUDE/HOOKABLE_COMPONENT.md#integration-with-routing) - String component resolution
+8. [hookableComponent: Real-World Use Cases](../CLAUDE/HOOKABLE_COMPONENT.md#real-world-use-cases) - Theming, A/B testing, feature flags
+9. [hookableComponent: Best Practices](../CLAUDE/HOOKABLE_COMPONENT.md#best-practices) - Do's and don'ts
+10. [hookableComponent: Common Gotchas](../CLAUDE/HOOKABLE_COMPONENT.md#common-gotchas) - Avoid mistakes (priority bug, non-reactive updates)
+
+**Related**: Component Registry, Component.register, useHookComponent, RegisteredComponents, AppParent, NotFound, Router
 
 ### Manifest System
 **Learning Path**:

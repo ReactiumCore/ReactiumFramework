@@ -14,27 +14,13 @@ Topics for future exploration sessions with specialized agents.
 - ✅ **Registry System Architecture** - Foundational pattern for ordered, priority-based collections; two operational modes (CLEAN vs HISTORY); protection/banning mechanisms; subscription notifications; real-world usage in routing, webpack, middleware, gulp, babel; comparison with specialized implementations (Hook, Component, Zone use custom approaches); type-safe TypeScript implementation with deep path access; comprehensive testing patterns (Nov 23, 2025)
 - ✅ **SDK Extension Pattern (Browser-Side)** - Complete pattern documentation for extending Reactium SDK via `sdk-init` hook; two approaches (Direct Extension vs APIRegistry); SDK Proxy fallback chain mechanism; all core plugins cataloged (User, API, Capability, Role, Setting, ServiceWorker, GraphQL); real examples with source references; lifecycle integration; best practices and gotchas (Nov 23, 2025)
 - ✅ **AppContext Provider System** - React Context provider registration system via `app-context-provider` hook; Registry-based architecture using registryFactory; provider composition and nesting order (lower priority = outer wrapper); lifecycle integration (fires after plugin-ready, before ReactDOM render); real examples from Apollo, Redux, Material-UI; priority-based ordering; dynamic registration support; SSR compatibility; best practices and common gotchas (name collisions, ID field confusion, priority reversal, missing provider property); comprehensive use cases for integrating context-dependent libraries (Nov 23, 2025)
+- ✅ **hookableComponent System** - Complete pattern for replaceable/extensible components via Component Registry; useHookComponent hook retrieves from RegisteredComponents (ReactiumSyncState singleton); hookableComponent factory creates wrapper components; registration patterns (core components on init, plugins on plugin-init); component replacement strategy (same ID, later priority wins); integration with routing (string component resolution); lifecycle timing (init→plugin-init→routes-init); real-world use cases (theming, A/B testing, feature flags, error boundaries); replacement patterns for AppParent, NotFound, Router; props forwarding; code splitting best practices; TypeScript support; critical bug fix (Enums.priority.neutral not .normal); non-reactive updates gotcha; all core components cataloged (AppParent, NotFound, RoutedContent, AppContent, Router); complete source references (Nov 23, 2025)
 
 ## Pending Research Topics
 
 ### High Priority
 
-1. hookableComponent System
-
-   - **Discovered during**: AppContext research - RouterProvider and component binding patterns
-   - **Why it matters**: Critical pattern for making components replaceable/extensible via Component Registry
-   - **Current gap**: Used extensively but never documented as a standalone pattern
-   - **Key mechanisms**:
-     - `hookableComponent(componentName)` retrieves and wraps registered components
-     - Fires `component-before-render` and `component-after-render` hooks
-     - Enables plugin-based component replacement without touching source
-     - Used in core: `hookableComponent('AppParent')`, `hookableComponent('AppContent')`
-   - **Real usage**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/app/index.jsx:150-151`
-   - **Integration**: Works with Component.register() and app-router hook
-   - **Critical for**: Component-based plugins, theming, A/B testing, feature flags
-   - **Research scope**: Understand hookableComponent internals, hook firing patterns, component wrapping mechanism, relationship to Component Registry, best practices for replaceable components
-
-2. Handle System Architecture
+1. Handle System Architecture
 
    - Discovered during Registry research - completely different pattern from Registry
    - Observable state containers used throughout framework (routing data loading, plugin state)
@@ -43,7 +29,23 @@ Topics for future exploration sessions with specialized agents.
    - Integrates with ReactiumSyncState for reactive updates
    - Unclear: lifecycle, subscription model, comparison to Redux/MobX patterns
 
-1a. Reactium-Style Partial System (Gulp)
+1a. Component Binding and DOM Integration
+
+- **Discovered during**: hookableComponent research - component-bindings hook and dynamic DOM binding
+- **Why it matters**: Critical for understanding how Reactium binds React components to DOM elements
+- **Current gap**: `data-reactium-bind` attribute pattern never fully documented
+- **Key mechanisms**:
+  - `component-bindings` hook discovers DOM elements with `data-reactium-bind` attribute
+  - Dynamic component resolution via hookableComponent(type)
+  - Multiple bind points support (App, DevTools, etc.)
+  - Integration with React 18 createRoot API
+  - Lifecycle: plugin-ready → component-bindings → app-context-provider → app-router → ReactDOM.render
+- **Real usage**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/app/reactium-hooks-App.js:106-132`
+- **Integration**: Works with AppContexts wrapper and hookableComponent system
+- **Critical for**: Multi-app instances, portals, plugin UI injection, SSR hydration
+- **Research scope**: Understand bind point discovery, multiple root management, SSR compatibility, best practices for plugin DOM binding
+
+1b. Reactium-Style Partial System (Gulp)
 
 - Registry-based SCSS partial discovery and aggregation system
 - Priority-based compilation order (VARIABLES → MIXINS → BASE → ATOMS → MOLECULES → ORGANISMS → OVERRIDES)

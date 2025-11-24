@@ -1,4 +1,4 @@
-<!-- v1.4.0 -->
+<!-- v1.5.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -200,6 +200,28 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 ### Create dynamic UI
 → [Zone System Deep Dive](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md)
 → [Patterns: Component Registry Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-6-component-registry-pattern)
+
+### Replace a core component
+→ [hookableComponent: Component Replacement Strategy](../CLAUDE/HOOKABLE_COMPONENT.md#component-replacement-strategy)
+→ [hookableComponent: Real-World Use Cases](../CLAUDE/HOOKABLE_COMPONENT.md#real-world-use-cases)
+
+### Replace the NotFound component
+→ [hookableComponent: Replacing Core Components](../CLAUDE/HOOKABLE_COMPONENT.md#replacing-core-components)
+→ [hookableComponent: Use Case - Custom 404](../CLAUDE/HOOKABLE_COMPONENT.md#2-custom-404-pages-replace-notfound)
+
+### Create a themeable app
+→ [hookableComponent: Use Case - Theming](../CLAUDE/HOOKABLE_COMPONENT.md#1-theming-replace-appparent)
+→ [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
+
+### Implement A/B testing
+→ [hookableComponent: Use Case - A/B Testing](../CLAUDE/HOOKABLE_COMPONENT.md#3-ab-testing-replace-components-conditionally)
+
+### Use feature flags
+→ [hookableComponent: Use Case - Feature Flags](../CLAUDE/HOOKABLE_COMPONENT.md#4-feature-flags-conditional-components)
+
+### Register a replaceable component
+→ [hookableComponent: Registration Pattern](../CLAUDE/HOOKABLE_COMPONENT.md#registration-pattern)
+→ [hookableComponent: Plugin Registration](../CLAUDE/HOOKABLE_COMPONENT.md#plugin-registration)
 
 ---
 

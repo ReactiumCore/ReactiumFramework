@@ -1,4 +1,4 @@
-<!-- v1.3.0 -->
+<!-- v1.4.0 -->
 # CLAUDEDB - API Quick Reference
 
 **Purpose**: Common functions/hooks with signatures + direct links
@@ -12,18 +12,36 @@
 
 ```javascript
 Reactium.Component.register(name, component)
+// Registers component in global Component Registry
 ```
-→ [Reactium: Component Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#component-registration)
+→ [hookableComponent: Registration Pattern](../CLAUDE/HOOKABLE_COMPONENT.md#registration-pattern)
 
 ```javascript
-Reactium.Component.get(name)
+Reactium.Component.get(name, defaultComponent?)
+// Retrieves component from registry
+// Returns: Component or defaultComponent
 ```
-→ [Reactium: Component Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#component-registration)
+→ [hookableComponent: Component Registry](../CLAUDE/HOOKABLE_COMPONENT.md#component-registry)
 
 ```javascript
-useHookComponent(name)
+Reactium.Component.unregister(name)
+// Removes component from registry
 ```
-→ [Reactium: Hookable Components](../CLAUDE/REACTIUM_FRAMEWORK.md#hookable-components)
+→ [hookableComponent: Component Registry](../CLAUDE/HOOKABLE_COMPONENT.md#component-registry)
+
+```javascript
+useHookComponent(name, defaultComponent?)
+// Hook that retrieves component (non-reactive)
+// Returns: Component from registry or defaultComponent
+```
+→ [hookableComponent: useHookComponent Hook](../CLAUDE/HOOKABLE_COMPONENT.md#usehookcomponent-hook)
+
+```javascript
+hookableComponent(name)
+// Factory that creates wrapper component
+// Returns: Component that dynamically retrieves from registry
+```
+→ [hookableComponent: hookableComponent Factory](../CLAUDE/HOOKABLE_COMPONENT.md#hookablecomponent-factory)
 
 ### State Management
 

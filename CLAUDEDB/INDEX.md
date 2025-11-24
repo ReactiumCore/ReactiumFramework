@@ -1,4 +1,4 @@
-<!-- v1.4.0 -->
+<!-- v1.5.0 -->
 # CLAUDEDB - Keyword Index
 
 **Purpose**: O(1) keyword lookup → direct section links
@@ -43,8 +43,9 @@
 - **Code splitting** → [Routing System: Code Splitting Patterns](../CLAUDE/ROUTING_SYSTEM.md#code-splitting-patterns)
 - **Code splitting (webpack)** → [ReactiumWebpack: Optimization Methods](../CLAUDE/REACTIUM_WEBPACK.md#setcodesplittingoptimizeenv)
 - **Component** → [Reactium: Component System](../CLAUDE/REACTIUM_FRAMEWORK.md#component-system)
-- **Component.register** → [Reactium: Component Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#component-registration)
-- **Component Registry** → [Patterns: Component Registry Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-6-component-registry-pattern)
+- **Component.register** → [hookableComponent: Registration Pattern](../CLAUDE/HOOKABLE_COMPONENT.md#registration-pattern)
+- **Component Registry** → [hookableComponent: Component Registry](../CLAUDE/HOOKABLE_COMPONENT.md#component-registry)
+- **Component replacement** → [hookableComponent: Component Replacement Strategy](../CLAUDE/HOOKABLE_COMPONENT.md#component-replacement-strategy)
 - **Context providers** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
 - **Convention** → [Reactium: Domain-Driven Design](../CLAUDE/REACTIUM_FRAMEWORK.md#domain-driven-design-ddd-structure)
 - **.core directory** → [KNOWN_ISSUES: Hallucinated Patterns](../CLAUDE/KNOWN_ISSUES.md)
@@ -90,6 +91,7 @@
 - **Hook.register** → [Reactium: Hook Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#hook-registration)
 - **Hook domains** → [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
 - **Hook priority** → [Actinium Quick Ref: Priority Constants](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#priority-constants)
+- **hookableComponent** → [hookableComponent System](../CLAUDE/HOOKABLE_COMPONENT.md#overview)
 - **Hooks (Actinium)** → [Actinium: Hook System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#hook-system)
 - **Hot reload** → [Gotchas: Build System](../CLAUDE/FRAMEWORK_GOTCHAS.md#build-system-gotchas)
 
@@ -196,7 +198,7 @@
 ## U
 
 - **useHandle** → [Gotchas: useHandle vs useSyncHandle](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-7-usehandle-vs-usesynchandle)
-- **useHookComponent** → [Reactium: Hookable Components](../CLAUDE/REACTIUM_FRAMEWORK.md#hookable-components)
+- **useHookComponent** → [hookableComponent: useHookComponent Hook](../CLAUDE/HOOKABLE_COMPONENT.md#usehookcomponent-hook)
 - **useSelectHandle** → [FAQ: useSelectHandle Performance](../FAQ.md#q-when-should-i-use-useselecthandle-instead-of-usesynchandle)
 - **useSyncHandle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
 - **useSyncState** → [Reactium: useSyncState](../CLAUDE/REACTIUM_FRAMEWORK.md#1-local-component-state-usesyncstate)
@@ -224,27 +226,35 @@
 
 ## Synonyms & Aliases
 
+- **A/B testing** = **Feature flags** = **Component replacement** → [hookableComponent: Real-World Use Cases](../CLAUDE/HOOKABLE_COMPONENT.md#real-world-use-cases)
 - **API calls** = **Cloud Functions** = **Parse.Cloud.run** → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 - **API extension** = **SDK extension** = **sdk-init** → [SDK Extension Pattern](../CLAUDE/SDK_EXTENSION_PATTERN.md#overview)
+- **AppParent** = **App wrapper** → [hookableComponent: Original Component Implementation](../CLAUDE/HOOKABLE_COMPONENT.md#original-component-implementation)
 - **Authorization** = **Permissions** = **Capabilities** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
 - **Breakpoints** = **Responsive** = **Window utilities** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **Backend** = **Actinium** → [Actinium Complete Reference](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md)
 - **Build customization** = **webpack.override.js** = **reactium-webpack.js** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
+- **Component override** = **Component replacement** = **hookableComponent** → [hookableComponent System](../CLAUDE/HOOKABLE_COMPONENT.md#overview)
 - **Context providers** = **React Context** = **AppContext** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
+- **Dynamic components** = **hookableComponent** = **useHookComponent** → [hookableComponent System](../CLAUDE/HOOKABLE_COMPONENT.md#overview)
 - **Domain (hooks)** = **Hook namespace** = **Hook lifecycle** → [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
 - **Frontend** = **Reactium** → [Reactium Framework](../CLAUDE/REACTIUM_FRAMEWORK.md)
 - **GraphQL** = **Apollo** → [AppContext: Apollo GraphQL Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#1-apollo-graphql-client)
 - **LocalStorage** = **Prefs** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **Observable state** = **Handle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
 - **Page animations** = **Route transitions** = **transitionState** → [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine)
+- **NotFound** = **404 page** → [hookableComponent: Original Component Implementation](../CLAUDE/HOOKABLE_COMPONENT.md#original-component-implementation)
 - **Plugin** = **Extension** → [Reactium: Plugin System](../CLAUDE/REACTIUM_FRAMEWORK.md#plugin-system--registration)
 - **Priority** = **Order** = **Execution order** → [Actinium Quick Ref: Priority Constants](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#priority-constants)
+- **RegisteredComponents** = **Component Registry** → [hookableComponent: Component Registry](../CLAUDE/HOOKABLE_COMPONENT.md#component-registry)
 - **Provider nesting** = **Provider order** → [AppContext: Nesting Order & Priority](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#nesting-order--priority)
 - **Pub/sub** = **Events** = **Pulse** → [Reactium: Pulse - Pub/Sub Events](../CLAUDE/REACTIUM_FRAMEWORK.md#4-pulse-pubsub-events)
 - **Real-time** = **Live Query** = **WebSocket** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
+- **Replaceable components** = **hookableComponent** = **Component.register** → [hookableComponent System](../CLAUDE/HOOKABLE_COMPONENT.md#overview)
 - **Route data** = **loadState** → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
 - **Route transitions** = **Page animations** = **transitionState** → [Routing System: Transition State Machine](../CLAUDE/ROUTING_SYSTEM.md#transition-state-machine)
 - **Shared state** = **Handle** → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
+- **Theming** = **AppParent replacement** → [hookableComponent: Real-World Use Cases](../CLAUDE/HOOKABLE_COMPONENT.md#real-world-use-cases)
 - **Webpack config** = **Build customization** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
 
 ---
