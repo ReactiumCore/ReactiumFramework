@@ -158,34 +158,32 @@ Reactium.Zone.addComponent({
 
 ```
 reactium-core/
-├── src/
-│   ├── app/               # Application code (DDD structure)
-│   │   ├── components/    # Shared components
-│   │   ├── api/          # API integrations
-│   │   └── main/         # Entry points
-│   └── reactium_modules/ # Plugins
-│       ├── @reactium/
-│       │   ├── reactium-routing/  # Core routing
-│       │   ├── reactium-zone/     # Zone system
-│       │   └── ...
-│       └── my-plugin/    # Custom plugins
-└── .core/                # Framework core (immutable)
+└── src/
+   ├── app/               # Application code (DDD structure)
+    │   ├── components/    # Shared components
+    │   ├── api/          # API integrations
+    │   └── main/         # Entry points
+    └── reactium_modules/ # Plugins
+        ├── @reactium/
+        │   ├── reactium-routing/  # Core routing
+        │   ├── reactium-zone/     # Zone system
+        │   └── ...
+        └── my-plugin/    # Custom plugins
 ```
 
 ### Backend (Actinium)
 
 ```
 actinium-server/
-├── src/
-│   ├── app/              # Application code
-│   │   ├── cloud/       # Cloud functions
-│   │   └── schema/      # Database schemas
-│   └── actinium_modules/ # Backend plugins
-│       ├── @atomic-reactor/
-│       │   ├── actinium-capability/
-│       │   └── actinium-user/
-│       └── my-plugin/
-└── .core/                # Framework core (immutable)
+└── src/
+    ├── app/              # Application code
+    │   ├── cloud/       # Cloud functions
+    │   └── schema/      # Database schemas
+    └── actinium_modules/ # Backend plugins
+        ├── @atomic-reactor/
+        │   ├── actinium-capability/
+        │   └── actinium-user/
+        └── my-plugin/
 ```
 
 ### Key Patterns
@@ -233,7 +231,6 @@ actinium-server/
 my-app/
 ├── package.json
 ├── reactium-webpack.js    # Webpack customization
-├── .core/                 # Framework core (auto-managed)
 ├── src/
 │   ├── index.js          # Frontend entry
 │   ├── server.js         # Backend entry

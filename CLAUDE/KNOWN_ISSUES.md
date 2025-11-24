@@ -61,7 +61,6 @@ Reactium-Core-Plugins/src/app/components/Test/StateLoader/reactium-hooks-statelo
 **Also Affects CLI Templates:**
 
 ```
-Reactium-Admin-Plugins/.core/.cli/commands/reactium/plugin/module/template/reactium-boot.hbs
 Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/plugin/module/template/reactium-boot.hbs
 Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/component/template/reactium-hooks.hbs
 ```

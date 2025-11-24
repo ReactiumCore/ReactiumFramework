@@ -1,4 +1,5 @@
 <!-- v1.10.0 -->
+
 # CLAUDEDB - Keyword Index
 
 **Purpose**: O(1) keyword lookup → direct section links
@@ -57,7 +58,6 @@
 - **Component replacement** → [hookableComponent: Component Replacement Strategy](../CLAUDE/HOOKABLE_COMPONENT.md#component-replacement-strategy)
 - **Context providers** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
 - **Convention** → [Reactium: Domain-Driven Design](../CLAUDE/REACTIUM_FRAMEWORK.md#domain-driven-design-ddd-structure)
-- **.core directory** → [KNOWN_ISSUES: Hallucinated Patterns](../CLAUDE/KNOWN_ISSUES.md)
 - **CORS** → [Gotchas: CORS Errors](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-22-cors-errors)
 
 ## D

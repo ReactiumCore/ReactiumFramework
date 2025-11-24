@@ -1,4 +1,5 @@
 <!-- v1.0.0 -->
+
 # ReactiumWebpack SDK
 
 ## Overview
@@ -14,11 +15,13 @@ The ReactiumWebpack SDK provides a hook-based, registry-driven approach to custo
 The `WebpackReactiumWebpack` class (exported as `WebpackSDK`) manages webpack configuration through internal registries and hooks.
 
 **Constructor:**
+
 ```javascript
 const sdk = new WebpackSDK(name, ddd, context);
 ```
 
 **Parameters:**
+
 - `name` (string): Configuration name (e.g., 'reactium')
 - `ddd` (string): DDD artifact filename to discover (e.g., 'reactium-webpack.js')
 - `context` (object): Configuration context (from webpack.config.js)
@@ -39,6 +42,7 @@ The SDK uses Registry instances to manage configuration components:
 **Source:** `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/webpack.sdk.js:37-65`
 
 Each registry:
+
 - Uses `Registry.MODES.CLEAN` (no duplicates by ID)
 - Has a reference back to the SDK via `.sdk` property
 - Supports registration, unregistration, and listing
@@ -50,50 +54,53 @@ Each registry:
 Add a webpack module rule (loader configuration).
 
 **Parameters:**
+
 - `id` (string): Unique identifier for the rule
 - `rule` (object): Webpack rule object
 - `order` (number, optional): Priority order (default: 100)
 
 **Example from TypeScript support:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/reactium-webpack.js:11-30
 sdk.addRule(
-    'ts-loader',
-    {
-        test: [/\.tsx?$/],
-        use: [
-            {
-                loader: 'ts-loader',
-                options: {
-                    configFile: path.resolve(__dirname, 'tsconfig.json'),
-                    ...tsLoaderOptionsOverrides,
-                },
-            },
-        ],
-        exclude: /node_modules/,
-    },
-    10,
+  'ts-loader',
+  {
+    test: [/\.tsx?$/],
+    use: [
+      {
+        loader: 'ts-loader',
+        options: {
+          configFile: path.resolve(__dirname, 'tsconfig.json'),
+          ...tsLoaderOptionsOverrides,
+        },
+      },
+    ],
+    exclude: /node_modules/,
+  },
+  10
 );
 ```
 
 **Example from core Babel configuration:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.config.js:83-98
 sdk.addRule('babel-loader', {
-    test: [/\.jsx|js($|\?)/],
-    exclude: [/node_modules/, /umd.js$/, /\.cli/],
-    resolve: {
-        extensions: ['.js', '.jsx', '.json'],
+  test: [/\.jsx|js($|\?)/],
+  exclude: [/node_modules/, /umd.js$/, /\.cli/],
+  resolve: {
+    extensions: ['.js', '.jsx', '.json'],
+  },
+  use: [
+    {
+      loader: 'babel-loader',
+      options: {
+        cacheCompression: false,
+        cacheDirectory: true,
+      },
     },
-    use: [
-        {
-            loader: 'babel-loader',
-            options: {
-                cacheCompression: false,
-                cacheDirectory: true,
-            },
-        },
-    ],
+  ],
 });
 ```
 
@@ -104,22 +111,24 @@ sdk.addRule('babel-loader', {
 Add a webpack plugin instance.
 
 **Parameters:**
+
 - `id` (string): Unique identifier
 - `plugin` (object): Webpack plugin instance
 
 **Example from core configuration:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.config.js:55-60
 sdk.addPlugin(
-    'node-polyfills',
-    new NodePolyfillPlugin({
-        excludeAliases: ['console'],
-    }),
+  'node-polyfills',
+  new NodePolyfillPlugin({
+    excludeAliases: ['console'],
+  })
 );
 
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.config.js:67
 if (env === 'production') {
-    sdk.addPlugin('asset-compression', new CompressionPlugin());
+  sdk.addPlugin('asset-compression', new CompressionPlugin());
 }
 ```
 
@@ -130,11 +139,13 @@ if (env === 'production') {
 Ignore files matching a pattern using webpack's IgnorePlugin.
 
 **Parameters:**
+
 - `id` (string): Unique identifier
 - `resourceRegExp` (RegExp): Pattern to match resources
 - `contextRegExp` (RegExp, optional): Pattern to match context
 
 **Examples from core configuration:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.config.js:100-129
 sdk.addIgnore('umd', /umd.js$/);
@@ -173,10 +184,12 @@ sdk.addIgnore('xmlhttprequest', /xmlhttprequest/);
 Add a module resolution alias.
 
 **Parameters:**
+
 - `id` (string): Import name to alias
 - `alias` (string): Path to resolve to
 
 **Example:**
+
 ```javascript
 sdk.addResolveAlias('components', path.resolve('./src/app/components'));
 sdk.addResolveAlias('hooks', path.resolve('./src/app/hooks'));
@@ -189,12 +202,14 @@ sdk.addResolveAlias('hooks', path.resolve('./src/app/hooks'));
 Add external dependencies (not bundled).
 
 **Parameters:**
+
 - `id` (string): Unique identifier
 - `config` (object): External configuration
   - `key` (string | RegExp): Module name or pattern
   - `value` (string | Array | Function): External value
 
 **Supported formats:**
+
 1. **Regex string:** `'/react/i'` → becomes `new RegExp('react', 'i')`
 2. **String keypair:** `{ key: 'react', value: 'React' }`
 3. **RegExp object:** Direct RegExp instance
@@ -202,10 +217,11 @@ Add external dependencies (not bundled).
 5. **Function:** Custom external function
 
 **Example from UMD build:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/umd.webpack.config.js:96-98
 Object.entries(umd.externals).forEach(([key, value]) => {
-    sdk.addExternal(key, { key, value });
+  sdk.addExternal(key, { key, value });
 });
 ```
 
@@ -216,9 +232,11 @@ Object.entries(umd.externals).forEach(([key, value]) => {
 Mark a node_modules package for Babel transpilation.
 
 **Parameters:**
+
 - `module` (string): Package name to transpile
 
 **Usage:**
+
 ```javascript
 sdk.addTranspiledDependency('my-es6-package');
 sdk.addTranspiledDependency('@scoped/package');
@@ -227,29 +245,30 @@ sdk.addTranspiledDependency('@scoped/package');
 When transpiled dependencies are registered, the SDK automatically creates a Babel loader rule that excludes all of `node_modules` except the specified packages.
 
 **Generated rule logic:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.sdk.js:329-350
 if (this.transpiledDependencies.list.length > 0) {
-    this.addRule('babel-loader', {
-        test: [/\.jsx|js($|\?)/],
-        exclude: [
-            new RegExp(
-                `node_modules\/(?!(${this.transpiledDependencies.list
-                    .map(({ module }) => module)
-                    .join('|')})\/).*`,
-            ),
-            /umd.js$/,
-        ],
-        use: [
-            {
-                loader: 'babel-loader',
-                options: {
-                    cacheCompression: false,
-                    cacheDirectory: true,
-                },
-            },
-        ],
-    });
+  this.addRule('babel-loader', {
+    test: [/\.jsx|js($|\?)/],
+    exclude: [
+      new RegExp(
+        `node_modules\/(?!(${this.transpiledDependencies.list
+          .map(({ module }) => module)
+          .join('|')})\/).*`
+      ),
+      /umd.js$/,
+    ],
+    use: [
+      {
+        loader: 'babel-loader',
+        options: {
+          cacheCompression: false,
+          cacheDirectory: true,
+        },
+      },
+    ],
+  });
 }
 ```
 
@@ -260,17 +279,19 @@ if (this.transpiledDependencies.list.length > 0) {
 Add a webpack ContextReplacementPlugin.
 
 **Parameters:**
+
 - `id` (string): Unique identifier
 - `context` (object):
   - `from` (RegExp): Pattern to match
   - `to` (string): Replacement path
 
 **Example from core:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.config.js:61-64
 sdk.addContext('reactium-modules-context', {
-    from: /reactium-translations$/,
-    to: path.resolve('./src/reactium-translations'),
+  from: /reactium-translations$/,
+  to: path.resolve('./src/reactium-translations'),
 });
 ```
 
@@ -283,25 +304,27 @@ sdk.addContext('reactium-modules-context', {
 Enable aggressive code splitting for better caching and parallel loading.
 
 **Parameters:**
+
 - `env` (string): 'development' or 'production'
 
 **Configuration:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.sdk.js:308-324
 this.optimizationValue = {
-    minimize: Boolean(env !== 'development'),
-    chunkIds: 'named',
-    splitChunks: {
-        chunks: 'all',
-        minSizeReduction: 500000,
-        cacheGroups: {
-            main: {
-                minChunks: 1,
-                priority: -20,
-                reuseExistingChunk: true,
-            },
-        },
+  minimize: Boolean(env !== 'development'),
+  chunkIds: 'named',
+  splitChunks: {
+    chunks: 'all',
+    minSizeReduction: 500000,
+    cacheGroups: {
+      main: {
+        minChunks: 1,
+        priority: -20,
+        reuseExistingChunk: true,
+      },
     },
+  },
 };
 ```
 
@@ -312,34 +335,36 @@ this.optimizationValue = {
 Use webpack's default optimization strategy.
 
 **Parameters:**
+
 - `env` (string): 'development' or 'production'
 
 **Configuration:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.sdk.js:281-306
 this.optimizationValue = {
-    minimize: Boolean(env !== 'development'),
-    splitChunks: {
-        chunks: 'async',
-        minSize: 20000,
-        minRemainingSize: 0,
-        minChunks: 1,
-        maxAsyncRequests: 30,
-        maxInitialRequests: 30,
-        enforceSizeThreshold: 50000,
-        cacheGroups: {
-            defaultVendors: {
-                test: /[\\/]node_modules[\\/]/,
-                priority: -10,
-                reuseExistingChunk: true,
-            },
-            default: {
-                minChunks: 2,
-                priority: -20,
-                reuseExistingChunk: true,
-            },
-        },
+  minimize: Boolean(env !== 'development'),
+  splitChunks: {
+    chunks: 'async',
+    minSize: 20000,
+    minRemainingSize: 0,
+    minChunks: 1,
+    maxAsyncRequests: 30,
+    maxInitialRequests: 30,
+    enforceSizeThreshold: 50000,
+    cacheGroups: {
+      defaultVendors: {
+        test: /[\\/]node_modules[\\/]/,
+        priority: -10,
+        reuseExistingChunk: true,
+      },
+      default: {
+        minChunks: 2,
+        priority: -20,
+        reuseExistingChunk: true,
+      },
     },
+  },
 };
 ```
 
@@ -350,18 +375,21 @@ this.optimizationValue = {
 Disable code splitting entirely (single bundle output).
 
 **Parameters:**
+
 - `env` (string): 'development' or 'production'
 
 **Example from core:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.config.js:50-53
 sdk.setCodeSplittingOptimize(env);
 if (process.env.DISABLE_CODE_SPLITTING === 'true') {
-    sdk.setNoCodeSplitting();
+  sdk.setNoCodeSplitting();
 }
 ```
 
 **Implementation:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.sdk.js:268-279
 setNoCodeSplitting(env) {
@@ -399,8 +427,8 @@ Webpack entry points.
 
 ```javascript
 sdk.entry = {
-    main: './src/app/main.js',
-    vendor: './src/app/vendor.js',
+  main: './src/app/main.js',
+  vendor: './src/app/vendor.js',
 };
 ```
 
@@ -422,10 +450,10 @@ Webpack output configuration.
 
 ```javascript
 sdk.output = {
-    publicPath: '/assets/js/',
-    path: path.resolve(rootPath, dest),
-    filename: '[name].js',
-    asyncChunks: true,
+  publicPath: '/assets/js/',
+  path: path.resolve(rootPath, dest),
+  filename: '[name].js',
+  asyncChunks: true,
 };
 ```
 
@@ -437,7 +465,7 @@ Source map generation strategy.
 
 ```javascript
 if (env === 'development') {
-    sdk.devtool = 'source-map';
+  sdk.devtool = 'source-map';
 }
 ```
 
@@ -449,8 +477,10 @@ Webpack optimization configuration.
 
 ```javascript
 sdk.optimization = {
-    minimize: true,
-    splitChunks: { /* ... */ },
+  minimize: true,
+  splitChunks: {
+    /* ... */
+  },
 };
 ```
 
@@ -462,12 +492,12 @@ Direct webpack config overrides (merged with spread operator).
 
 ```javascript
 sdk.overrides = {
-    resolve: {
-        fallback: {
-            fs: false,
-            path: require.resolve('path-browserify'),
-        },
+  resolve: {
+    fallback: {
+      fs: false,
+      path: require.resolve('path-browserify'),
     },
+  },
 };
 ```
 
@@ -498,28 +528,35 @@ Fired before final webpack config is assembled. Receive the SDK instance.
 **Signature:** `Hook.runSync('before-config', sdk)`
 
 **Example:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/reactium-webpack.js:6-35
 const { Hook } = require('@atomic-reactor/reactium-sdk-core/core');
 
 Hook.registerSync(
-    'before-config',
-    sdk => {
-        // Modify SDK before config generation
-        sdk.addRule('ts-loader', {
-            test: [/\.tsx?$/],
-            use: [{
-                loader: 'ts-loader',
-                options: {
-                    configFile: path.resolve(__dirname, 'tsconfig.json'),
-                },
-            }],
-            exclude: /node_modules/,
-        }, 10);
+  'before-config',
+  (sdk) => {
+    // Modify SDK before config generation
+    sdk.addRule(
+      'ts-loader',
+      {
+        test: [/\.tsx?$/],
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              configFile: path.resolve(__dirname, 'tsconfig.json'),
+            },
+          },
+        ],
+        exclude: /node_modules/,
+      },
+      10
+    );
 
-        sdk.extensions = ['.ts', '.tsx'];
-    },
-    'reactium-ts-webpack',
+    sdk.extensions = ['.ts', '.tsx'];
+  },
+  'reactium-ts-webpack'
 );
 ```
 
@@ -532,14 +569,19 @@ Fired after webpack config is assembled but before returning. Receive the final 
 **Signature:** `Hook.runSync('after-config', theConfig, sdk)`
 
 **Example:**
+
 ```javascript
-Hook.registerSync('after-config', (config, sdk) => {
+Hook.registerSync(
+  'after-config',
+  (config, sdk) => {
     // Direct config manipulation
     config.resolve.fallback = {
-        ...config.resolve.fallback,
-        crypto: require.resolve('crypto-browserify'),
+      ...config.resolve.fallback,
+      crypto: require.resolve('crypto-browserify'),
     };
-}, 'my-crypto-polyfill');
+  },
+  'my-crypto-polyfill'
+);
 ```
 
 **Source:** `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/webpack.sdk.js:377`
@@ -551,14 +593,19 @@ Fired when assembling module rules. Receive the rules registry.
 **Signature:** `Hook.runSync('rules', sdk.rules, sdk.name, sdk.context)`
 
 **Example:**
+
 ```javascript
-Hook.registerSync('rules', (rulesRegistry, name, context) => {
+Hook.registerSync(
+  'rules',
+  (rulesRegistry, name, context) => {
     // Modify or inspect rules
     const babelRule = rulesRegistry.get('babel-loader');
     if (babelRule) {
-        // Modify babel-loader configuration
+      // Modify babel-loader configuration
     }
-}, 'modify-babel-loader');
+  },
+  'modify-babel-loader'
+);
 ```
 
 **Source:** `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/webpack.sdk.js:241-246`
@@ -594,21 +641,23 @@ Fired when assembling ignore patterns. Receive the ignores registry.
 The WebpackSDK constructor automatically discovers and loads `reactium-webpack.js` files using globby:
 
 **Discovery paths:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.sdk.js:74-83
 globby
-    .sync([`./src/**/${ddd}`, `./reactium_modules/**/${ddd}`])
-    .forEach(file => {
-        try {
-            require(path.resolve(file));
-        } catch (error) {
-            console.error(chalk.red(`Error loading ${file}:`));
-            console.error(error);
-        }
-    });
+  .sync([`./src/**/${ddd}`, `./reactium_modules/**/${ddd}`])
+  .forEach((file) => {
+    try {
+      require(path.resolve(file));
+    } catch (error) {
+      console.error(chalk.red(`Error loading ${file}:`));
+      console.error(error);
+    }
+  });
 ```
 
 **Typical structure:**
+
 ```
 project/
 ├── src/
@@ -636,26 +685,26 @@ const path = require('path');
 
 /**
  * Passed the current webpack configuration from core
- * @param  {Object} webpackConfig the .core webpack configuration
+ * @param  {Object} webpackConfig the reactium-core webpack configuration
  * @return {Object} your webpack configuration override
  */
-module.exports = webpackConfig => {
-    const newWebpackConfig = Object.assign({}, webpackConfig);
+module.exports = (webpackConfig) => {
+  const newWebpackConfig = Object.assign({}, webpackConfig);
 
-    /**
-     * @example
-     *
-     * newWebpackConfig.entries['entry'] = path.resolve('/path/to/my/entry');
-     */
+  /**
+   * @example
+   *
+   * newWebpackConfig.entries['entry'] = path.resolve('/path/to/my/entry');
+   */
 
-    /**
-     * @example
-     * newWebpackConfig.plugins.push(new webpack.ContextReplacementPlugin(/^my-context/, context => {
-     *     context.request = path.resolve('./src/app/my-context');
-     * }));
-     */
+  /**
+   * @example
+   * newWebpackConfig.plugins.push(new webpack.ContextReplacementPlugin(/^my-context/, context => {
+   *     context.request = path.resolve('./src/app/my-context');
+   * }));
+   */
 
-    return newWebpackConfig;
+  return newWebpackConfig;
 };
 ```
 
@@ -668,24 +717,29 @@ const { Hook } = require('@atomic-reactor/reactium-sdk-core/core');
 const webpack = require('webpack');
 const path = require('path');
 
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     // Add custom entry (via sdk properties)
     sdk.entry = {
-        ...sdk.entry,
-        myEntry: path.resolve('/path/to/my/entry'),
+      ...sdk.entry,
+      myEntry: path.resolve('/path/to/my/entry'),
     };
 
     // Add context replacement
     sdk.addContext('my-context', {
-        from: /^my-context/,
-        to: path.resolve('./src/app/my-context'),
+      from: /^my-context/,
+      to: path.resolve('./src/app/my-context'),
     });
-}, 'my-webpack-customizations');
+  },
+  'my-webpack-customizations'
+);
 ```
 
 ### Migration Strategy
 
 1. **Identify customizations** in `webpack.override.js`:
+
    - Loaders → Use `sdk.addRule()`
    - Plugins → Use `sdk.addPlugin()`
    - Externals → Use `sdk.addExternal()`
@@ -693,22 +747,33 @@ Hook.registerSync('before-config', sdk => {
    - Output/entry/mode → Use SDK properties
 
 2. **Create reactium-webpack.js** in appropriate location:
+
    - Project-level: `./reactium-webpack.js`
    - Feature-level: `./src/my-feature/reactium-webpack.js`
    - Plugin-level: `./reactium_modules/@vendor/plugin/reactium-webpack.js`
 
 3. **Use before-config hook** for SDK-based changes:
+
    ```javascript
-   Hook.registerSync('before-config', sdk => {
+   Hook.registerSync(
+     'before-config',
+     (sdk) => {
        // SDK method calls
-   }, 'my-plugin-id');
+     },
+     'my-plugin-id'
+   );
    ```
 
 4. **Use after-config hook** for direct config manipulation:
+
    ```javascript
-   Hook.registerSync('after-config', (config, sdk) => {
+   Hook.registerSync(
+     'after-config',
+     (config, sdk) => {
        // Direct config object changes
-   }, 'my-plugin-id');
+     },
+     'my-plugin-id'
+   );
    ```
 
 5. **Remove webpack.override.js** when migration is complete.
@@ -716,33 +781,40 @@ Hook.registerSync('before-config', sdk => {
 ### Comparison Example: Adding SVG Loader
 
 **Old pattern:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-svg/webpack.override.js:1-10
-module.exports = config => {
-    const newWebpackConfig = Object.assign({}, config);
+module.exports = (config) => {
+  const newWebpackConfig = Object.assign({}, config);
 
-    newWebpackConfig.module.rules.push({
-        test: /\.svg$/i,
-        use: ['@svgr/webpack'],
-    });
+  newWebpackConfig.module.rules.push({
+    test: /\.svg$/i,
+    use: ['@svgr/webpack'],
+  });
 
-    return newWebpackConfig;
+  return newWebpackConfig;
 };
 ```
 
 **New pattern:**
+
 ```javascript
 const { Hook } = require('@atomic-reactor/reactium-sdk-core/core');
 
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     sdk.addRule('svg-loader', {
-        test: /\.svg$/i,
-        use: ['@svgr/webpack'],
+      test: /\.svg$/i,
+      use: ['@svgr/webpack'],
     });
-}, 'reactium-svg');
+  },
+  'reactium-svg'
+);
 ```
 
 **Benefits of new pattern:**
+
 1. Uses unique IDs (can be unregistered/replaced)
 2. Priority ordering support
 3. No need to clone/return config
@@ -754,28 +826,30 @@ Hook.registerSync('before-config', sdk => {
 While `reactium-webpack.js` is the new pattern, the framework still supports `webpack.override.js` for backward compatibility.
 
 **Discovery pattern:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.config.js:13-29
-const overrides = config => {
-    globby
-        .sync([
-            './webpack.override.js',
-            './src/**/webpack.override.js',
-            './reactium_modules/**/webpack.override.js',
-        ])
-        .forEach(file => {
-            try {
-                config = require(path.resolve(file))(config);
-            } catch (error) {
-                console.error(chalk.red(`Error loading ${file}:`));
-                console.error(error);
-            }
-        });
-    return config;
+const overrides = (config) => {
+  globby
+    .sync([
+      './webpack.override.js',
+      './src/**/webpack.override.js',
+      './reactium_modules/**/webpack.override.js',
+    ])
+    .forEach((file) => {
+      try {
+        config = require(path.resolve(file))(config);
+      } catch (error) {
+        console.error(chalk.red(`Error loading ${file}:`));
+        console.error(error);
+      }
+    });
+  return config;
 };
 ```
 
 **Usage in webpack.config.js:**
+
 ```javascript
 // Source: reactium_modules/@atomic-reactor/reactium-core/webpack.config.js:131
 return overrides(sdk.config());
@@ -798,38 +872,36 @@ const { Hook } = require('@atomic-reactor/reactium-sdk-core/core');
 const tsLoaderOptionsOverrides = {};
 
 Hook.registerSync(
-    'before-config',
-    sdk => {
-        Hook.runSync('ts-loader-options', tsLoaderOptionsOverrides);
+  'before-config',
+  (sdk) => {
+    Hook.runSync('ts-loader-options', tsLoaderOptionsOverrides);
 
-        sdk.addRule(
-            'ts-loader',
-            {
-                test: [/\.tsx?$/],
-                use: [
-                    {
-                        loader: 'ts-loader',
-                        options: {
-                            configFile: path.resolve(
-                                __dirname,
-                                'tsconfig.json',
-                            ),
-                            ...tsLoaderOptionsOverrides,
-                        },
-                    },
-                ],
-                exclude: /node_modules/,
+    sdk.addRule(
+      'ts-loader',
+      {
+        test: [/\.tsx?$/],
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              configFile: path.resolve(__dirname, 'tsconfig.json'),
+              ...tsLoaderOptionsOverrides,
             },
-            10,
-        );
+          },
+        ],
+        exclude: /node_modules/,
+      },
+      10
+    );
 
-        sdk.extensions = ['.ts', '.tsx'];
-    },
-    'reactium-ts-webpack',
+    sdk.extensions = ['.ts', '.tsx'];
+  },
+  'reactium-ts-webpack'
 );
 ```
 
 **Key patterns:**
+
 - Creates an options object that other hooks can modify (`tsLoaderOptionsOverrides`)
 - Runs a sub-hook (`ts-loader-options`) for extensibility
 - Sets rule priority to `10` (higher priority than default)
@@ -848,65 +920,65 @@ sdk.mode = env;
 sdk.entry = config.entries;
 sdk.target = 'web';
 sdk.output = {
-    publicPath: '/assets/js/',
-    path: path.resolve(rootPath, dest),
-    filename: '[name].js',
-    asyncChunks: true,
+  publicPath: '/assets/js/',
+  path: path.resolve(rootPath, dest),
+  filename: '[name].js',
+  asyncChunks: true,
 };
 
 if (env === 'development') {
-    sdk.devtool = 'source-map';
+  sdk.devtool = 'source-map';
 }
 
 sdk.setCodeSplittingOptimize(env);
 if (process.env.DISABLE_CODE_SPLITTING === 'true') {
-    sdk.setNoCodeSplitting();
+  sdk.setNoCodeSplitting();
 }
 
 sdk.addPlugin(
-    'node-polyfills',
-    new NodePolyfillPlugin({
-        excludeAliases: ['console'],
-    }),
+  'node-polyfills',
+  new NodePolyfillPlugin({
+    excludeAliases: ['console'],
+  })
 );
 
 sdk.addContext('reactium-modules-context', {
-    from: /reactium-translations$/,
-    to: path.resolve('./src/reactium-translations'),
+  from: /reactium-translations$/,
+  to: path.resolve('./src/reactium-translations'),
 });
 
 if (env === 'production') {
-    sdk.addPlugin('asset-compression', new CompressionPlugin());
+  sdk.addPlugin('asset-compression', new CompressionPlugin());
 }
 
 sdk.addRule('po-loader', {
-    test: [/\.pot?$/],
-    use: [
-        {
-            loader: '@atomic-reactor/webpack-po-loader',
-            options: {
-                format: 'jed1.x',
-                domain: 'messages',
-            },
-        },
-    ],
+  test: [/\.pot?$/],
+  use: [
+    {
+      loader: '@atomic-reactor/webpack-po-loader',
+      options: {
+        format: 'jed1.x',
+        domain: 'messages',
+      },
+    },
+  ],
 });
 
 sdk.addRule('babel-loader', {
-    test: [/\.jsx|js($|\?)/],
-    exclude: [/node_modules/, /umd.js$/, /\.cli/],
-    resolve: {
-        extensions: ['.js', '.jsx', '.json'],
+  test: [/\.jsx|js($|\?)/],
+  exclude: [/node_modules/, /umd.js$/, /\.cli/],
+  resolve: {
+    extensions: ['.js', '.jsx', '.json'],
+  },
+  use: [
+    {
+      loader: 'babel-loader',
+      options: {
+        cacheCompression: false,
+        cacheDirectory: true,
+      },
     },
-    use: [
-        {
-            loader: 'babel-loader',
-            options: {
-                cacheCompression: false,
-                cacheDirectory: true,
-            },
-        },
-    ],
+  ],
 });
 
 // Multiple addIgnore calls for various file types and paths
@@ -933,47 +1005,48 @@ sdk.addIgnore('hbs', /\.hbs$/);
 const defines = op.get(umd, 'staticDefines', {});
 
 if (op.get(umd, 'babelLoader', true)) {
-    sdk.addRule('babel-loader', {
-        test: /(\.jsx|\.js)$/,
-        loader: 'babel-loader',
-        options: {
-            presets,
-            plugins: [
-                ['@babel/plugin-proposal-class-properties', { loose: true }],
-                ['module-resolver'],
-            ],
-        },
-    });
+  sdk.addRule('babel-loader', {
+    test: /(\.jsx|\.js)$/,
+    loader: 'babel-loader',
+    options: {
+      presets,
+      plugins: [
+        ['@babel/plugin-proposal-class-properties', { loose: true }],
+        ['module-resolver'],
+      ],
+    },
+  });
 }
 
 Object.entries(umd.externals).forEach(([key, value]) => {
-    sdk.addExternal(key, { key, value });
+  sdk.addExternal(key, { key, value });
 });
 
 if (op.get(umd, 'addDefines', true)) {
-    sdk.addPlugin('defines', new webpack.DefinePlugin(defines));
+  sdk.addPlugin('defines', new webpack.DefinePlugin(defines));
 }
 
 sdk.mode = env;
 sdk.entry = umd.entry;
 sdk.output = {
-    path: umd.outputPath,
-    filename: umd.outputFile,
-    library: umd.libraryName,
-    libraryTarget: 'umd',
-    globalObject: umd.globalObject,
+  path: umd.outputPath,
+  filename: umd.outputFile,
+  library: umd.libraryName,
+  libraryTarget: 'umd',
+  globalObject: umd.globalObject,
 };
 
 if (env === 'production') {
-    sdk.addPlugin('compression', new CompressionPlugin());
+  sdk.addPlugin('compression', new CompressionPlugin());
 } else if (op.get(umd, 'sourcemaps', true)) {
-    sdk.devtool = 'cheap-source-map';
+  sdk.devtool = 'cheap-source-map';
 }
 
 return overrides(umd, sdk.config());
 ```
 
 **Key patterns:**
+
 - Configuration driven by UMD config object
 - Conditional plugin/rule registration
 - External dependency handling
@@ -986,15 +1059,15 @@ return overrides(umd, sdk.config());
 **File:** `reactium_modules/@atomic-reactor/reactium-svg/webpack.override.js`
 
 ```javascript
-module.exports = config => {
-    const newWebpackConfig = Object.assign({}, config);
+module.exports = (config) => {
+  const newWebpackConfig = Object.assign({}, config);
 
-    newWebpackConfig.module.rules.push({
-        test: /\.svg$/i,
-        use: ['@svgr/webpack'],
-    });
+  newWebpackConfig.module.rules.push({
+    test: /\.svg$/i,
+    use: ['@svgr/webpack'],
+  });
 
-    return newWebpackConfig;
+  return newWebpackConfig;
 };
 ```
 
@@ -1003,12 +1076,16 @@ module.exports = config => {
 ```javascript
 const { Hook } = require('@atomic-reactor/reactium-sdk-core/core');
 
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     sdk.addRule('svg-loader', {
-        test: /\.svg$/i,
-        use: ['@svgr/webpack'],
+      test: /\.svg$/i,
+      use: ['@svgr/webpack'],
     });
-}, 'reactium-svg');
+  },
+  'reactium-svg'
+);
 ```
 
 **Source:** `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-svg/webpack.override.js`
@@ -1018,142 +1095,192 @@ Hook.registerSync('before-config', sdk => {
 ### Adding a Custom Loader
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     sdk.addRule('sass-loader', {
-        test: /\.scss$/,
-        use: [
-            'style-loader',
-            'css-loader',
-            {
-                loader: 'sass-loader',
-                options: {
-                    implementation: require('sass'),
-                },
-            },
-        ],
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        'css-loader',
+        {
+          loader: 'sass-loader',
+          options: {
+            implementation: require('sass'),
+          },
+        },
+      ],
     });
-}, 'my-sass-loader');
+  },
+  'my-sass-loader'
+);
 ```
 
 ### Adding Multiple Loaders with Priority
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     // High priority (runs first)
-    sdk.addRule('eslint-loader', {
+    sdk.addRule(
+      'eslint-loader',
+      {
         test: /\.js$/,
         enforce: 'pre',
         loader: 'eslint-loader',
-    }, 1);
+      },
+      1
+    );
 
     // Normal priority
-    sdk.addRule('my-loader', {
+    sdk.addRule(
+      'my-loader',
+      {
         test: /\.custom$/,
         loader: 'my-loader',
-    }, 100);
+      },
+      100
+    );
 
     // Low priority (runs last)
-    sdk.addRule('post-loader', {
+    sdk.addRule(
+      'post-loader',
+      {
         test: /\.js$/,
         enforce: 'post',
         loader: 'post-loader',
-    }, 1000);
-}, 'my-loaders');
+      },
+      1000
+    );
+  },
+  'my-loaders'
+);
 ```
 
 ### Environment-Specific Plugins
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     const env = sdk.mode;
 
     if (env === 'production') {
-        sdk.addPlugin('bundle-analyzer', new BundleAnalyzerPlugin({
-            analyzerMode: 'static',
-            openAnalyzer: false,
-        }));
+      sdk.addPlugin(
+        'bundle-analyzer',
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          openAnalyzer: false,
+        })
+      );
     }
 
     if (env === 'development') {
-        sdk.addPlugin('friendly-errors', new FriendlyErrorsPlugin());
+      sdk.addPlugin('friendly-errors', new FriendlyErrorsPlugin());
     }
-}, 'my-env-plugins');
+  },
+  'my-env-plugins'
+);
 ```
 
 ### Adding Resolve Aliases
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     sdk.addResolveAlias('components', path.resolve('./src/app/components'));
     sdk.addResolveAlias('hooks', path.resolve('./src/app/hooks'));
     sdk.addResolveAlias('api', path.resolve('./src/app/api'));
     sdk.addResolveAlias('@', path.resolve('./src'));
-}, 'my-aliases');
+  },
+  'my-aliases'
+);
 ```
 
 ### Marking Externals
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     // CDN-loaded libraries
     sdk.addExternal('react', { key: 'react', value: 'React' });
     sdk.addExternal('react-dom', { key: 'react-dom', value: 'ReactDOM' });
 
     // Regex pattern
     sdk.addExternal('jquery', { key: '/^jquery$/i', value: 'jQuery' });
-}, 'my-externals');
+  },
+  'my-externals'
+);
 ```
 
 ### Custom Optimization
 
 ```javascript
-Hook.registerSync('after-config', (config, sdk) => {
+Hook.registerSync(
+  'after-config',
+  (config, sdk) => {
     config.optimization = {
-        ...config.optimization,
-        moduleIds: 'deterministic',
-        runtimeChunk: 'single',
-        splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    chunks: 'all',
-                },
-            },
+      ...config.optimization,
+      moduleIds: 'deterministic',
+      runtimeChunk: 'single',
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+          },
         },
+      },
     };
-}, 'my-optimization');
+  },
+  'my-optimization'
+);
 ```
 
 ### Polyfills and Fallbacks
 
 ```javascript
-Hook.registerSync('after-config', (config, sdk) => {
+Hook.registerSync(
+  'after-config',
+  (config, sdk) => {
     config.resolve = {
-        ...config.resolve,
-        fallback: {
-            ...config.resolve.fallback,
-            crypto: require.resolve('crypto-browserify'),
-            stream: require.resolve('stream-browserify'),
-            buffer: require.resolve('buffer/'),
-        },
+      ...config.resolve,
+      fallback: {
+        ...config.resolve.fallback,
+        crypto: require.resolve('crypto-browserify'),
+        stream: require.resolve('stream-browserify'),
+        buffer: require.resolve('buffer/'),
+      },
     };
 
-    sdk.addPlugin('buffer-plugin', new webpack.ProvidePlugin({
+    sdk.addPlugin(
+      'buffer-plugin',
+      new webpack.ProvidePlugin({
         Buffer: ['buffer', 'Buffer'],
-    }));
-}, 'my-polyfills');
+      })
+    );
+  },
+  'my-polyfills'
+);
 ```
 
 ### Transpiling node_modules
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     // Transpile specific ES6+ packages
     sdk.addTranspiledDependency('query-string');
     sdk.addTranspiledDependency('split-on-first');
     sdk.addTranspiledDependency('@atomic-reactor/reactium-sdk-core');
-}, 'my-transpiled-deps');
+  },
+  'my-transpiled-deps'
+);
 ```
 
 ## Best Practices
@@ -1162,59 +1289,83 @@ Hook.registerSync('before-config', sdk => {
 
 ```javascript
 // Good
-sdk.addRule('my-plugin:sass-loader', { /* ... */ });
+sdk.addRule('my-plugin:sass-loader', {
+  /* ... */
+});
 sdk.addPlugin('my-plugin:compression', new CompressionPlugin());
 
 // Bad
-sdk.addRule('loader', { /* ... */ });
+sdk.addRule('loader', {
+  /* ... */
+});
 sdk.addPlugin('plugin', new SomePlugin());
 ```
 
 ### 2. Use Hook IDs for Debugging
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     // ...
-}, 'my-plugin-name'); // Always provide an ID
+  },
+  'my-plugin-name'
+); // Always provide an ID
 ```
 
 ### 3. Prefer SDK Methods Over Direct Config Manipulation
 
 ```javascript
 // Good
-Hook.registerSync('before-config', sdk => {
-    sdk.addRule('babel-loader', { /* ... */ });
+Hook.registerSync('before-config', (sdk) => {
+  sdk.addRule('babel-loader', {
+    /* ... */
+  });
 });
 
 // Less ideal (but sometimes necessary)
-Hook.registerSync('after-config', config => {
-    config.module.rules.push({ /* ... */ });
+Hook.registerSync('after-config', (config) => {
+  config.module.rules.push({
+    /* ... */
+  });
 });
 ```
 
 ### 4. Check Environment Before Adding Plugins
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     const env = sdk.mode;
 
     if (env === 'production') {
-        sdk.addPlugin('compression', new CompressionPlugin());
+      sdk.addPlugin('compression', new CompressionPlugin());
     }
-}, 'my-plugin');
+  },
+  'my-plugin'
+);
 ```
 
 ### 5. Use Priority for Load Order
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     // Enforce loader runs before babel
-    sdk.addRule('eslint-loader', {
+    sdk.addRule(
+      'eslint-loader',
+      {
         test: /\.js$/,
         enforce: 'pre',
         loader: 'eslint-loader',
-    }, 1); // Low order number = higher priority
-}, 'my-linter');
+      },
+      1
+    ); // Low order number = higher priority
+  },
+  'my-linter'
+);
 ```
 
 ### 6. Provide Extension Hooks for Plugins
@@ -1222,32 +1373,42 @@ Hook.registerSync('before-config', sdk => {
 ```javascript
 const loaderOptions = {};
 
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     // Allow other plugins to modify options
     Hook.runSync('my-loader-options', loaderOptions);
 
     sdk.addRule('my-loader', {
-        test: /\.custom$/,
-        use: [{
-            loader: 'my-loader',
-            options: loaderOptions,
-        }],
+      test: /\.custom$/,
+      use: [
+        {
+          loader: 'my-loader',
+          options: loaderOptions,
+        },
+      ],
     });
-}, 'my-loader-plugin');
+  },
+  'my-loader-plugin'
+);
 ```
 
 ### 7. Handle Errors Gracefully
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     try {
-        const config = require('./custom-config');
-        sdk.addRule('my-rule', config.rule);
+      const config = require('./custom-config');
+      sdk.addRule('my-rule', config.rule);
     } catch (error) {
-        console.warn('Custom config not found, using defaults');
-        sdk.addRule('my-rule', defaultRule);
+      console.warn('Custom config not found, using defaults');
+      sdk.addRule('my-rule', defaultRule);
     }
-}, 'my-plugin');
+  },
+  'my-plugin'
+);
 ```
 
 ### 8. Document Custom Hooks
@@ -1260,9 +1421,13 @@ Hook.registerSync('before-config', sdk => {
  */
 
 // Usage in other plugins:
-Hook.registerSync('my-loader-options', options => {
+Hook.registerSync(
+  'my-loader-options',
+  (options) => {
     options.customOption = true;
-}, 'my-plugin-extension');
+  },
+  'my-plugin-extension'
+);
 ```
 
 ## Common Gotchas
@@ -1296,10 +1461,14 @@ Hook.registerSync('before-config', sdkB, 'plugin-b');
 **Solution:** Use rule/plugin `order` parameter for prioritization:
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     sdk.addRule('high-priority', ruleA, 1);
     sdk.addRule('low-priority', ruleB, 100);
-}, 'my-plugin');
+  },
+  'my-plugin'
+);
 ```
 
 ### 3. Modifying vs Replacing Configuration
@@ -1314,8 +1483,8 @@ sdk.entry = { main: './new.js' }; // Replaces all entries
 
 ```javascript
 sdk.entry = {
-    ...sdk.entry,
-    newEntry: './new.js',
+  ...sdk.entry,
+  newEntry: './new.js',
 };
 ```
 
@@ -1346,7 +1515,7 @@ sdk.extensions = [...sdk.extensions, '.ts', '.tsx'];
 ```javascript
 // Don't do this
 sdk.addRule('babel-loader', {
-    exclude: /node_modules\/(?!(my-pkg|other-pkg))/,
+  exclude: /node_modules\/(?!(my-pkg|other-pkg))/,
 });
 ```
 
@@ -1369,9 +1538,13 @@ sdk.addTranspiledDependency('other-pkg');
 const sdk = global.ReactiumWebpack; // undefined
 
 // Correct - SDK available in hook
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     // SDK is passed as parameter
-}, 'my-plugin');
+  },
+  'my-plugin'
+);
 ```
 
 ### 7. Override vs Hook Timing
@@ -1414,29 +1587,37 @@ sdk.cache = false;
 ### Conditional Rule Registration
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     const isDevelopment = sdk.mode === 'development';
     const useTypeScript = fs.existsSync('./tsconfig.json');
 
     if (useTypeScript) {
-        sdk.addRule('ts-loader', {
-            test: /\.tsx?$/,
-            loader: 'ts-loader',
-        });
-        sdk.extensions = [...sdk.extensions, '.ts', '.tsx'];
+      sdk.addRule('ts-loader', {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+      });
+      sdk.extensions = [...sdk.extensions, '.ts', '.tsx'];
     }
 
     if (isDevelopment) {
-        sdk.addRule('eslint-loader', {
-            test: /\.jsx?$/,
-            enforce: 'pre',
-            loader: 'eslint-loader',
-            options: {
-                emitWarning: true,
-            },
-        }, 1);
+      sdk.addRule(
+        'eslint-loader',
+        {
+          test: /\.jsx?$/,
+          enforce: 'pre',
+          loader: 'eslint-loader',
+          options: {
+            emitWarning: true,
+          },
+        },
+        1
+      );
     }
-}, 'conditional-rules');
+  },
+  'conditional-rules'
+);
 ```
 
 ### Multi-Compiler Support
@@ -1445,25 +1626,34 @@ Hook.registerSync('before-config', sdk => {
 // UMD build uses same SDK but different DDD pattern
 const sdk = new WebpackSDK('my-library', 'reactium-webpack.js', umdConfig);
 
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     // Check SDK name to apply library-specific config
     if (sdk.name === 'my-library') {
-        sdk.output = {
-            ...sdk.output,
-            libraryTarget: 'umd',
-            globalObject: 'this',
-        };
+      sdk.output = {
+        ...sdk.output,
+        libraryTarget: 'umd',
+        globalObject: 'this',
+      };
     }
-}, 'library-config');
+  },
+  'library-config'
+);
 ```
 
 ### Registry Inspection and Modification
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     // Inspect existing rules
     const rules = sdk.rules.list;
-    console.log('Registered rules:', rules.map(r => r.id));
+    console.log(
+      'Registered rules:',
+      rules.map((r) => r.id)
+    );
 
     // Unregister a rule
     sdk.rules.unregister('unwanted-rule');
@@ -1471,69 +1661,87 @@ Hook.registerSync('before-config', sdk => {
     // Replace a rule
     sdk.rules.unregister('babel-loader');
     sdk.addRule('babel-loader', myCustomBabelRule);
-}, 'rule-inspector');
+  },
+  'rule-inspector'
+);
 ```
 
 ### Extending Another Plugin's Configuration
 
 ```javascript
 // Plugin A provides a hook
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     const loaderOptions = { defaultOption: true };
 
     // Allow modification
     Hook.runSync('my-plugin:loader-options', loaderOptions);
 
     sdk.addRule('my-loader', {
-        loader: 'my-loader',
-        options: loaderOptions,
+      loader: 'my-loader',
+      options: loaderOptions,
     });
-}, 'plugin-a');
+  },
+  'plugin-a'
+);
 
 // Plugin B extends Plugin A
-Hook.registerSync('my-plugin:loader-options', options => {
+Hook.registerSync(
+  'my-plugin:loader-options',
+  (options) => {
     options.customOption = 'value';
-}, 'plugin-b');
+  },
+  'plugin-b'
+);
 ```
 
 ### Dynamic Entry Points
 
 ```javascript
-Hook.registerSync('before-config', sdk => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     const entries = { ...sdk.entry };
 
     // Discover feature entries
     const features = globby.sync('./src/features/*/index.js');
-    features.forEach(feature => {
-        const name = path.basename(path.dirname(feature));
-        entries[`feature-${name}`] = feature;
+    features.forEach((feature) => {
+      const name = path.basename(path.dirname(feature));
+      entries[`feature-${name}`] = feature;
     });
 
     sdk.entry = entries;
-}, 'dynamic-entries');
+  },
+  'dynamic-entries'
+);
 ```
 
 ### Shared Vendor Chunks
 
 ```javascript
-Hook.registerSync('after-config', (config, sdk) => {
+Hook.registerSync(
+  'after-config',
+  (config, sdk) => {
     config.optimization.splitChunks = {
-        cacheGroups: {
-            react: {
-                test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-                name: 'react-vendor',
-                chunks: 'all',
-                priority: 10,
-            },
-            vendor: {
-                test: /[\\/]node_modules[\\/]/,
-                name: 'vendor',
-                chunks: 'all',
-                priority: 5,
-            },
+      cacheGroups: {
+        react: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: 'react-vendor',
+          chunks: 'all',
+          priority: 10,
         },
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+          priority: 5,
+        },
+      },
     };
-}, 'vendor-chunks');
+  },
+  'vendor-chunks'
+);
 ```
 
 ## Summary
@@ -1551,6 +1759,7 @@ The ReactiumWebpack SDK provides a powerful, hook-driven approach to webpack con
 ### Quick Reference
 
 **Core methods:**
+
 - `addRule(id, rule, order?)` - Add loader
 - `addPlugin(id, plugin)` - Add plugin
 - `addIgnore(id, pattern)` - Ignore files
@@ -1560,25 +1769,30 @@ The ReactiumWebpack SDK provides a powerful, hook-driven approach to webpack con
 - `addContext(id, {from, to})` - Context replacement
 
 **Optimization:**
+
 - `setCodeSplittingOptimize(env)` - Aggressive splitting
 - `setWebpackDefaultOptimize(env)` - Webpack defaults
 - `setNoCodeSplitting(env)` - Single bundle
 
 **Properties:**
+
 - `mode`, `entry`, `target`, `output`, `devtool`, `optimization`, `extensions`, `overrides`
 
 **Hooks:**
+
 - `before-config` - Modify SDK before config generation
 - `after-config` - Modify final config object
 - `rules`, `plugins`, `externals`, `ignores` - Modify registries
 
 **Migration path:**
+
 1. Create `reactium-webpack.js`
 2. Register `before-config` hook
 3. Use SDK methods instead of direct config manipulation
 4. Remove `webpack.override.js`
 
 **Source files:**
+
 - `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/webpack.sdk.js` - SDK implementation
 - `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/webpack.config.js` - Main webpack config
 - `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/reactium-webpack.js` - TypeScript example

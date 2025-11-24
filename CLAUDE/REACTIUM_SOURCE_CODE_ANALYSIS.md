@@ -1,4 +1,5 @@
 <!-- v1.0.0 -->
+
 # Reactium Framework: Deep Source Code Analysis
 
 **Analyzed by: Claude (Sonnet 4.5)**
@@ -10,6 +11,7 @@
 ## Executive Summary
 
 This analysis represents a comprehensive, evidence-based examination of the Reactium framework through direct inspection of source code from:
+
 - `/home/john/reactium-framework/reactium-sdk-core/` (TypeScript source)
 - `/home/john/reactium-framework/Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/`
 - `/home/john/reactium-framework/Reactium-Admin-Plugins/` (Real-world plugin examples)
@@ -37,56 +39,56 @@ This analysis represents a comprehensive, evidence-based examination of the Reac
 
 ```javascript
 import {
-    Hook,
-    Enums,
-    Component,
-    ZoneRegistry,
-    Handle,
-    Pulse,
-    Prefs,
-    Cache,
+  Hook,
+  Enums,
+  Component,
+  ZoneRegistry,
+  Handle,
+  Pulse,
+  Prefs,
+  Cache,
 } from '@atomic-reactor/reactium-sdk-core';
 
 import { AppContext, State } from './named-exports';
 import { Routing } from './routing';
 
 const SDK = {
-    Hook,
-    Enums,
-    Component,
-    Zone: ZoneRegistry,
-    Handle,
-    Pulse,
-    Prefs,
-    Cache,
-    AppContext,
-    State,
-    Routing,
+  Hook,
+  Enums,
+  Component,
+  Zone: ZoneRegistry,
+  Handle,
+  Pulse,
+  Prefs,
+  Cache,
+  AppContext,
+  State,
+  Routing,
 };
 
 const apiHandler = {
-    get(SDK, prop) {
-        if (prop in SDK) return SDK[prop];
-        if (SDK.API) {
-            if (prop in SDK.API) return SDK.API[prop];
-            if (SDK.API.Actinium && prop in SDK.API.Actinium)
-                return SDK.API.Actinium[prop];
-        }
-    },
+  get(SDK, prop) {
+    if (prop in SDK) return SDK[prop];
+    if (SDK.API) {
+      if (prop in SDK.API) return SDK.API[prop];
+      if (SDK.API.Actinium && prop in SDK.API.Actinium)
+        return SDK.API.Actinium[prop];
+    }
+  },
 
-    set(SDK, prop, value) {
-        // optionally protect SDK props by hook
-        const { ok = true } = SDK.Hook.runSync(
-            'reactium-sdk-set-prop',
-            prop,
-            value,
-        );
-        if (ok) {
-            SDK[prop] = value;
-        }
+  set(SDK, prop, value) {
+    // optionally protect SDK props by hook
+    const { ok = true } = SDK.Hook.runSync(
+      'reactium-sdk-set-prop',
+      prop,
+      value
+    );
+    if (ok) {
+      SDK[prop] = value;
+    }
 
-        return true;
-    },
+    return true;
+  },
 };
 
 export const Reactium = new Proxy(SDK, apiHandler);
@@ -95,6 +97,7 @@ export const Reactium = new Proxy(SDK, apiHandler);
 **Critical Insights:**
 
 1. **Three-Tier Property Resolution**:
+
    - First: Check base SDK object
    - Second: Check `SDK.API` (added by reactium-api plugin)
    - Third: Check `SDK.API.Actinium` (backend integration)
@@ -107,17 +110,17 @@ export const Reactium = new Proxy(SDK, apiHandler);
 
 ```javascript
 Reactium.Hook.register(
-    'sdk-init',
-    async () => {
-        try {
-            const { default: API } = await import('./sdk');
-            Reactium.API = API;  // Adds API property to SDK
-        } catch (err) {
-            console.log(err);
-        }
-    },
-    Reactium.Enums.highest,
-    'REACTIUM-CORE-SDK-API',
+  'sdk-init',
+  async () => {
+    try {
+      const { default: API } = await import('./sdk');
+      Reactium.API = API; // Adds API property to SDK
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  Reactium.Enums.highest,
+  'REACTIUM-CORE-SDK-API'
 );
 ```
 
@@ -167,65 +170,66 @@ Browser-specific implementations:
 
 ```typescript
 interface HookDeclaration {
-    id: string;
-    order: number;
-    callback: HookCallback;
-    domain: string;
+  id: string;
+  order: number;
+  callback: HookCallback;
+  domain: string;
 }
 
 type HookActions = {
-    [hookType in HookType]: {
-        [name: string]: {
-            [id: string]: HookDeclaration;
-        };
+  [hookType in HookType]: {
+    [name: string]: {
+      [id: string]: HookDeclaration;
     };
+  };
 };
 
 class HookSDK {
-    protected action: HookActions = {
-        [HookType.sync]: {},
-        [HookType.async]: {},
+  protected action: HookActions = {
+    [HookType.sync]: {},
+    [HookType.async]: {},
+  };
+  protected actionIds: HookActionIds = {};
+  protected domains: HookDomains = {};
+
+  protected _register =
+    (type: HookType = HookType.async) =>
+    <CB extends HookCallback<any[], any> = HookCallback<any[], any>>(
+      name: string,
+      callback: CB,
+      order: number = Enums.priority.neutral,
+      id: string = uuid(),
+      domain: string = 'default'
+    ) => {
+      const path = `${type}.${name}.${id}`;
+      op.set(this.actionIds, [id], path);
+      op.set<HookDeclaration>(this.action, `${type}.${name}.${id}`, {
+        id,
+        order,
+        callback,
+        domain,
+      });
+      op.set(
+        this.domains,
+        `${name}.${domain}`,
+        _.chain([id, op.get(this.domains, `${name}.${domain}`, [])])
+          .compact()
+          .uniq()
+          .value()
+      );
+
+      return id;
     };
-    protected actionIds: HookActionIds = {};
-    protected domains: HookDomains = {};
 
-    protected _register =
-        (type: HookType = HookType.async) =>
-            <CB extends HookCallback<any[], any> = HookCallback<any[], any>>(
-            name: string,
-            callback: CB,
-            order: number = Enums.priority.neutral,
-            id: string = uuid(),
-            domain: string = 'default',
-        ) => {
-            const path = `${type}.${name}.${id}`;
-            op.set(this.actionIds, [id], path);
-            op.set<HookDeclaration>(this.action, `${type}.${name}.${id}`, {
-                id,
-                order,
-                callback,
-                domain,
-            });
-            op.set(
-                this.domains,
-                `${name}.${domain}`,
-                _.chain([id, op.get(this.domains, `${name}.${domain}`, [])])
-                    .compact()
-                    .uniq()
-                    .value(),
-            );
-
-            return id;
-        };
-
-    public register = this._register(HookType.async);
-    public registerSync = this._register(HookType.sync);
+  public register = this._register(HookType.async);
+  public registerSync = this._register(HookType.sync);
 }
 ```
 
 **Critical Insights:**
 
 1. **Dual Storage Structure**:
+
    - `action`: Stores hooks organized by `type → name → id`
    - `actionIds`: Reverse index from `id → path` for quick unregistration
    - `domains`: Groups hooks by domain for batch operations
@@ -255,49 +259,61 @@ While the TypeScript source shows the storage mechanism, the actual execution us
 
 ```typescript
 export interface HandleSubscriptions {
-    [id: string]: Function
+  [id: string]: Function;
 }
 
 class Handle {
-    handles = {};
-    subscriptions: HandleSubscriptions = {};
+  handles = {};
+  subscriptions: HandleSubscriptions = {};
 
-    subscribe(cb: Function): () => void {
-        if (typeof cb === 'function') {
-            const id = uuid();
-            this.subscriptions[id] = cb;
-            return () => {
-                delete this.subscriptions[id];
-            };
-        }
-
-        throw new Error('Callback required.')
+  subscribe(cb: Function): () => void {
+    if (typeof cb === 'function') {
+      const id = uuid();
+      this.subscriptions[id] = cb;
+      return () => {
+        delete this.subscriptions[id];
+      };
     }
 
-    register<HandleType = any>(id: Path = '', ref, update = true) {
-        const path = Array.isArray(id) ? id : typeof id == 'string' ? id.split('.') : id;
-        op.set<HandleType>(this.handles, path, ref);
-        if (update) this._update();
-    }
+    throw new Error('Callback required.');
+  }
 
-    unregister(id: Path = '') {
-        const path = Array.isArray(id) ? id : typeof id == 'string' ? id.split('.') : id;
-        op.del(this.handles, path);
-        this._update();
-    }
+  register<HandleType = any>(id: Path = '', ref, update = true) {
+    const path = Array.isArray(id)
+      ? id
+      : typeof id == 'string'
+        ? id.split('.')
+        : id;
+    op.set<HandleType>(this.handles, path, ref);
+    if (update) this._update();
+  }
 
-    _update() {
-        Object.values(this.subscriptions).forEach(cb => cb());
-    }
+  unregister(id: Path = '') {
+    const path = Array.isArray(id)
+      ? id
+      : typeof id == 'string'
+        ? id.split('.')
+        : id;
+    op.del(this.handles, path);
+    this._update();
+  }
 
-    has(id: Path = ''): boolean {
-        return op.has(this.handles, id);
-    }
+  _update() {
+    Object.values(this.subscriptions).forEach((cb) => cb());
+  }
 
-    get<HandleType = any>(id: Path = '', defaultReturn?: HandleType | undefined) {
-        const path = Array.isArray(id) ? id : typeof id == 'string' ? id.split('.') : id;
-        return op.get<HandleType | undefined>(this.handles, path, defaultReturn);
-    }
+  has(id: Path = ''): boolean {
+    return op.has(this.handles, id);
+  }
+
+  get<HandleType = any>(id: Path = '', defaultReturn?: HandleType | undefined) {
+    const path = Array.isArray(id)
+      ? id
+      : typeof id == 'string'
+        ? id.split('.')
+        : id;
+    return op.get<HandleType | undefined>(this.handles, path, defaultReturn);
+  }
 }
 
 const ReactiumHandle = new Handle();
@@ -320,83 +336,75 @@ export { ReactiumHandle as default, ReactiumHandle as Handle };
 
 ```javascript
 handleFrontEndDataLoading = async (updates) => {
-    if (
-        Boolean(
-            [
-                'changes.pathChanged',
-                'changes.routeChanged',
-                'changes.searchChanged',
-            ].filter((path) => Boolean(op.get(updates, path, false)))
-                .length,
-        )
-    ) {
-        // remove any handles from previous routes
-        Object.entries(Handle.handles)
-            .filter(([, handle]) => {
-                return (
-                    op.get(handle, 'routeId') ===
-                    op.get(updates, 'previous.match.route.id', false)
-                );
-            })
-            .filter(
-                ([id]) =>
-                    Handle.get(id) &&
-                    op.get(Handle.get(id), 'persistHandle', false) !== true,
-            )
-            .forEach(([id]) => {
-                Handle.unregister(id);
-            });
-
-        const loadState = op.get(
-            updates,
-            'active.match.route.component.loadState',
-            op.get(updates, 'active.match.route.loadState'),
+  if (
+    Boolean(
+      [
+        'changes.pathChanged',
+        'changes.routeChanged',
+        'changes.searchChanged',
+      ].filter((path) => Boolean(op.get(updates, path, false))).length
+    )
+  ) {
+    // remove any handles from previous routes
+    Object.entries(Handle.handles)
+      .filter(([, handle]) => {
+        return (
+          op.get(handle, 'routeId') ===
+          op.get(updates, 'previous.match.route.id', false)
         );
+      })
+      .filter(
+        ([id]) =>
+          Handle.get(id) &&
+          op.get(Handle.get(id), 'persistHandle', false) !== true
+      )
+      .forEach(([id]) => {
+        Handle.unregister(id);
+      });
 
-        const handleId = op.get(
-            updates,
-            'active.match.route.component.handleId',
-            op.get(updates, 'active.match.route.handleId', uuid()),
+    const loadState = op.get(
+      updates,
+      'active.match.route.component.loadState',
+      op.get(updates, 'active.match.route.loadState')
+    );
+
+    const handleId = op.get(
+      updates,
+      'active.match.route.component.handleId',
+      op.get(updates, 'active.match.route.handleId', uuid())
+    );
+
+    if (typeof loadState === 'function') {
+      try {
+        const persistHandle = op.get(
+          updates,
+          'active.match.route.persistHandle',
+          false
         );
-
-        if (typeof loadState === 'function') {
-            try {
-                const persistHandle = op.get(
-                    updates,
-                    'active.match.route.persistHandle',
-                    false,
-                );
-                if (!persistHandle || !Handle.get(handleId)) {
-                    Handle.register(handleId, {
-                        routeId: op.get(updates, 'active.match.route.id'),
-                        persistHandle,
-                        current: new ReactiumSyncState({}),
-                    });
-                }
-
-                const route = op.get(updates, 'active.match.route', {});
-                op.set(route, 'handleId', handleId);
-                if (route.component)
-                    op.set(route, 'component.handleId', handleId);
-
-                const params = op.get(updates, 'active.params', {});
-                const search = op.get(updates, 'active.search', {});
-                const content = await loadState({ route, params, search });
-                const handle = op.get(Handle.handles, [
-                    handleId,
-                    'current',
-                ]);
-                if (handle) handle.set(content);
-            } catch (error) {
-                const handle = op.get(Handle.handles, [
-                    handleId,
-                    'current',
-                ]);
-                if (handle) handle.set({ error });
-                console.error('Error loading content for component', error);
-            }
+        if (!persistHandle || !Handle.get(handleId)) {
+          Handle.register(handleId, {
+            routeId: op.get(updates, 'active.match.route.id'),
+            persistHandle,
+            current: new ReactiumSyncState({}),
+          });
         }
+
+        const route = op.get(updates, 'active.match.route', {});
+        op.set(route, 'handleId', handleId);
+        if (route.component) op.set(route, 'component.handleId', handleId);
+
+        const params = op.get(updates, 'active.params', {});
+        const search = op.get(updates, 'active.search', {});
+        const content = await loadState({ route, params, search });
+        const handle = op.get(Handle.handles, [handleId, 'current']);
+        if (handle) handle.set(content);
+      } catch (error) {
+        const handle = op.get(Handle.handles, [handleId, 'current']);
+        if (handle) handle.set({ error });
+        console.error('Error loading content for component', error);
+      }
     }
+  }
 };
 ```
 
@@ -405,6 +413,7 @@ handleFrontEndDataLoading = async (updates) => {
 1. **Automatic Handle Cleanup**: On route change, handles from the previous route are automatically unregistered UNLESS `persistHandle: true`.
 
 2. **Handle Structure for Routes**:
+
    ```javascript
    {
        routeId: 'route-id',
@@ -432,38 +441,40 @@ The manifest generation follows this process:
 1. **Directory Tree Scanning**: Uses `directory-tree` module to recursively scan configured source paths.
 
 2. **Pattern Matching**: Matches files against regex patterns defined in manifest config:
+
    ```javascript
    // Source: reactium-config.js (verified November 21, 2025)
    const defaultManifestConfig = {
-       patterns: [
-           {
-               name: 'allRoutes',
-               type: 'route',
-               pattern: /(routes?|reactium-routes?.*?)\.jsx?$/,
-           },
-           {
-               name: 'allHooks',
-               type: 'hooks',
-               pattern: /(reactium-)?hooks?.*?\.jsx?$/,
-           },
-           {
-               name: 'allDomains',
-               type: 'domain',
-               pattern: /(domain|reactium-domain.*?)\.js$/,
-           },
-           {
-               name: 'allServices',
-               type: 'services',
-               pattern: /reactium-service-.+\.js$/,
-           },
-           // Additional patterns for plugins, middleware, etc.
-       ]
+     patterns: [
+       {
+         name: 'allRoutes',
+         type: 'route',
+         pattern: /(routes?|reactium-routes?.*?)\.jsx?$/,
+       },
+       {
+         name: 'allHooks',
+         type: 'hooks',
+         pattern: /(reactium-)?hooks?.*?\.jsx?$/,
+       },
+       {
+         name: 'allDomains',
+         type: 'domain',
+         pattern: /(domain|reactium-domain.*?)\.js$/,
+       },
+       {
+         name: 'allServices',
+         type: 'services',
+         pattern: /reactium-service-.+\.js$/,
+       },
+       // Additional patterns for plugins, middleware, etc.
+     ],
    };
    ```
 
    **Note**: Patterns are flexible - they match variations like `route.js`, `routes.js`, `reactium-route-myroute.js`, etc.
 
 3. **Import Function Generation**: Creates dynamic import functions for each matched file:
+
    ```javascript
    {
        req: () => import('../src/app/components/MyComponent/reactium-route-mycomponent'),
@@ -488,33 +499,34 @@ import { isBrowserWindow } from '@atomic-reactor/reactium-sdk-core';
 
 const deps = {};
 const reqs = {
-    allRoutes: {
-        DataLoader: {
-            req: () => {
-                return import(
-                    '../src/app/components/DataLoader/reactium-route-dataloader'
-                );
-            },
-            file: '../src/app/components/DataLoader/reactium-route-dataloader',
-        },
-        // ... more routes
+  allRoutes: {
+    DataLoader: {
+      req: () => {
+        return import(
+          '../src/app/components/DataLoader/reactium-route-dataloader'
+        );
+      },
+      file: '../src/app/components/DataLoader/reactium-route-dataloader',
     },
-    allServices: {},
-    allHooks: {
-        DataLoader: {
-            req: () => {
-                return import(
-                    '../src/app/components/DataLoader/reactium-hooks-dataloader'
-                );
-            },
-            file: '../src/app/components/DataLoader/reactium-hooks-dataloader',
-        },
-        // ... more hooks
-    }
+    // ... more routes
+  },
+  allServices: {},
+  allHooks: {
+    DataLoader: {
+      req: () => {
+        return import(
+          '../src/app/components/DataLoader/reactium-hooks-dataloader'
+        );
+      },
+      file: '../src/app/components/DataLoader/reactium-hooks-dataloader',
+    },
+    // ... more hooks
+  },
 };
 ```
 
 **Critical Insight**: The manifest is a registry of **import functions**, not imported modules. This enables:
+
 - Code splitting at the route level
 - Lazy loading of components
 - Conditional loading based on hooks
@@ -597,43 +609,41 @@ async loadAll(type) {
 
 ```javascript
 class RoutingFactory {
-    loaded = false;
-    updated = null;
-    routesRegistry = new Registry('Routing', 'id', Registry.MODES.CLEAN);
-    routeListeners = new Registry(
-        'RoutingListeners',
-        'id',
-        Registry.MODES.CLEAN,
+  loaded = false;
+  updated = null;
+  routesRegistry = new Registry('Routing', 'id', Registry.MODES.CLEAN);
+  routeListeners = new Registry('RoutingListeners', 'id', Registry.MODES.CLEAN);
+
+  active = 'current';
+  currentRoute = null;
+  previousRoute = null;
+  subscriptions = {};
+
+  constructor() {
+    if (isBrowserWindow()) {
+      this.historyObj = createHistory();
+      this.historyObj.listen(this.setCurrentRoute);
+    }
+  }
+
+  get routes() {
+    return _.sortBy(
+      _.sortBy(this.routesRegistry.list, 'path').reverse(),
+      'order'
     );
-
-    active = 'current';
-    currentRoute = null;
-    previousRoute = null;
-    subscriptions = {};
-
-    constructor() {
-        if (isBrowserWindow()) {
-            this.historyObj = createHistory();
-            this.historyObj.listen(this.setCurrentRoute);
-        }
-    }
-
-    get routes() {
-        return _.sortBy(
-            _.sortBy(this.routesRegistry.list, 'path').reverse(),
-            'order',
-        );
-    }
+  }
 }
 ```
 
 **Critical Insights:**
 
 1. **Dual Registry System**:
+
    - `routesRegistry`: Stores route definitions
    - `routeListeners`: Stores navigation callbacks
 
 2. **Route Sorting Strategy**:
+
    - First: Sort by `path` (reversed) - prioritizes more specific paths
    - Second: Sort by `order` - allows manual priority override
 
@@ -645,44 +655,43 @@ class RoutingFactory {
 
 ```javascript
 setupTransitions = () => {
-    const previousTransitions =
-        op.get(this.previousRoute, 'match.route.transitions', false) === true;
-    const currentTransitions =
-        op.get(this.currentRoute, 'match.route.transitions', false) === true;
-    const currentTransitionStates =
-        op.get(
-            this.currentRoute,
-            'match.route.transitionStates',
-            defaultTransitionStates,
-        ) || [];
+  const previousTransitions =
+    op.get(this.previousRoute, 'match.route.transitions', false) === true;
+  const currentTransitions =
+    op.get(this.currentRoute, 'match.route.transitions', false) === true;
+  const currentTransitionStates =
+    op.get(
+      this.currentRoute,
+      'match.route.transitionStates',
+      defaultTransitionStates
+    ) || [];
 
-    // set transitionStates on allowed components
-    this.transitionStates = (
-        !currentTransitions ? [] : currentTransitionStates
-    ).filter(({ active = 'current' }) => {
-        return (
-            active === 'current' ||
-            (active === 'previous' && previousTransitions)
-        );
-    });
+  // set transitionStates on allowed components
+  this.transitionStates = (
+    !currentTransitions ? [] : currentTransitionStates
+  ).filter(({ active = 'current' }) => {
+    return (
+      active === 'current' || (active === 'previous' && previousTransitions)
+    );
+  });
 
-    const [transition, ...transitionStates] = this.transitionStates;
-    this.transitionStates = transitionStates;
-    this.setTransitionState(transition);
+  const [transition, ...transitionStates] = this.transitionStates;
+  this.transitionStates = transitionStates;
+  this.setTransitionState(transition);
 };
 
 nextState = () => {
-    if (this.transitionStates.length > 0) {
-        const [transition, ...transitionStates] = this.transitionStates;
-        this.transitionStates = transitionStates;
-        this.setTransitionState(transition);
-    }
+  if (this.transitionStates.length > 0) {
+    const [transition, ...transitionStates] = this.transitionStates;
+    this.transitionStates = transitionStates;
+    this.setTransitionState(transition);
+  }
 };
 
 setTransitionState = (transition, update = true) => {
-    this.active = op.get(transition, 'active', 'current') || 'current';
-    this.transitionState = op.get(transition, 'state', 'READY') || 'READY';
-    // ... update listeners
+  this.active = op.get(transition, 'active', 'current') || 'current';
+  this.transitionState = op.get(transition, 'state', 'READY') || 'READY';
+  // ... update listeners
 };
 ```
 
@@ -690,10 +699,10 @@ setTransitionState = (transition, update = true) => {
 
 ```javascript
 const defaultTransitionStates = [
-    { state: 'EXITING', active: 'previous' },
-    { state: 'LOADING', active: 'current' },
-    { state: 'ENTERING', active: 'current' },
-    { state: 'READY', active: 'current' },
+  { state: 'EXITING', active: 'previous' },
+  { state: 'LOADING', active: 'current' },
+  { state: 'ENTERING', active: 'current' },
+  { state: 'READY', active: 'current' },
 ];
 ```
 
@@ -719,17 +728,17 @@ const defaultTransitionStates = [
 import Reactium from 'reactium-core/sdk';
 
 Reactium.Hook.register(
-    'sdk-init',
-    async () => {
-        try {
-            const { default: API } = await import('./sdk');
-            Reactium.API = API;
-        } catch (err) {
-            console.log(err);
-        }
-    },
-    Reactium.Enums.highest,
-    'REACTIUM-CORE-SDK-API',
+  'sdk-init',
+  async () => {
+    try {
+      const { default: API } = await import('./sdk');
+      Reactium.API = API;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  Reactium.Enums.highest,
+  'REACTIUM-CORE-SDK-API'
 );
 ```
 
@@ -740,54 +749,54 @@ import * as SDK from '@atomic-reactor/reactium-sdk-core/core';
 import op from 'object-path';
 
 class APIRegistry extends SDK.Registry {
-    constructor() {
-        super('APIRegistry', 'name', SDK.Registry.MODES.CLEAN);
+  constructor() {
+    super('APIRegistry', 'name', SDK.Registry.MODES.CLEAN);
 
-        if (actiniumAPIEnabled) {
-            const { api, config } = require('./actinium');
-            this.register({
-                name: 'Actinium',
-                api,
-                config,
-            });
-        }
+    if (actiniumAPIEnabled) {
+      const { api, config } = require('./actinium');
+      this.register({
+        name: 'Actinium',
+        api,
+        config,
+      });
     }
+  }
 
-    api(name = 'Actinium') {
-        const API = op.get(this.get(name), 'api');
-        SDK.Hook.runSync('sdk-get-api', name, API);
-        return API;
-    }
+  api(name = 'Actinium') {
+    const API = op.get(this.get(name), 'api');
+    SDK.Hook.runSync('sdk-get-api', name, API);
+    return API;
+  }
 
-    config(name = 'Actinium') {
-        const Config = op.get(this.get(name), 'config');
-        SDK.Hook.runSync('sdk-get-api-config', name, Config);
-        return Config;
-    }
+  config(name = 'Actinium') {
+    const Config = op.get(this.get(name), 'config');
+    SDK.Hook.runSync('sdk-get-api-config', name, Config);
+    return Config;
+  }
 }
 
 const handler = {
-    get(target, prop) {
-        if (prop in target) return target[prop];
-        if (typeof prop === 'string') {
-            const reg = /Config$/;
-            const [name] = prop.split(reg);
-            return reg.test(prop) ? target.config(name) : target.api(name);
-        }
-    },
+  get(target, prop) {
+    if (prop in target) return target[prop];
+    if (typeof prop === 'string') {
+      const reg = /Config$/;
+      const [name] = prop.split(reg);
+      return reg.test(prop) ? target.config(name) : target.api(name);
+    }
+  },
 
-    set(target, prop, value = {}) {
-        if (prop in target) target[prop] = value;
-        else {
-            const val = {
-                ...value,
-                name: prop,
-            };
-            target.register(val);
-        }
+  set(target, prop, value = {}) {
+    if (prop in target) target[prop] = value;
+    else {
+      const val = {
+        ...value,
+        name: prop,
+      };
+      target.register(val);
+    }
 
-        return target;
-    },
+    return target;
+  },
 };
 
 const proxy = new Proxy(new APIRegistry(), handler);
@@ -815,38 +824,38 @@ import HeaderWidget from './HeaderWidget';
 import SidebarWidget from './SidebarWidget';
 
 Reactium.Plugin.register(
-    'AdminUsers',
-    Reactium.Enums.priority.high.lowest,
+  'AdminUsers',
+  Reactium.Enums.priority.high.lowest
 ).then(() => {
-    Reactium.Zone.addComponent({
-        id: 'AdminUserList',
-        component: UserList,
-        order: Reactium.Enums.priority.lowest,
-        zone: ['admin-user-list'],
-    });
+  Reactium.Zone.addComponent({
+    id: 'AdminUserList',
+    component: UserList,
+    order: Reactium.Enums.priority.lowest,
+    zone: ['admin-user-list'],
+  });
 
-    Reactium.Zone.addComponent({
-        id: 'AdminUserEditor',
-        component: UserEditor,
-        order: Reactium.Enums.priority.lowest,
-        zone: ['admin-user-editor'],
-    });
+  Reactium.Zone.addComponent({
+    id: 'AdminUserEditor',
+    component: UserEditor,
+    order: Reactium.Enums.priority.lowest,
+    zone: ['admin-user-editor'],
+  });
 
-    Reactium.Zone.addComponent({
-        id: 'ADMIN-USERS-SIDEBAR-WIDGET',
-        component: SidebarWidget,
-        order: 500,
-        zone: ['admin-sidebar-menu'],
-    });
+  Reactium.Zone.addComponent({
+    id: 'ADMIN-USERS-SIDEBAR-WIDGET',
+    component: SidebarWidget,
+    order: 500,
+    zone: ['admin-sidebar-menu'],
+  });
 
-    Reactium.Zone.addComponent({
-        id: 'ADMIN-USERS-BREADCRUMBS-WIDGET',
-        component: Breadcrumbs,
-        order: 1,
-        zone: ['admin-header'],
-    });
+  Reactium.Zone.addComponent({
+    id: 'ADMIN-USERS-BREADCRUMBS-WIDGET',
+    component: Breadcrumbs,
+    order: 1,
+    zone: ['admin-header'],
+  });
 
-    // ... more zone registrations
+  // ... more zone registrations
 });
 ```
 
@@ -870,119 +879,117 @@ Reactium.Plugin.register(
 
 ```javascript
 Hook.register(
-    'routes-init',
-    async () => {
-        const allRoutes = await deps().loadAllDefaults('allRoutes');
-        if (!Object.values(allRoutes || {}).length) {
-            return [];
-        }
+  'routes-init',
+  async () => {
+    const allRoutes = await deps().loadAllDefaults('allRoutes');
+    if (!Object.values(allRoutes || {}).length) {
+      return [];
+    }
 
-        let globalRoutes = [];
-        if (isBrowserWindow()) {
-            if ('routes' in window && Array.isArray(window.routes)) {
-                globalRoutes = window.routes;
-            }
-        } else {
-            if ('routes' in global && Array.isArray(global.routes)) {
-                globalRoutes = global.routes;
-            }
-        }
+    let globalRoutes = [];
+    if (isBrowserWindow()) {
+      if ('routes' in window && Array.isArray(window.routes)) {
+        globalRoutes = window.routes;
+      }
+    } else {
+      if ('routes' in global && Array.isArray(global.routes)) {
+        globalRoutes = global.routes;
+      }
+    }
 
-        const combinedRoutes = _.chain(
-            Object.values(allRoutes || {})
-                .concat(globalRoutes)
-                .filter(route => route)
-                .map(route => _.flatten([route])),
-        )
-            .flatten()
-            .compact()
-            .value();
+    const combinedRoutes = _.chain(
+      Object.values(allRoutes || {})
+        .concat(globalRoutes)
+        .filter((route) => route)
+        .map((route) => _.flatten([route]))
+    )
+      .flatten()
+      .compact()
+      .value();
 
-        for (const route of combinedRoutes) {
-            const paths = _.compact(_.flatten([route.path]));
-            for (const path of paths) {
-                await Reactium.Routing.register(
-                    {
-                        ...route,
-                        path,
-                    },
-                    false,
-                );
-            }
-        }
-    },
-    Enums.priority.core,
-    'REACTIUM_ROUTES_INIT',
-);
-
-Hook.register(
-    'register-route',
-    async route => {
-        if (typeof route.component === 'string') {
-            route.component = hookableComponent(route.component);
-        }
-
-        return route;
-    },
-    Enums.priority.core,
-    'REACTIUM_REGISTER_ROUTE_STRINGABLE',
-);
-
-Hook.register(
-    'init',
-    async () => {
-        const { AppParent } = await import('./AppParent');
-        const { NotFound } = await import('./NotFound');
-        const { RoutedContent, AppContent } = await import(
-            './RoutedContent'
+    for (const route of combinedRoutes) {
+      const paths = _.compact(_.flatten([route.path]));
+      for (const path of paths) {
+        await Reactium.Routing.register(
+          {
+            ...route,
+            path,
+          },
+          false
         );
-        const { Router, RouterProvider } = await import('./Router');
-        console.log('Initializing Core Components');
-        Component.register('AppParent', AppParent);
-        Component.register('NotFound', NotFound);
-        Component.register('RoutedContent', RoutedContent);
-        Component.register('AppContent', AppContent);
-        Component.register('Router', Router);
-
-        AppContext.register(
-            'RouterProvider',
-            {
-                provider: RouterProvider,
-                history: Routing.history,
-            },
-            Reactium.Enums.priority.core,
-        );
-    },
-    Enums.priority.core,
-    'REACTIUM_INIT_CORE_COMPONENTS',
+      }
+    }
+  },
+  Enums.priority.core,
+  'REACTIUM_ROUTES_INIT'
 );
 
 Hook.register(
-    'plugin-dependencies',
-    context => {
-        context.deps = deps();
-        return Promise.resolve();
-    },
-    Enums.priority.core,
-    'REACTIUM_PLUGIN_DEPENDENCIES',
+  'register-route',
+  async (route) => {
+    if (typeof route.component === 'string') {
+      route.component = hookableComponent(route.component);
+    }
+
+    return route;
+  },
+  Enums.priority.core,
+  'REACTIUM_REGISTER_ROUTE_STRINGABLE'
 );
 
 Hook.register(
-    'zone-defaults',
-    async context => {
-        op.set(context, 'controls', {
-            filter: plugin => true,
-            mapper: plugin => plugin,
-            sort: {
-                sortBy: 'order',
-                reverse: false,
-            },
-        });
-        op.set(context, 'components', getSaneZoneComponents());
-        console.log('Initializing Content Zones');
-    },
-    Enums.priority.core,
-    'REACTIUM_ZONE_DEFAULTS',
+  'init',
+  async () => {
+    const { AppParent } = await import('./AppParent');
+    const { NotFound } = await import('./NotFound');
+    const { RoutedContent, AppContent } = await import('./RoutedContent');
+    const { Router, RouterProvider } = await import('./Router');
+    console.log('Initializing Core Components');
+    Component.register('AppParent', AppParent);
+    Component.register('NotFound', NotFound);
+    Component.register('RoutedContent', RoutedContent);
+    Component.register('AppContent', AppContent);
+    Component.register('Router', Router);
+
+    AppContext.register(
+      'RouterProvider',
+      {
+        provider: RouterProvider,
+        history: Routing.history,
+      },
+      Reactium.Enums.priority.core
+    );
+  },
+  Enums.priority.core,
+  'REACTIUM_INIT_CORE_COMPONENTS'
+);
+
+Hook.register(
+  'plugin-dependencies',
+  (context) => {
+    context.deps = deps();
+    return Promise.resolve();
+  },
+  Enums.priority.core,
+  'REACTIUM_PLUGIN_DEPENDENCIES'
+);
+
+Hook.register(
+  'zone-defaults',
+  async (context) => {
+    op.set(context, 'controls', {
+      filter: (plugin) => true,
+      mapper: (plugin) => plugin,
+      sort: {
+        sortBy: 'order',
+        reverse: false,
+      },
+    });
+    op.set(context, 'components', getSaneZoneComponents());
+    console.log('Initializing Content Zones');
+  },
+  Enums.priority.core,
+  'REACTIUM_ZONE_DEFAULTS'
 );
 ```
 
@@ -1000,27 +1007,27 @@ Hook.register(
 
 ```javascript
 const getSaneZoneComponents = () => {
-    return (
-        // allow array of DDD zone components
-        _.flatten(_.compact(Object.values(deps().plugins)), true)
-            // remove DDD zone components missing zones
-            .filter(({ zone }) => {
-                if (!zone) return false;
-                if (Array.isArray(zone) && zone.length < 1) return false;
-                return true;
-            })
-            // normalize zone property
-            .map(component => {
-                let { zone } = component;
-                if (!Array.isArray(zone)) {
-                    zone = [zone];
-                }
-                return {
-                    ...component,
-                    zone,
-                };
-            })
-    );
+  return (
+    // allow array of DDD zone components
+    _.flatten(_.compact(Object.values(deps().plugins)), true)
+      // remove DDD zone components missing zones
+      .filter(({ zone }) => {
+        if (!zone) return false;
+        if (Array.isArray(zone) && zone.length < 1) return false;
+        return true;
+      })
+      // normalize zone property
+      .map((component) => {
+        let { zone } = component;
+        if (!Array.isArray(zone)) {
+          zone = [zone];
+        }
+        return {
+          ...component,
+          zone,
+        };
+      })
+  );
 };
 ```
 
@@ -1034,35 +1041,12 @@ const getSaneZoneComponents = () => {
 
 After reviewing `/learning/GEMINI.md` and the actual source code, here are critical corrections:
 
-#### Correction 1: ".core Directory Does Not Exist in Modern Reactium"
-
-**GEMINI Assumption**: Referenced `.core` directory for build configuration.
-
-**Reality**: Per user's CLAUDE.md note:
-> ".core directory in Reactium seems hallucinated or from old documentation the @atomic-reactor/reactium-core plugin actually replaces that."
-
-**Evidence**: Build configuration is in `reactium_modules/@atomic-reactor/reactium-core/`:
-- `gulpfile.js`
-- `gulp.config.js`
-- `webpack.config.js`
-- `manifest/manifest-tools.js`
-
-**Filesystem Verification** (November 22, 2025):
-- Codebase scan found ONE `.core` directory: `/home/john/reactium-framework/Reactium-Admin-Plugins/.core/`
-- Contains legacy build configuration files (gulp, webpack, babel configs from older framework version)
-- Modern workspace directories using `reactium_modules/@atomic-reactor/reactium-core/` pattern:
-  - `/home/john/reactium-framework/Reactium-Admin-Plugins/reactium_modules`
-  - `/home/john/reactium-framework/Reactium-GraphQL-Plugin/reactium_modules`
-  - `/home/john/reactium-framework/example-reactium-project/reactium_modules`
-  - `/home/john/reactium-framework/Reactium-Core-Plugins/reactium_modules`
-  - `/home/john/reactium-framework/Actinium-Plugins/actinium_modules`
-- **Conclusion**: The single `.core` directory found is legacy artifacts from older project structure. All current projects use the workspace module pattern with `@atomic-reactor/reactium-core` plugin.
-
 #### Correction 2: SDK is Not Simply an Object, It's a Proxy
 
 **GEMINI's View**: "SDK is a global object providing utilities"
 
 **Reality**: The SDK is a Proxy with three-tier property resolution:
+
 1. Base SDK properties
 2. SDK.API properties (added by plugins)
 3. SDK.API.Actinium properties (backend integration)
@@ -1074,6 +1058,7 @@ This enables plugins to extend the SDK without modifying core code.
 **GEMINI's View**: Suggested manifest contains module references
 
 **Reality**: Manifest contains dynamic import functions:
+
 ```javascript
 {
     req: () => import('../src/app/components/MyComponent/file'),
@@ -1088,11 +1073,12 @@ This enables code splitting and lazy loading.
 **GEMINI's View**: Suggested `loadState` sets component state directly
 
 **Reality**: `loadState` returns data that's stored in a Handle:
+
 ```javascript
 Handle.register(handleId, {
-    routeId: route.id,
-    persistHandle: false,
-    current: new ReactiumSyncState({})  // Data goes here
+  routeId: route.id,
+  persistHandle: false,
+  current: new ReactiumSyncState({}), // Data goes here
 });
 ```
 
@@ -1103,6 +1089,7 @@ Components access data via `useSyncHandle(handleId)`.
 #### Missing 1: Dual Hook System (Async vs Sync)
 
 The framework has separate registration and execution for sync and async hooks:
+
 - `Hook.register()` - async hooks
 - `Hook.registerSync()` - sync hooks
 - `Hook.run()` - async execution
@@ -1113,6 +1100,7 @@ This distinction is critical for performance-sensitive operations.
 #### Missing 2: Registry Modes
 
 The `Registry` class supports different modes:
+
 - `MODES.CLEAN`: Last registration wins
 - `MODES.HISTORY`: Keeps history of registrations
 
@@ -1121,12 +1109,9 @@ This affects how Components, Zones, and other registries behave.
 #### Missing 3: Route Listener System
 
 Routing has a separate listener registry:
+
 ```javascript
-routeListeners = new Registry(
-    'RoutingListeners',
-    'id',
-    Registry.MODES.CLEAN,
-);
+routeListeners = new Registry('RoutingListeners', 'id', Registry.MODES.CLEAN);
 ```
 
 This allows plugins to subscribe to navigation events independently of the hook system.
@@ -1134,6 +1119,7 @@ This allows plugins to subscribe to navigation events independently of the hook 
 #### Missing 4: Handle Persistence
 
 Handles can be marked `persistHandle: true` to survive route changes:
+
 ```javascript
 {
     routeId: 'my-route',
@@ -1147,6 +1133,7 @@ This is crucial for maintaining state across navigation.
 #### Missing 5: Plugin Domain System
 
 Hooks support domain-based grouping:
+
 ```javascript
 Hook.register('my-hook', callback, priority, id, 'my-domain');
 
@@ -1166,15 +1153,15 @@ This enables bulk management of related hooks.
 
 ```javascript
 Hook.register(
-    'register-route',
-    async route => {
-        if (typeof route.component === 'string') {
-            route.component = hookableComponent(route.component);
-        }
-        return route;
-    },
-    Enums.priority.core,
-    'REACTIUM_REGISTER_ROUTE_STRINGABLE',
+  'register-route',
+  async (route) => {
+    if (typeof route.component === 'string') {
+      route.component = hookableComponent(route.component);
+    }
+    return route;
+  },
+  Enums.priority.core,
+  'REACTIUM_REGISTER_ROUTE_STRINGABLE'
 );
 ```
 
@@ -1183,11 +1170,11 @@ Hook.register(
 ```javascript
 // In route definition
 export default [
-    {
-        path: '/my-page',
-        component: 'MyComponent',  // String name, not import
-        // ...
-    }
+  {
+    path: '/my-page',
+    component: 'MyComponent', // String name, not import
+    // ...
+  },
 ];
 
 // Component registered elsewhere
@@ -1202,16 +1189,16 @@ Component.register('MyComponent', MyComponent);
 
 ```javascript
 for (const route of combinedRoutes) {
-    const paths = _.compact(_.flatten([route.path]));
-    for (const path of paths) {
-        await Reactium.Routing.register(
-            {
-                ...route,
-                path,
-            },
-            false,
-        );
-    }
+  const paths = _.compact(_.flatten([route.path]));
+  for (const path of paths) {
+    await Reactium.Routing.register(
+      {
+        ...route,
+        path,
+      },
+      false
+    );
+  }
 }
 ```
 
@@ -1219,11 +1206,11 @@ for (const route of combinedRoutes) {
 
 ```javascript
 export default [
-    {
-        component: MyComponent,
-        path: ['/about', '/about-us', '/company'],  // Array of paths
-        // ...
-    }
+  {
+    component: MyComponent,
+    path: ['/about', '/about-us', '/company'], // Array of paths
+    // ...
+  },
 ];
 ```
 
@@ -1235,10 +1222,10 @@ From admin plugins, components can be registered to multiple zones:
 
 ```javascript
 Reactium.Zone.addComponent({
-    id: 'MyWidget',
-    component: MyWidget,
-    zone: ['admin-header', 'admin-footer'],  // Multiple zones
-    order: 100,
+  id: 'MyWidget',
+  component: MyWidget,
+  zone: ['admin-header', 'admin-footer'], // Multiple zones
+  order: 100,
 });
 ```
 
@@ -1250,23 +1237,26 @@ The component renders in all specified zones.
 
 ```javascript
 export const DataLoader = ({ className }) => {
-    const handle = useSyncHandle(DataLoader.handleId);
-    const loadedData = handle ? handle.get('data') : null;
-    const isLoading = handle.get('loading', true);
-    // ...
+  const handle = useSyncHandle(DataLoader.handleId);
+  const loadedData = handle ? handle.get('data') : null;
+  const isLoading = handle.get('loading', true);
+  // ...
 };
 
 DataLoader.loadState = async ({ route, params, search }) => {
-    return {
-        data: { /* ... */ },
-        loading: false,
-    };
+  return {
+    data: {
+      /* ... */
+    },
+    loading: false,
+  };
 };
 
 DataLoader.handleId = 'DataLoaderHandle';
 ```
 
 **Critical Pattern**:
+
 1. Static `loadState` method returns data object
 2. Static `handleId` property defines where data is stored
 3. Component uses `useSyncHandle` to reactively access data
@@ -1284,8 +1274,8 @@ While I couldn't find the exact manifest config in the code review, the pattern 
 const patterns = op.get(manifestConfig, 'patterns', []);
 const sourceMappings = op.get(manifestConfig, 'sourceMappings', []);
 const searchParams = op.get(manifestConfig, 'searchParams', {
-    extensions: /\.jsx?$/,
-    exclude: [/.ds_store/i, /.core\/.cli\//i, /.cli\//i],
+  extensions: /\.jsx?$/,
+  exclude: [/.ds_store/i, /.core\/.cli\//i, /.cli\//i],
 });
 ```
 
@@ -1334,35 +1324,29 @@ const searchParams = op.get(manifestConfig, 'searchParams', {
 
 ```javascript
 const reactiumModules = Object.keys(
-    op.get(require(packagePath), 'reactiumDependencies', {}),
+  op.get(require(packagePath), 'reactiumDependencies', {})
 );
 
 // Special exception for reactium_modules dependencies
 if (reactiumModules.length) {
-    const reactiumModuleDir = path.resolve(
-        path.dirname(packagePath),
-        'reactium_modules',
+  const reactiumModuleDir = path.resolve(
+    path.dirname(packagePath),
+    'reactium_modules'
+  );
+  reactiumModules.forEach((reactiumModule) => {
+    const subPackage = path.resolve(
+      reactiumModuleDir,
+      reactiumModule,
+      'package.json'
     );
-    reactiumModules.forEach(reactiumModule => {
-        const subPackage = path.resolve(
-            reactiumModuleDir,
-            reactiumModule,
-            'package.json',
-        );
-        if (fs.existsSync(subPackage)) {
-            modules = _.uniq(
-                modules.concat(
-                    Object.keys(
-                        op.get(
-                            require(subPackage),
-                            'dependencies',
-                            {},
-                        ),
-                    ),
-                ),
-            );
-        }
-    });
+    if (fs.existsSync(subPackage)) {
+      modules = _.uniq(
+        modules.concat(
+          Object.keys(op.get(require(subPackage), 'dependencies', {}))
+        )
+      );
+    }
+  });
 }
 ```
 
@@ -1379,37 +1363,42 @@ if (reactiumModules.length) {
 ```typescript
 export type CBArgs = any[];
 
-type HookSyncCallback<ARGS extends CBArgs = any[], RET = any> =
-    (...args: ARGS) => RET;
+type HookSyncCallback<ARGS extends CBArgs = any[], RET = any> = (
+  ...args: ARGS
+) => RET;
 
-type HookAsyncCallback<ARGS extends CBArgs = any[], RET = any> =
-    (...args: ARGS) => Promise<RET>;
+type HookAsyncCallback<ARGS extends CBArgs = any[], RET = any> = (
+  ...args: ARGS
+) => Promise<RET>;
 
 export type HookCallback<ARGS extends CBArgs = any[], RET = any> =
-    HookSyncCallback<ARGS,RET> | HookAsyncCallback<ARGS,RET>;
+  | HookSyncCallback<ARGS, RET>
+  | HookAsyncCallback<ARGS, RET>;
 
 export interface HookRunContext<T extends any[] = []> {
-    params: T,
-    hook: string,
-    [key: string]: any
+  params: T;
+  hook: string;
+  [key: string]: any;
 }
 ```
 
 **Usage in TypeScript Projects:**
 
 ```typescript
-import { HookCallback, HookRunContext } from '@atomic-reactor/reactium-sdk-core';
+import {
+  HookCallback,
+  HookRunContext,
+} from '@atomic-reactor/reactium-sdk-core';
 
-const myHook: HookCallback<[string, number], void> =
-    async (name, age) => {
-        console.log(`${name} is ${age}`);
-    };
+const myHook: HookCallback<[string, number], void> = async (name, age) => {
+  console.log(`${name} is ${age}`);
+};
 
 Hook.register<[string, number], void>(
-    'user-data-loaded',
-    myHook,
-    Enums.priority.neutral,
-    'my-hook-id'
+  'user-data-loaded',
+  myHook,
+  Enums.priority.neutral,
+  'my-hook-id'
 );
 ```
 
@@ -1417,23 +1406,20 @@ Hook.register<[string, number], void>(
 
 ```typescript
 export interface HandleSubscriptions {
-    [id: string]: Function
+  [id: string]: Function;
 }
 
 class Handle {
-    handles = {};
-    subscriptions: HandleSubscriptions = {};
+  handles = {};
+  subscriptions: HandleSubscriptions = {};
 
-    register<HandleType = any>(
-        id: Path = '',
-        ref,
-        update = true
-    ) { /* ... */ }
+  register<HandleType = any>(id: Path = '', ref, update = true) {
+    /* ... */
+  }
 
-    get<HandleType = any>(
-        id: Path = '',
-        defaultReturn?: HandleType | undefined
-    ) { /* ... */ }
+  get<HandleType = any>(id: Path = '', defaultReturn?: HandleType | undefined) {
+    /* ... */
+  }
 }
 ```
 
@@ -1441,13 +1427,13 @@ class Handle {
 
 ```typescript
 interface UserData {
-    name: string;
-    email: string;
+  name: string;
+  email: string;
 }
 
 Handle.register<UserData>('user-profile', {
-    name: 'John',
-    email: 'john@example.com'
+  name: 'John',
+  email: 'john@example.com',
 });
 
 const user = Handle.get<UserData>('user-profile');
@@ -1469,7 +1455,7 @@ The manifest system enables automatic code splitting:
 **Evidence**: Dynamic imports in manifest:
 
 ```javascript
-req: () => import('../src/app/components/MyComponent/file')
+req: () => import('../src/app/components/MyComponent/file');
 ```
 
 ### 12.2 Handle Cleanup Strategy
@@ -1479,20 +1465,19 @@ req: () => import('../src/app/components/MyComponent/file')
 ```javascript
 // remove any handles from previous routes
 Object.entries(Handle.handles)
-    .filter(([, handle]) => {
-        return (
-            op.get(handle, 'routeId') ===
-            op.get(updates, 'previous.match.route.id', false)
-        );
-    })
-    .filter(
-        ([id]) =>
-            Handle.get(id) &&
-            op.get(Handle.get(id), 'persistHandle', false) !== true,
-    )
-    .forEach(([id]) => {
-        Handle.unregister(id);
-    });
+  .filter(([, handle]) => {
+    return (
+      op.get(handle, 'routeId') ===
+      op.get(updates, 'previous.match.route.id', false)
+    );
+  })
+  .filter(
+    ([id]) =>
+      Handle.get(id) && op.get(Handle.get(id), 'persistHandle', false) !== true
+  )
+  .forEach(([id]) => {
+    Handle.unregister(id);
+  });
 ```
 
 **Memory Management**: Handles are automatically cleaned up on navigation unless explicitly marked persistent, preventing memory leaks.
@@ -1503,15 +1488,18 @@ From the TypeScript implementation, hooks are stored in a nested structure:
 
 ```typescript
 type HookActions = {
-    [hookType in HookType]: {  // 'sync' or 'async'
-        [name: string]: {      // hook name
-            [id: string]: HookDeclaration;  // hook instances
-        };
+  [hookType in HookType]: {
+    // 'sync' or 'async'
+    [name: string]: {
+      // hook name
+      [id: string]: HookDeclaration; // hook instances
     };
+  };
 };
 ```
 
 This enables:
+
 - O(1) lookup by hook type and name
 - O(1) unregistration by ID (via `actionIds` reverse index)
 - Efficient filtering by domain
@@ -1523,6 +1511,7 @@ This enables:
 ### 1. Reactium is a Composition Framework
 
 Unlike monolithic frameworks, Reactium composes functionality through:
+
 - Proxy-based SDK extension
 - Registry pattern for component/route/zone management
 - Hook-based lifecycle coordination
@@ -1531,6 +1520,7 @@ Unlike monolithic frameworks, Reactium composes functionality through:
 ### 2. Convention Over Configuration, But Configurable
 
 The framework discovers artifacts by convention (file naming), but every aspect can be:
+
 - Intercepted via hooks
 - Modified at runtime via registries
 - Extended through plugins
@@ -1538,6 +1528,7 @@ The framework discovers artifacts by convention (file naming), but every aspect 
 ### 3. Lazy Loading is First-Class
 
 The manifest system, routing, and handle cleanup all prioritize lazy loading:
+
 - Routes load components on navigation
 - Hooks load on framework lifecycle events
 - Services load on first use
@@ -1546,6 +1537,7 @@ The manifest system, routing, and handle cleanup all prioritize lazy loading:
 ### 4. TypeScript Foundation
 
 The core SDK is TypeScript, providing:
+
 - Type safety for hook callbacks
 - Generic types for Handles and Registries
 - Interface definitions for framework contracts
@@ -1553,6 +1545,7 @@ The core SDK is TypeScript, providing:
 ### 5. Observable State Pattern Throughout
 
 Handles, Zones, and Routing all use observable patterns:
+
 - Subscription-based updates
 - Reactive hook integration
 - Automatic cleanup on unmount/navigation
@@ -1578,12 +1571,14 @@ Handles, Zones, and Routing all use observable patterns:
 All evidence in this document comes from these actual source files:
 
 **Core SDK (TypeScript):**
+
 - `/reactium-sdk-core/src/index.ts` - Main export
 - `/reactium-sdk-core/src/core/Hook.ts` - Hook system implementation
 - `/reactium-sdk-core/src/browser/Handle.ts` - Handle system implementation
 - `/reactium-sdk-core/src/core/Registry.ts` - Registry base class
 
 **Reactium Core Plugin:**
+
 - `/Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/sdk/index.js` - SDK Proxy
 - `/Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/sdk/routing/index.js` - Routing implementation
 - `/Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/app/reactium-hooks-App.js` - App bootstrap
@@ -1591,11 +1586,13 @@ All evidence in this document comes from these actual source files:
 - `/Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/dependencies/index.js` - Dependency loader
 
 **Plugin Examples:**
+
 - `/Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-api/reactium-hooks.js` - API plugin
 - `/Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-api/sdk/index.js` - API Registry
 - `/Reactium-Admin-Plugins/reactium_modules/@atomic-reactor/reactium-admin-core/User/reactium-hooks.js` - Admin User plugin
 
 **Working Implementation:**
+
 - `/learning/src/manifest.js` - Generated manifest
 - `/learning/src/app/components/DataLoader/DataLoader.jsx` - Component with loadState
 
