@@ -1,4 +1,4 @@
-<!-- v1.10.0 -->
+<!-- v1.11.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -128,7 +128,7 @@
 - **Live Query** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
 - **Loaders (webpack)** → [ReactiumWebpack: addRule Method](../CLAUDE/REACTIUM_WEBPACK.md#addruleid-rule-order)
 - **loadState** → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
-- **LocalStorage** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
+- **LocalStorage** → [Prefs System: Overview](../CLAUDE/PREFS_SYSTEM.md#architecture-overview)
 - **Login** → [Integration: Authentication](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 
 ## M
@@ -149,12 +149,17 @@
 
 - **Pagination** → [Patterns: Pagination Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-19-pagination-pattern)
 - **Parse** → [Integration: Parse Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#parse-integration)
-- **Prefs** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **Parse SDK** → [Integration: Data Flow](../CLAUDE/FRAMEWORK_INTEGRATION.md#data-flow-patterns)
 - **Parse.Cloud.run** → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 - **Patterns** → [Framework Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md)
 - **Performance** → [Patterns: Performance Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md#performance-patterns)
 - **Permissions** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
+- **Preferences** → [Prefs System: Overview](../CLAUDE/PREFS_SYSTEM.md#architecture-overview)
+- **Prefs** → [Prefs System: Overview](../CLAUDE/PREFS_SYSTEM.md#architecture-overview)
+- **Prefs.get** → [Prefs System: get() method](../CLAUDE/PREFS_SYSTEM.md#prefsgetkey-defaultvalue)
+- **Prefs.set** → [Prefs System: set() method](../CLAUDE/PREFS_SYSTEM.md#prefssetkey-value)
+- **Prefs.clear** → [Prefs System: clear() method](../CLAUDE/PREFS_SYSTEM.md#prefsclearkey)
+- **Prefs.create** → [Prefs System: create() method](../CLAUDE/PREFS_SYSTEM.md#prefscreatestoragekey)
 - **Plugin** → [Actinium: Plugin System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-system)
 - **Plugin gating** → [Actinium: Plugin Gating](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-gating)
 - **plugin-init** → [Reactium: Plugin Lifecycle](../CLAUDE/REACTIUM_FRAMEWORK.md#plugin-lifecycle)

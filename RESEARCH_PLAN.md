@@ -20,28 +20,29 @@ Topics for future exploration sessions with specialized agents.
 - ✅ **ReactiumSyncState Deep Dive** - Foundational observable state pattern extending EventTarget; object-path addressing with get/set/del/insert API; event lifecycle (before-set → set → change, before-del → del, before-insert → insert); smart merging with hook-extensible conditions (use-sync-state-merge-conditions); extend() method for custom instance methods; integration with useSyncState hook, global State singleton, RegisteredComponents registry, Handle system, routing handles; real examples from StateLoader component, RoutedContent routing sync, State.registerDataLoader extension; comparison with useState/MobX/Redux; best practices (event selection, namespacing, batching, cleanup); common gotchas (change event not firing, array replacement, reset without events, direct mutation, noMerge scope, path confusion, listener ID collision); performance considerations (event overhead, deep equality, memory leaks); comprehensive source references from reactium-sdk-core/src/browser/ReactiumSyncState.ts:68-532 (Nov 23, 2025)
 - ✅ **ComponentEvent System** - Type-safe custom event class providing payload flattening, prototype pollution protection, and framework-wide event communication backbone; extends CustomEvent with automatic property spreading (access event.prop instead of event.detail.prop); property collision resolution (prefixes with __ when property exists); reserved property removal (type/target); integration with ReactiumSyncState.dispatch(), useEventEffect hook, global State, Component registry, Handle system; real-world patterns from core plugins; common event naming conventions; comparison with native CustomEvent and React SyntheticEvent; comprehensive source references from reactium-sdk-core/src/browser/Events.ts:21-78 (Nov 23, 2025)
 - ✅ **Reactium Style Partial System** - Registry-based SCSS partial discovery and aggregation system with priority-based compilation order (VARIABLES → MIXINS → BASE → ATOMS → MOLECULES → ORGANISMS → OVERRIDES); hook-driven extensibility (ddd-styles-partial, ddd-styles-partial-glob hooks); auto-discovery of _reactium-style*.scss files; Atomic Design System integration; dynamic path transformation for workspace modules (reactium_modules/ → + prefix); multi-level sorting (directory, filename, numeric, priority); plugin style injection patterns; real-world usage from core plugins; comprehensive source references from Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/gulp.tasks.js:559-770 and gulp.bootup.js:15-23 (Nov 23, 2025)
+- ✅ **Prefs System Architecture** - Simple localStorage wrapper with object-path addressing for persistent client-side preferences; NOT reactive (manual React state sync required); NOT cross-tab synchronized (no storage events); SSR-safe with window checks; automatic JSON serialization; factory method for isolated instances; TypeScript generic support; real-world patterns: component state persistence, user preference sync with User.Pref API, sidebar/panel size persistence; integration with Hook system for lifecycle events; comparison with ReactiumSyncState/Redux/Context for appropriate use cases; comprehensive source references from reactium-sdk-core/src/browser/Prefs.ts:1-67 and admin plugin usage (Nov 26, 2025)
 
 ## Pending Research Topics
 
 ### High Priority
 
-1. Prefs System Architecture
+1. User.Pref API and Server-Side Preference Sync
 
-   - **Discovered during**: ComponentEvent research - noticed Prefs extends ReactiumSyncState but never fully explored
-   - **Why it matters**: LocalStorage management with reactivity is critical for persistent user preferences and app state
-   - **Current gap**: Prefs API patterns, localStorage synchronization, event-driven updates, expiration/validation not documented
+   - **Discovered during**: Prefs System research - found User.Pref.update() integration but no documentation on server-side implementation
+   - **Why it matters**: Critical pattern for cross-device preference sync, multi-session persistence, and seamless user experience across logins
+   - **Current gap**: Server-side User.Pref API, Parse Server integration, sync lifecycle (login/logout hooks), preference schema/validation, conflict resolution strategies not documented
    - **Key mechanisms**:
-     - Extends ReactiumSyncState for observable localStorage
-     - Automatic localStorage sync on state changes
-     - JSON serialization/deserialization with validation
-     - Expiration/TTL support for cached preferences
-     - Integration with global State and Handles
-     - Hook-driven extensibility for preference validation
-     - Cross-tab synchronization via storage events
-   - **Real usage**: `reactium-sdk-core/src/browser/Prefs.ts` (need to locate and analyze)
-   - **Integration**: Works with State system, Handle system, browser utilities
-   - **Critical for**: User preferences, session persistence, offline-first patterns, cross-tab sync
-   - **Research scope**: Prefs API methods, localStorage sync patterns, validation/expiration, real-world usage in core plugins, comparison with raw localStorage
+     - Parse Server User class extension for preferences
+     - User.Pref.update() client API for saving to server
+     - user.before.logout hook integration for auto-sync
+     - Potential user.after.login hook for restoration
+     - Preference schema/structure on server
+     - ACL/permission handling for user preferences
+     - Handling of preference conflicts (server vs client)
+   - **Real usage**: `Reactium-Admin-Plugins/.../User/reactium-hooks.js:140-154` (client-side), need to find server-side implementation
+   - **Integration**: Works with Prefs system, User authentication, Hook system, Parse Server
+   - **Critical for**: Multi-device user experience, preference persistence, offline-first sync, session management
+   - **Research scope**: User.Pref server API, Parse Server schema, sync patterns (bidirectional), conflict resolution, real-world usage in auth flow, best practices for preference architecture
 
 3. Server-Side Rendering (SSR) Architecture
 

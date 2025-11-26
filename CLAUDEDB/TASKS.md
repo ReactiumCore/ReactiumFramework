@@ -1,4 +1,4 @@
-<!-- v1.9.0 -->
+<!-- v1.10.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -143,8 +143,18 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Reactium: useSyncState](../CLAUDE/REACTIUM_FRAMEWORK.md#1-local-component-state-usesyncstate)
 → [Gotchas: useSyncState Is Not useState](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-2-usesyncstate-is-not-usestate)
 
-### Use LocalStorage/Prefs
-→ [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
+### Store user preferences (LocalStorage)
+→ [Prefs System: Overview](../CLAUDE/PREFS_SYSTEM.md#architecture-overview)
+→ [Prefs System: Common Patterns](../CLAUDE/PREFS_SYSTEM.md#common-patterns)
+→ [Prefs System: Component State Persistence](../CLAUDE/PREFS_SYSTEM.md#pattern-1-component-state-persistence)
+
+### Sync preferences to server
+→ [Prefs System: User Preference Sync](../CLAUDE/PREFS_SYSTEM.md#pattern-2-user-preference-sync-serverclient)
+→ [Prefs System: Integration with User.Pref API](../CLAUDE/PREFS_SYSTEM.md#with-userpref-api-server-sync)
+
+### Persist UI state across sessions
+→ [Prefs System: Sidebar/Panel Size Persistence](../CLAUDE/PREFS_SYSTEM.md#pattern-3-sidebarpanel-size-persistence)
+→ [Prefs System: Best Practices](../CLAUDE/PREFS_SYSTEM.md#best-practices)
 
 ### Optimize Handle re-renders (select specific state)
 → [Handle System: Selective Re-rendering](../CLAUDE/HANDLE_SYSTEM.md#selective-re-rendering-useselecthandle)

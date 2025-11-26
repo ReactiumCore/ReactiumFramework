@@ -1,4 +1,4 @@
-<!-- v1.3.0 -->
+<!-- v1.4.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -45,6 +45,18 @@
 7. [Gotchas: useHandle vs useSyncHandle](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-11-usehandle-vs-usesynchandle) - Subscription patterns
 
 **Related**: Observable state, Reactive programming, Pulse
+
+### Persistent Preferences (LocalStorage)
+**Learning Path**:
+1. [Prefs System: Architecture Overview](../CLAUDE/PREFS_SYSTEM.md#architecture-overview) - What is Prefs
+2. [Prefs System: Core API](../CLAUDE/PREFS_SYSTEM.md#core-api) - get/set/clear/create methods
+3. [Prefs System: Common Patterns](../CLAUDE/PREFS_SYSTEM.md#common-patterns) - Real-world usage
+4. [Prefs System: Best Practices](../CLAUDE/PREFS_SYSTEM.md#best-practices) - Do's and don'ts
+5. [Prefs System: Common Gotchas](../CLAUDE/PREFS_SYSTEM.md#common-gotchas) - NOT reactive, NOT cross-tab
+6. [Prefs System: TypeScript Usage](../CLAUDE/PREFS_SYSTEM.md#typescript-usage) - Type-safe preferences
+7. [Prefs System: Comparison](../CLAUDE/PREFS_SYSTEM.md#comparison-with-other-storage-patterns) - When to use
+
+**Related**: LocalStorage, User preferences, Session persistence, ReactiumSyncState (NOT the same)
 
 ### Hook System (Reactium)
 **Learning Path**:

@@ -1,4 +1,4 @@
-<!-- v1.6.0 -->
+<!-- v1.7.0 -->
 # CLAUDEDB - API Quick Reference
 
 **Purpose**: Common functions/hooks with signatures + direct links
@@ -105,6 +105,45 @@ useGlobalState(key)
 ```
 → [Reactium: Global State](../CLAUDE/REACTIUM_FRAMEWORK.md#2-global-state-reactiumstate)
 → [ReactiumSyncState: Global State Singleton](../CLAUDE/REACTIUM_SYNC_STATE.md#2-global-state-singleton)
+
+### Preferences (LocalStorage)
+
+```javascript
+// Prefs - Simple localStorage wrapper with object-path addressing
+Reactium.Prefs.get<T>(key?, defaultValue?)
+// Get preference by object-path or all prefs
+// key: 'admin.sidebar.status' or 'my.nested.value'
+// Returns: T (preference value or defaultValue)
+```
+→ [Prefs System: get() method](../CLAUDE/PREFS_SYSTEM.md#prefsgetkey-defaultvalue)
+
+```javascript
+Reactium.Prefs.set<T>(key, value)
+// Set preference at object-path, persists to localStorage
+// key: 'admin.sidebar.status' or 'my.nested.value'
+// Returns: PrefsType (entire prefs object)
+```
+→ [Prefs System: set() method](../CLAUDE/PREFS_SYSTEM.md#prefssetkey-value)
+
+```javascript
+Reactium.Prefs.clear(key?)
+// Clear specific path or entire prefs
+// key?: Optional object-path to clear
+// Returns: PrefsType (updated prefs object)
+```
+→ [Prefs System: clear() method](../CLAUDE/PREFS_SYSTEM.md#prefsclearkey)
+
+```javascript
+Reactium.Prefs.create<PrefsType>(storageKey)
+// Factory for isolated Prefs instance with custom localStorage key
+// Returns: PrefsClass<PrefsType>
+```
+→ [Prefs System: create() method](../CLAUDE/PREFS_SYSTEM.md#prefscreatestoragekey)
+
+**Important**: Prefs is NOT reactive. Changes don't trigger React re-renders.
+→ [Prefs System: Common Gotchas](../CLAUDE/PREFS_SYSTEM.md#common-gotchas)
+
+### Handle System
 
 ```javascript
 new Handle(id, initialState)
