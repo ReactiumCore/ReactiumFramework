@@ -21,63 +21,50 @@ Topics for future exploration sessions with specialized agents.
 - ✅ **ComponentEvent System** - Type-safe custom event class providing payload flattening, prototype pollution protection, and framework-wide event communication backbone; extends CustomEvent with automatic property spreading (access event.prop instead of event.detail.prop); property collision resolution (prefixes with __ when property exists); reserved property removal (type/target); integration with ReactiumSyncState.dispatch(), useEventEffect hook, global State, Component registry, Handle system; real-world patterns from core plugins; common event naming conventions; comparison with native CustomEvent and React SyntheticEvent; comprehensive source references from reactium-sdk-core/src/browser/Events.ts:21-78 (Nov 23, 2025)
 - ✅ **Reactium Style Partial System** - Registry-based SCSS partial discovery and aggregation system with priority-based compilation order (VARIABLES → MIXINS → BASE → ATOMS → MOLECULES → ORGANISMS → OVERRIDES); hook-driven extensibility (ddd-styles-partial, ddd-styles-partial-glob hooks); auto-discovery of _reactium-style*.scss files; Atomic Design System integration; dynamic path transformation for workspace modules (reactium_modules/ → + prefix); multi-level sorting (directory, filename, numeric, priority); plugin style injection patterns; real-world usage from core plugins; comprehensive source references from Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/gulp.tasks.js:559-770 and gulp.bootup.js:15-23 (Nov 23, 2025)
 - ✅ **Prefs System Architecture** - Simple localStorage wrapper with object-path addressing for persistent client-side preferences; NOT reactive (manual React state sync required); NOT cross-tab synchronized (no storage events); SSR-safe with window checks; automatic JSON serialization; factory method for isolated instances; TypeScript generic support; real-world patterns: component state persistence, user preference sync with User.Pref API, sidebar/panel size persistence; integration with Hook system for lifecycle events; comparison with ReactiumSyncState/Redux/Context for appropriate use cases; comprehensive source references from reactium-sdk-core/src/browser/Prefs.ts:1-67 and admin plugin usage (Nov 26, 2025)
+- ✅ **User.Pref API and Server-Side Preference Sync** - Complete server-backed preference system for cross-device sync; Parse Server `_User.pref` field with object-path addressing; server-side API (Actinium.User.Pref.update/delete) via cloud functions (user-pref-update, user-pref-delete); client-side SDK (User.Pref.update/delete); login/logout sync pattern (user.before.logout → save to server, user.auth → restore to localStorage); hook integration (user-before-pref-save, user-pref-save-response); MasterKey security for user-scoped access; real-world patterns: multi-device theme sync, component state persistence, admin dashboard settings; comparison with Prefs (local) and User.Meta (metadata); common gotchas: object-path key ambiguity, sensitive field filtering, no built-in conflict resolution, last-write-wins strategy; comprehensive source references from actinium-core/lib/user.js:617-747, actinium-users/plugin.js:203-212, reactium-user/sdk/index.js:501-557, reactium-admin-core/User/reactium-hooks.js:140-172 (Nov 26, 2025)
+- ✅ **Server-Side Rendering (SSR) Architecture** - Template-driven FEO (Front-End Only) system with hook-extensible registries; request-scoped registries (AppHeaders, AppScripts, AppStyleSheets, AppBindings, AppGlobals, AppSnippets) using CLEAN mode; template discovery with semver compatibility (local override or core template); hook lifecycle (Server.beforeApp → AppGlobals → AppHeaders → AppScripts → AppStyleSheets → AppBindings → AppSnippets → Server.afterApp); webpack asset auto-discovery (dev mode from devMiddleware, prod mode from webpack-manifest.json); theme-based stylesheet selection via query param or DEFAULT_THEME env; bind point markup generation (component string, static markup, or template function); global serialization with serialize-javascript; real-world patterns: dynamic SEO meta tags, conditional analytics, user-specific initial state, theme-based loading, A/B test variants; comprehensive source references from reactium-core/server/renderer/index.mjs:1-654 and server/template/feo.js:1-26 (Nov 26, 2025)
+- ✅ **Pulse System Architecture** - Registry-based recurring task scheduler for background operations; PulseTask class with retry logic, progress tracking, and lifecycle control (start, stop, reset, retry); task state machine (READY → RUNNING → STOPPED/ERROR); configurable options (attempts, autostart, delay, repeat, debug); PulseSDK singleton with object-path registry (register, unregister, get, start, stop, startAll, stopAll); async-first design with error handling (onSuccess, onError callbacks); real-world use cases: API polling, auto-save drafts, progress tracking, exponential backoff retry, conditional task control (pause on tab hidden); React hook integration patterns; TypeScript generic support for type-safe params; comparison with setInterval/setTimeout/Promises; common gotchas: parameter capture at registration, progress always 0 for infinite tasks, retry logic per-execution not task-level, stop while running waits for completion; comprehensive source references from reactium-sdk-core/src/core/Pulse/index.ts:1-644 (Nov 26, 2025)
 
 ## Pending Research Topics
 
 ### High Priority
 
-1. User.Pref API and Server-Side Preference Sync
+1. Parse Server Cloud Function Patterns
 
-   - **Discovered during**: Prefs System research - found User.Pref.update() integration but no documentation on server-side implementation
-   - **Why it matters**: Critical pattern for cross-device preference sync, multi-session persistence, and seamless user experience across logins
-   - **Current gap**: Server-side User.Pref API, Parse Server integration, sync lifecycle (login/logout hooks), preference schema/validation, conflict resolution strategies not documented
+   - **Discovered during**: User.Pref research - noticed consistent cloud function registration patterns but never documented comprehensively
+   - **Why it matters**: Cloud functions are the primary API pattern in Actinium - understanding registration, security, validation, and testing patterns is critical
+   - **Current gap**: Cloud function lifecycle, CloudRunOptions vs MasterOptions, req.user context propagation, validation patterns, error handling, testing strategies not documented
    - **Key mechanisms**:
-     - Parse Server User class extension for preferences
-     - User.Pref.update() client API for saving to server
-     - user.before.logout hook integration for auto-sync
-     - Potential user.after.login hook for restoration
-     - Preference schema/structure on server
-     - ACL/permission handling for user preferences
-     - Handling of preference conflicts (server vs client)
-   - **Real usage**: `Reactium-Admin-Plugins/.../User/reactium-hooks.js:140-154` (client-side), need to find server-side implementation
-   - **Integration**: Works with Prefs system, User authentication, Hook system, Parse Server
-   - **Critical for**: Multi-device user experience, preference persistence, offline-first sync, session management
-   - **Research scope**: User.Pref server API, Parse Server schema, sync patterns (bidirectional), conflict resolution, real-world usage in auth flow, best practices for preference architecture
+     - Actinium.Cloud.define() registration pattern
+     - CloudRunOptions() and MasterOptions() helper functions
+     - req.user session context and authentication
+     - req.params validation and sanitization
+     - Hook integration (before/after cloud function patterns)
+     - ACL/capability checking in cloud functions
+     - Error response formatting
+     - Testing cloud functions (unit and integration)
+   - **Real usage**: Every Actinium plugin uses cloud functions (Users, Roles, Capabilities, Content, etc.)
+   - **Integration**: Works with Hook system, Capability system, Parse Server, session management
+   - **Critical for**: Building secure Actinium APIs, plugin development, testing strategies
+   - **Research scope**: Cloud function anatomy, security patterns, validation best practices, testing approaches, real-world examples from core plugins
 
-3. Server-Side Rendering (SSR) Architecture
+2. Webpack Manifest Generation and Asset Management
 
-   - **Discovered during**: Component Binding research - noticed SSR template generation but never fully explored
-   - **Why it matters**: Critical for understanding production builds, SEO, performance, and initial page load
-   - **Current gap**: SSR workflow, template system, data serialization, hydration process not documented
+   - **Discovered during**: SSR research - noticed webpack-manifest.json critical for production but generation process undocumented
+   - **Why it matters**: Understanding webpack build output, chunk splitting, and asset manifest is essential for production deployments
+   - **Current gap**: How webpack-manifest.json is generated, chunk naming strategies, code splitting configuration, asset optimization not documented
    - **Key mechanisms**:
-     - Template system with Server.AppBindings, Server.AppHeaders, Server.AppScripts registries
-     - Server-side React rendering with renderToString (investigate if used)
-     - State serialization to window object for client hydration
-     - Asset injection (scripts, stylesheets) via registry pattern
-     - Hook-driven extensibility (Server.beforeApp, Server.afterApp)
-     - FEO (Front End Only) vs SSR rendering modes
-   - **Real usage**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/server/renderer/index.mjs`
-   - **Integration**: Works with component binding, AppContext system, routing
-   - **Critical for**: Production deployments, performance optimization, SEO implementation
-   - **Research scope**: Template generation workflow, state hydration pattern, static vs SSR builds, asset management
-
-2. Pulse System Patterns
-
-   - **Discovered during**: Style Partial research - noticed Pulse mentioned in SDK but never explored
-   - **Why it matters**: Recurring process scheduler is a unique Reactium feature for background tasks, polling, and real-time updates
-   - **Current gap**: Pulse API, scheduling patterns, lifecycle management, real-world usage not documented
-   - **Key mechanisms**:
-     - Registry-based recurring task scheduler
-     - Interval-based execution (like cron for React)
-     - Priority-based execution order
-     - Start/stop/pause/resume lifecycle
-     - Integration with browser visibility API (pause when tab hidden)
-     - Memory leak prevention with automatic cleanup
-     - Hook-driven extensibility
-   - **Real usage**: `reactium-sdk-core/src/core/Pulse.ts` (need to locate and analyze)
-   - **Integration**: Works with Hook system, browser utilities, performance optimization
-   - **Critical for**: Polling APIs, auto-save, real-time data refresh, background sync, performance monitoring
-   - **Research scope**: Pulse API methods, scheduling patterns, lifecycle hooks, real-world usage in core plugins, comparison with setInterval/setTimeout
+     - Webpack manifest plugin configuration
+     - Chunk naming conventions
+     - Code splitting strategies (route-based, vendor, common)
+     - Asset hash generation for cache busting
+     - webpack-server-assets hook for manifest manipulation
+     - Development vs production webpack configs
+     - Source maps and debugging in production
+   - **Real usage**: `webpack-manifest.json` consumed in SSR renderer, webpack config in reactium-webpack.js files
+   - **Integration**: Works with SSR system, routing code splitting, HMR in development
+   - **Critical for**: Production builds, CDN deployment, cache invalidation, debugging
+   - **Research scope**: Manifest generation, webpack config patterns, chunk optimization, real-world build configurations
 
 3. Testing Strategies & Patterns
 

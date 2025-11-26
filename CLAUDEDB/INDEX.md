@@ -1,4 +1,4 @@
-<!-- v1.11.0 -->
+<!-- v1.12.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -154,7 +154,8 @@
 - **Patterns** → [Framework Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md)
 - **Performance** → [Patterns: Performance Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md#performance-patterns)
 - **Permissions** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
-- **Preferences** → [Prefs System: Overview](../CLAUDE/PREFS_SYSTEM.md#architecture-overview)
+- **Polling** → [Pulse System: API Polling](../CLAUDE/PULSE_SYSTEM.md#1-api-polling)
+- **Preferences** → [User.Pref System](../CLAUDE/USER_PREF_SYSTEM.md#overview)
 - **Prefs** → [Prefs System: Overview](../CLAUDE/PREFS_SYSTEM.md#architecture-overview)
 - **Prefs.get** → [Prefs System: get() method](../CLAUDE/PREFS_SYSTEM.md#prefsgetkey-defaultvalue)
 - **Prefs.set** → [Prefs System: set() method](../CLAUDE/PREFS_SYSTEM.md#prefssetkey-value)
@@ -165,7 +166,8 @@
 - **plugin-init** → [Reactium: Plugin Lifecycle](../CLAUDE/REACTIUM_FRAMEWORK.md#plugin-lifecycle)
 - **Priority** → [Actinium Quick Ref: Priority Constants](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#priority-constants)
 - **Proxy** → [SDK Extension: SDK Proxy Fallback Chain](../CLAUDE/SDK_EXTENSION_PATTERN.md#sdk-proxy-fallback-chain)
-- **Pulse** → [Reactium: Pulse - Pub/Sub Events](../CLAUDE/REACTIUM_FRAMEWORK.md#4-pulse-pubsub-events)
+- **Pulse** → [Pulse System Architecture](../CLAUDE/PULSE_SYSTEM.md#overview)
+- **PulseTask** → [Pulse System: PulseTask Class](../CLAUDE/PULSE_SYSTEM.md#pulsetaskparams)
 
 ## Q
 
@@ -207,8 +209,14 @@
 - **SDK extension** → [SDK Extension Pattern](../CLAUDE/SDK_EXTENSION_PATTERN.md#overview)
 - **SDK pattern** → [Patterns: Plugin SDK Pattern (server)](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern-server-side)
 - **sdk-init** → [SDK Extension: Overview](../CLAUDE/SDK_EXTENSION_PATTERN.md#overview)
+- **Server.AppBindings** → [SSR: AppBindings Hook](../CLAUDE/SSR_ARCHITECTURE.md#6-serverappbindings)
+- **Server.AppGlobals** → [SSR: AppGlobals Hook](../CLAUDE/SSR_ARCHITECTURE.md#2-serverappglobals)
+- **Server.AppHeaders** → [SSR: AppHeaders Hook](../CLAUDE/SSR_ARCHITECTURE.md#3-serverappheaders)
+- **Server.AppScripts** → [SSR: AppScripts Hook](../CLAUDE/SSR_ARCHITECTURE.md#4-serverappscripts)
+- **Server.AppStyleSheets** → [SSR: AppStyleSheets Hook](../CLAUDE/SSR_ARCHITECTURE.md#5-serverappstylesheets)
 - **Session** → [Integration: Authentication](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 - **Sorters** → [Zone System: Filters, Mappers, Sorters](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#filters-mappers-and-sorters)
+- **SSR** → [SSR Architecture](../CLAUDE/SSR_ARCHITECTURE.md#overview)
 - **State** → [Reactium: State Management](../CLAUDE/REACTIUM_FRAMEWORK.md#state-management)
 - **Static methods** → [Patterns: Static Method Data Loading](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-2-static-method-data-loading)
 
@@ -228,6 +236,9 @@
 - **useHookComponent** → [hookableComponent: useHookComponent Hook](../CLAUDE/HOOKABLE_COMPONENT.md#usehookcomponent-hook)
 - **useRegisterHandle** → [Handle System: Provider Pattern](../CLAUDE/HANDLE_SYSTEM.md#provider-pattern-useregisterhandle)
 - **useRegisterSyncHandle** → [Handle System: Observable State Provider](../CLAUDE/HANDLE_SYSTEM.md#observable-state-provider-useregistersynchandle)
+- **User preferences** → [User.Pref System](../CLAUDE/USER_PREF_SYSTEM.md#overview)
+- **User.Pref.update** → [User.Pref: Client API](../CLAUDE/USER_PREF_SYSTEM.md#1-userprefupdateparams)
+- **User.Pref.delete** → [User.Pref: Client API](../CLAUDE/USER_PREF_SYSTEM.md#2-userprefdelete params)
 - **useSelectHandle** → [Handle System: Selective Re-rendering](../CLAUDE/HANDLE_SYSTEM.md#selective-re-rendering-useselecthandle)
 - **useSyncHandle** → [Handle System: Reactive Consumer Pattern](../CLAUDE/HANDLE_SYSTEM.md#reactive-consumer-pattern-usesynchandle)
 - **useSyncState** → [Reactium: useSyncState](../CLAUDE/REACTIUM_FRAMEWORK.md#1-local-component-state-usesyncstate)
