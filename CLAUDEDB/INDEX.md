@@ -1,4 +1,4 @@
-<!-- v1.13.0 -->
+<!-- v1.14.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -43,8 +43,13 @@
 - **Cache** → [Patterns: Backend Caching](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-15-backend-caching-pattern)
 - **Capabilities** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
 - **Capability checking** → [Cloud Functions: CloudHasCapabilities](../CLAUDE/CLOUD_FUNCTIONS.md#cloudhascapabilities---check-without-escalation)
+- **Class-Level Permissions** → [Collection Registration: CLP Generation](../CLAUDE/COLLECTION_REGISTRATION.md#clp-generation-mechanism)
 - **CLI** → [Reactium: CLI Tools](../CLAUDE/REACTIUM_FRAMEWORK.md#cli-tools)
+- **CLP** → [Collection Registration: CLP Generation](../CLAUDE/COLLECTION_REGISTRATION.md#clp-generation-mechanism)
 - **Cloud Functions** → [Parse Server Cloud Functions](../CLAUDE/CLOUD_FUNCTIONS.md#overview)
+- **Collection** → [Collection Registration System](../CLAUDE/COLLECTION_REGISTRATION.md#overview)
+- **Collection.register** → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
+- **collection-clp hook** → [Collection Registration: Hook Integration](../CLAUDE/COLLECTION_REGISTRATION.md#collection-clp)
 - **CloudACL** → [Cloud Functions: CloudACL](../CLAUDE/CLOUD_FUNCTIONS.md#cloudacl---generate-acl-from-permissions)
 - **CloudCapOptions** → [Cloud Functions: CloudCapOptions](../CLAUDE/CLOUD_FUNCTIONS.md#cloudcapoptions---capability-based-escalation)
 - **CloudHasCapabilities** → [Cloud Functions: CloudHasCapabilities](../CLAUDE/CLOUD_FUNCTIONS.md#cloudhascapabilities---check-without-escalation)
@@ -70,6 +75,7 @@
 - **Data loading** → [Reactium: Data Loading with loadState](../CLAUDE/REACTIUM_FRAMEWORK.md#data-loading-with-loadstate)
 - **data-reactium-bind** → [Component Binding: Attribute Pattern](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#the-data-reactium-bind-attribute)
 - **Database** → [Actinium Quick Ref: Database Schema](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#database-schema-definition)
+- **Database schema** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
 - **DDD** → [Reactium: Domain-Driven Design](../CLAUDE/REACTIUM_FRAMEWORK.md#domain-driven-design-ddd-structure)
 - **DevTools binding** → [Component Binding: Development Tools](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#1-development-tools)
 - **Debugging** → [Gotchas: Debugging Strategies](../CLAUDE/FRAMEWORK_GOTCHAS.md#debugging-strategies)
@@ -120,6 +126,7 @@
 ## I
 
 - **IIFE** → [Gotchas: Hook Registration Must Be in IIFE](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-3-hook-registration-must-be-in-iife)
+- **Indexes** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
 - **init** → [Actinium Quick Ref: Lifecycle Hooks](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#common-lifecycle-hooks)
 - **Initialization** → [Actinium: Initialization Sequence](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#initialization-sequence)
 - **Integration** → [Framework Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md)
@@ -156,11 +163,14 @@
 - **Pagination** → [Patterns: Pagination Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-19-pagination-pattern)
 - **Parameter validation** → [Cloud Functions: Parameter Validation](../CLAUDE/CLOUD_FUNCTIONS.md#parameter-validation)
 - **Parse** → [Integration: Parse Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#parse-integration)
+- **Parse Schema** → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
 - **Parse SDK** → [Integration: Data Flow](../CLAUDE/FRAMEWORK_INTEGRATION.md#data-flow-patterns)
 - **Parse.Cloud.run** → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 - **Patterns** → [Framework Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md)
 - **Performance** → [Patterns: Performance Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md#performance-patterns)
 - **Permissions** → [Cloud Functions: Security & Authorization](../CLAUDE/CLOUD_FUNCTIONS.md#security--authorization)
+- **Pointer** → [Collection Registration: Pattern 3](../CLAUDE/COLLECTION_REGISTRATION.md#pattern-3-complex-schema-with-relations)
+- **Public permissions** → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
 - **Polling** → [Pulse System: API Polling](../CLAUDE/PULSE_SYSTEM.md#1-api-polling)
 - **Preferences** → [User.Pref System](../CLAUDE/USER_PREF_SYSTEM.md#overview)
 - **Prefs** → [Prefs System: Overview](../CLAUDE/PREFS_SYSTEM.md#architecture-overview)
@@ -199,6 +209,7 @@
 - **Registry.MODES.CLEAN** → [Registry System: CLEAN Mode](../CLAUDE/REGISTRY_SYSTEM.md#clean-mode-recommended-default)
 - **Registry.MODES.HISTORY** → [Registry System: HISTORY Mode](../CLAUDE/REGISTRY_SYSTEM.md#history-mode)
 - **registryFactory** → [Registry System: Constructor & Factory](../CLAUDE/REGISTRY_SYSTEM.md#constructor--factory)
+- **Relation** → [Collection Registration: Pattern 3](../CLAUDE/COLLECTION_REGISTRATION.md#pattern-3-complex-schema-with-relations)
 - **Roles** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
 - **Route** → [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview)
 - **Route discovery** → [Routing System: File Discovery & Manifest Generation](../CLAUDE/ROUTING_SYSTEM.md#file-discovery--manifest-generation)
@@ -211,7 +222,9 @@
 
 ## S
 
-- **Schema** → [Actinium Quick Ref: Database Schema](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#database-schema-definition)
+- **Schema** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
+- **Schema evolution** → [Collection Registration: Migration Patterns](../CLAUDE/COLLECTION_REGISTRATION.md#migration-patterns)
+- **Schema field types** → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
 - **SDK** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **SDK extension** → [SDK Extension Pattern](../CLAUDE/SDK_EXTENSION_PATTERN.md#overview)
 - **SDK pattern** → [Patterns: Plugin SDK Pattern (server)](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern-server-side)
@@ -282,6 +295,8 @@
 - **Breakpoints** = **Responsive** = **Window utilities** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **Backend** = **Actinium** → [Actinium Complete Reference](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md)
 - **Build customization** = **webpack.override.js** = **reactium-webpack.js** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
+- **CLP** = **Class-Level Permissions** = **Parse permissions** → [Collection Registration: CLP Generation](../CLAUDE/COLLECTION_REGISTRATION.md#clp-generation-mechanism)
+- **Collection** = **Parse Collection** = **Schema** → [Collection Registration System](../CLAUDE/COLLECTION_REGISTRATION.md#overview)
 - **Component override** = **Component replacement** = **hookableComponent** → [hookableComponent System](../CLAUDE/HOOKABLE_COMPONENT.md#overview)
 - **Context providers** = **React Context** = **AppContext** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
 - **Dynamic components** = **hookableComponent** = **useHookComponent** → [hookableComponent System](../CLAUDE/HOOKABLE_COMPONENT.md#overview)

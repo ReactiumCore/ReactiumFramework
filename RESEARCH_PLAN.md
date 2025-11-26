@@ -4,6 +4,7 @@ Topics for future exploration sessions with specialized agents.
 
 ## Completed Research
 
+- ✅ **Collection Registration and Schema Management** - Complete Parse Server collection registration system with CLP generation from capabilities, schema field types (String, Number, Pointer, Relation, File, etc.), index configuration, hook integration (collection-clp, collection-indexes, collection-before-permissions), dynamic CLP updates on capability changes, field deletion patterns, real-world examples from Settings/Type/Content/Roles collections; discovered during Cloud Function research - critical for data modeling and security configuration (Nov 26, 2025)
 - ✅ **Browser SDK React Hooks & Utilities** - Cataloged 16 React hooks and 13 browser utilities from `@atomic-reactor/reactium-sdk-core/browser`
 - ✅ **Hook System Domains** - Comprehensive deep dive into domain functionality, use cases, patterns, and lifecycle management (Nov 21, 2025)
 - ✅ **Zone System Deep Dive** - Complete analysis of Zone architecture, filters/mappers/sorters, zone patterns from core plugins, performance optimization strategies, and best practices (Nov 22, 2025)
@@ -30,40 +31,24 @@ Topics for future exploration sessions with specialized agents.
 
 ### High Priority
 
-1. Collection Registration and Schema Management
+1. Parse Server Query Patterns and Performance
 
-   - **Discovered during**: Cloud Function research - noticed Actinium.Collection.register() pattern in every plugin but schema management and CLP configuration never documented comprehensively
-   - **Why it matters**: Collection registration defines Parse Server schema, default permissions (CLP), indexes, and capability mappings - critical for data modeling and security
-   - **Current gap**: Actinium.Collection.register() API, schema field types, index configuration, CLP generation from capabilities, collection-clp hook, schema migration patterns not documented
+   - **Discovered during**: Collection Registration research - noticed complex query patterns in cloud functions (compound queries, includes, select, aggregate) but optimization strategies and common patterns not documented
+   - **Why it matters**: Parse queries are the primary data access mechanism - understanding query construction, performance optimization, and caching strategies is essential for efficient applications
+   - **Current gap**: Query builder patterns, include/select optimization, compound query performance, aggregate queries, query caching strategies, pagination best practices, pointer/relation querying, session token propagation in queries not comprehensively documented
    - **Key mechanisms**:
-     - Actinium.Collection.register(name, actions, schema, indexes)
-     - Action flags (create, retrieve, update, delete, addField) map to CLPs
-     - Schema field definitions (type, required, default, etc.)
-     - Index arrays for query optimization
-     - collection-clp hook for CLP customization
-     - Capability-to-CLP mapping pattern
-     - Schema validation and evolution
-   - **Real usage**: Every Actinium plugin registers collections (Users, Roles, Settings, Type, Content)
-   - **Integration**: Works with Capability system, CloudACL, Parse Server schema API
-   - **Critical for**: Data modeling, query optimization, security configuration, schema versioning
+     - Parse.Query construction and chaining
+     - include() and select() for pointer optimization
+     - Compound queries (OR, AND via matchesQuery)
+     - Aggregate pipeline queries
+     - Query constraints (equalTo, contains, lessThan, etc.)
+     - Pagination with skip/limit vs cursor-based
+     - Query caching with Actinium.Cache
+     - Session token handling in CloudRunOptions/CloudCapOptions
+   - **Real usage**: Every cloud function uses queries, content listing, user lookups, role checks
+   - **Integration**: Works with Collection system, Capability checks, CloudRunOptions, Cache system
+   - **Critical for**: Application performance, data access patterns, efficient API design
 
-2. Webpack Manifest Generation and Asset Management
-
-   - **Discovered during**: SSR research - noticed webpack-manifest.json critical for production but generation process undocumented
-   - **Why it matters**: Understanding webpack build output, chunk splitting, and asset manifest is essential for production deployments
-   - **Current gap**: How webpack-manifest.json is generated, chunk naming strategies, code splitting configuration, asset optimization not documented
-   - **Key mechanisms**:
-     - Webpack manifest plugin configuration
-     - Chunk naming conventions
-     - Code splitting strategies (route-based, vendor, common)
-     - Asset hash generation for cache busting
-     - webpack-server-assets hook for manifest manipulation
-     - Development vs production webpack configs
-     - Source maps and debugging in production
-   - **Real usage**: `webpack-manifest.json` consumed in SSR renderer, webpack config in reactium-webpack.js files
-   - **Integration**: Works with SSR system, routing code splitting, HMR in development
-   - **Critical for**: Production builds, CDN deployment, cache invalidation, debugging
-   - **Research scope**: Manifest generation, webpack config patterns, chunk optimization, real-world build configurations
 
 3. Testing Strategies & Patterns
 

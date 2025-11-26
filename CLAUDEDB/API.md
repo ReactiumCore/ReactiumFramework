@@ -1,4 +1,4 @@
-<!-- v1.8.0 -->
+<!-- v1.9.0 -->
 # CLAUDEDB - API Quick Reference
 
 **Purpose**: Common functions/hooks with signatures + direct links
@@ -636,6 +636,47 @@ Hook.registerSync('before-config', sdk => {
 ---
 
 ## Actinium API
+
+### Collection Registration
+
+```javascript
+Actinium.Collection.register(collection, publicSetting, schema?, indexes?)
+// Registers Parse collection with CLP, schema, and indexes
+// collection: String - Collection name
+// publicSetting: { create, retrieve, update, delete, addField } - Boolean flags
+// schema: Object - Parse field definitions (optional)
+// indexes: Array<string> - Fields to index (optional)
+```
+→ [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
+
+```javascript
+// Schema field types
+{
+    fieldName: {
+        type: 'String' | 'Number' | 'Boolean' | 'Date' | 'Array' | 'Object' |
+              'Pointer' | 'Relation' | 'File' | 'GeoPoint' | 'Polygon',
+        targetClass?: string,    // Required for Pointer/Relation
+        required?: boolean,
+        defaultValue?: any,
+        delete?: boolean         // Mark for deletion
+    }
+}
+```
+→ [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
+
+```javascript
+Actinium.Collection.load(collection?)
+// Loads/reloads schema and CLPs for collection(s)
+// collection: String (optional) - Specific collection, or all if omitted
+```
+→ [Collection Registration: Collection Lifecycle](../CLAUDE/COLLECTION_REGISTRATION.md#collection-lifecycle)
+
+```javascript
+Actinium.Collection.unregister(collection)
+// Resets collection to default (private) permissions
+// collection: String - Collection name
+```
+→ [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
 
 ### Plugin Registration
 

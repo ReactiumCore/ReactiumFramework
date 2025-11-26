@@ -1,4 +1,4 @@
-<!-- v1.11.0 -->
+<!-- v1.12.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -105,12 +105,27 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Cloud Functions: Common Validation Patterns](../CLAUDE/CLOUD_FUNCTIONS.md#common-validation-patterns)
 
 ### Define a database schema
-→ [Actinium Quick Ref: Database Schema Definition](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#database-schema-definition)
+→ [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
+→ [Collection Registration: Registration Pattern](../CLAUDE/COLLECTION_REGISTRATION.md#registration-pattern)
 → [Patterns: Schema Initialization Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-11-schema-initialization-pattern)
 
 ### Add permissions/capabilities
 → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
+→ [Collection Registration: CLP Generation](../CLAUDE/COLLECTION_REGISTRATION.md#clp-generation-mechanism)
 → [Patterns: Capability-Based Authorization](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-10-capability-based-authorization)
+
+### Set Class-Level Permissions (CLP)
+→ [Collection Registration: CLP Generation Mechanism](../CLAUDE/COLLECTION_REGISTRATION.md#clp-generation-mechanism)
+→ [Collection Registration: Dynamic CLP Updates](../CLAUDE/COLLECTION_REGISTRATION.md#dynamic-clp-updates)
+→ [Collection Registration: Hook Integration](../CLAUDE/COLLECTION_REGISTRATION.md#hook-integration)
+
+### Add database indexes
+→ [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
+→ [Collection Registration: Best Practices](../CLAUDE/COLLECTION_REGISTRATION.md#best-practices)
+
+### Migrate database schema
+→ [Collection Registration: Migration Patterns](../CLAUDE/COLLECTION_REGISTRATION.md#migration-patterns)
+→ [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
 
 ### Add middleware
 → [Actinium: Middleware System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#middleware-system)

@@ -1,4 +1,4 @@
-<!-- v1.5.0 -->
+<!-- v1.6.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -227,6 +227,21 @@
 ---
 
 ## Actinium Concepts
+
+### Collection Registration & Schema Management
+**Learning Path**:
+1. [Collection Registration: Overview](../CLAUDE/COLLECTION_REGISTRATION.md#overview) - What is Collection Registration
+2. [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister) - API signature and parameters
+3. [Collection Registration: CLP Generation Mechanism](../CLAUDE/COLLECTION_REGISTRATION.md#clp-generation-mechanism) - How capabilities map to CLPs
+4. [Collection Registration: Registration Pattern](../CLAUDE/COLLECTION_REGISTRATION.md#registration-pattern) - Real-world examples
+5. [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management) - Add/modify/delete fields
+6. [Collection Registration: Hook Integration](../CLAUDE/COLLECTION_REGISTRATION.md#hook-integration) - Customization hooks
+7. [Collection Registration: Dynamic CLP Updates](../CLAUDE/COLLECTION_REGISTRATION.md#dynamic-clp-updates) - Auto-reload on capability changes
+8. [Collection Registration: Best Practices](../CLAUDE/COLLECTION_REGISTRATION.md#best-practices) - Index strategy, capability ordering
+9. [Collection Registration: Common Gotchas](../CLAUDE/COLLECTION_REGISTRATION.md#common-gotchas) - Field type changes, public settings
+10. [Collection Registration: Migration Patterns](../CLAUDE/COLLECTION_REGISTRATION.md#migration-patterns) - Schema evolution
+
+**Related**: Parse Server, Capabilities, Cloud Functions, ACL, Indexes, Schema evolution
 
 ### Plugin System (Actinium)
 **Learning Path**:
