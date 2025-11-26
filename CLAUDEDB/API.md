@@ -1,4 +1,4 @@
-<!-- v1.7.0 -->
+<!-- v1.8.0 -->
 # CLAUDEDB - API Quick Reference
 
 **Purpose**: Common functions/hooks with signatures + direct links
@@ -716,56 +716,93 @@ Actinium.Cloud.define(
     PLUGIN.ID,      // Plugin ID (enables plugin gating)
     'functionName', // Function name
     async (req) => {
-        const { param1, param2 } = req.params;
-        const user = req.user;
-        const master = req.master;
-
+        // req.params  - client parameters
+        // req.user    - Parse.User (or undefined)
+        // req.master  - boolean (master key in use)
         return result;
     }
 )
 ```
-→ [Actinium Quick Ref: Cloud Function Patterns](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#cloud-function-patterns)
-→ [Actinium: Cloud Functions](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#cloud-functions)
+→ [Cloud Functions: Registration Pattern](../CLAUDE/CLOUD_FUNCTIONS.md#registration-pattern)
 
 ```javascript
-// Frontend call
-const result = await Parse.Cloud.run('functionName', { param1, param2 });
+// Parse Server triggers
+Actinium.Cloud.beforeSave(COLLECTION, async (req) => {})
+Actinium.Cloud.afterSave(COLLECTION, async (req) => {})
+Actinium.Cloud.beforeDelete(COLLECTION, async (req) => {})
+Actinium.Cloud.afterDelete(COLLECTION, async (req) => {})
+Actinium.Cloud.afterFind(COLLECTION, async (req) => {})
+Actinium.Cloud.beforeLogin(async (req) => {})
 ```
-→ [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
-
-### Capability Checking
+→ [Cloud Functions: Hook Integration](../CLAUDE/CLOUD_FUNCTIONS.md#hook-integration)
 
 ```javascript
-const { CloudHasCapabilities } = Actinium.Utils;
+// Client-side call
+const result = await Actinium.Cloud.run('functionName', params, options);
+// options: { useMasterKey: boolean, sessionToken: string }
+```
+→ [Cloud Functions: Testing Strategies](../CLAUDE/CLOUD_FUNCTIONS.md#testing-strategies)
 
-// Single capability
-if (!CloudHasCapabilities(req, 'feature.use')) {
-    throw new Error('Permission denied');
-}
+### Cloud Function Security
 
-// Multiple (strict - ALL required)
-if (!CloudHasCapabilities(req, ['admin.users', 'admin.roles'], true)) {
-    throw new Error('Requires both capabilities');
-}
+```javascript
+const { CloudRunOptions, MasterOptions, CloudCapOptions, CloudHasCapabilities } = Actinium.Utils;
 
-// Multiple (permissive - ANY required)
-if (!CloudHasCapabilities(req, ['content.edit', 'content.review'], false)) {
-    throw new Error('Requires edit or review');
+// CloudRunOptions - Use session token, escalate for super-admin
+const options = CloudRunOptions(req);
+// options = { sessionToken: 'xxx' } OR { useMasterKey: true }
+
+// CloudRunOptions with level requirement
+const options = CloudRunOptions(req, '>1000');
+// Escalates if user level > 1000
+
+// MasterOptions - Force master key (use sparingly)
+const options = MasterOptions();
+// options = { useMasterKey: true }
+
+// CloudCapOptions - Escalate if user has capabilities
+const options = CloudCapOptions(req, ['Setting.retrieve', 'setting.site-get'], false);
+// Escalates if user has EITHER capability (false = OR logic)
+
+// CloudHasCapabilities - Check without escalation (permission gate)
+if (!CloudHasCapabilities(req, ['Setting.update'], false)) {
+    return Promise.reject('Permission denied.');
 }
 ```
+→ [Cloud Functions: Security & Authorization](../CLAUDE/CLOUD_FUNCTIONS.md#security--authorization)
 → [Actinium Quick Ref: Capability Checking](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capability-checking)
 
 ```javascript
-const options = Actinium.Utils.CloudCapOptions(
-    req,
-    ['admin.capability'],  // Capabilities that grant master key
-    false                   // strict mode
+// CloudACL - Generate ACL with capability-based role access
+const { CloudACL } = Actinium.Utils;
+
+const acl = await CloudACL(
+    [
+        { permission: 'read', type: 'public', allow: true },
+        { permission: 'write', type: 'user', objectId: user.id, allow: true }
+    ],
+    'read-score',   // Roles with this capability get read access
+    'write-score'   // Roles with this capability get write access
 );
-// Returns: { useMasterKey: true/false, sessionToken }
+
+object.setACL(acl);
 ```
-→ [Actinium Quick Ref: Capability Checking](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capability-checking)
+→ [Cloud Functions: CloudACL](../CLAUDE/CLOUD_FUNCTIONS.md#cloudacl---generate-acl-from-permissions)
 
 ```javascript
+// AclTargets - Get users and roles for ACL selectors
+const { AclTargets } = Actinium.Utils;
+
+const targets = await AclTargets({
+    master: true,
+    params: { search: 'admin', cache: true }
+});
+// Returns: { roles: [...], users: [...] }
+```
+→ [Cloud Functions: AclTargets](../CLAUDE/CLOUD_FUNCTIONS.md#acltargets---get-users-and-roles-for-acls)
+
+```javascript
+// Capability Registration
 Actinium.Capability.register(
     'capability.name',
     {

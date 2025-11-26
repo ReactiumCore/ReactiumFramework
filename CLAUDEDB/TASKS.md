@@ -1,4 +1,4 @@
-<!-- v1.10.0 -->
+<!-- v1.11.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -79,13 +79,30 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
 
 ### Create a Cloud Function
-→ [Actinium: Cloud Functions](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#cloud-functions)
-→ [Actinium Quick Ref: Cloud Function Patterns](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#cloud-function-patterns)
-→ [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
+→ [Cloud Functions: Overview](../CLAUDE/CLOUD_FUNCTIONS.md#overview)
+→ [Cloud Functions: Registration Pattern](../CLAUDE/CLOUD_FUNCTIONS.md#registration-pattern)
+→ [Cloud Functions: Real-World Examples](../CLAUDE/CLOUD_FUNCTIONS.md#real-world-examples)
 
 ### Create an API endpoint
-→ [Actinium: Cloud Functions](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#cloud-functions)
-→ [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
+→ [Cloud Functions: Overview](../CLAUDE/CLOUD_FUNCTIONS.md#overview)
+→ [Cloud Functions: Registration Pattern](../CLAUDE/CLOUD_FUNCTIONS.md#registration-pattern)
+
+### Secure a Cloud Function
+→ [Cloud Functions: Security & Authorization](../CLAUDE/CLOUD_FUNCTIONS.md#security--authorization)
+→ [Cloud Functions: CloudRunOptions](../CLAUDE/CLOUD_FUNCTIONS.md#cloudrunoptions---automatic-privilege-escalation)
+→ [Cloud Functions: CloudCapOptions](../CLAUDE/CLOUD_FUNCTIONS.md#cloudcapoptions---capability-based-escalation)
+
+### Check capabilities in Cloud Function
+→ [Cloud Functions: CloudHasCapabilities](../CLAUDE/CLOUD_FUNCTIONS.md#cloudhascapabilities---check-without-escalation)
+→ [Cloud Functions: Best Practices](../CLAUDE/CLOUD_FUNCTIONS.md#best-practices)
+
+### Set ACL on Parse objects
+→ [Cloud Functions: CloudACL](../CLAUDE/CLOUD_FUNCTIONS.md#cloudacl---generate-acl-from-permissions)
+→ [Cloud Functions: Usage Pattern - Object-Level Permissions](../CLAUDE/CLOUD_FUNCTIONS.md#usage-pattern---object-level-permissions)
+
+### Validate Cloud Function parameters
+→ [Cloud Functions: Parameter Validation](../CLAUDE/CLOUD_FUNCTIONS.md#parameter-validation)
+→ [Cloud Functions: Common Validation Patterns](../CLAUDE/CLOUD_FUNCTIONS.md#common-validation-patterns)
 
 ### Define a database schema
 → [Actinium Quick Ref: Database Schema Definition](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#database-schema-definition)

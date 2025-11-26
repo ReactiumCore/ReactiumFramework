@@ -1,4 +1,4 @@
-<!-- v1.12.0 -->
+<!-- v1.13.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -9,11 +9,12 @@
 
 ## A
 
-- **ACL** → [Actinium: Parse Server Integration](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#parse-server-integration)
+- **ACL** → [Cloud Functions: ACL Management](../CLAUDE/CLOUD_FUNCTIONS.md#acl-management)
+- **AclTargets** → [Cloud Functions: AclTargets](../CLAUDE/CLOUD_FUNCTIONS.md#acltargets---get-users-and-roles-for-acls)
 - **Actinium** → [Actinium Complete Reference](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md)
 - **actinium-core** → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
 - **actinium_modules** → [Actinium: Plugin Discovery](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-discovery)
-- **afterSave** → [Actinium Quick Ref: Lifecycle Hooks](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#common-lifecycle-hooks)
+- **afterSave** → [Cloud Functions: Hook Integration](../CLAUDE/CLOUD_FUNCTIONS.md#hook-integration)
 - **Apollo** → [AppContext: Apollo GraphQL Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#1-apollo-graphql-client)
 - **API** → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 - **API registry** → [SDK Extension: APIRegistry Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-2-apiregistry-extension)
@@ -33,7 +34,7 @@
 
 - **babel** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
 - **babel-loader** → [ReactiumWebpack: Babel Configuration](../CLAUDE/REACTIUM_WEBPACK.md#adding-a-custom-loader)
-- **beforeSave** → [Actinium Quick Ref: Lifecycle Hooks](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#common-lifecycle-hooks)
+- **beforeSave** → [Cloud Functions: Hook Integration](../CLAUDE/CLOUD_FUNCTIONS.md#hook-integration)
 - **Build** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
 - **Build errors** → [Gotchas: Build System](../CLAUDE/FRAMEWORK_GOTCHAS.md#build-system-gotchas)
 
@@ -41,10 +42,14 @@
 
 - **Cache** → [Patterns: Backend Caching](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-15-backend-caching-pattern)
 - **Capabilities** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
-- **Capability checking** → [Actinium Quick Ref: Capability Checking](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capability-checking)
+- **Capability checking** → [Cloud Functions: CloudHasCapabilities](../CLAUDE/CLOUD_FUNCTIONS.md#cloudhascapabilities---check-without-escalation)
 - **CLI** → [Reactium: CLI Tools](../CLAUDE/REACTIUM_FRAMEWORK.md#cli-tools)
-- **Cloud Functions** → [Actinium: Cloud Functions](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#cloud-functions)
-- **CloudHasCapabilities** → [Actinium Quick Ref: Capability Checking](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capability-checking)
+- **Cloud Functions** → [Parse Server Cloud Functions](../CLAUDE/CLOUD_FUNCTIONS.md#overview)
+- **CloudACL** → [Cloud Functions: CloudACL](../CLAUDE/CLOUD_FUNCTIONS.md#cloudacl---generate-acl-from-permissions)
+- **CloudCapOptions** → [Cloud Functions: CloudCapOptions](../CLAUDE/CLOUD_FUNCTIONS.md#cloudcapoptions---capability-based-escalation)
+- **CloudHasCapabilities** → [Cloud Functions: CloudHasCapabilities](../CLAUDE/CLOUD_FUNCTIONS.md#cloudhascapabilities---check-without-escalation)
+- **CloudMasterOptions** → [Cloud Functions: Security](../CLAUDE/CLOUD_FUNCTIONS.md#security--authorization)
+- **CloudRunOptions** → [Cloud Functions: CloudRunOptions](../CLAUDE/CLOUD_FUNCTIONS.md#cloudrunoptions---automatic-privilege-escalation)
 - **Code splitting** → [Routing System: Code Splitting Patterns](../CLAUDE/ROUTING_SYSTEM.md#code-splitting-patterns)
 - **Code splitting (webpack)** → [ReactiumWebpack: Optimization Methods](../CLAUDE/REACTIUM_WEBPACK.md#setcodesplittingoptimizeenv)
 - **Component** → [Reactium: Component System](../CLAUDE/REACTIUM_FRAMEWORK.md#component-system)
@@ -135,7 +140,8 @@
 
 - **Manifest** → [Reactium: Manifest System](../CLAUDE/REACTIUM_FRAMEWORK.md#manifest-system)
 - **Mappers** → [Zone System: Filters, Mappers, Sorters](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#filters-mappers-and-sorters)
-- **Master key** → [Gotchas: Master Key Usage](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-15-master-key-usage-in-cloud-functions)
+- **Master key** → [Cloud Functions: MasterOptions](../CLAUDE/CLOUD_FUNCTIONS.md#masteroptions---force-master-key)
+- **MasterOptions** → [Cloud Functions: MasterOptions](../CLAUDE/CLOUD_FUNCTIONS.md#masteroptions---force-master-key)
 - **Middleware** → [Actinium: Middleware System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#middleware-system)
 - **Migration** → [Known Issues](../CLAUDE/KNOWN_ISSUES.md)
 - **MongoDB** → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
@@ -148,12 +154,13 @@
 ## P
 
 - **Pagination** → [Patterns: Pagination Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-19-pagination-pattern)
+- **Parameter validation** → [Cloud Functions: Parameter Validation](../CLAUDE/CLOUD_FUNCTIONS.md#parameter-validation)
 - **Parse** → [Integration: Parse Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#parse-integration)
 - **Parse SDK** → [Integration: Data Flow](../CLAUDE/FRAMEWORK_INTEGRATION.md#data-flow-patterns)
 - **Parse.Cloud.run** → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 - **Patterns** → [Framework Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md)
 - **Performance** → [Patterns: Performance Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md#performance-patterns)
-- **Permissions** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
+- **Permissions** → [Cloud Functions: Security & Authorization](../CLAUDE/CLOUD_FUNCTIONS.md#security--authorization)
 - **Polling** → [Pulse System: API Polling](../CLAUDE/PULSE_SYSTEM.md#1-api-polling)
 - **Preferences** → [User.Pref System](../CLAUDE/USER_PREF_SYSTEM.md#overview)
 - **Prefs** → [Prefs System: Overview](../CLAUDE/PREFS_SYSTEM.md#architecture-overview)
@@ -214,7 +221,8 @@
 - **Server.AppHeaders** → [SSR: AppHeaders Hook](../CLAUDE/SSR_ARCHITECTURE.md#3-serverappheaders)
 - **Server.AppScripts** → [SSR: AppScripts Hook](../CLAUDE/SSR_ARCHITECTURE.md#4-serverappscripts)
 - **Server.AppStyleSheets** → [SSR: AppStyleSheets Hook](../CLAUDE/SSR_ARCHITECTURE.md#5-serverappstylesheets)
-- **Session** → [Integration: Authentication](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
+- **Session** → [Cloud Functions: Request Object](../CLAUDE/CLOUD_FUNCTIONS.md#request-object-req)
+- **Session token** → [Cloud Functions: User Context Propagation](../CLAUDE/CLOUD_FUNCTIONS.md#user-context-propagation)
 - **Sorters** → [Zone System: Filters, Mappers, Sorters](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#filters-mappers-and-sorters)
 - **SSR** → [SSR Architecture](../CLAUDE/SSR_ARCHITECTURE.md#overview)
 - **State** → [Reactium: State Management](../CLAUDE/REACTIUM_FRAMEWORK.md#state-management)

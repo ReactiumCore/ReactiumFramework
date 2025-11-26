@@ -24,29 +24,28 @@ Topics for future exploration sessions with specialized agents.
 - ✅ **User.Pref API and Server-Side Preference Sync** - Complete server-backed preference system for cross-device sync; Parse Server `_User.pref` field with object-path addressing; server-side API (Actinium.User.Pref.update/delete) via cloud functions (user-pref-update, user-pref-delete); client-side SDK (User.Pref.update/delete); login/logout sync pattern (user.before.logout → save to server, user.auth → restore to localStorage); hook integration (user-before-pref-save, user-pref-save-response); MasterKey security for user-scoped access; real-world patterns: multi-device theme sync, component state persistence, admin dashboard settings; comparison with Prefs (local) and User.Meta (metadata); common gotchas: object-path key ambiguity, sensitive field filtering, no built-in conflict resolution, last-write-wins strategy; comprehensive source references from actinium-core/lib/user.js:617-747, actinium-users/plugin.js:203-212, reactium-user/sdk/index.js:501-557, reactium-admin-core/User/reactium-hooks.js:140-172 (Nov 26, 2025)
 - ✅ **Server-Side Rendering (SSR) Architecture** - Template-driven FEO (Front-End Only) system with hook-extensible registries; request-scoped registries (AppHeaders, AppScripts, AppStyleSheets, AppBindings, AppGlobals, AppSnippets) using CLEAN mode; template discovery with semver compatibility (local override or core template); hook lifecycle (Server.beforeApp → AppGlobals → AppHeaders → AppScripts → AppStyleSheets → AppBindings → AppSnippets → Server.afterApp); webpack asset auto-discovery (dev mode from devMiddleware, prod mode from webpack-manifest.json); theme-based stylesheet selection via query param or DEFAULT_THEME env; bind point markup generation (component string, static markup, or template function); global serialization with serialize-javascript; real-world patterns: dynamic SEO meta tags, conditional analytics, user-specific initial state, theme-based loading, A/B test variants; comprehensive source references from reactium-core/server/renderer/index.mjs:1-654 and server/template/feo.js:1-26 (Nov 26, 2025)
 - ✅ **Pulse System Architecture** - Registry-based recurring task scheduler for background operations; PulseTask class with retry logic, progress tracking, and lifecycle control (start, stop, reset, retry); task state machine (READY → RUNNING → STOPPED/ERROR); configurable options (attempts, autostart, delay, repeat, debug); PulseSDK singleton with object-path registry (register, unregister, get, start, stop, startAll, stopAll); async-first design with error handling (onSuccess, onError callbacks); real-world use cases: API polling, auto-save drafts, progress tracking, exponential backoff retry, conditional task control (pause on tab hidden); React hook integration patterns; TypeScript generic support for type-safe params; comparison with setInterval/setTimeout/Promises; common gotchas: parameter capture at registration, progress always 0 for infinite tasks, retry logic per-execution not task-level, stop while running waits for completion; comprehensive source references from reactium-sdk-core/src/core/Pulse/index.ts:1-644 (Nov 26, 2025)
+- ✅ **Parse Server Cloud Function Patterns** - Complete cloud function anatomy and lifecycle documentation; registration pattern via Actinium.Cloud.define(); security helpers (CloudRunOptions, MasterOptions, CloudCapOptions, CloudHasCapabilities); ACL generation via CloudACL with capability-based role access; AclTargets helper for user/role selection; req object structure (params, user, master, original); session token propagation and privilege escalation (super-admin, level-based, capability-based); parameter validation patterns (required, type, object-path, entity existence); error handling patterns (throw Error, Promise.reject, conditional rejection, hook validation); hook integration (beforeSave, afterSave, beforeDelete, afterDelete, afterFind); testing strategies (manual with Cloud.run, master key, session token); real-world examples from Users, Roles, Settings, Type plugins; best practices and common gotchas (MasterOptions vs CloudRunOptions confusion, capability checks, ACL application, validation order, async hook awaiting, session token loss); comprehensive source references from actinium-core/lib/utils/options.js:1-201, actinium-core/lib/utils/acl.js:1-298, actinium-users/plugin.js, actinium-roles/plugin.js, actinium-settings/plugin.js (Nov 26, 2025)
 
 ## Pending Research Topics
 
 ### High Priority
 
-1. Parse Server Cloud Function Patterns
+1. Collection Registration and Schema Management
 
-   - **Discovered during**: User.Pref research - noticed consistent cloud function registration patterns but never documented comprehensively
-   - **Why it matters**: Cloud functions are the primary API pattern in Actinium - understanding registration, security, validation, and testing patterns is critical
-   - **Current gap**: Cloud function lifecycle, CloudRunOptions vs MasterOptions, req.user context propagation, validation patterns, error handling, testing strategies not documented
+   - **Discovered during**: Cloud Function research - noticed Actinium.Collection.register() pattern in every plugin but schema management and CLP configuration never documented comprehensively
+   - **Why it matters**: Collection registration defines Parse Server schema, default permissions (CLP), indexes, and capability mappings - critical for data modeling and security
+   - **Current gap**: Actinium.Collection.register() API, schema field types, index configuration, CLP generation from capabilities, collection-clp hook, schema migration patterns not documented
    - **Key mechanisms**:
-     - Actinium.Cloud.define() registration pattern
-     - CloudRunOptions() and MasterOptions() helper functions
-     - req.user session context and authentication
-     - req.params validation and sanitization
-     - Hook integration (before/after cloud function patterns)
-     - ACL/capability checking in cloud functions
-     - Error response formatting
-     - Testing cloud functions (unit and integration)
-   - **Real usage**: Every Actinium plugin uses cloud functions (Users, Roles, Capabilities, Content, etc.)
-   - **Integration**: Works with Hook system, Capability system, Parse Server, session management
-   - **Critical for**: Building secure Actinium APIs, plugin development, testing strategies
-   - **Research scope**: Cloud function anatomy, security patterns, validation best practices, testing approaches, real-world examples from core plugins
+     - Actinium.Collection.register(name, actions, schema, indexes)
+     - Action flags (create, retrieve, update, delete, addField) map to CLPs
+     - Schema field definitions (type, required, default, etc.)
+     - Index arrays for query optimization
+     - collection-clp hook for CLP customization
+     - Capability-to-CLP mapping pattern
+     - Schema validation and evolution
+   - **Real usage**: Every Actinium plugin registers collections (Users, Roles, Settings, Type, Content)
+   - **Integration**: Works with Capability system, CloudACL, Parse Server schema API
+   - **Critical for**: Data modeling, query optimization, security configuration, schema versioning
 
 2. Webpack Manifest Generation and Asset Management
 

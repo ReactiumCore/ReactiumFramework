@@ -1,4 +1,4 @@
-<!-- v1.4.0 -->
+<!-- v1.5.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -255,14 +255,21 @@
 
 ### Cloud Functions
 **Learning Path**:
-1. [Actinium: Cloud Functions](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#cloud-functions) - Overview
-2. [Actinium Quick Ref: Cloud Function Patterns](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#cloud-function-patterns) - Basic structure
-3. [Actinium: Plugin Gating](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-gating) - Automatic protection
-4. [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration) - Frontend usage
-5. [Patterns: Capability-Based Authorization](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-10-capability-based-authorization) - Security
-6. [Gotchas: Master Key Usage](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-15-master-key-usage-in-cloud-functions) - Permissions
+1. [Cloud Functions: Overview](../CLAUDE/CLOUD_FUNCTIONS.md#overview) - What are cloud functions
+2. [Cloud Functions: Registration Pattern](../CLAUDE/CLOUD_FUNCTIONS.md#registration-pattern) - Basic structure
+3. [Cloud Functions: Request Object](../CLAUDE/CLOUD_FUNCTIONS.md#request-object-req) - req.params, req.user, req.master
+4. [Cloud Functions: Security & Authorization](../CLAUDE/CLOUD_FUNCTIONS.md#security--authorization) - CloudRunOptions, MasterOptions
+5. [Cloud Functions: CloudCapOptions](../CLAUDE/CLOUD_FUNCTIONS.md#cloudcapoptions---capability-based-escalation) - Capability-based escalation
+6. [Cloud Functions: CloudHasCapabilities](../CLAUDE/CLOUD_FUNCTIONS.md#cloudhascapabilities---check-without-escalation) - Permission gates
+7. [Cloud Functions: ACL Management](../CLAUDE/CLOUD_FUNCTIONS.md#acl-management) - CloudACL, AclTargets
+8. [Cloud Functions: Parameter Validation](../CLAUDE/CLOUD_FUNCTIONS.md#parameter-validation) - Validation patterns
+9. [Cloud Functions: Error Handling](../CLAUDE/CLOUD_FUNCTIONS.md#error-handling) - Error patterns
+10. [Cloud Functions: Hook Integration](../CLAUDE/CLOUD_FUNCTIONS.md#hook-integration) - beforeSave, afterSave triggers
+11. [Cloud Functions: Testing Strategies](../CLAUDE/CLOUD_FUNCTIONS.md#testing-strategies) - Manual testing
+12. [Cloud Functions: Best Practices](../CLAUDE/CLOUD_FUNCTIONS.md#best-practices) - Do's and don'ts
+13. [Cloud Functions: Common Gotchas](../CLAUDE/CLOUD_FUNCTIONS.md#common-gotchas) - Avoid mistakes
 
-**Related**: API endpoints, Parse.Cloud.run, req.params, Capabilities
+**Related**: API endpoints, Parse.Cloud.run, req.params, Capabilities, Master key, Session tokens, ACLs
 
 ### Capabilities System
 **Learning Path**:
