@@ -1,4 +1,4 @@
-<!-- v1.18.0 -->
+<!-- v1.20.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -22,6 +22,11 @@
 - **API registry** → [SDK Extension: APIRegistry Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-2-apiregistry-extension)
 - **APIRegistry** → [SDK Extension: APIRegistry Internals](../CLAUDE/SDK_EXTENSION_PATTERN.md#apiregistry-internals)
 - **APP_PORT** → [Environment Config: PORT Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#complex-fallback-chain-with-port_var-indirection)
+- **Reactium CLI (ARCLI)** → [CLI Command System](../CLAUDE/CLI_COMMAND_SYSTEM.md#overview)
+- **arcli command** → [CLI Commands: Command Categories](../CLAUDE/CLI_COMMANDS_REFERENCE.md#command-categories)
+- **arcli-file-gen hook** → [CLI Templates: Hook-Driven File Transformation](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#6-hook-driven-file-transformation)
+- **arcli-hooks.js** → [CLI: Global Hooks](../CLAUDE/CLI_COMMAND_SYSTEM.md#global-hooks-arcli-hooksjs)
+- **ActionSequence** → [CLI Templates: Generator Pattern](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#4-generator-pattern-and-actionsequence)
 - **AppContext** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
 - **AppContext.register** → [AppContext: Registration API](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#reactiumappcontextregistername-data-order)
 - **app-bindpoint** → [Component Binding: app-bindpoint Hook](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#integration-with-app-bindpoint-hook)
@@ -49,9 +54,15 @@
 - **Capabilities** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
 - **Capability checking** → [Cloud Functions: CloudHasCapabilities](../CLAUDE/CLOUD_FUNCTIONS.md#cloudhascapabilities---check-without-escalation)
 - **Class-Level Permissions** → [Collection Registration: CLP Generation](../CLAUDE/COLLECTION_REGISTRATION.md#clp-generation-mechanism)
-- **CLI** → [Reactium: CLI Tools](../CLAUDE/REACTIUM_FRAMEWORK.md#cli-tools)
+- **CLI** → [CLI Command System](../CLAUDE/CLI_COMMAND_SYSTEM.md#overview)
+- **CLI commands** → [CLI: Command Module Structure](../CLAUDE/CLI_COMMAND_SYSTEM.md#4-command-module-structure)
+- **CLI command workflows** → [CLI Commands: Command Workflows](../CLAUDE/CLI_COMMANDS_REFERENCE.md#command-workflows-and-decision-trees)
+- **CLI discovery** → [CLI: Command Discovery Locations](../CLAUDE/CLI_COMMAND_SYSTEM.md#2-command-discovery-locations)
+- **CLI extensibility** → [CLI: Hook-Driven Extensibility](../CLAUDE/CLI_COMMAND_SYSTEM.md#6-hook-driven-extensibility)
+- **CLI templates** → [CLI Template System](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#overview)
 - **CLP** → [Collection Registration: CLP Generation](../CLAUDE/COLLECTION_REGISTRATION.md#clp-generation-mechanism)
 - **Cloud Functions** → [Parse Server Cloud Functions](../CLAUDE/CLOUD_FUNCTIONS.md#overview)
+- **Commander.js** → [CLI: Command Structure Pattern](../CLAUDE/CLI_COMMAND_SYSTEM.md#5-command-structure-pattern)
 - **Collection** → [Collection Registration System](../CLAUDE/COLLECTION_REGISTRATION.md#overview)
 - **Collection.register** → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
 - **collection-clp hook** → [Collection Registration: Hook Integration](../CLAUDE/COLLECTION_REGISTRATION.md#collection-clp)
@@ -68,7 +79,7 @@
 - **ComponentEvent** → [ComponentEvent System](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#overview)
 - **Component events** → [ComponentEvent: Real-World Usage](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#real-world-usage-patterns)
 - **Content Type** → [Content Type System Architecture](../CLAUDE/CONTENT_TYPE_SYSTEM.md#overview)
-- **Content_* collections** → [Content Type: Collection Naming](../CLAUDE/CONTENT_TYPE_SYSTEM.md#collection-name-generation)
+- **Content\_\* collections** → [Content Type: Collection Naming](../CLAUDE/CONTENT_TYPE_SYSTEM.md#collection-name-generation)
 - **Custom events** → [ComponentEvent: Overview](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#overview)
 - **Cursor pagination** → [Pagination: Cursor-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#3-cursor-based-pagination-recommended-for-scale)
 - **component-bindings** → [Component Binding: Lifecycle Integration](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#lifecycle-integration)
@@ -129,10 +140,14 @@
 
 ## G
 
+- **generator** → [CLI Templates: Generator Wrapper](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#4-generator-pattern-and-actionsequence)
 - **Global State** → [Reactium: State Management](../CLAUDE/REACTIUM_FRAMEWORK.md#state-management)
 - **Gulp** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
 
 ## H
+
+- **Handlebars** → [CLI Templates: Template Syntax](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#3-template-syntax-and-variables)
+- **Handlebars helpers** → [CLI Templates: Handlebars Helpers](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#handlebars-helpers-standard)
 
 - **hookedQuery** → [Pagination: HookedQuery Utility](../CLAUDE/PAGINATION_STRATEGIES.md#example-hookedquery-utility)
 
@@ -156,6 +171,8 @@
 - **Indexes** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
 - **init** → [Actinium Quick Ref: Lifecycle Hooks](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#common-lifecycle-hooks)
 - **Initialization** → [Actinium: Initialization Sequence](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#initialization-sequence)
+- **init command** → [CLI Commands: Project Initialization](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-init)
+- **install command** → [CLI Commands: Package Management](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-install)
 - **Integration** → [Framework Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md)
 
 ## K
@@ -248,9 +265,15 @@
 
 ## R
 
+- **reactium auth** → [CLI Commands: Authentication](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-auth)
+- **reactium component** → [CLI Commands: Component Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-component)
 - **reactium-core** → [Reactium: Core Architecture](../CLAUDE/REACTIUM_FRAMEWORK.md#core-architecture)
 - **reactium-hooks** → [Reactium: Plugin System](../CLAUDE/REACTIUM_FRAMEWORK.md#creating-a-plugin)
+- **reactium init** → [CLI Commands: Project Initialization](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-init)
+- **reactium label** → [CLI Commands: Label Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-label)
+- **reactium route** → [CLI Commands: Route Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-route)
 - **reactium-route** → [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview)
+- **reactium style** → [CLI Commands: Style Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-style)
 - **reactium-webpack.js** → [ReactiumWebpack: DDD Discovery Pattern](../CLAUDE/REACTIUM_WEBPACK.md#reactium-webpackjs)
 - **reactium_modules** → [Reactium: Project Structure](../CLAUDE/REACTIUM_FRAMEWORK.md#project-structure)
 - **React Context** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
@@ -304,6 +327,10 @@
 
 ## T
 
+- **Template** → [CLI Template System](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#overview)
+- **Template directory** → [CLI Templates: Template Directory Structure](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#2-template-directory-structure)
+- **Template generation** → [CLI Templates: Component Generator Pattern](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#5-component-generator-pattern)
+- **Template variables** → [CLI Templates: Variable Substitution](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#3-template-syntax-and-variables)
 - **Testing** → [Patterns: Testing Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md#testing-patterns)
 - **Theme** → [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
 - **ThemeProvider** → [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)

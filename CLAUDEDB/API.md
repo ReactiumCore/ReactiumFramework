@@ -1,4 +1,5 @@
-<!-- v1.14.0 -->
+<!-- v1.15.0 -->
+
 # CLAUDEDB - API Quick Reference
 
 **Purpose**: Common functions/hooks with signatures + direct links
@@ -11,9 +12,10 @@
 ### Component Registration
 
 ```javascript
-Reactium.Component.register(name, component)
+Reactium.Component.register(name, component);
 // Registers component in global Component Registry
 ```
+
 → [hookableComponent: Registration Pattern](../CLAUDE/HOOKABLE_COMPONENT.md#registration-pattern)
 
 ```javascript
@@ -21,12 +23,14 @@ Reactium.Component.get(name, defaultComponent?)
 // Retrieves component from registry
 // Returns: Component or defaultComponent
 ```
+
 → [hookableComponent: Component Registry](../CLAUDE/HOOKABLE_COMPONENT.md#component-registry)
 
 ```javascript
-Reactium.Component.unregister(name)
+Reactium.Component.unregister(name);
 // Removes component from registry
 ```
+
 → [hookableComponent: Component Registry](../CLAUDE/HOOKABLE_COMPONENT.md#component-registry)
 
 ```javascript
@@ -34,13 +38,15 @@ useHookComponent(name, defaultComponent?)
 // Hook that retrieves component (non-reactive)
 // Returns: Component from registry or defaultComponent
 ```
+
 → [hookableComponent: useHookComponent Hook](../CLAUDE/HOOKABLE_COMPONENT.md#usehookcomponent-hook)
 
 ```javascript
-hookableComponent(name)
+hookableComponent(name);
 // Factory that creates wrapper component
 // Returns: Component that dynamically retrieves from registry
 ```
+
 → [hookableComponent: hookableComponent Factory](../CLAUDE/HOOKABLE_COMPONENT.md#hookablecomponent-factory)
 
 ### Events & Communication
@@ -53,6 +59,7 @@ new ComponentEvent<T>(type, payload?)
 // Prototype pollution protection: filters __proto__ and proto__
 // Property collision: prefixes conflicting keys with __
 ```
+
 → [ComponentEvent System: Overview](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#overview)
 
 ```javascript
@@ -61,13 +68,15 @@ useEventEffect<Target>(target, handlers, deps?)
 // handlers: { eventName: callback, ... }
 // Returns: void
 ```
+
 → [ComponentEvent: useEventEffect Hook](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#useeventeffect-hook)
 
 ```javascript
-isTarget(target)
+isTarget(target);
 // Checks if target has addEventListener/removeEventListener
 // Returns: boolean
 ```
+
 → [ComponentEvent: isTarget Helper](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#istarget-helper)
 
 ### State Management
@@ -86,23 +95,26 @@ state.addEventListener(type, listener, options?, id?)  // Subscribe
 state.removeEventListenerById(type, id)  // Unsubscribe by ID
 // Events: before-set, set, change, before-del, del, before-insert, insert
 ```
+
 → [ReactiumSyncState Architecture](../CLAUDE/REACTIUM_SYNC_STATE.md#core-concept)
 → [ReactiumSyncState: Core API](../CLAUDE/REACTIUM_SYNC_STATE.md#core-api)
 → [ReactiumSyncState: Event System](../CLAUDE/REACTIUM_SYNC_STATE.md#event-system)
 
 ```javascript
-useSyncState<T>(initialState, updateEvent = 'set')
+useSyncState < T > (initialState, (updateEvent = 'set'));
 // Returns: ReactiumSyncState<T> (with get/set methods)
 ```
+
 → [Reactium: useSyncState](../CLAUDE/REACTIUM_FRAMEWORK.md#1-local-component-state-usesyncstate)
 → [ReactiumSyncState: useSyncState Integration](../CLAUDE/REACTIUM_SYNC_STATE.md#1-usesyncstate-hook)
 → [Gotchas: useSyncState Is Not useState](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-2-usesyncstate-is-not-usestate)
 
 ```javascript
-Reactium.State.get(key)
-Reactium.State.set(key, value)
-useGlobalState(key)
+Reactium.State.get(key);
+Reactium.State.set(key, value);
+useGlobalState(key);
 ```
+
 → [Reactium: Global State](../CLAUDE/REACTIUM_FRAMEWORK.md#2-global-state-reactiumstate)
 → [ReactiumSyncState: Global State Singleton](../CLAUDE/REACTIUM_SYNC_STATE.md#2-global-state-singleton)
 
@@ -115,14 +127,16 @@ Reactium.Prefs.get<T>(key?, defaultValue?)
 // key: 'admin.sidebar.status' or 'my.nested.value'
 // Returns: T (preference value or defaultValue)
 ```
+
 → [Prefs System: get() method](../CLAUDE/PREFS_SYSTEM.md#prefsgetkey-defaultvalue)
 
 ```javascript
-Reactium.Prefs.set<T>(key, value)
+Reactium.Prefs.set < T > (key, value);
 // Set preference at object-path, persists to localStorage
 // key: 'admin.sidebar.status' or 'my.nested.value'
 // Returns: PrefsType (entire prefs object)
 ```
+
 → [Prefs System: set() method](../CLAUDE/PREFS_SYSTEM.md#prefssetkey-value)
 
 ```javascript
@@ -131,13 +145,15 @@ Reactium.Prefs.clear(key?)
 // key?: Optional object-path to clear
 // Returns: PrefsType (updated prefs object)
 ```
+
 → [Prefs System: clear() method](../CLAUDE/PREFS_SYSTEM.md#prefsclearkey)
 
 ```javascript
-Reactium.Prefs.create<PrefsType>(storageKey)
+Reactium.Prefs.create < PrefsType > storageKey;
 // Factory for isolated Prefs instance with custom localStorage key
 // Returns: PrefsClass<PrefsType>
 ```
+
 → [Prefs System: create() method](../CLAUDE/PREFS_SYSTEM.md#prefscreatestoragekey)
 
 **Important**: Prefs is NOT reactive. Changes don't trigger React re-renders.
@@ -154,15 +170,17 @@ useSyncHandle(id)  // With subscription
 useSelectHandle(id, selector, defaultValue?)  // Optimized - only re-renders on selected value change
 // Returns: { handle, selected }
 ```
+
 → [Reactium: Handles](../CLAUDE/REACTIUM_FRAMEWORK.md#3-handles-shared-observable-state)
 → [Gotchas: useHandle vs useSyncHandle](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-11-usehandle-vs-usesynchandle)
 → [FAQ: useSelectHandle Performance](../FAQ.md#q-when-should-i-use-useselecthandle-instead-of-usesynchandle)
 
 ```javascript
-Reactium.Pulse.on(event, callback)
-Reactium.Pulse.emit(event, data)
-Reactium.Pulse.off(event, callback)
+Reactium.Pulse.on(event, callback);
+Reactium.Pulse.emit(event, data);
+Reactium.Pulse.off(event, callback);
 ```
+
 → [Reactium: Pulse](../CLAUDE/REACTIUM_FRAMEWORK.md#4-pulse-pubsub-events)
 
 ### Browser Utilities
@@ -173,6 +191,7 @@ Reactium.Prefs.set(key, value)
 Reactium.Prefs.clear(key)
 // LocalStorage wrapper with reactivity
 ```
+
 → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 
 ```javascript
@@ -181,35 +200,44 @@ Reactium.Fullscreen.enter(element?)
 Reactium.Fullscreen.exit()
 Reactium.Fullscreen.toggle(element?)
 ```
+
 → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 
 ```javascript
 // Window size & breakpoint utilities
-Reactium.Window.get('width')
-Reactium.Window.get('height')
-Reactium.breakpoint      // Current breakpoint name
+Reactium.Window.get('width');
+Reactium.Window.get('height');
+Reactium.breakpoint; // Current breakpoint name
 ```
+
 → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 
 ### SDK Extension
 
 ```javascript
 // Pattern 1: Direct SDK extension
-Reactium.Hook.register('sdk-init', async (SDK) => {
+Reactium.Hook.register(
+  'sdk-init',
+  async (SDK) => {
     const { default: MyFeature } = await import('./sdk');
     Reactium.MyFeature = MyFeature;
-}, Reactium.Enums.highest, 'MY-SDK-EXTENSION-ID');
+  },
+  Reactium.Enums.highest,
+  'MY-SDK-EXTENSION-ID'
+);
 ```
+
 → [SDK Extension: Direct Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-1-direct-sdk-extension)
 
 ```javascript
 // Pattern 2: APIRegistry extension
 Reactium.API.register('MyAPI', { api: apiClient, config: apiConfig });
 // Access via:
-Reactium.API.MyAPI        // → apiClient
-Reactium.API.MyAPIConfig  // → apiConfig
-Reactium.MyAPI            // → fallback via Proxy
+Reactium.API.MyAPI; // → apiClient
+Reactium.API.MyAPIConfig; // → apiConfig
+Reactium.MyAPI; // → fallback via Proxy
 ```
+
 → [SDK Extension: APIRegistry Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-2-apiregistry-extension)
 → [SDK Extension: SDK Proxy Fallback Chain](../CLAUDE/SDK_EXTENSION_PATTERN.md#sdk-proxy-fallback-chain)
 
@@ -217,43 +245,48 @@ Reactium.MyAPI            // → fallback via Proxy
 
 ```javascript
 Reactium.Hook.register(
-    name,           // string
-    callback,       // async function
-    priority,       // number (default: Enums.priority.neutral)
-    id,             // string (optional, auto-generated)
-    domain          // string (default: 'default')
-)
+  name, // string
+  callback, // async function
+  priority, // number (default: Enums.priority.neutral)
+  id, // string (optional, auto-generated)
+  domain // string (default: 'default')
+);
 // Returns: hookId (string)
 ```
+
 → [Reactium: Hook Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#hook-registration)
 → [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
 
 ```javascript
-Reactium.Hook.registerSync(name, callback, priority, id, domain)
+Reactium.Hook.registerSync(name, callback, priority, id, domain);
 ```
+
 → [Reactium: Hook Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#hook-registration)
 
 ```javascript
-await Reactium.Hook.run(name, ...args)
+await Reactium.Hook.run(name, ...args);
 // Returns: context object
 ```
+
 → [Reactium: Hook Execution](../CLAUDE/REACTIUM_FRAMEWORK.md#hook-execution)
 
 ```javascript
-Reactium.Hook.runSync(name, ...args)
+Reactium.Hook.runSync(name, ...args);
 ```
+
 → [Reactium: Hook Execution](../CLAUDE/REACTIUM_FRAMEWORK.md#hook-execution)
 
 ```javascript
-Reactium.Hook.unregister(hookId)
+Reactium.Hook.unregister(hookId);
 // Unregister single hook by ID
 
-Reactium.Hook.unregisterDomain(hookName, domain)
+Reactium.Hook.unregisterDomain(hookName, domain);
 // Unregister all hooks in domain for specific hook name
 
-Reactium.Hook.flush(hookName, type = 'async')
+Reactium.Hook.flush(hookName, (type = 'async'));
 // Remove ALL hooks for a hook name (use sparingly)
 ```
+
 → [Hook Domains Deep Dive: API Reference](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md#api-reference-summary)
 
 ### Routing
@@ -278,30 +311,34 @@ Reactium.Hook.flush(hookName, type = 'async')
     ]
 }
 ```
+
 → [Reactium: Route Object Specification](../CLAUDE/REACTIUM_FRAMEWORK.md#route-object-specification)
 → [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview)
 
 ```javascript
-await Reactium.Routing.register(routeObject, update = true)
+await Reactium.Routing.register(routeObject, (update = true));
 // Returns: routeId (string)
 ```
+
 → [Routing System: Route Registration Method](../CLAUDE/ROUTING_SYSTEM.md#4-route-registration-method)
 
 ```javascript
-Reactium.Routing.unregister(routeId, update = true)
+Reactium.Routing.unregister(routeId, (update = true));
 ```
+
 → [Routing System: Advanced Features](../CLAUDE/ROUTING_SYSTEM.md#route-unregistration)
 
 ```javascript
 // Transition state management
-Reactium.Routing.nextState()
-Reactium.Routing.jumpCurrent()
+Reactium.Routing.nextState();
+Reactium.Routing.jumpCurrent();
 ```
+
 → [Routing System: Advancing States](../CLAUDE/ROUTING_SYSTEM.md#advancing-states)
 
 ```javascript
 // Access routing state
-const routing = useRouting()
+const routing = useRouting();
 // Returns: {
 //   current: currentRoute,
 //   previous: previousRoute,
@@ -311,15 +348,17 @@ const routing = useRouting()
 //   changes: {}
 // }
 ```
+
 → [Routing System: Listening to Transitions](../CLAUDE/ROUTING_SYSTEM.md#listening-to-transitions)
 
 ```javascript
 // Data loading pattern
 Component.loadState = async ({ route, params, search }) => {
-    return { data, loading: false };
-}
+  return { data, loading: false };
+};
 Component.handleId = 'HandleId';
 ```
+
 → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
 
 ### Zone System
@@ -327,79 +366,88 @@ Component.handleId = 'HandleId';
 ```javascript
 <Zone zone="zone-name" prop1={value} />
 ```
+
 → [Zone System Quick Ref](../CLAUDE/ZONE_SYSTEM_QUICK_REFERENCE.md#zone-component)
 
 ```javascript
 Reactium.Zone.addComponent({
-    id: 'COMPONENT-ID',
-    zone: 'zone-name' | ['zone1', 'zone2'],
-    component: MyComponent | 'ComponentName',
-    order: 100,
-    ...additionalProps
-})
+  id: 'COMPONENT-ID',
+  zone: 'zone-name' | ['zone1', 'zone2'],
+  component: MyComponent | 'ComponentName',
+  order: 100,
+  ...additionalProps,
+});
 ```
+
 → [Zone System Quick Ref: Component Registration](../CLAUDE/ZONE_SYSTEM_QUICK_REFERENCE.md#component-registration)
 
 ```javascript
-Reactium.Zone.updateComponent(id, updates)
-Reactium.Zone.removeComponent(id)
+Reactium.Zone.updateComponent(id, updates);
+Reactium.Zone.removeComponent(id);
 ```
+
 → [Zone System Quick Ref: Component Registration](../CLAUDE/ZONE_SYSTEM_QUICK_REFERENCE.md#component-registration)
 
 ```javascript
 Reactium.Zone.addFilter(
-    zoneName,
-    filterFunction,  // (component) => boolean
-    priority
-)
+  zoneName,
+  filterFunction, // (component) => boolean
+  priority
+);
 // Returns: filterId
 ```
+
 → [Zone System Quick Ref: Filters](../CLAUDE/ZONE_SYSTEM_QUICK_REFERENCE.md#filters)
 
 ```javascript
 Reactium.Zone.addMapper(
-    zoneName,
-    mapperFunction,  // (component) => transformedComponent
-    priority
-)
+  zoneName,
+  mapperFunction, // (component) => transformedComponent
+  priority
+);
 // Returns: mapperId
 ```
+
 → [Zone System Quick Ref: Mappers](../CLAUDE/ZONE_SYSTEM_QUICK_REFERENCE.md#mappers)
 
 ```javascript
 Reactium.Zone.addSort(
-    zoneName,
-    propertyName,  // default: 'order'
-    reverse,       // default: false
-    priority
-)
+  zoneName,
+  propertyName, // default: 'order'
+  reverse, // default: false
+  priority
+);
 // Returns: sortId
 ```
+
 → [Zone System Quick Ref: Sorters](../CLAUDE/ZONE_SYSTEM_QUICK_REFERENCE.md#sorters)
 
 ```javascript
-Reactium.Zone.getZoneComponents(zoneName, raw = false)
-Reactium.Zone.getZoneComponent(zoneName, componentId)
-Reactium.Zone.hasZoneComponent(zoneName, componentId)
+Reactium.Zone.getZoneComponents(zoneName, (raw = false));
+Reactium.Zone.getZoneComponent(zoneName, componentId);
+Reactium.Zone.hasZoneComponent(zoneName, componentId);
 ```
+
 → [Zone System Quick Ref: Query Functions](../CLAUDE/ZONE_SYSTEM_QUICK_REFERENCE.md#query-functions)
 
 ```javascript
-const unsubscribe = Reactium.Zone.subscribe(zoneName, callback)
-useZoneComponents(zoneName, dereference = true)
+const unsubscribe = Reactium.Zone.subscribe(zoneName, callback);
+useZoneComponents(zoneName, (dereference = true));
 ```
+
 → [Zone System Quick Ref: Subscription](../CLAUDE/ZONE_SYSTEM_QUICK_REFERENCE.md#subscription)
 
 ### Priority Constants
 
 ```javascript
-Reactium.Enums.priority.core      // -2000 (runs first)
-Reactium.Enums.priority.highest   // -1000
-Reactium.Enums.priority.high      // -500
-Reactium.Enums.priority.neutral   // 0 (default)
-Reactium.Enums.priority.low       // 500
-Reactium.Enums.priority.lowest    // 1000 (runs last)
+Reactium.Enums.priority.core; // -2000 (runs first)
+Reactium.Enums.priority.highest; // -1000
+Reactium.Enums.priority.high; // -500
+Reactium.Enums.priority.neutral; // 0 (default)
+Reactium.Enums.priority.low; // 500
+Reactium.Enums.priority.lowest; // 1000 (runs last)
 ```
+
 → [Actinium Quick Ref: Priority Constants](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#priority-constants)
 → [Gotchas: Priority Numbers Are Counterintuitive](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-6-priority-numbers-are-counterintuitive)
 
@@ -420,18 +468,20 @@ const registry = registryFactory(name, idField?, mode?)
 // idField: string (default: 'id')
 // mode: Registry.MODES.CLEAN | Registry.MODES.HISTORY (default: CLEAN)
 ```
+
 → [Registry System: Constructor & Factory](../CLAUDE/REGISTRY_SYSTEM.md#constructor--factory)
 
 ### Registration
 
 ```javascript
-registry.register(id, item)
+registry.register(id, item);
 // id: string (unique identifier)
 // item: object (must contain idField property matching id)
 
-registry.register(item)
+registry.register(item);
 // Auto-uses item[idField] as id
 ```
+
 → [Registry System: Registration](../CLAUDE/REGISTRY_SYSTEM.md#registration)
 
 ### Retrieval
@@ -447,37 +497,40 @@ registry.list
 registry.listById
 // Returns: Object (items indexed by ID)
 ```
+
 → [Registry System: Retrieval](../CLAUDE/REGISTRY_SYSTEM.md#retrieval)
 
 ### Unregistration
 
 ```javascript
-registry.unregister(id)
+registry.unregister(id);
 // Removes from active list (memory behavior depends on mode)
 
-registry.isRegistered(id)
+registry.isRegistered(id);
 // Returns: boolean
 
-registry.isUnRegistered(id)
+registry.isUnRegistered(id);
 // Returns: boolean
 ```
+
 → [Registry System: Unregistration](../CLAUDE/REGISTRY_SYSTEM.md#unregistration)
 
 ### Protection & Banning
 
 ```javascript
-registry.protect(id)
+registry.protect(id);
 // Prevents unregistration and replacement
 
-registry.unprotect(id)
+registry.unprotect(id);
 // Removes protection
 
-registry.ban(id)
+registry.ban(id);
 // Prevents registration (preemptive blocking)
 
-registry.unban(id)
+registry.unban(id);
 // Removes ban
 ```
+
 → [Registry System: Protection](../CLAUDE/REGISTRY_SYSTEM.md#protection-prevent-unregistration)
 → [Registry System: Banning](../CLAUDE/REGISTRY_SYSTEM.md#banning-prevent-registration)
 
@@ -491,18 +544,141 @@ const unsubscribe = registry.subscribe((registry, notification) => {
 }, subscriberId?)
 // Returns: unsubscribe function
 ```
+
 → [Registry System: Notifications](../CLAUDE/REGISTRY_SYSTEM.md#notifications-pubsub)
 
 ### Memory Management
 
 ```javascript
-registry.cleanup(id)
+registry.cleanup(id);
 // Remove item from memory (manual cleanup in HISTORY mode)
 
-registry.flush()
+registry.flush();
 // Clear entire registry
 ```
+
 → [Registry System: Cleanup & Flush](../CLAUDE/REGISTRY_SYSTEM.md#cleanup--flush)
+
+---
+
+## Reactium CLI (ARCLI) API
+
+### Command Exports
+
+```javascript
+// Root command (appears in npx reactium --help)
+export const NAME = 'mycommand';
+export const COMMAND = ({ program, props }) => {
+  return program
+    .command(NAME)
+    .description('Command description')
+    .action((opt) => ACTION({ opt, props }))
+    .option('-f, --flag [value]', 'Flag description');
+};
+```
+
+→ [CLI: Command Module Structure](../CLAUDE/CLI_COMMAND_SYSTEM.md#4-command-module-structure)
+
+```javascript
+// Subcommand (namespaced with dot notation)
+export const ID = 'parent.child'; // Or 'namespace:command'
+export const COMMAND = ({ program, props }) => {
+  /* ... */
+};
+```
+
+→ [CLI: Command Module Structure](../CLAUDE/CLI_COMMAND_SYSTEM.md#4-command-module-structure)
+
+### Global arcli Object
+
+```javascript
+// Available utilities in all commands
+const {
+  chalk, // Terminal colors
+  fs, // fs-extra
+  path, // Node path
+  globby, // Fast globbing
+  inquirer, // Prompts
+  Spinner, // ora spinner
+  ActionSequence, // Multi-step actions
+  handlebars, // Template engine
+  op, // object-path
+  moment, // Date utilities
+  semver, // Version utilities
+  props, // CLI properties (cwd, root, config)
+} = arcli;
+```
+
+→ [CLI: Bootstrap Process](../CLAUDE/CLI_COMMAND_SYSTEM.md#1-bootstrap-process)
+
+### CLI Hooks
+
+```javascript
+// Global hooks (arcli-hooks.js)
+Hook.register('arcli-before-command', async ({ command, params }) => {
+  // Runs before any command
+});
+
+// Command-specific hooks (reactium-arcli.js)
+Reactium.Hook.register(
+  'arcli-component-input',
+  async ({ inquirer, params }) => {
+    // Modify component command input prompts
+  }
+);
+
+Reactium.Hook.register('arcli-component-conform', async ({ params }) => {
+  // Transform parameters before execution
+});
+
+Reactium.Hook.register('arcli-component-actions', ({ actions }) => {
+  // Add file generation actions
+  actions['my-action'] = async ({ params, props }) => {
+    /* ... */
+  };
+});
+```
+
+→ [CLI: Hook-Driven Extensibility](../CLAUDE/CLI_COMMAND_SYSTEM.md#6-hook-driven-extensibility)
+
+### ActionSequence Pattern
+
+```javascript
+import { ActionSequence } from 'action-sequence';
+
+const actions = {
+  'create-dir': async ({ params, props }) => {
+    fs.ensureDirSync(params.destination);
+  },
+  'generate-files': async ({ params, props, spinner }) => {
+    spinner.text = 'Generating files...';
+    // File generation logic
+  },
+};
+
+await ActionSequence({
+  actions,
+  options: { params, props, spinner },
+});
+```
+
+→ [CLI: ActionSequence Pattern](../CLAUDE/CLI_COMMAND_SYSTEM.md#7-actionsequence-pattern)
+
+### Configuration Access
+
+```javascript
+// Access CLI config
+const { config } = arcli.props;
+const customValue = op.get(config, 'custom.key');
+
+// Configuration hierarchy (later overrides earlier):
+// 1. CLI/config.json (base)
+// 2. [cwd]/.core/.cli/config.json (app)
+// 3. [homedir]/.arcli/config.json (user)
+// 4. [cwd]/.cli/config.json (project - highest priority)
+```
+
+→ [CLI: Configuration Customization](../CLAUDE/CLI_COMMAND_SYSTEM.md#configuration-customization)
 
 ---
 
@@ -511,11 +687,12 @@ registry.flush()
 ### Webpack Configuration
 
 ```javascript
-const sdk = new WebpackSDK(name, dddFilename, context)
+const sdk = new WebpackSDK(name, dddFilename, context);
 // name: 'reactium'
 // dddFilename: 'reactium-webpack.js'
 // context: config object from webpack.config.js
 ```
+
 → [ReactiumWebpack: WebpackSDK Class](../CLAUDE/REACTIUM_WEBPACK.md#webpacksdk-class)
 
 ### Core Methods
@@ -525,13 +702,15 @@ const sdk = new WebpackSDK(name, dddFilename, context)
 sdk.addRule(id, rule, order?)
 // Example: sdk.addRule('sass-loader', { test: /\.scss$/, use: ['sass-loader'] }, 100)
 ```
+
 → [ReactiumWebpack: addRule](../CLAUDE/REACTIUM_WEBPACK.md#addruleid-rule-order)
 
 ```javascript
 // Add webpack plugin
-sdk.addPlugin(id, pluginInstance)
+sdk.addPlugin(id, pluginInstance);
 // Example: sdk.addPlugin('compression', new CompressionPlugin())
 ```
+
 → [ReactiumWebpack: addPlugin](../CLAUDE/REACTIUM_WEBPACK.md#addpluginid-plugin)
 
 ```javascript
@@ -539,86 +718,114 @@ sdk.addPlugin(id, pluginInstance)
 sdk.addIgnore(id, resourceRegExp, contextRegExp?)
 // Example: sdk.addIgnore('test-files', /\.test\.js$/)
 ```
+
 → [ReactiumWebpack: addIgnore](../CLAUDE/REACTIUM_WEBPACK.md#addignoreid-resourceregexp-contextregexp)
 
 ```javascript
 // Add module alias
-sdk.addResolveAlias(id, path)
+sdk.addResolveAlias(id, path);
 // Example: sdk.addResolveAlias('components', './src/app/components')
 ```
+
 → [ReactiumWebpack: addResolveAlias](../CLAUDE/REACTIUM_WEBPACK.md#addresolvealiasid-alias)
 
 ```javascript
 // Add external dependency
-sdk.addExternal(id, config)
+sdk.addExternal(id, config);
 // Example: sdk.addExternal('react', { key: 'react', value: 'React' })
 ```
+
 → [ReactiumWebpack: addExternal](../CLAUDE/REACTIUM_WEBPACK.md#addexternalid-config)
 
 ```javascript
 // Transpile node_modules package
-sdk.addTranspiledDependency(moduleName)
+sdk.addTranspiledDependency(moduleName);
 // Example: sdk.addTranspiledDependency('my-es6-package')
 ```
+
 → [ReactiumWebpack: addTranspiledDependency](../CLAUDE/REACTIUM_WEBPACK.md#addtranspileddependencymodule)
 
 ```javascript
 // Add context replacement
-sdk.addContext(id, { from: RegExp, to: string })
+sdk.addContext(id, { from: RegExp, to: string });
 // Example: sdk.addContext('translations', { from: /translations$/, to: './src/translations' })
 ```
+
 → [ReactiumWebpack: addContext](../CLAUDE/REACTIUM_WEBPACK.md#addcontextid-context)
 
 ### Optimization Methods
 
 ```javascript
 // Enable aggressive code splitting
-sdk.setCodeSplittingOptimize(env)
+sdk.setCodeSplittingOptimize(env);
 
 // Use webpack default optimization
-sdk.setWebpackDefaultOptimize(env)
+sdk.setWebpackDefaultOptimize(env);
 
 // Disable code splitting (single bundle)
-sdk.setNoCodeSplitting(env)
+sdk.setNoCodeSplitting(env);
 ```
+
 → [ReactiumWebpack: Optimization Methods](../CLAUDE/REACTIUM_WEBPACK.md#optimization-methods)
 
 ### Properties
 
 ```javascript
-sdk.mode = 'development' | 'production' | 'none'
-sdk.entry = { main: './src/index.js' }
-sdk.target = 'web' | 'node'
-sdk.output = { path, publicPath, filename }
-sdk.devtool = 'source-map' | false
-sdk.optimization = { minimize, splitChunks }
-sdk.extensions = ['.js', '.jsx', '.json']
-sdk.overrides = { /* direct webpack config */ }
+sdk.mode = 'development' | 'production' | 'none';
+sdk.entry = { main: './src/index.js' };
+sdk.target = 'web' | 'node';
+sdk.output = { path, publicPath, filename };
+sdk.devtool = 'source-map' | false;
+sdk.optimization = { minimize, splitChunks };
+sdk.extensions = ['.js', '.jsx', '.json'];
+sdk.overrides = {
+  /* direct webpack config */
+};
 ```
+
 → [ReactiumWebpack: Properties](../CLAUDE/REACTIUM_WEBPACK.md#properties-getterssetters)
 
 ### Webpack Hooks
 
 ```javascript
 // Modify SDK before config generation
-Hook.registerSync('before-config', (sdk) => {
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
     sdk.addRule('my-loader', rule);
-}, 'my-plugin-id');
+  },
+  'my-plugin-id'
+);
 
 // Modify final config after generation
-Hook.registerSync('after-config', (config, sdk) => {
-    config.resolve.fallback = { /* ... */ };
-}, 'my-plugin-id');
+Hook.registerSync(
+  'after-config',
+  (config, sdk) => {
+    config.resolve.fallback = {
+      /* ... */
+    };
+  },
+  'my-plugin-id'
+);
 
 // Modify registries
-Hook.registerSync('rules', (rulesRegistry, name, context) => {
+Hook.registerSync(
+  'rules',
+  (rulesRegistry, name, context) => {
     // Inspect or modify rules
-}, 'my-plugin-id');
+  },
+  'my-plugin-id'
+);
 
-Hook.registerSync('plugins', (pluginsRegistry, name, context) => {
+Hook.registerSync(
+  'plugins',
+  (pluginsRegistry, name, context) => {
     // Inspect or modify plugins
-}, 'my-plugin-id');
+  },
+  'my-plugin-id'
+);
 ```
+
 → [ReactiumWebpack: Hook System Integration](../CLAUDE/REACTIUM_WEBPACK.md#hook-system-integration)
 
 ### DDD Pattern
@@ -627,10 +834,17 @@ Hook.registerSync('plugins', (pluginsRegistry, name, context) => {
 // File: src/my-feature/reactium-webpack.js
 const { Hook } = require('@atomic-reactor/reactium-sdk-core/core');
 
-Hook.registerSync('before-config', sdk => {
-    sdk.addRule('my-rule', { /* ... */ });
-}, 'my-feature-webpack');
+Hook.registerSync(
+  'before-config',
+  (sdk) => {
+    sdk.addRule('my-rule', {
+      /* ... */
+    });
+  },
+  'my-feature-webpack'
+);
 ```
+
 → [ReactiumWebpack: DDD Discovery Pattern](../CLAUDE/REACTIUM_WEBPACK.md#reactium-webpackjs)
 
 ---
@@ -647,6 +861,7 @@ Actinium.Collection.register(collection, publicSetting, schema?, indexes?)
 // schema: Object - Parse field definitions (optional)
 // indexes: Array<string> - Fields to index (optional)
 ```
+
 → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
 
 ```javascript
@@ -662,6 +877,7 @@ Actinium.Collection.register(collection, publicSetting, schema?, indexes?)
     }
 }
 ```
+
 → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
 
 ```javascript
@@ -669,13 +885,15 @@ Actinium.Collection.load(collection?)
 // Loads/reloads schema and CLPs for collection(s)
 // collection: String (optional) - Specific collection, or all if omitted
 ```
+
 → [Collection Registration: Collection Lifecycle](../CLAUDE/COLLECTION_REGISTRATION.md#collection-lifecycle)
 
 ```javascript
-Actinium.Collection.unregister(collection)
+Actinium.Collection.unregister(collection);
 // Resets collection to default (private) permissions
 // collection: String - Collection name
 ```
+
 → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
 
 ### Express Settings
@@ -686,61 +904,67 @@ Actinium.Exp.init(app, options?)
 // app: Express.Application - Express instance
 // options: Object (optional) - Settings object (overrides ENV.EXPRESS_OPTIONS)
 ```
+
 → [Express Settings: Core Implementation](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#core-implementation)
 
 ```javascript
 // Environment configuration
 ENV.EXPRESS_OPTIONS = {
-    'view engine': 'ejs',           // Template engine
-    'views': '/path/to/views',      // Template directory
-    'trust proxy': true,            // Enable proxy trust
-    'x-powered-by': false,          // Disable Express header
-    'etag': 'weak',                 // ETag generation
-    'json spaces': 2,               // JSON pretty-print
-    'case sensitive routing': false,
-    'strict routing': false
-}
+  'view engine': 'ejs', // Template engine
+  views: '/path/to/views', // Template directory
+  'trust proxy': true, // Enable proxy trust
+  'x-powered-by': false, // Disable Express header
+  etag: 'weak', // ETag generation
+  'json spaces': 2, // JSON pretty-print
+  'case sensitive routing': false,
+  'strict routing': false,
+};
 ```
+
 → [Express Settings: Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#configuration)
 
 ```javascript
 // Runtime configuration via Actinium.init()
 await Actinium.init({
-    'trust proxy': 1,
-    'view engine': 'pug'
+  'trust proxy': 1,
+  'view engine': 'pug',
 });
 ```
+
 → [Express Settings: Runtime Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#runtime-configuration)
 
 ```javascript
 // Hook integration for dynamic configuration
 Actinium.Hook.register('init', async (app, options) => {
-    app.set('trust proxy', process.env.NODE_ENV === 'production' ? 1 : false);
-    app.set('view cache', process.env.NODE_ENV === 'production');
+  app.set('trust proxy', process.env.NODE_ENV === 'production' ? 1 : false);
+  app.set('view cache', process.env.NODE_ENV === 'production');
 });
 ```
+
 → [Express Settings: Hook Integration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#hook-integration)
 
 ### Environment Configuration
 
 ```javascript
 // Environment file resolution (priority order)
-process.env.ACTINIUM_ENV_FILE  // 1. Explicit file path
-process.env.ACTINIUM_ENV_ID    // 2. Environment ID → src/env.{id}.json
+process.env.ACTINIUM_ENV_FILE; // 1. Explicit file path
+process.env.ACTINIUM_ENV_ID; // 2. Environment ID → src/env.{id}.json
 // Default: src/env.json        // 3. Default file
 ```
+
 → [Environment Config: File Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#three-tier-priority-system)
 
 ```javascript
 // Configuration merge strategy
 const ENV = {
-    ...JSON.parse(fs.readFileSync(envFile)),  // 1. Load JSON file
-    ...process.env,                            // 2. process.env overrides
-    PORT,                                      // 3. Computed values
-    SERVER_URI,
-    PUBLIC_SERVER_URI
-}
+  ...JSON.parse(fs.readFileSync(envFile)), // 1. Load JSON file
+  ...process.env, // 2. process.env overrides
+  PORT, // 3. Computed values
+  SERVER_URI,
+  PUBLIC_SERVER_URI,
+};
 ```
+
 → [Environment Config: Merge Strategy](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file--processenv-overlay)
 
 ```javascript
@@ -756,55 +980,61 @@ const ENV = {
 const PORT_VAR = process.env.PORT_VAR || env.PORT_VAR;
 const PORT = process.env[PORT_VAR] || env[PORT_VAR];
 ```
+
 → [Environment Config: PORT Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#complex-fallback-chain-with-port_var-indirection)
 
 ```javascript
 // TLS/HTTPS configuration
-ENV.APP_TLS_CERT_FILE = '/path/to/cert.pem';  // Certificate file path
-ENV.APP_TLS_KEY_FILE = '/path/to/key.pem';    // Private key file path
+ENV.APP_TLS_CERT_FILE = '/path/to/cert.pem'; // Certificate file path
+ENV.APP_TLS_KEY_FILE = '/path/to/key.pem'; // Private key file path
 // ENV.TLS_MODE auto-enabled if both files exist and readable
 ```
+
 → [Environment Config: TLS Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file-based-certificate-loading)
 
 ```javascript
 // Security: Master key IP whitelisting (CIDR notation)
 ENV.MASTER_KEY_IPS = [
-    "10.0.0.5",           // Single IP
-    "192.168.1.0/24",     // IP range
-    "::1"                 // IPv6 localhost
+  '10.0.0.5', // Single IP
+  '192.168.1.0/24', // IP range
+  '::1', // IPv6 localhost
 ];
 ```
+
 → [Environment Config: Master Key IP Whitelisting](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#master-key-ip-whitelisting)
 
 ```javascript
 // Feature flags
-ENV.NO_PARSE = false;            // Disable Parse Server entirely
-ENV.NO_DOCS = false;             // Disable API documentation
-ENV.LIVE_QUERY_SERVER = true;    // Enable Live Query subscriptions
+ENV.NO_PARSE = false; // Disable Parse Server entirely
+ENV.NO_DOCS = false; // Disable API documentation
+ENV.LIVE_QUERY_SERVER = true; // Enable Live Query subscriptions
 ```
+
 → [Environment Config: Feature Flags](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#conditional-service-enablement)
 
 ```javascript
 // Common environment variables
-ENV.DATABASE_URI          // MongoDB connection string
-ENV.APP_ID                // Parse Server app ID
-ENV.MASTER_KEY            // Parse Server master key
-ENV.SERVER_URI            // Internal server URL
-ENV.PUBLIC_SERVER_URI     // Public-facing URL
-ENV.PARSE_MOUNT           // Parse Server mount path (e.g., "/api")
-ENV.PARSE_DASHBOARD       // Enable Parse Dashboard
-ENV.MAX_UPLOAD_SIZE       // File upload size limit
+ENV.DATABASE_URI; // MongoDB connection string
+ENV.APP_ID; // Parse Server app ID
+ENV.MASTER_KEY; // Parse Server master key
+ENV.SERVER_URI; // Internal server URL
+ENV.PUBLIC_SERVER_URI; // Public-facing URL
+ENV.PARSE_MOUNT; // Parse Server mount path (e.g., "/api")
+ENV.PARSE_DASHBOARD; // Enable Parse Dashboard
+ENV.MAX_UPLOAD_SIZE; // File upload size limit
 ```
+
 → [Environment Config: Complete Variable Reference](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#complete-environment-variable-reference)
 
 ### Middleware Registration
 
 ```javascript
-Actinium.Middleware.register(id, callback, order = 100)
+Actinium.Middleware.register(id, callback, (order = 100));
 // id: String - Unique middleware identifier
 // callback: (app: Express.Application) => Promise<void>
 // order: Number - Priority (lower = earlier, default 100)
 ```
+
 → [Actinium Middleware: register API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareregisterid-callback-order)
 
 ```javascript
@@ -814,43 +1044,51 @@ Actinium.Middleware.registerHook(id, path?, order = 100)
 // path: String (optional) - Express route path to scope middleware
 // order: Number - Priority
 ```
+
 → [Actinium Middleware: registerHook API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareregisterhookid-path-order)
 
 ```javascript
-Actinium.Middleware.replace(id, callback)
+Actinium.Middleware.replace(id, callback);
 // Replaces previously registered middleware
 // id: String - Middleware ID to replace
 // callback: (app: Express.Application) => Promise<void>
 ```
+
 → [Actinium Middleware: replace API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewarereplaceid-callback)
 
 ```javascript
-Actinium.Middleware.unregister(id)
+Actinium.Middleware.unregister(id);
 // Removes middleware from execution
 // id: String - Middleware ID to remove
 ```
+
 → [Actinium Middleware: unregister API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareunregisterid)
 
 ```javascript
 // Hook listener for hook-driven middleware
 Actinium.Hook.register('{id}-middleware', async (mw) => {
-    // mw.req - Express request
-    // mw.res - Express response
-    // mw.use(callback) - Chain middleware
-    // mw.next() - Execute chain
-    const router = express.Router();
-    router.get('/route', (req, res) => { /* ... */ });
-    mw.req.app.use(router);  // Access app via mw.req.app
+  // mw.req - Express request
+  // mw.res - Express response
+  // mw.use(callback) - Chain middleware
+  // mw.next() - Execute chain
+  const router = express.Router();
+  router.get('/route', (req, res) => {
+    /* ... */
+  });
+  mw.req.app.use(router); // Access app via mw.req.app
 });
 ```
+
 → [Actinium Middleware: Pattern 4 - Hook-Driven](../CLAUDE/ACTINIUM_MIDDLEWARE.md#pattern-4-hook-driven-middleware)
 
 **Common priority values**:
+
 ```javascript
--100000  // Very early (body-parser, CORS, cookies, static)
-0        // Parse Server middleware
-100      // Default (most middleware)
+-100000; // Very early (body-parser, CORS, cookies, static)
+0; // Parse Server middleware
+100; // Default (most middleware)
 ```
+
 → [Actinium Middleware: Priority-Based Ordering](../CLAUDE/ACTINIUM_MIDDLEWARE.md#priority-based-ordering)
 
 ### Plugin Registration
@@ -858,23 +1096,25 @@ Actinium.Hook.register('{id}-middleware', async (mw) => {
 ```javascript
 // info.js
 const PLUGIN = {
-    ID: 'PluginId',
-    name: 'Plugin Name',
-    description: 'Description',
-    version: '1.0.0',
-    order: 100
+  ID: 'PluginId',
+  name: 'Plugin Name',
+  description: 'Description',
+  version: '1.0.0',
+  order: 100,
 };
 export default PLUGIN;
 ```
+
 → [Actinium Quick Ref: Essential Plugin Structure](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#essential-plugin-structure)
 
 ```javascript
 // plugin.js
 const MOD = () => {
-    Actinium.Plugin.register(PLUGIN, active);
+  Actinium.Plugin.register(PLUGIN, active);
 };
-export default MOD();  // Must call immediately
+export default MOD(); // Must call immediately
 ```
+
 → [Actinium: Plugin Registration](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-registration)
 → [Gotchas: Plugin Function Must Execute](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-13-plugin-function-must-execute)
 
@@ -882,74 +1122,82 @@ export default MOD();  // Must call immediately
 
 ```javascript
 Actinium.Hook.register(
-    name,           // string
-    callback,       // async function
-    priority,       // number (default: Enums.priority.neutral)
-    id              // string (optional)
-)
+  name, // string
+  callback, // async function
+  priority, // number (default: Enums.priority.neutral)
+  id // string (optional)
+);
 ```
+
 → [Actinium Quick Ref: Hook Registration Patterns](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#hook-registration-patterns)
 
 ```javascript
-Actinium.Hook.registerSync(name, callback, priority, id)
+Actinium.Hook.registerSync(name, callback, priority, id);
 ```
+
 → [Actinium Quick Ref: Hook Registration Patterns](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#hook-registration-patterns)
 
 ```javascript
-await Actinium.Hook.run(name, ...args)
-Actinium.Hook.runSync(name, ...args)
+await Actinium.Hook.run(name, ...args);
+Actinium.Hook.runSync(name, ...args);
 ```
+
 → [Actinium Quick Ref: Hook Registration Patterns](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#hook-registration-patterns)
 
 ### Common Lifecycle Hooks
 
 ```javascript
-Actinium.Hook.register('init', async (app, options) => {})
-Actinium.Hook.register('start', async () => {})
-Actinium.Hook.register('running', async () => {})
+Actinium.Hook.register('init', async (app, options) => {});
+Actinium.Hook.register('start', async () => {});
+Actinium.Hook.register('running', async () => {});
 ```
+
 → [Actinium Quick Ref: Common Lifecycle Hooks](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#common-lifecycle-hooks)
 
 ```javascript
-Actinium.Hook.register('install', async (plugin, req) => {})
-Actinium.Hook.register('activate', async (plugin, req) => {})
-Actinium.Hook.register('schema', async (plugin, req) => {})
-Actinium.Hook.register('update', async (plugin, req, oldPlugin) => {})
+Actinium.Hook.register('install', async (plugin, req) => {});
+Actinium.Hook.register('activate', async (plugin, req) => {});
+Actinium.Hook.register('schema', async (plugin, req) => {});
+Actinium.Hook.register('update', async (plugin, req, oldPlugin) => {});
 ```
+
 → [Actinium Quick Ref: Common Lifecycle Hooks](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#common-lifecycle-hooks)
 
 ```javascript
-Actinium.Hook.register('beforeSave', async (req) => {})
-Actinium.Hook.register('beforeSave_Collection', async (req) => {})
-Actinium.Hook.register('afterSave_Collection', async (req) => {})
+Actinium.Hook.register('beforeSave', async (req) => {});
+Actinium.Hook.register('beforeSave_Collection', async (req) => {});
+Actinium.Hook.register('afterSave_Collection', async (req) => {});
 ```
+
 → [Actinium Quick Ref: Common Lifecycle Hooks](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#common-lifecycle-hooks)
 
 ### Cloud Functions
 
 ```javascript
 Actinium.Cloud.define(
-    PLUGIN.ID,      // Plugin ID (enables plugin gating)
-    'functionName', // Function name
-    async (req) => {
-        // req.params  - client parameters
-        // req.user    - Parse.User (or undefined)
-        // req.master  - boolean (master key in use)
-        return result;
-    }
-)
+  PLUGIN.ID, // Plugin ID (enables plugin gating)
+  'functionName', // Function name
+  async (req) => {
+    // req.params  - client parameters
+    // req.user    - Parse.User (or undefined)
+    // req.master  - boolean (master key in use)
+    return result;
+  }
+);
 ```
+
 → [Cloud Functions: Registration Pattern](../CLAUDE/CLOUD_FUNCTIONS.md#registration-pattern)
 
 ```javascript
 // Parse Server triggers
-Actinium.Cloud.beforeSave(COLLECTION, async (req) => {})
-Actinium.Cloud.afterSave(COLLECTION, async (req) => {})
-Actinium.Cloud.beforeDelete(COLLECTION, async (req) => {})
-Actinium.Cloud.afterDelete(COLLECTION, async (req) => {})
-Actinium.Cloud.afterFind(COLLECTION, async (req) => {})
-Actinium.Cloud.beforeLogin(async (req) => {})
+Actinium.Cloud.beforeSave(COLLECTION, async (req) => {});
+Actinium.Cloud.afterSave(COLLECTION, async (req) => {});
+Actinium.Cloud.beforeDelete(COLLECTION, async (req) => {});
+Actinium.Cloud.afterDelete(COLLECTION, async (req) => {});
+Actinium.Cloud.afterFind(COLLECTION, async (req) => {});
+Actinium.Cloud.beforeLogin(async (req) => {});
 ```
+
 → [Cloud Functions: Hook Integration](../CLAUDE/CLOUD_FUNCTIONS.md#hook-integration)
 
 ```javascript
@@ -957,6 +1205,7 @@ Actinium.Cloud.beforeLogin(async (req) => {})
 const result = await Actinium.Cloud.run('functionName', params, options);
 // options: { useMasterKey: boolean, sessionToken: string }
 ```
+
 → [Cloud Functions: Testing Strategies](../CLAUDE/CLOUD_FUNCTIONS.md#testing-strategies)
 
 ### Content Type System
@@ -967,6 +1216,7 @@ const type = await Actinium.Type.create(params, options);
 // params: { type, machineName?, namespace?, fields, regions?, meta? }
 // Returns: Type object with uuid, machineName, collection, fields, regions, meta
 ```
+
 → [Content Type: Create Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#create-type)
 
 ```javascript
@@ -975,6 +1225,7 @@ const type = await Actinium.Type.retrieve(params, options);
 // params: { machineName | uuid | objectId | collection }
 // Returns: Type object
 ```
+
 → [Content Type: Retrieve Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#retrieve-type)
 
 ```javascript
@@ -983,6 +1234,7 @@ const updated = await Actinium.Type.update(params, options);
 // params: { machineName | uuid, fields?, regions?, meta? }
 // Returns: Updated type object
 ```
+
 → [Content Type: Update Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#update-type)
 
 ```javascript
@@ -991,6 +1243,7 @@ const trash = await Actinium.Type.delete(params, options);
 // params: { machineName | uuid }
 // Returns: Recycle bin entry
 ```
+
 → [Content Type: Delete Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#delete-type)
 
 ```javascript
@@ -999,6 +1252,7 @@ const list = await Actinium.Type.list(params, options);
 // params: { page?, limit?, refresh? }
 // Returns: { timestamp, limit, page, pages, types: [...] }
 ```
+
 → [Content Type: List Types](../CLAUDE/CONTENT_TYPE_SYSTEM.md#list-types)
 
 ```javascript
@@ -1007,6 +1261,7 @@ const status = await Actinium.Type.status(params, options);
 // params: { machineName | uuid }
 // Returns: { collection, count, fields: [...] }
 ```
+
 → [Content Type: Type CRUD Operations](../CLAUDE/CONTENT_TYPE_SYSTEM.md#type-crud-operations)
 
 ### Pagination Utilities
@@ -1014,36 +1269,39 @@ const status = await Actinium.Type.status(params, options);
 ```javascript
 // Skip-based pagination with hookedQuery
 const result = await Actinium.Utils.hookedQuery(
-    {
-        page: 1,           // Page number (1-indexed), or -1 for all pages
-        limit: 50,         // Items per page
-        orderBy: 'createdAt',
-        order: 'descending',
-        queryParams: [     // Declarative query constraints
-            { method: 'equalTo', params: ['status', 'PUBLISHED'] },
-            { method: 'greaterThan', params: ['createdAt', date] }
-        ]
-    },
-    options,
-    'Content_article',    // Collection name
-    'query-hook',         // Hook to modify query
-    'output-hook',        // Hook to modify results
-    'results',            // Results key
-    'ARRAY'               // Results as ARRAY or OBJECT
+  {
+    page: 1, // Page number (1-indexed), or -1 for all pages
+    limit: 50, // Items per page
+    orderBy: 'createdAt',
+    order: 'descending',
+    queryParams: [
+      // Declarative query constraints
+      { method: 'equalTo', params: ['status', 'PUBLISHED'] },
+      { method: 'greaterThan', params: ['createdAt', date] },
+    ],
+  },
+  options,
+  'Content_article', // Collection name
+  'query-hook', // Hook to modify query
+  'output-hook', // Hook to modify results
+  'results', // Results key
+  'ARRAY' // Results as ARRAY or OBJECT
 );
 // Returns: { count, page, pages, limit, prev?, next?, results }
 ```
+
 → [Pagination: HookedQuery Utility](../CLAUDE/PAGINATION_STRATEGIES.md#example-hookedquery-utility)
 
 ```javascript
 // Load all pages (batch processing)
 const allResults = await Actinium.Utils.hookedQuery(
-    { page: -1, limit: 100 },  // page: -1 triggers load-all
-    options,
-    'MyCollection'
+  { page: -1, limit: 100 }, // page: -1 triggers load-all
+  options,
+  'MyCollection'
 );
 // Returns all records in result.results
 ```
+
 → [Pagination: Load-All Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#2-load-all-pattern-skip-incrementation)
 
 **Note**: For cursor-based pagination (large datasets), see manual implementation pattern:
@@ -1052,7 +1310,12 @@ const allResults = await Actinium.Utils.hookedQuery(
 ### Cloud Function Security
 
 ```javascript
-const { CloudRunOptions, MasterOptions, CloudCapOptions, CloudHasCapabilities } = Actinium.Utils;
+const {
+  CloudRunOptions,
+  MasterOptions,
+  CloudCapOptions,
+  CloudHasCapabilities,
+} = Actinium.Utils;
 
 // CloudRunOptions - Use session token, escalate for super-admin
 const options = CloudRunOptions(req);
@@ -1067,14 +1330,19 @@ const options = MasterOptions();
 // options = { useMasterKey: true }
 
 // CloudCapOptions - Escalate if user has capabilities
-const options = CloudCapOptions(req, ['Setting.retrieve', 'setting.site-get'], false);
+const options = CloudCapOptions(
+  req,
+  ['Setting.retrieve', 'setting.site-get'],
+  false
+);
 // Escalates if user has EITHER capability (false = OR logic)
 
 // CloudHasCapabilities - Check without escalation (permission gate)
 if (!CloudHasCapabilities(req, ['Setting.update'], false)) {
-    return Promise.reject('Permission denied.');
+  return Promise.reject('Permission denied.');
 }
 ```
+
 → [Cloud Functions: Security & Authorization](../CLAUDE/CLOUD_FUNCTIONS.md#security--authorization)
 → [Actinium Quick Ref: Capability Checking](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capability-checking)
 
@@ -1083,16 +1351,17 @@ if (!CloudHasCapabilities(req, ['Setting.update'], false)) {
 const { CloudACL } = Actinium.Utils;
 
 const acl = await CloudACL(
-    [
-        { permission: 'read', type: 'public', allow: true },
-        { permission: 'write', type: 'user', objectId: user.id, allow: true }
-    ],
-    'read-score',   // Roles with this capability get read access
-    'write-score'   // Roles with this capability get write access
+  [
+    { permission: 'read', type: 'public', allow: true },
+    { permission: 'write', type: 'user', objectId: user.id, allow: true },
+  ],
+  'read-score', // Roles with this capability get read access
+  'write-score' // Roles with this capability get write access
 );
 
 object.setACL(acl);
 ```
+
 → [Cloud Functions: CloudACL](../CLAUDE/CLOUD_FUNCTIONS.md#cloudacl---generate-acl-from-permissions)
 
 ```javascript
@@ -1100,51 +1369,56 @@ object.setACL(acl);
 const { AclTargets } = Actinium.Utils;
 
 const targets = await AclTargets({
-    master: true,
-    params: { search: 'admin', cache: true }
+  master: true,
+  params: { search: 'admin', cache: true },
 });
 // Returns: { roles: [...], users: [...] }
 ```
+
 → [Cloud Functions: AclTargets](../CLAUDE/CLOUD_FUNCTIONS.md#acltargets---get-users-and-roles-for-acls)
 
 ```javascript
 // Capability Registration
 Actinium.Capability.register(
-    'capability.name',
-    {
-        allowed: ['role1', 'role2'],
-        excluded: ['role3']
-    },
-    priority
-)
+  'capability.name',
+  {
+    allowed: ['role1', 'role2'],
+    excluded: ['role3'],
+  },
+  priority
+);
 ```
+
 → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
 
 ### Database & Schema
 
 ```javascript
 Actinium.Collection.register(
-    'CollectionName',
-    {                       // Actions (maps to capabilities)
-        create: true,
-        retrieve: true,
-        update: true,
-        delete: true,
-        addField: false
+  'CollectionName',
+  {
+    // Actions (maps to capabilities)
+    create: true,
+    retrieve: true,
+    update: true,
+    delete: true,
+    addField: false,
+  },
+  {
+    // Schema definition
+    fieldName: {
+      type: 'String',
+      required: true,
+      default: 'value',
     },
-    {                       // Schema definition
-        fieldName: {
-            type: 'String',
-            required: true,
-            default: 'value'
-        },
-        pointerField: {
-            type: 'Pointer',
-            targetClass: '_User'
-        }
-    }
-)
+    pointerField: {
+      type: 'Pointer',
+      targetClass: '_User',
+    },
+  }
+);
 ```
+
 → [Actinium Quick Ref: Database Schema Definition](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#database-schema-definition)
 
 ```javascript
@@ -1153,6 +1427,7 @@ query.equalTo('field', value);
 query.limit(10);
 const results = await query.find({ useMasterKey: true });
 ```
+
 → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
 
 ```javascript
@@ -1161,44 +1436,48 @@ const obj = new MyClass();
 obj.set('field', value);
 await obj.save(null, { useMasterKey: true });
 ```
+
 → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
 
 ### Middleware
 
 ```javascript
 Actinium.Middleware.register(
-    'middleware-name',
-    (app) => {
-        app.use(middlewareFunction);
-    },
-    priority,
-    'unique-id'
-)
+  'middleware-name',
+  (app) => {
+    app.use(middlewareFunction);
+  },
+  priority,
+  'unique-id'
+);
 ```
+
 → [Patterns: Middleware Priority Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-13-middleware-priority-pattern)
 
 ### Global Variables
 
 ```javascript
-Actinium        // Main framework object
-ENV             // Environment configuration
-PORT            // Server port
-BASE_DIR        // Project root
-SRC_DIR         // src/ directory
-APP_DIR         // src/app/ directory
-CORE_DIR        // actinium-core directory
-CLOUD_FUNCTIONS // Cloud function registry
+Actinium; // Main framework object
+ENV; // Environment configuration
+PORT; // Server port
+BASE_DIR; // Project root
+SRC_DIR; // src/ directory
+APP_DIR; // src/app/ directory
+CORE_DIR; // actinium-core directory
+CLOUD_FUNCTIONS; // Cloud function registry
 ```
+
 → [Actinium Quick Ref: Global Variables Available](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#global-variables-available)
 
 ```javascript
-DEBUG(...args)  // Threshold: 1000
-INFO(...args)   // Threshold: 500
-BOOT(...args)   // Threshold: 0
-WARN(...args)   // Threshold: -500
-ERROR(...args)  // Threshold: -1000
-LOG(...args)    // Alias for BOOT
+DEBUG(...args); // Threshold: 1000
+INFO(...args); // Threshold: 500
+BOOT(...args); // Threshold: 0
+WARN(...args); // Threshold: -500
+ERROR(...args); // Threshold: -1000
+LOG(...args); // Alias for BOOT
 ```
+
 → [Actinium Quick Ref: Global Variables Available](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#global-variables-available)
 
 ---
@@ -1212,6 +1491,7 @@ LOG(...args)    // Alias for BOOT
 Parse.initialize(APP_ID, JS_KEY);
 Parse.serverURL = 'http://localhost:9000/parse';
 ```
+
 → [Integration: Authentication](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 
 ```javascript
@@ -1230,6 +1510,7 @@ const currentUser = Parse.User.current();
 // Logout
 await Parse.User.logOut();
 ```
+
 → [Integration: Authentication](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 
 ```javascript
@@ -1248,6 +1529,7 @@ const first = await query.first();
 // Count
 const count = await query.count();
 ```
+
 → [Integration: Data Flow Patterns](../CLAUDE/FRAMEWORK_INTEGRATION.md#data-flow-patterns)
 
 ```javascript
@@ -1264,15 +1546,17 @@ await obj.save();
 // Delete
 await obj.destroy();
 ```
+
 → [Integration: Data Flow Patterns](../CLAUDE/FRAMEWORK_INTEGRATION.md#data-flow-patterns)
 
 ```javascript
 // Cloud function call
 const result = await Parse.Cloud.run('functionName', {
-    param1: 'value1',
-    param2: 'value2'
+  param1: 'value1',
+  param2: 'value2',
 });
 ```
+
 → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 
 ### Parse Live Query (Real-Time)
@@ -1280,9 +1564,10 @@ const result = await Parse.Cloud.run('functionName', {
 ```javascript
 // Enable Live Query (backend)
 Actinium.Hook.register('live-query-classnames', (context) => {
-    context.classNames.push('MyCollection');
+  context.classNames.push('MyCollection');
 });
 ```
+
 → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
 
 ```javascript
@@ -1291,20 +1576,21 @@ const query = new Parse.Query('MyCollection');
 const subscription = await query.subscribe();
 
 subscription.on('create', (object) => {
-    console.log('Created:', object);
+  console.log('Created:', object);
 });
 
 subscription.on('update', (object) => {
-    console.log('Updated:', object);
+  console.log('Updated:', object);
 });
 
 subscription.on('delete', (object) => {
-    console.log('Deleted:', object);
+  console.log('Deleted:', object);
 });
 
 // Unsubscribe
 subscription.unsubscribe();
 ```
+
 → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
 
 ---
@@ -1316,21 +1602,22 @@ subscription.unsubscribe();
 ```javascript
 // Component
 export const MyComponent = () => {
-    const handle = useSyncHandle(MyComponent.handleId);
-    const data = handle?.get('data');
+  const handle = useSyncHandle(MyComponent.handleId);
+  const data = handle?.get('data');
 
-    return <div>{data}</div>;
+  return <div>{data}</div>;
 };
 
 MyComponent.loadState = async ({ route, params, search }) => {
-    const data = await fetchData(params);
-    return { data, loading: false };
+  const data = await fetchData(params);
+  return { data, loading: false };
 };
 
 MyComponent.handleId = 'MyComponentHandle';
 
 export default MyComponent;
 ```
+
 → [Reactium: Data Loading with loadState](../CLAUDE/REACTIUM_FRAMEWORK.md#data-loading-with-loadstate)
 → [Patterns: Static Method Data Loading](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-2-static-method-data-loading)
 
@@ -1338,14 +1625,22 @@ export default MyComponent;
 
 ```javascript
 (async () => {
-    const { Hook, Enums, Component } = await import('@atomic-reactor/reactium-core/sdk');
+  const { Hook, Enums, Component } = await import(
+    '@atomic-reactor/reactium-core/sdk'
+  );
 
-    Hook.register('plugin-init', async () => {
-        const { MyComponent } = await import('./MyComponent');
-        Component.register('MyComponent', MyComponent);
-    }, Enums.priority.neutral, 'plugin-init-MyComponent');
+  Hook.register(
+    'plugin-init',
+    async () => {
+      const { MyComponent } = await import('./MyComponent');
+      Component.register('MyComponent', MyComponent);
+    },
+    Enums.priority.neutral,
+    'plugin-init-MyComponent'
+  );
 })();
 ```
+
 → [Reactium: Creating a Plugin](../CLAUDE/REACTIUM_FRAMEWORK.md#creating-a-plugin)
 
 ### Plugin with SDK (Actinium)
@@ -1372,6 +1667,7 @@ const MOD = () => {
 
 export default MOD();
 ```
+
 → [Patterns: Plugin SDK Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern)
 
 ---

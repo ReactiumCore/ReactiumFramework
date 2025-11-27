@@ -1,4 +1,4 @@
-<!-- v1.10.0 -->
+<!-- v1.11.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -81,6 +81,21 @@
 5. [Gotchas: Hook Registration Must Be in IIFE](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-3-hook-registration-must-be-in-iife) - Common issues
 
 **Related**: Hooks, DDD, Components, Priority
+
+### CLI Command System
+**Learning Path**:
+1. [CLI Command System: Overview](../CLAUDE/CLI_COMMAND_SYSTEM.md#overview) - What is ARCLI
+2. [CLI: Command Discovery Locations](../CLAUDE/CLI_COMMAND_SYSTEM.md#2-command-discovery-locations) - Multi-location discovery
+3. [CLI: Two-Phase Initialization](../CLAUDE/CLI_COMMAND_SYSTEM.md#3-two-phase-initialization) - Performance optimization
+4. [CLI: Command Module Structure](../CLAUDE/CLI_COMMAND_SYSTEM.md#4-command-module-structure) - Required exports
+5. [CLI: Command Structure Pattern](../CLAUDE/CLI_COMMAND_SYSTEM.md#5-command-structure-pattern) - Standard anatomy
+6. [CLI: Hook-Driven Extensibility](../CLAUDE/CLI_COMMAND_SYSTEM.md#6-hook-driven-extensibility) - Global & command hooks
+7. [CLI: ActionSequence Pattern](../CLAUDE/CLI_COMMAND_SYSTEM.md#7-actionsequence-pattern) - Multi-step generation
+8. [CLI: Real-World Usage Patterns](../CLAUDE/CLI_COMMAND_SYSTEM.md#real-world-usage-patterns) - Project commands, NPM packages, extending core
+9. [CLI: Best Practices](../CLAUDE/CLI_COMMAND_SYSTEM.md#best-practices) - Naming, organization, error handling
+10. [CLI: Common Gotchas](../CLAUDE/CLI_COMMAND_SYSTEM.md#common-gotchas) - Discovery issues, path problems
+
+**Related**: Commander.js, Globby, Hook system, DDD extensibility, Tooling
 
 ### Zone System
 **Learning Path**:

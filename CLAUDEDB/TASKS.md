@@ -1,4 +1,4 @@
-<!-- v1.16.0 -->
+<!-- v1.18.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -6,22 +6,67 @@
 
 ---
 
+## Project Initialization
+
+### Initialize a new Reactium project
+→ [CLI Commands: Init Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-init)
+→ [CLI Commands: Workflow 1 - Project Setup](../CLAUDE/CLI_COMMANDS_REFERENCE.md#workflow-1-creating-a-new-page)
+
+**Quick Start**:
+```bash
+npx reactium init --type app
+```
+
+### Initialize a new Actinium API server
+→ [CLI Commands: Init Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-init)
+
+**Quick Start**:
+```bash
+npx reactium init --type api
+```
+
+---
+
 ## Build Something
+
+### Create a complete page (component + route + style)
+→ [CLI Commands: Component Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-component)
+→ [CLI Commands: Workflow 1 - Creating a New Page](../CLAUDE/CLI_COMMANDS_REFERENCE.md#workflow-1-creating-a-new-page)
+
+**Quick CLI**:
+```bash
+npx reactium component \
+  --name AboutPage \
+  --destination src/app/components/AboutPage \
+  --route '/about' \
+  --hooks \
+  --domain \
+  --style scss
+```
 
 ### Create a component
 → [Reactium: Component System](../CLAUDE/REACTIUM_FRAMEWORK.md#component-system)
 → [Patterns: Domain-Driven Organization](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-1-domain-driven-component-organization)
-→ [Reactium: CLI Tools](../CLAUDE/REACTIUM_FRAMEWORK.md#cli-tools)
+→ [CLI Commands: Component Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-component)
 
 **Quick CLI**:
 ```bash
-npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s --unattended
+npx reactium component --name MyComponent --destination src/app/components
 ```
 
 ### Create a route
 → [Routing System: Overview](../CLAUDE/ROUTING_SYSTEM.md#overview)
 → [Routing System: File Discovery & Manifest Generation](../CLAUDE/ROUTING_SYSTEM.md#file-discovery--manifest-generation)
-→ [Reactium: Route Object Specification](../CLAUDE/REACTIUM_FRAMEWORK.md#route-object-specification)
+→ [CLI Commands: Route Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-route)
+
+**Quick CLI**:
+```bash
+npx reactium route --destination src/app/components/MyComponent --route '/path'
+```
+
+### Add route to existing component
+→ [CLI Commands: Workflow 2 - Adding Route to Existing Component](../CLAUDE/CLI_COMMANDS_REFERENCE.md#workflow-2-adding-route-to-existing-component)
+→ [CLI Commands: Route Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-route)
 
 ### Create a route with data loading
 → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
@@ -86,6 +131,75 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 ### Create an API endpoint
 → [Cloud Functions: Overview](../CLAUDE/CLOUD_FUNCTIONS.md#overview)
 → [Cloud Functions: Registration Pattern](../CLAUDE/CLOUD_FUNCTIONS.md#registration-pattern)
+
+---
+
+## CLI & Tooling
+
+### Authenticate for package publishing
+→ [CLI Commands: Auth Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-auth)
+
+**Quick CLI**:
+```bash
+npx reactium auth --username Bob --password 'MyPassword'
+```
+
+### Label directories for CLI shortcuts
+→ [CLI Commands: Label Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-label)
+→ [CLI Commands: Best Practice 1 - Use Labels](../CLAUDE/CLI_COMMANDS_REFERENCE.md#1-use-labels-for-common-paths)
+
+**Quick CLI**:
+```bash
+npx reactium label --path src/app/components --key labels.components
+npx reactium component --destination '[labels.components]/Button' --name Button
+```
+
+### Create a custom CLI command
+→ [CLI: Command Module Structure](../CLAUDE/CLI_COMMAND_SYSTEM.md#4-command-module-structure)
+→ [CLI: Command Structure Pattern](../CLAUDE/CLI_COMMAND_SYSTEM.md#5-command-structure-pattern)
+→ [CLI: Pattern 1 - Project-Specific Command](../CLAUDE/CLI_COMMAND_SYSTEM.md#pattern-1-project-specific-command)
+
+**Quick Example**:
+```bash
+npx reactium cli command --name deploy
+```
+
+### Create custom file generator with templates
+→ [CLI Templates: Component Generator Pattern](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#5-component-generator-pattern)
+→ [CLI Templates: Template Directory Structure](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#2-template-directory-structure)
+
+**Example Template**:
+```javascript
+// [project]/.cli/commands/deploy/index.js
+export const NAME = 'deploy';
+export const COMMAND = ({ program, props }) =>
+    program
+        .command(NAME)
+        .description('Deploy project')
+        .action(async (opt) => { /* ... */ });
+```
+
+### Extend core CLI commands
+→ [CLI: Hook-Driven Extensibility](../CLAUDE/CLI_COMMAND_SYSTEM.md#6-hook-driven-extensibility)
+→ [CLI: Command-Specific Hooks](../CLAUDE/CLI_COMMAND_SYSTEM.md#command-specific-hooks-reactium-arclijs)
+→ [CLI: Pattern 3 - Extending Core Commands](../CLAUDE/CLI_COMMAND_SYSTEM.md#pattern-3-extending-core-commands)
+
+### Create reusable CLI package
+→ [CLI: Pattern 2 - Reusable NPM Package Command](../CLAUDE/CLI_COMMAND_SYSTEM.md#pattern-2-reusable-npm-package-command)
+→ [CLI: Command Discovery Locations](../CLAUDE/CLI_COMMAND_SYSTEM.md#2-command-discovery-locations)
+
+### Debug CLI command discovery
+→ [CLI: Debugging Command Discovery](../CLAUDE/CLI_COMMAND_SYSTEM.md#debugging-command-discovery)
+→ [CLI: Common Gotchas](../CLAUDE/CLI_COMMAND_SYSTEM.md#common-gotchas)
+
+### Add CLI hooks globally
+→ [CLI: Global Hooks](../CLAUDE/CLI_COMMAND_SYSTEM.md#global-hooks-arcli-hooksjs)
+→ [CLI: Hook-Driven Extensibility](../CLAUDE/CLI_COMMAND_SYSTEM.md#6-hook-driven-extensibility)
+
+### Use ActionSequence in CLI commands
+→ [CLI: ActionSequence Pattern](../CLAUDE/CLI_COMMAND_SYSTEM.md#7-actionsequence-pattern)
+
+---
 
 ### Add Express middleware
 → [Actinium Middleware: Registration API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareregisterid-callback-order)
