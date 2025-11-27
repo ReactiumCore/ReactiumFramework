@@ -1,4 +1,4 @@
-<!-- v1.13.0 -->
+<!-- v1.14.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -86,6 +86,29 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 ### Create an API endpoint
 → [Cloud Functions: Overview](../CLAUDE/CLOUD_FUNCTIONS.md#overview)
 → [Cloud Functions: Registration Pattern](../CLAUDE/CLOUD_FUNCTIONS.md#registration-pattern)
+
+### Add Express middleware
+→ [Actinium Middleware: Registration API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareregisterid-callback-order)
+→ [Actinium Middleware: Common Patterns](../CLAUDE/ACTINIUM_MIDDLEWARE.md#common-patterns)
+→ [Actinium Middleware: Real-World Examples](../CLAUDE/ACTINIUM_MIDDLEWARE.md#real-world-examples)
+
+### Configure CORS in Actinium
+→ [Actinium Middleware: CORS Example](../CLAUDE/ACTINIUM_MIDDLEWARE.md#real-world-examples)
+
+### Serve static files in Actinium
+→ [Actinium Middleware: Static Assets Middleware](../CLAUDE/ACTINIUM_MIDDLEWARE.md#static-assets-middleware)
+→ [Actinium Middleware: Pattern 2 - Router-Based](../CLAUDE/ACTINIUM_MIDDLEWARE.md#pattern-2-router-based-middleware)
+
+### Replace core middleware
+→ [Actinium Middleware: replace API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewarereplaceid-callback)
+→ [Actinium Middleware: Gotcha 2](../CLAUDE/ACTINIUM_MIDDLEWARE.md#gotcha-2-middleware-replacement-timing)
+
+### Disable middleware
+→ [Actinium Middleware: unregister API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareunregisterid)
+
+### Create hook-driven middleware
+→ [Actinium Middleware: registerHook API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareregisterhookid-path-order)
+→ [Actinium Middleware: Pattern 4 - Hook-Driven](../CLAUDE/ACTINIUM_MIDDLEWARE.md#pattern-4-hook-driven-middleware)
 
 ### Secure a Cloud Function
 → [Cloud Functions: Security & Authorization](../CLAUDE/CLOUD_FUNCTIONS.md#security--authorization)

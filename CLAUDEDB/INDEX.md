@@ -1,4 +1,4 @@
-<!-- v1.15.0 -->
+<!-- v1.16.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -98,6 +98,8 @@
 - **EventPayload** → [ComponentEvent: EventPayload Interface](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#eventpayload-interface)
 - **Events** → [ComponentEvent System](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#overview)
 - **Express** → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
+- **Express middleware** → [Actinium Middleware System](../CLAUDE/ACTINIUM_MIDDLEWARE.md#architecture-overview)
+- **Express settings** → [Actinium Middleware: Integration with Express Settings](../CLAUDE/ACTINIUM_MIDDLEWARE.md#express-settings)
 
 ## F
 
@@ -165,7 +167,12 @@
 - **Mappers** → [Zone System: Filters, Mappers, Sorters](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#filters-mappers-and-sorters)
 - **Master key** → [Cloud Functions: MasterOptions](../CLAUDE/CLOUD_FUNCTIONS.md#masteroptions---force-master-key)
 - **MasterOptions** → [Cloud Functions: MasterOptions](../CLAUDE/CLOUD_FUNCTIONS.md#masteroptions---force-master-key)
-- **Middleware** → [Actinium: Middleware System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#middleware-system)
+- **Middleware** → [Actinium Middleware System](../CLAUDE/ACTINIUM_MIDDLEWARE.md#architecture-overview)
+- **Middleware.register** → [Actinium Middleware: register API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareregisterid-callback-order)
+- **Middleware.registerHook** → [Actinium Middleware: registerHook API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareregisterhookid-path-order)
+- **Middleware.replace** → [Actinium Middleware: replace API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewarereplaceid-callback)
+- **Middleware.unregister** → [Actinium Middleware: unregister API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareunregisterid)
+- **Middleware priority** → [Actinium Middleware: Priority-Based Ordering](../CLAUDE/ACTINIUM_MIDDLEWARE.md#priority-based-ordering)
 - **Migration** → [Known Issues](../CLAUDE/KNOWN_ISSUES.md)
 - **MongoDB** → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
 

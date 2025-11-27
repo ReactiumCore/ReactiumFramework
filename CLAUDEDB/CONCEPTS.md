@@ -1,4 +1,4 @@
-<!-- v1.7.0 -->
+<!-- v1.8.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -242,6 +242,20 @@
 10. [Collection Registration: Migration Patterns](../CLAUDE/COLLECTION_REGISTRATION.md#migration-patterns) - Schema evolution
 
 **Related**: Parse Server, Capabilities, Cloud Functions, ACL, Indexes, Schema evolution
+
+### Middleware System (Actinium)
+**Learning Path**:
+1. [Actinium Middleware: Architecture Overview](../CLAUDE/ACTINIUM_MIDDLEWARE.md#architecture-overview) - System design
+2. [Actinium Middleware: Discovery Pattern (DDD)](../CLAUDE/ACTINIUM_MIDDLEWARE.md#discovery-pattern-ddd) - File discovery via glob
+3. [Actinium Middleware: Registration API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#registration-api) - register, registerHook, replace, unregister
+4. [Actinium Middleware: Priority-Based Ordering](../CLAUDE/ACTINIUM_MIDDLEWARE.md#priority-based-ordering) - Execution order
+5. [Actinium Middleware: Lifecycle Integration](../CLAUDE/ACTINIUM_MIDDLEWARE.md#lifecycle-integration) - Bootstrap sequence
+6. [Actinium Middleware: Common Patterns](../CLAUDE/ACTINIUM_MIDDLEWARE.md#common-patterns) - NPM wrapper, router-based, conditional, hook-driven, async
+7. [Actinium Middleware: Real-World Examples](../CLAUDE/ACTINIUM_MIDDLEWARE.md#real-world-examples) - Parse Server, CORS, static, body-parser
+8. [Actinium Middleware: Best Practices](../CLAUDE/ACTINIUM_MIDDLEWARE.md#best-practices) - Priority strategy, promise returns, routing
+9. [Actinium Middleware: Common Gotchas](../CLAUDE/ACTINIUM_MIDDLEWARE.md#common-gotchas) - Timing, replacement, hook access, priority confusion
+
+**Related**: Express, Parse Server, Hook system, Plugin system, ENV.GLOB_MIDDLEWARE, ActionSequence
 
 ### Plugin System (Actinium)
 **Learning Path**:

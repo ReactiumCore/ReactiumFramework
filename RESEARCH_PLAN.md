@@ -35,25 +35,27 @@ Topics for future exploration sessions with specialized agents.
 - ✅ **Cursor-Based Pagination Pattern** - Complete guide to skip-based vs cursor-based pagination strategies; skip-based framework patterns (hookedQuery, content.find, load-all with while loop); cursor-based implementation patterns (forward, bidirectional); performance comparison (skip degrades at high offsets, cursor O(1)); edge cases (duplicate timestamps with objectId tiebreaker, deletion handling, cursor encoding); integration with framework (custom cloud functions, not compatible with hookedQuery); real examples from search indexing, content pagination, recycle bin; best practices for choosing strategy based on dataset size and use case; discovered during research: Plugin dependency system does not exist (order field only), need for middleware auto-discovery documentation (Nov 26, 2025)
 - ✅ **Content Type System Architecture** - Complete type-as-schema system documentation; UUID v5 namespacing for cross-environment consistency (machineName + namespace → uuid); collection auto-generation (Content_{machineName}); field structure (fieldId, fieldName, fieldType, region); pluggable field types via hooks; region-based UI layout; Type CRUD operations (create, retrieve, update, delete, list); immutable properties (uuid, machineName, collection, namespace) enforced by beforeSave hook; automatic schema creation via type-saved hook; built-in type registry (DEFAULT_TYPE_REGISTRY) for plugin-provided types; cloud functions (type-create, type-retrieve, type-update, type-delete, type-status, types); capability model (Type.* for type operations, Content_*.* for content operations registered separately); integration with Collection Registration system; hooks (type-saved, type-deleted, type-retrieved, collection-before-load); gotchas (type deletion doesn't delete content/schema, field deletion requires manual schema update, namespace immutability, machineName slugification collisions); comprehensive source references from actinium-core/lib/type/index.js, actinium-type/plugin.js; discovered during research: Need for middleware auto-discovery pattern documentation (Express middleware registration in Actinium) (Nov 26, 2025)
 
+- ✅ **Middleware Auto-Discovery (Actinium)** - Complete Express middleware registration system with globby-based file discovery (ENV.GLOB_MIDDLEWARE patterns), priority-based sequential execution via ActionSequence, registration API (register, registerHook, replace, unregister), HookMiddleware wrapper class for hook-driven extensibility, lifecycle integration (fires after Exp.init, before Plugin.init), real-world examples from core middleware (body-parser, CORS, cookie-session, Parse Server, static assets, docs, morgan), common patterns (NPM wrapper, router-based, conditional, hook-driven, async), environment configuration, priority ordering (-100000 = early, 0 = Parse Server, 100 = default), replacement/unregister mechanisms, comprehensive source references from actinium-core/lib/middleware.js:1-133, actinium-core/actinium.js:77-87, actinium-core/globals.js:62-68, all core middleware files; discovered during research: Express Router patterns for route grouping, need for Express Settings (Actinium.Exp) documentation covering view engine, trust proxy, and other Express configuration (Nov 27, 2025)
+
 ## Pending Research Topics
 
 ### High Priority
 
 ### Medium Priority
 
-1. **Middleware Auto-Discovery (Actinium)**
+1. **Express Settings System (Actinium.Exp)**
 
-   - **Discovered during**: Content Type research - noticed route registration patterns, need to understand Express middleware registration
-   - **Why it matters**: Critical for understanding Actinium server architecture, plugin extensibility, request/response pipeline customization
-   - **Current gap**: How middleware files are discovered, priority-based loading order, Express app configuration via hooks, common patterns for auth/logging/CORS/etc
+   - **Discovered during**: Middleware Auto-Discovery research - noticed Actinium.Exp.init() fires before middleware, need to understand Express app configuration
+   - **Why it matters**: Critical for understanding Express app initialization, view engine setup, trust proxy configuration, and other Express settings that affect middleware and routing
+   - **Current gap**: How Actinium.Exp configures Express app, what settings are available, how to customize Express configuration, integration with middleware system
    - **Key mechanisms**:
-     - File pattern discovery (likely globby-based like other DDD)
-     - Priority/order-based middleware registration
-     - Express app lifecycle hooks
-     - Middleware composition patterns
-   - **Real usage**: Authentication middleware, logging, CORS, rate limiting, request validation
-   - **Integration**: Hook system, plugin activation/deactivation
-   - **Critical for**: Building Actinium server plugins, understanding request pipeline
+     - Express app configuration API
+     - Default settings (views, view engine, x-powered-by)
+     - Hook integration for custom settings
+     - Environment-based configuration
+   - **Real usage**: Custom view engines, trust proxy for load balancers, static file serving configuration, custom Express settings
+   - **Integration**: Middleware system (runs before middleware), Hook system
+   - **Critical for**: Building Actinium applications with custom Express configuration, understanding server initialization sequence
 
 ### Lower Priority
 

@@ -1,4 +1,4 @@
-<!-- v1.11.0 -->
+<!-- v1.12.0 -->
 # CLAUDEDB - API Quick Reference
 
 **Purpose**: Common functions/hooks with signatures + direct links
@@ -677,6 +677,62 @@ Actinium.Collection.unregister(collection)
 // collection: String - Collection name
 ```
 → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
+
+### Middleware Registration
+
+```javascript
+Actinium.Middleware.register(id, callback, order = 100)
+// id: String - Unique middleware identifier
+// callback: (app: Express.Application) => Promise<void>
+// order: Number - Priority (lower = earlier, default 100)
+```
+→ [Actinium Middleware: register API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareregisterid-callback-order)
+
+```javascript
+Actinium.Middleware.registerHook(id, path?, order = 100)
+// Creates hook-driven middleware ({id}-middleware hook)
+// id: String - Hook name
+// path: String (optional) - Express route path to scope middleware
+// order: Number - Priority
+```
+→ [Actinium Middleware: registerHook API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareregisterhookid-path-order)
+
+```javascript
+Actinium.Middleware.replace(id, callback)
+// Replaces previously registered middleware
+// id: String - Middleware ID to replace
+// callback: (app: Express.Application) => Promise<void>
+```
+→ [Actinium Middleware: replace API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewarereplaceid-callback)
+
+```javascript
+Actinium.Middleware.unregister(id)
+// Removes middleware from execution
+// id: String - Middleware ID to remove
+```
+→ [Actinium Middleware: unregister API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareunregisterid)
+
+```javascript
+// Hook listener for hook-driven middleware
+Actinium.Hook.register('{id}-middleware', async (mw) => {
+    // mw.req - Express request
+    // mw.res - Express response
+    // mw.use(callback) - Chain middleware
+    // mw.next() - Execute chain
+    const router = express.Router();
+    router.get('/route', (req, res) => { /* ... */ });
+    mw.req.app.use(router);  // Access app via mw.req.app
+});
+```
+→ [Actinium Middleware: Pattern 4 - Hook-Driven](../CLAUDE/ACTINIUM_MIDDLEWARE.md#pattern-4-hook-driven-middleware)
+
+**Common priority values**:
+```javascript
+-100000  // Very early (body-parser, CORS, cookies, static)
+0        // Parse Server middleware
+100      // Default (most middleware)
+```
+→ [Actinium Middleware: Priority-Based Ordering](../CLAUDE/ACTINIUM_MIDDLEWARE.md#priority-based-ordering)
 
 ### Plugin Registration
 
