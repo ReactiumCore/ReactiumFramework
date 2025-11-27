@@ -50,24 +50,27 @@ Topics for future exploration sessions with specialized agents.
 
 - ✅ **ActionSequence Pattern and Sequential Action Execution** - Complete NPM package documentation (action-sequence@^1.1.2); sequential async operation execution with shared context object; action function signature ({ params, props, action, context, prevAction }); return value accumulation in context object; Promise-based API with error propagation; real-world patterns: generator wrapper for CLI commands, middleware priority-based execution, plugin post-install hooks, multi-step workflows with spinner feedback; integration with CLI command system, middleware auto-discovery, plugin lifecycle; comparison with Promise.all(), async/await chains, and Hook system; best practices for action naming, spinner integration, options object pattern, error propagation, action merging; common gotchas: sequential not parallel execution, context access, return value defaults, error stopping sequence, shared closure variables, spinner state during prompts; comprehensive source references from CLI/lib/generator.js:1-20, CLI/commands/*/generator.js, actinium-core/lib/middleware.js:49-101, CLI/commands/package/install/actions.js:206-224; discovered during research: CLI command hook integration patterns (arcli-install.js, arcli-publish.js) - need to document plugin CLI extensibility pattern for custom installation/publishing workflows (Nov 27, 2025)
 
+- ✅ **Plugin CLI Extensibility Pattern (arcli-install.js / arcli-publish.js)** - Complete plugin CLI workflow extension system documentation; arcli-install.js pattern for post-install setup (discovered via globby in plugin directory after extraction, factory signature receives spinner/arcli/params/props, actions namespaced as postinstall_{i}_{key}); arcli-publish.js pattern for pre-publish asset compilation (discovered in cwd before publish, factory receives only spinner, actions namespaced as prepublish_{i}_{key}); integration with ActionSequence for workflow merging; params.pluginDirectory injection for install, props.cwd for publish; real-world examples from reactium-admin-core (SCSS injection with user prompts, Gulp-based CSS compilation); common use cases: database migration, config generation, user onboarding, dependency verification, asset compilation; best practices: spinner state management, unattended mode support, error handling, async operation completion; common gotchas: spinner not stopped before prompts, pluginDirectory not in publish, async operations not awaited, error swallowing, not respecting unattended flag; debugging techniques with verbose logging and spinner text; comprehensive source references from CLI/commands/package/install/actions.js:206-224, CLI/commands/package/publish/actions.js:76-99, Reactium-Admin-Plugins/reactium_modules_old/reactium-admin-core/arcli-install.js:1-187, arcli-publish.js:1-77; discovered during research: Parse Server ACL patterns at collection level (need to understand ACL vs CLP differences, collection-level access control, integration with Type system for dynamic collection ACLs) (Nov 27, 2025)
+
 ## Pending Research Topics
 
 ### High Priority
 
-1. **Plugin CLI Extensibility Pattern (arcli-install.js, arcli-publish.js)**
+1. **Parse Server ACL Patterns and Collection-Level Access Control**
 
-   - **Discovered during**: ActionSequence Pattern research - noticed plugin-specific CLI hooks via arcli-install.js and arcli-publish.js files discovered dynamically (CLI/commands/package/install/actions.js:206-224, CLI/commands/package/publish/actions.js:76-99), need to understand complete plugin CLI hook system
-   - **Why it matters**: Critical for understanding how plugins extend CLI functionality with custom installation/publishing workflows; helps Claude guide developers on creating plugins with complex setup requirements (database migrations, config generation, user prompts); reveals plugin-to-CLI communication patterns; essential for debugging plugin installation issues
-   - **Current gap**: No documentation on arcli-install.js pattern (discovered post-install, returns actions object), arcli-publish.js pattern (discovered pre-publish), expected exports/signature, how actions merge with core install/publish actions, naming conventions to avoid collisions, access to spinner/arcli globals, integration with ActionSequence, real examples from core plugins
+   - **Discovered during**: Plugin CLI Extensibility Pattern research - noticed CloudACL pattern in cloud functions uses ACL generation (actinium-core/lib/utils/acl.js), separate from CLP (Collection Level Permissions) used in collection registration; need to understand ACL patterns for individual Parse Objects vs CLP for entire collections, and how they interact
+   - **Why it matters**: Critical for understanding Parse Server security model at object level; helps Claude guide developers on proper ACL patterns for user-owned content, role-based object access, and privacy controls; complements existing CLP documentation (Collection Registration system); essential for content management systems where different users need different object-level permissions
+   - **Current gap**: No documentation on Parse.Object ACL patterns (read/write arrays with user/role pointers), ACL vs CLP differences, when to use each, CloudACL helper usage beyond cloud functions, ACL inheritance patterns, default ACL configuration, public read vs authenticated write patterns, individual user ACLs vs role-based ACLs
    - **Key mechanisms**:
-     - Dynamic discovery of arcli-*.js files in plugin directories
-     - Action factory function signature (receives spinner, arcli, params, props)
-     - Action merging with namespaced keys (postinstall_${i}_${key})
-     - Integration with parent ActionSequence workflow
-     - Access to CLI utilities (spinner, globby, fs, etc.)
-   - **Real usage**: Plugin database initialization, config file generation, user onboarding prompts, dependency verification, asset compilation during install
-   - **Integration**: Package install/publish commands, ActionSequence pattern, CLI command system, plugin lifecycle
-   - **Critical for**: Building plugins with complex installation requirements, custom publishing workflows, understanding plugin-CLI interaction, debugging plugin installation failures
+     - Parse.Object ACL (read/write arrays with Parse.User/Role pointers)
+     - CloudACL helper for generating ACLs from capabilities (actinium-core/lib/utils/acl.js)
+     - AclTargets helper for user/role selection
+     - ACL vs CLP: object-level vs collection-level permissions
+     - Default ACL configuration in Parse Server
+     - ACL inheritance and cascade patterns
+   - **Real usage**: User-owned content (only author can edit), role-based content access (moderators can edit all posts), public read with restricted write, private content (owner-only access), team collaboration (multiple users can edit)
+   - **Integration**: Cloud functions (CloudACL pattern), Collection Registration (CLP), Actinium Roles system, User system, Content Type system
+   - **Critical for**: Building secure content management systems, implementing privacy controls, debugging permission denied errors, understanding Parse Server security model completely
 
 2. **Actinium FileAdapter System and File Storage Backends**
 

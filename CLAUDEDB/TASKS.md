@@ -1,4 +1,4 @@
-<!-- v1.19.0 -->
+<!-- v1.20.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -231,6 +231,53 @@ export const COMMAND = ({ program, props }) =>
 
 ### Use ActionSequence in CLI commands
 → [CLI: ActionSequence Pattern](../CLAUDE/CLI_COMMAND_SYSTEM.md#7-actionsequence-pattern)
+
+### Add custom setup actions during plugin installation
+→ [Plugin CLI Extensibility: arcli-install.js Pattern](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#arcli-installjs-pattern)
+→ [Plugin CLI Extensibility: Real-World Example](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#arcli-installjs---scss-import-integration)
+
+**Quick Example**:
+```javascript
+// [plugin]/arcli-install.js
+module.exports = (spinner, arcli, params, props) => {
+    return {
+        init: async ({ params }) => {
+            // Access pluginDirectory from params
+            const dir = params.pluginDirectory;
+        },
+        prompt: async () => {
+            spinner.stop(); // Stop before prompts
+            // Interactive setup
+        },
+        complete: () => console.log('Setup complete!')
+    };
+};
+```
+
+### Add build steps before plugin publishing
+→ [Plugin CLI Extensibility: arcli-publish.js Pattern](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#arcli-publishjs-pattern)
+→ [Plugin CLI Extensibility: Asset Compilation Example](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#arcli-publishjs---asset-compilation)
+
+**Quick Example**:
+```javascript
+// [plugin]/arcli-publish.js
+module.exports = spinner => {
+    return {
+        compileCSS: async () => {
+            spinner.text = 'Compiling CSS...';
+            await buildAssets();
+        },
+        complete: () => console.log('Build complete!')
+    };
+};
+```
+
+### Inject files or configuration during plugin install
+→ [Plugin CLI Extensibility: Common Use Cases](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#common-use-cases)
+→ [Plugin CLI Extensibility: Configuration File Generation](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#2-configuration-file-generation)
+
+### Run database migrations during plugin installation
+→ [Plugin CLI Extensibility: Database Migration](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#1-database-migrationinitialization)
 
 ---
 

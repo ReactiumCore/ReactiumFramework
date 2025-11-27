@@ -1,4 +1,4 @@
-<!-- v1.12.0 -->
+<!-- v1.13.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -78,9 +78,14 @@
 2. [Reactium: Plugin Lifecycle](../CLAUDE/REACTIUM_FRAMEWORK.md#plugin-lifecycle) - Initialization
 3. [Reactium: Creating a Plugin](../CLAUDE/REACTIUM_FRAMEWORK.md#creating-a-plugin) - Implementation
 4. [Patterns: Hook-Based Plugin Architecture](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-4-hook-based-plugin-architecture) - Architecture
-5. [Gotchas: Hook Registration Must Be in IIFE](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-3-hook-registration-must-be-in-iife) - Common issues
+5. [Plugin CLI Extensibility: Overview](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#overview) - Custom install/publish workflows
+6. [Plugin CLI Extensibility: arcli-install.js Pattern](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#arcli-installjs-pattern) - Post-install setup
+7. [Plugin CLI Extensibility: arcli-publish.js Pattern](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#arcli-publishjs-pattern) - Pre-publish build
+8. [Plugin CLI Extensibility: Common Use Cases](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#common-use-cases) - Real patterns
+9. [Plugin CLI Extensibility: Best Practices](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#best-practices) - Guidelines
+10. [Plugin CLI Extensibility: Common Gotchas](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#common-gotchas) - Avoid mistakes
 
-**Related**: Hooks, DDD, Components, Priority
+**Related**: Hooks, DDD, Components, Priority, CLI Extensibility, ActionSequence
 
 ### ActionSequence Pattern (Sequential Workflows)
 **Learning Path**:

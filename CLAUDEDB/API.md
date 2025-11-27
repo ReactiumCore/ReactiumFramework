@@ -1,4 +1,4 @@
-<!-- v1.16.0 -->
+<!-- v1.17.0 -->
 
 # CLAUDEDB - API Quick Reference
 
@@ -651,6 +651,52 @@ const {
 ```
 
 → [CLI: Bootstrap Process](../CLAUDE/CLI_COMMAND_SYSTEM.md#1-bootstrap-process)
+
+### Plugin CLI Extensibility
+
+```javascript
+// arcli-install.js - Post-install actions
+module.exports = (spinner, arcli, params, props) => {
+  return {
+    init: async ({ params }) => {
+      const dir = params.pluginDirectory; // Injected by install command
+    },
+    prompt: async () => {
+      spinner.stop(); // MUST stop before prompts
+      // Interactive setup
+    },
+  };
+};
+```
+
+→ [Plugin CLI Extensibility: arcli-install.js Pattern](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#arcli-installjs-pattern)
+
+```javascript
+// arcli-publish.js - Pre-publish actions
+module.exports = (spinner) => {
+  return {
+    compileCSS: async () => {
+      spinner.text = 'Compiling...';
+      await buildAssets();
+    },
+  };
+};
+```
+
+→ [Plugin CLI Extensibility: arcli-publish.js Pattern](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#arcli-publishjs-pattern)
+
+**Available in arcli-install.js**:
+- `spinner` - ora spinner instance
+- `arcli` - Global utilities (passed as param, but use global)
+- `params` - Includes `pluginDirectory` (injected by install)
+- `props` - CLI props (cwd, config)
+
+**Available in arcli-publish.js**:
+- `spinner` - ora spinner instance
+- Access `arcli`, `params`, `props` via action parameters
+- `props.cwd` - Plugin root directory
+
+→ [Plugin CLI Extensibility: API Reference](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#api-reference)
 
 ### CLI Hooks
 

@@ -1,4 +1,4 @@
-<!-- v1.21.0 -->
+<!-- v1.22.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -26,6 +26,8 @@
 - **arcli command** → [CLI Commands: Command Categories](../CLAUDE/CLI_COMMANDS_REFERENCE.md#command-categories)
 - **arcli-file-gen hook** → [CLI Templates: Hook-Driven File Transformation](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#6-hook-driven-file-transformation)
 - **arcli-hooks.js** → [CLI: Global Hooks](../CLAUDE/CLI_COMMAND_SYSTEM.md#global-hooks-arcli-hooksjs)
+- **arcli-install.js** → [Plugin CLI Extensibility: arcli-install.js Pattern](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#arcli-installjs-pattern)
+- **arcli-publish.js** → [Plugin CLI Extensibility: arcli-publish.js Pattern](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#arcli-publishjs-pattern)
 - **ActionSequence** → [ActionSequence Pattern](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#overview)
 - **Action context** → [ActionSequence: Return Value](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#return-value)
 - **Action execution order** → [ActionSequence: Gotcha 1](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#1-actions-execute-in-order-not-parallel)
@@ -256,7 +258,11 @@
 - **Prefs.clear** → [Prefs System: clear() method](../CLAUDE/PREFS_SYSTEM.md#prefsclearkey)
 - **Prefs.create** → [Prefs System: create() method](../CLAUDE/PREFS_SYSTEM.md#prefscreatestoragekey)
 - **Plugin** → [Actinium: Plugin System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-system)
+- **Plugin CLI extensibility** → [Plugin CLI Extensibility Pattern](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#overview)
 - **Plugin gating** → [Actinium: Plugin Gating](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-gating)
+- **Plugin installation hooks** → [Plugin CLI Extensibility: arcli-install.js Pattern](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#arcli-installjs-pattern)
+- **Plugin publish hooks** → [Plugin CLI Extensibility: arcli-publish.js Pattern](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#arcli-publishjs-pattern)
+- **Plugin setup workflows** → [Plugin CLI Extensibility: Common Use Cases](../CLAUDE/PLUGIN_CLI_EXTENSIBILITY.md#common-use-cases)
 - **plugin-init** → [Reactium: Plugin Lifecycle](../CLAUDE/REACTIUM_FRAMEWORK.md#plugin-lifecycle)
 - **Priority** → [Actinium Quick Ref: Priority Constants](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#priority-constants)
 - **Proxy** → [SDK Extension: SDK Proxy Fallback Chain](../CLAUDE/SDK_EXTENSION_PATTERN.md#sdk-proxy-fallback-chain)
