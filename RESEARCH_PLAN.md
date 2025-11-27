@@ -46,25 +46,28 @@ Topics for future exploration sessions with specialized agents.
 
 - ✅ **CLI Template System and Generator Pattern** - Complete handlebars-based template generation system documentation; template engine bootstrap (handlebars in global arcli object); template directory structure conventions (command/template/*.hbs files); variable substitution patterns ({{variable}} escaped, {{{variable}}} unescaped for JSON/arrays); generator abstraction wrapping ActionSequence with consistent error handling and spinner feedback; component generator pattern with conditional file creation (hooks/domain/route/style flags control generation); hook-driven file transformation via arcli-file-gen hook; template discovery via __dirname relative paths; real-world template examples (functional component, route definition, component registration, domain declaration, CLI command scaffolding); variable transformation helpers (CONFORM functions for name→PascalCase, className→lowercase, route formatting); init command special pattern (NPM package download/extract with decompress, not templates); overwrite protection with inquirer prompts; best practices (triple-brace for unescaped, sensible defaults, conditional generation, transform params before templates, descriptive names, organize by command, document variables, handle overwrites, hook extensibility, ensure directories exist); common gotchas (escaped vs unescaped, .hbs extension required, undefined context variables, path resolution, hook return values, conditional flags, file encoding UTF-8, ActionSequence error propagation, template variable casing, compilation caching); debugging techniques (verify template content, inspect params, test compilation, check path resolution, test hooks); integration with CLI command system (command structure, NAME/COMMAND/ID exports, actions with template generation); comprehensive source references from CLI/bootstrap.js:3,53, CLI/lib/generator.js:1-20, component/route/style generators, template directories; discovered during research: Need for ActionSequence pattern documentation (sequential action execution, error handling, options passing) - foundational to generator pattern (Nov 27, 2025)
 
+## Completed Research
+
+- ✅ **ActionSequence Pattern and Sequential Action Execution** - Complete NPM package documentation (action-sequence@^1.1.2); sequential async operation execution with shared context object; action function signature ({ params, props, action, context, prevAction }); return value accumulation in context object; Promise-based API with error propagation; real-world patterns: generator wrapper for CLI commands, middleware priority-based execution, plugin post-install hooks, multi-step workflows with spinner feedback; integration with CLI command system, middleware auto-discovery, plugin lifecycle; comparison with Promise.all(), async/await chains, and Hook system; best practices for action naming, spinner integration, options object pattern, error propagation, action merging; common gotchas: sequential not parallel execution, context access, return value defaults, error stopping sequence, shared closure variables, spinner state during prompts; comprehensive source references from CLI/lib/generator.js:1-20, CLI/commands/*/generator.js, actinium-core/lib/middleware.js:49-101, CLI/commands/package/install/actions.js:206-224; discovered during research: CLI command hook integration patterns (arcli-install.js, arcli-publish.js) - need to document plugin CLI extensibility pattern for custom installation/publishing workflows (Nov 27, 2025)
+
 ## Pending Research Topics
 
 ### High Priority
 
-1. **ActionSequence Pattern and Sequential Action Execution**
+1. **Plugin CLI Extensibility Pattern (arcli-install.js, arcli-publish.js)**
 
-   - **Discovered during**: CLI Template System and CLI Commands Reference research - noticed generator.js wraps ActionSequence (CLI/lib/generator.js:8), init/auth/label commands use ActionSequence for multi-step workflows, middleware system uses ActionSequence for priority-based execution, need to understand core pattern for sequential async operations with error handling
-   - **Why it matters**: Foundational pattern used throughout CLI commands, middleware registration, and plugin initialization; critical for Claude to guide developers building custom CLI commands, middleware, and multi-step workflows; reveals error propagation, options passing, and action ordering mechanisms; essential for debugging command failures and understanding generator pattern
-   - **Current gap**: No documentation on ActionSequence API, action function signature (receives options object with arcli/params/props), sequential vs parallel execution, error handling and propagation, return value structure ({ action, status, ...data }), integration with Spinner for progress feedback, real-world action examples from init (download/unzip/cleanup), auth (authenticate/validate/clear), middleware registration (sequential priority-based execution)
+   - **Discovered during**: ActionSequence Pattern research - noticed plugin-specific CLI hooks via arcli-install.js and arcli-publish.js files discovered dynamically (CLI/commands/package/install/actions.js:206-224, CLI/commands/package/publish/actions.js:76-99), need to understand complete plugin CLI hook system
+   - **Why it matters**: Critical for understanding how plugins extend CLI functionality with custom installation/publishing workflows; helps Claude guide developers on creating plugins with complex setup requirements (database migrations, config generation, user prompts); reveals plugin-to-CLI communication patterns; essential for debugging plugin installation issues
+   - **Current gap**: No documentation on arcli-install.js pattern (discovered post-install, returns actions object), arcli-publish.js pattern (discovered pre-publish), expected exports/signature, how actions merge with core install/publish actions, naming conventions to avoid collisions, access to spinner/arcli globals, integration with ActionSequence, real examples from core plugins
    - **Key mechanisms**:
-     - Sequential async action execution with error propagation
-     - Action function signature and options passing
-     - Return value structure for action results
-     - Integration with generator wrapper for consistent error handling
-     - Priority-based ordering (middleware system)
-     - Spinner integration for progress feedback
-   - **Real usage**: CLI command workflows (init downloads → extracts → cleans up), middleware registration (priority-ordered sequential execution), plugin initialization sequences, custom command action chains
-   - **Integration**: Generator pattern (wraps ActionSequence), CLI commands (all multi-step commands use ActionSequence), Middleware system (priority-based execution), Hook system (actions can fire hooks)
-   - **Critical for**: Building custom CLI commands with multi-step workflows, understanding generator pattern, debugging command failures, implementing middleware with proper ordering, creating reliable sequential operations with error handling
+     - Dynamic discovery of arcli-*.js files in plugin directories
+     - Action factory function signature (receives spinner, arcli, params, props)
+     - Action merging with namespaced keys (postinstall_${i}_${key})
+     - Integration with parent ActionSequence workflow
+     - Access to CLI utilities (spinner, globby, fs, etc.)
+   - **Real usage**: Plugin database initialization, config file generation, user onboarding prompts, dependency verification, asset compilation during install
+   - **Integration**: Package install/publish commands, ActionSequence pattern, CLI command system, plugin lifecycle
+   - **Critical for**: Building plugins with complex installation requirements, custom publishing workflows, understanding plugin-CLI interaction, debugging plugin installation failures
 
 2. **Actinium FileAdapter System and File Storage Backends**
 

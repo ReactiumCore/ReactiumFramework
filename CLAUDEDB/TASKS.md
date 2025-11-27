@@ -1,4 +1,4 @@
-<!-- v1.18.0 -->
+<!-- v1.19.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -135,6 +135,39 @@ npx reactium route --destination src/app/components/MyComponent --route '/path'
 ---
 
 ## CLI & Tooling
+
+### Build a multi-step CLI command workflow
+→ [ActionSequence Pattern: Overview](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#overview)
+→ [ActionSequence: Pattern 1 - Generator Wrapper](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#pattern-1-generator-wrapper-standard-cli-command-pattern)
+→ [ActionSequence: Best Practices](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#best-practices)
+
+**Quick Pattern**:
+```javascript
+const actions = {
+  init: ({ params }) => { /* setup */ },
+  fetch: ({ params, context }) => { /* use context.init */ },
+  complete: ({ context }) => { /* finalize */ }
+};
+
+await ActionSequence({ actions, options: { params, props } });
+```
+
+### Execute sequential async operations with shared context
+→ [ActionSequence Pattern: Overview](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#overview)
+→ [ActionSequence: Action Function Signature](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#action-function-signature)
+→ [ActionSequence: Return Value](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#return-value)
+
+### Handle errors in multi-step workflows
+→ [ActionSequence: Error Handling Patterns](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#error-handling-patterns)
+→ [ActionSequence: Gotcha 4 - Error Stops Sequence](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#4-error-in-one-action-stops-all-subsequent-actions)
+
+### Merge actions from multiple sources
+→ [ActionSequence: Pattern 3 - Plugin Post-Install Hooks](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#pattern-3-plugin-post-install-hooks)
+→ [ActionSequence: Best Practice 6 - Action Merging](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#6-action-merging-for-extensibility)
+
+### Debug CLI command failures
+→ [ActionSequence: Testing ActionSequence Workflows](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#testing-actionsequence-workflows)
+→ [ActionSequence: Common Gotchas](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#common-gotchas)
 
 ### Authenticate for package publishing
 → [CLI Commands: Auth Command](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-auth)

@@ -1,4 +1,4 @@
-<!-- v1.11.0 -->
+<!-- v1.12.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -82,6 +82,22 @@
 
 **Related**: Hooks, DDD, Components, Priority
 
+### ActionSequence Pattern (Sequential Workflows)
+**Learning Path**:
+1. [ActionSequence: Overview](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#overview) - What is ActionSequence
+2. [ActionSequence: Core API](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#core-api) - Function signature, parameters
+3. [ActionSequence: Action Function Signature](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#action-function-signature) - Parameter structure
+4. [ActionSequence: Error Handling Patterns](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#error-handling-patterns) - Reject, exit, conditional
+5. [ActionSequence: Pattern 1 - Generator Wrapper](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#pattern-1-generator-wrapper-standard-cli-command-pattern) - CLI standard
+6. [ActionSequence: Pattern 2 - Middleware Registration](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#pattern-2-middleware-registration-priority-based-sequential-execution) - Priority-based
+7. [ActionSequence: Pattern 3 - Plugin Post-Install](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#pattern-3-plugin-post-install-hooks) - Dynamic actions
+8. [ActionSequence: Pattern 4 - Multi-Step Workflow](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#pattern-4-multi-step-workflow-with-spinner-feedback) - User feedback
+9. [ActionSequence: Best Practices](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#best-practices) - Naming, spinner, options
+10. [ActionSequence: Common Gotchas](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#common-gotchas) - Sequential not parallel
+11. [ActionSequence: Comparison](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#comparison-with-other-patterns) - vs Promise.all, async/await, Hooks
+
+**Related**: CLI commands, Middleware system, Plugin lifecycle, Promise chains, Error propagation
+
 ### CLI Command System
 **Learning Path**:
 1. [CLI Command System: Overview](../CLAUDE/CLI_COMMAND_SYSTEM.md#overview) - What is ARCLI
@@ -91,11 +107,12 @@
 5. [CLI: Command Structure Pattern](../CLAUDE/CLI_COMMAND_SYSTEM.md#5-command-structure-pattern) - Standard anatomy
 6. [CLI: Hook-Driven Extensibility](../CLAUDE/CLI_COMMAND_SYSTEM.md#6-hook-driven-extensibility) - Global & command hooks
 7. [CLI: ActionSequence Pattern](../CLAUDE/CLI_COMMAND_SYSTEM.md#7-actionsequence-pattern) - Multi-step generation
-8. [CLI: Real-World Usage Patterns](../CLAUDE/CLI_COMMAND_SYSTEM.md#real-world-usage-patterns) - Project commands, NPM packages, extending core
-9. [CLI: Best Practices](../CLAUDE/CLI_COMMAND_SYSTEM.md#best-practices) - Naming, organization, error handling
-10. [CLI: Common Gotchas](../CLAUDE/CLI_COMMAND_SYSTEM.md#common-gotchas) - Discovery issues, path problems
+8. [ActionSequence: Overview](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#overview) - Complete ActionSequence docs
+9. [CLI: Real-World Usage Patterns](../CLAUDE/CLI_COMMAND_SYSTEM.md#real-world-usage-patterns) - Project commands, NPM packages, extending core
+10. [CLI: Best Practices](../CLAUDE/CLI_COMMAND_SYSTEM.md#best-practices) - Naming, organization, error handling
+11. [CLI: Common Gotchas](../CLAUDE/CLI_COMMAND_SYSTEM.md#common-gotchas) - Discovery issues, path problems
 
-**Related**: Commander.js, Globby, Hook system, DDD extensibility, Tooling
+**Related**: Commander.js, Globby, Hook system, DDD extensibility, Tooling, ActionSequence
 
 ### Zone System
 **Learning Path**:

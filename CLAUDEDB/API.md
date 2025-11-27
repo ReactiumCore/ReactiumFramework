@@ -1,4 +1,4 @@
-<!-- v1.15.0 -->
+<!-- v1.16.0 -->
 
 # CLAUDEDB - API Quick Reference
 
@@ -562,6 +562,47 @@ registry.flush();
 ---
 
 ## Reactium CLI (ARCLI) API
+
+### ActionSequence - Sequential Workflow Execution
+
+```javascript
+ActionSequence({ actions, options })
+// Executes actions sequentially with shared context
+// actions: Object of { actionId: actionFunction }
+// options: Object spread into each action parameter
+// Returns: Promise<context> with all action results
+```
+
+→ [ActionSequence: Core API](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#core-api)
+
+```javascript
+// Action function signature
+actionFunction({ params, props, action, context, prevAction })
+// params: User parameters from options
+// props: Framework properties from options
+// action: String - current action ID
+// context: Object - accumulated results from previous actions
+// prevAction: String - previous action ID (undefined for first)
+// Returns: Any value (stored in context[actionId])
+```
+
+→ [ActionSequence: Action Function Signature](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#action-function-signature)
+
+**Common Pattern**:
+```javascript
+const actions = {
+  init: ({ params }) => { /* setup */ },
+  process: ({ params, context }) => {
+    const initResult = context.init; // Access previous action
+    return processedData;
+  },
+  finalize: ({ context }) => { /* cleanup */ }
+};
+
+await ActionSequence({ actions, options: { params, props } });
+```
+
+→ [ActionSequence: Pattern 1 - Generator Wrapper](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#pattern-1-generator-wrapper-standard-cli-command-pattern)
 
 ### Command Exports
 

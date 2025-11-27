@@ -1,4 +1,4 @@
-<!-- v1.20.0 -->
+<!-- v1.21.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -26,7 +26,11 @@
 - **arcli command** → [CLI Commands: Command Categories](../CLAUDE/CLI_COMMANDS_REFERENCE.md#command-categories)
 - **arcli-file-gen hook** → [CLI Templates: Hook-Driven File Transformation](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#6-hook-driven-file-transformation)
 - **arcli-hooks.js** → [CLI: Global Hooks](../CLAUDE/CLI_COMMAND_SYSTEM.md#global-hooks-arcli-hooksjs)
-- **ActionSequence** → [CLI Templates: Generator Pattern](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#4-generator-pattern-and-actionsequence)
+- **ActionSequence** → [ActionSequence Pattern](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#overview)
+- **Action context** → [ActionSequence: Return Value](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#return-value)
+- **Action execution order** → [ActionSequence: Gotcha 1](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#1-actions-execute-in-order-not-parallel)
+- **Actions object** → [ActionSequence: Actions Parameter](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#actions-object)
+- **Async workflows** → [ActionSequence: Multi-Step Workflows](../CLAUDE/ACTIONSEQUENCE_PATTERN.md#pattern-4-multi-step-workflow-with-spinner-feedback)
 - **AppContext** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
 - **AppContext.register** → [AppContext: Registration API](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#reactiumappcontextregistername-data-order)
 - **app-bindpoint** → [Component Binding: app-bindpoint Hook](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#integration-with-app-bindpoint-hook)
