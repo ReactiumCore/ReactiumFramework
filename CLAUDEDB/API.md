@@ -1,4 +1,4 @@
-<!-- v1.9.0 -->
+<!-- v1.11.0 -->
 # CLAUDEDB - API Quick Reference
 
 **Purpose**: Common functions/hooks with signatures + direct links
@@ -783,6 +783,96 @@ const result = await Actinium.Cloud.run('functionName', params, options);
 // options: { useMasterKey: boolean, sessionToken: string }
 ```
 → [Cloud Functions: Testing Strategies](../CLAUDE/CLOUD_FUNCTIONS.md#testing-strategies)
+
+### Content Type System
+
+```javascript
+// Create content type
+const type = await Actinium.Type.create(params, options);
+// params: { type, machineName?, namespace?, fields, regions?, meta? }
+// Returns: Type object with uuid, machineName, collection, fields, regions, meta
+```
+→ [Content Type: Create Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#create-type)
+
+```javascript
+// Retrieve content type
+const type = await Actinium.Type.retrieve(params, options);
+// params: { machineName | uuid | objectId | collection }
+// Returns: Type object
+```
+→ [Content Type: Retrieve Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#retrieve-type)
+
+```javascript
+// Update content type
+const updated = await Actinium.Type.update(params, options);
+// params: { machineName | uuid, fields?, regions?, meta? }
+// Returns: Updated type object
+```
+→ [Content Type: Update Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#update-type)
+
+```javascript
+// Delete content type (config only, not content)
+const trash = await Actinium.Type.delete(params, options);
+// params: { machineName | uuid }
+// Returns: Recycle bin entry
+```
+→ [Content Type: Delete Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#delete-type)
+
+```javascript
+// List all types
+const list = await Actinium.Type.list(params, options);
+// params: { page?, limit?, refresh? }
+// Returns: { timestamp, limit, page, pages, types: [...] }
+```
+→ [Content Type: List Types](../CLAUDE/CONTENT_TYPE_SYSTEM.md#list-types)
+
+```javascript
+// Get type status (collection, count, fields)
+const status = await Actinium.Type.status(params, options);
+// params: { machineName | uuid }
+// Returns: { collection, count, fields: [...] }
+```
+→ [Content Type: Type CRUD Operations](../CLAUDE/CONTENT_TYPE_SYSTEM.md#type-crud-operations)
+
+### Pagination Utilities
+
+```javascript
+// Skip-based pagination with hookedQuery
+const result = await Actinium.Utils.hookedQuery(
+    {
+        page: 1,           // Page number (1-indexed), or -1 for all pages
+        limit: 50,         // Items per page
+        orderBy: 'createdAt',
+        order: 'descending',
+        queryParams: [     // Declarative query constraints
+            { method: 'equalTo', params: ['status', 'PUBLISHED'] },
+            { method: 'greaterThan', params: ['createdAt', date] }
+        ]
+    },
+    options,
+    'Content_article',    // Collection name
+    'query-hook',         // Hook to modify query
+    'output-hook',        // Hook to modify results
+    'results',            // Results key
+    'ARRAY'               // Results as ARRAY or OBJECT
+);
+// Returns: { count, page, pages, limit, prev?, next?, results }
+```
+→ [Pagination: HookedQuery Utility](../CLAUDE/PAGINATION_STRATEGIES.md#example-hookedquery-utility)
+
+```javascript
+// Load all pages (batch processing)
+const allResults = await Actinium.Utils.hookedQuery(
+    { page: -1, limit: 100 },  // page: -1 triggers load-all
+    options,
+    'MyCollection'
+);
+// Returns all records in result.results
+```
+→ [Pagination: Load-All Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#2-load-all-pattern-skip-incrementation)
+
+**Note**: For cursor-based pagination (large datasets), see manual implementation pattern:
+→ [Pagination: Cursor-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#3-cursor-based-pagination-recommended-for-scale)
 
 ### Cloud Function Security
 

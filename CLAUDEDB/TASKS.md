@@ -1,4 +1,4 @@
-<!-- v1.12.0 -->
+<!-- v1.13.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -207,7 +207,31 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Patterns: Backend Caching Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-15-backend-caching-pattern)
 
 ### Paginate large datasets
-→ [Patterns: Pagination Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-19-pagination-pattern)
+→ [Pagination Strategies: Overview](../CLAUDE/PAGINATION_STRATEGIES.md#overview)
+→ [Pagination: Skip-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#1-skip-based-pagination-framework-default)
+→ [Pagination: Performance Comparison](../CLAUDE/PAGINATION_STRATEGIES.md#performance-comparison)
+
+### Implement cursor-based pagination (scalable)
+→ [Pagination: Cursor-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#3-cursor-based-pagination-recommended-for-scale)
+→ [Pagination: Implementation Pattern Forward](../CLAUDE/PAGINATION_STRATEGIES.md#implementation-pattern-forward-pagination)
+→ [Pagination: Best Practices](../CLAUDE/PAGINATION_STRATEGIES.md#best-practices)
+
+### Load all pages of data (batch processing)
+→ [Pagination: Load-All Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#2-load-all-pattern-skip-incrementation)
+→ [Pagination: Example Search Indexing](../CLAUDE/PAGINATION_STRATEGIES.md#example-3-search-indexing-with-load-all)
+
+### Define a content type (Actinium CMS)
+→ [Content Type: Overview](../CLAUDE/CONTENT_TYPE_SYSTEM.md#overview)
+→ [Content Type: Create Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#create-type)
+→ [Content Type: Field Configuration](../CLAUDE/CONTENT_TYPE_SYSTEM.md#field-configuration)
+
+### Update content type schema
+→ [Content Type: Update Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#update-type)
+→ [Content Type: Schema Management](../CLAUDE/CONTENT_TYPE_SYSTEM.md#schema-management)
+
+### Generate unique UUIDs for content types
+→ [Content Type: UUID Generation](../CLAUDE/CONTENT_TYPE_SYSTEM.md#uuid-generation)
+→ [Content Type: Namespace Configuration](../CLAUDE/CONTENT_TYPE_SYSTEM.md#namespace-based-uuids)
 
 ---
 

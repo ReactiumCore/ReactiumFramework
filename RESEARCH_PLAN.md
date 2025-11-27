@@ -30,78 +30,30 @@ Topics for future exploration sessions with specialized agents.
 - ✅ **Testing Strategies and Patterns** - Complete testing architecture for Reactium/Actinium applications; Jest configuration with ts-jest, React Testing Library, jsdom; testing Hook system (register, run, unregister, domain cleanup, async execution, argument passing, return value structure); testing Registry system (registration, subscription notifications, protection/banning, deep path access, CLEAN vs HISTORY modes); testing Handle system (useRegisterHandle/useHandle communication, TypeScript generics); testing React hooks (useSyncState, custom hooks with test components); testing cloud functions (Cloud.run manual testing, master key testing, session token propagation testing); testing DDD artifacts (plugin lifecycle, component binding, route registration); integration testing (hook pipelines, cache invalidation); best practices (test isolation, TypeScript type safety, data-testid usage, async operation handling, side effect cleanup); common gotchas (not awaiting async hooks, forgetting unregister, testing implementation vs behavior, not mocking Parse Server); test infrastructure (package.json scripts, jest.config.js, coverage requirements); comprehensive source references from reactium-sdk-core/test/*.test.ts*, jest.config.js:1-8, package.json:24-72; discovered during research: need for Parse SDK mocking patterns, SSR testing environment requirements, E2E testing patterns for full user workflows (Nov 26, 2025)
 - ✅ **Actinium Roles System Deep Dive** - Complete role-based access control architecture; built-in role hierarchy (banned:-1, anonymous:0, user:1, contributor:10, moderator:100, administrator:1000, super-admin:10000); role relations and inheritance (Parse.Role users/roles relations, getRoles().add() pattern); user-role assignment (role-user-add/remove cloud functions, getUsers().add/remove() API); role cache management (Actinium.Cache 'roles' key, decorateRoles pattern with user/role lists, afterSave cache invalidation); user role retrieval (Roles.User.get single user, Roles.User.getMany batch lookup, implicit anonymous role); role authorization checks (Roles.User.is by name/level, beforeLogin banned check); role ACL protection (default public read/write, role-specific restricted write via acl array, beforeSave/beforeDelete protected role enforcement for anonymous); role creation/removal (role-create/role-remove cloud functions, role initialization with DEFAULTS); collection registration (capabilities for _Role.create/retrieve/update/delete/addField); cache-first pattern for performance; level-based privilege comparison; comprehensive source references from actinium-core/lib/roles.js:1-304, actinium-roles/plugin.js:1-300; discovered during research: role ACL pattern for self-protecting roles, need for cursor-based pagination documentation for large role lists, ENV.ROLES configuration pattern for custom default roles (Nov 26, 2025)
 
+## Completed Research
+
+- ✅ **Cursor-Based Pagination Pattern** - Complete guide to skip-based vs cursor-based pagination strategies; skip-based framework patterns (hookedQuery, content.find, load-all with while loop); cursor-based implementation patterns (forward, bidirectional); performance comparison (skip degrades at high offsets, cursor O(1)); edge cases (duplicate timestamps with objectId tiebreaker, deletion handling, cursor encoding); integration with framework (custom cloud functions, not compatible with hookedQuery); real examples from search indexing, content pagination, recycle bin; best practices for choosing strategy based on dataset size and use case; discovered during research: Plugin dependency system does not exist (order field only), need for middleware auto-discovery documentation (Nov 26, 2025)
+- ✅ **Content Type System Architecture** - Complete type-as-schema system documentation; UUID v5 namespacing for cross-environment consistency (machineName + namespace → uuid); collection auto-generation (Content_{machineName}); field structure (fieldId, fieldName, fieldType, region); pluggable field types via hooks; region-based UI layout; Type CRUD operations (create, retrieve, update, delete, list); immutable properties (uuid, machineName, collection, namespace) enforced by beforeSave hook; automatic schema creation via type-saved hook; built-in type registry (DEFAULT_TYPE_REGISTRY) for plugin-provided types; cloud functions (type-create, type-retrieve, type-update, type-delete, type-status, types); capability model (Type.* for type operations, Content_*.* for content operations registered separately); integration with Collection Registration system; hooks (type-saved, type-deleted, type-retrieved, collection-before-load); gotchas (type deletion doesn't delete content/schema, field deletion requires manual schema update, namespace immutability, machineName slugification collisions); comprehensive source references from actinium-core/lib/type/index.js, actinium-type/plugin.js; discovered during research: Need for middleware auto-discovery pattern documentation (Express middleware registration in Actinium) (Nov 26, 2025)
+
 ## Pending Research Topics
 
 ### High Priority
 
-1. **Cursor-Based Pagination Pattern**
-
-   - **Discovered during**: Parse Query research - noted skip() performance degrades with large offsets (MongoDB scans all skipped documents), but cursor-based alternative not documented
-   - **Why it matters**: Essential for scalable pagination on large datasets (>10,000 records); skip(10000) is prohibitively slow
-   - **Current gap**: How to implement cursor-based pagination using createdAt/objectId range queries, maintaining sort order, handling edge cases (deletions mid-pagination), integrating with HookedQuery pattern
-   - **Key mechanisms**:
-     - greaterThan('createdAt', lastSeenDate) for forward pagination
-     - lessThan('createdAt', firstSeenDate) for backward pagination
-     - objectId as tiebreaker for same-timestamp records
-     - Storing cursor state (last seen objectId + createdAt)
-     - Reversing results for backward pagination
-   - **Real usage**: Content lists, user lists, activity feeds with thousands of items
-   - **Integration**: Alternative to HookedQuery skip/limit pattern
-   - **Critical for**: Large-scale production applications
-
 ### Medium Priority
 
-4. **Collection Registration**
+1. **Middleware Auto-Discovery (Actinium)**
 
-   - Identify how Parse Collections are registered
-   - How collection permissions are registered
-   - How capabilities are mapped
-   - Actinium specific extensions to Parse collections
-
-7. **Parse Server ACL Patterns in Actinium**
-
-   - CloudACL utility usage patterns
-   - Combining ACLs with capabilities
-   - Object-level vs feature-level permissions
-   - AclTargets cloud function
-   - Parse CLP configuration from capabilities
-
-8. **Actinium Roles System Deep Dive**
-
-   - Role levels and hierarchy
-   - Role relations (roles containing roles)
-   - User-role assignment patterns
-   - Built-in roles (super-admin, administrator, banned, anonymous)
-   - Role cache management
-
-9. **Manifest Generation Process**
-
-   - `manifest-tools.js` internals
-   - Globby patterns for DDD artifacts
-   - How to extend manifest scanning
-   - Custom artifact types
-
-10. **Plugin Dependency Resolution**
-
-- How `pluginDependencies` array works
-- Order vs dependencies
-- Circular dependency handling
-- Plugin activation/deactivation flow
-
-11. **Middleware Auto-Discovery (Actinium)**
-
-- File patterns for middleware discovery
-- Priority-based registration
-- Express app configuration hooks
-- Common middleware patterns
-
-12. **Content Type System Architecture**
-
-- Type registration and schema
-- Field type plugins
-- Dynamic capability generation
-- Content UUID generation (namespace patterns)
-- Type-specific routes
+   - **Discovered during**: Content Type research - noticed route registration patterns, need to understand Express middleware registration
+   - **Why it matters**: Critical for understanding Actinium server architecture, plugin extensibility, request/response pipeline customization
+   - **Current gap**: How middleware files are discovered, priority-based loading order, Express app configuration via hooks, common patterns for auth/logging/CORS/etc
+   - **Key mechanisms**:
+     - File pattern discovery (likely globby-based like other DDD)
+     - Priority/order-based middleware registration
+     - Express app lifecycle hooks
+     - Middleware composition patterns
+   - **Real usage**: Authentication middleware, logging, CORS, rate limiting, request validation
+   - **Integration**: Hook system, plugin activation/deactivation
+   - **Critical for**: Building Actinium server plugins, understanding request pipeline
 
 ### Lower Priority
 

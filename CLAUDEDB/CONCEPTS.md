@@ -1,4 +1,4 @@
-<!-- v1.6.0 -->
+<!-- v1.7.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -304,6 +304,34 @@
 5. [Gotchas: Schema Changes Require Restart](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-17-schema-changes-require-server-restart) - Common issues
 
 **Related**: Collections, Parse.Object, Query, MongoDB
+
+### Content Type System (CMS)
+**Learning Path**:
+1. [Content Type: Overview](../CLAUDE/CONTENT_TYPE_SYSTEM.md#overview) - What is the Type system
+2. [Content Type: Type Definition Structure](../CLAUDE/CONTENT_TYPE_SYSTEM.md#type-definition-structure) - Core properties
+3. [Content Type: UUID Generation](../CLAUDE/CONTENT_TYPE_SYSTEM.md#uuid-generation) - Namespace-based UUIDs
+4. [Content Type: Collection Name Generation](../CLAUDE/CONTENT_TYPE_SYSTEM.md#collection-name-generation) - Auto-naming
+5. [Content Type: Field Configuration](../CLAUDE/CONTENT_TYPE_SYSTEM.md#field-configuration) - Field structure
+6. [Content Type: Type CRUD Operations](../CLAUDE/CONTENT_TYPE_SYSTEM.md#type-crud-operations) - Create/retrieve/update/delete
+7. [Content Type: Schema Management](../CLAUDE/CONTENT_TYPE_SYSTEM.md#schema-management) - Automatic schema creation
+8. [Content Type: Capabilities and Permissions](../CLAUDE/CONTENT_TYPE_SYSTEM.md#capabilities-and-permissions) - Security model
+9. [Content Type: Hooks](../CLAUDE/CONTENT_TYPE_SYSTEM.md#hooks) - type-saved, type-deleted, type-retrieved
+10. [Content Type: Best Practices](../CLAUDE/CONTENT_TYPE_SYSTEM.md#best-practices) - Patterns to follow
+11. [Content Type: Common Gotchas](../CLAUDE/CONTENT_TYPE_SYSTEM.md#common-gotchas) - Avoid mistakes
+
+**Related**: Parse Schema, Collections, Capabilities, machineName, UUID v5, fieldTypes, regions
+
+### Pagination Strategies
+**Learning Path**:
+1. [Pagination: Overview](../CLAUDE/PAGINATION_STRATEGIES.md#overview) - Three pagination patterns
+2. [Pagination: Skip-Based Pagination](../CLAUDE/PAGINATION_STRATEGIES.md#1-skip-based-pagination-framework-default) - Framework default
+3. [Pagination: Load-All Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#2-load-all-pattern-skip-incrementation) - Batch processing
+4. [Pagination: Cursor-Based Pagination](../CLAUDE/PAGINATION_STRATEGIES.md#3-cursor-based-pagination-recommended-for-scale) - Scalable pattern
+5. [Pagination: Performance Comparison](../CLAUDE/PAGINATION_STRATEGIES.md#performance-comparison) - When to use each
+6. [Pagination: Best Practices](../CLAUDE/PAGINATION_STRATEGIES.md#best-practices) - Choosing the right strategy
+7. [Pagination: Common Gotchas](../CLAUDE/PAGINATION_STRATEGIES.md#common-gotchas) - Avoid mistakes
+
+**Related**: hookedQuery, Parse Query, skip(), limit(), greaterThan(), objectId, createdAt, MongoDB performance
 
 ### Middleware
 **Learning Path**:
