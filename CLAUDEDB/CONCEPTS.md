@@ -1,4 +1,4 @@
-<!-- v1.8.0 -->
+<!-- v1.10.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -243,6 +243,21 @@
 
 **Related**: Parse Server, Capabilities, Cloud Functions, ACL, Indexes, Schema evolution
 
+### Express Settings System (Actinium)
+**Learning Path**:
+1. [Express Settings: Overview](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#overview) - What is Actinium.Exp
+2. [Express Settings: Architecture](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#architecture) - Initialization sequence (before middleware)
+3. [Express Settings: Core Implementation](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#core-implementation) - How it works (app.set wrapper)
+4. [Express Settings: Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#configuration) - ENV.EXPRESS_OPTIONS, runtime, hook patterns
+5. [Express Settings: Common Settings Reference](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#common-express-settings) - View engine, trust proxy, security
+6. [Express Settings: Hook Integration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#hook-integration) - Dynamic config via init hook
+7. [Express Settings: Real-World Usage Patterns](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#real-world-usage-patterns) - Load balancers, templates, environments
+8. [Express Settings: Integration with Middleware System](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#integration-with-middleware-system) - Timing requirements
+9. [Express Settings: Best Practices](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#best-practices) - Trust proxy, security, environment config
+10. [Express Settings: Common Gotchas](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#common-gotchas) - Settings too late, JSON parsing, trust proxy
+
+**Related**: Express, Middleware system, init hook, ENV.EXPRESS_OPTIONS, View engines, Load balancers
+
 ### Middleware System (Actinium)
 **Learning Path**:
 1. [Actinium Middleware: Architecture Overview](../CLAUDE/ACTINIUM_MIDDLEWARE.md#architecture-overview) - System design
@@ -405,10 +420,27 @@
 ### Deployment
 **Learning Path**:
 1. [Integration: Deployment](../CLAUDE/FRAMEWORK_INTEGRATION.md#deployment) - Production setup
-2. [Integration: Development Workflow](../CLAUDE/FRAMEWORK_INTEGRATION.md#development-workflow) - Environment config
-3. [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system) - Build process
+2. [Environment Config: Architecture Overview](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#architecture-overview) - Configuration system
+3. [Environment Config: Multi-Environment Workflow](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#multi-environment-workflow) - Dev/staging/prod
+4. [Environment Config: Docker Deployment](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#dockercontainer-deployment-patterns) - Container setup
+5. [Environment Config: Best Practices](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#best-practices) - Security & deployment
+6. [Integration: Development Workflow](../CLAUDE/FRAMEWORK_INTEGRATION.md#development-workflow) - Local dev
+7. [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system) - Build process
 
-**Related**: Production, Environment variables, CORS, Build
+**Related**: Production, Environment variables, CORS, Build, Docker, TLS, Parse Server configuration
+
+### Environment Configuration
+**Learning Path**:
+1. [Environment Config: Architecture Overview](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#architecture-overview) - How config loads
+2. [Environment Config: File Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#three-tier-priority-system) - ACTINIUM_ENV_FILE/ID priority
+3. [Environment Config: Merge Strategy](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file--processenv-overlay) - File + process.env
+4. [Environment Config: PORT Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#complex-fallback-chain-with-port_var-indirection) - Complex PORT logic
+5. [Environment Config: Parse Server Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#environment--parse-server-mapping) - Parse integration
+6. [Environment Config: Security Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#security-configuration) - Master key, TLS, IP whitelist
+7. [Environment Config: Real-World Examples](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#real-world-configuration-examples) - Dev/staging/prod configs
+8. [Environment Config: Common Gotchas](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#common-gotchas) - Troubleshooting
+
+**Related**: Deployment, ACTINIUM_ENV_FILE, ACTINIUM_ENV_ID, DATABASE_URI, PORT, SERVER_URI, MASTER_KEY, TLS, Docker, Parse Server
 
 ---
 

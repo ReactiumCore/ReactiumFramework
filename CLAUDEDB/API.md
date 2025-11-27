@@ -1,4 +1,4 @@
-<!-- v1.12.0 -->
+<!-- v1.14.0 -->
 # CLAUDEDB - API Quick Reference
 
 **Purpose**: Common functions/hooks with signatures + direct links
@@ -677,6 +677,125 @@ Actinium.Collection.unregister(collection)
 // collection: String - Collection name
 ```
 → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
+
+### Express Settings
+
+```javascript
+Actinium.Exp.init(app, options?)
+// Configures Express app settings via app.set(key, value)
+// app: Express.Application - Express instance
+// options: Object (optional) - Settings object (overrides ENV.EXPRESS_OPTIONS)
+```
+→ [Express Settings: Core Implementation](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#core-implementation)
+
+```javascript
+// Environment configuration
+ENV.EXPRESS_OPTIONS = {
+    'view engine': 'ejs',           // Template engine
+    'views': '/path/to/views',      // Template directory
+    'trust proxy': true,            // Enable proxy trust
+    'x-powered-by': false,          // Disable Express header
+    'etag': 'weak',                 // ETag generation
+    'json spaces': 2,               // JSON pretty-print
+    'case sensitive routing': false,
+    'strict routing': false
+}
+```
+→ [Express Settings: Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#configuration)
+
+```javascript
+// Runtime configuration via Actinium.init()
+await Actinium.init({
+    'trust proxy': 1,
+    'view engine': 'pug'
+});
+```
+→ [Express Settings: Runtime Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#runtime-configuration)
+
+```javascript
+// Hook integration for dynamic configuration
+Actinium.Hook.register('init', async (app, options) => {
+    app.set('trust proxy', process.env.NODE_ENV === 'production' ? 1 : false);
+    app.set('view cache', process.env.NODE_ENV === 'production');
+});
+```
+→ [Express Settings: Hook Integration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#hook-integration)
+
+### Environment Configuration
+
+```javascript
+// Environment file resolution (priority order)
+process.env.ACTINIUM_ENV_FILE  // 1. Explicit file path
+process.env.ACTINIUM_ENV_ID    // 2. Environment ID → src/env.{id}.json
+// Default: src/env.json        // 3. Default file
+```
+→ [Environment Config: File Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#three-tier-priority-system)
+
+```javascript
+// Configuration merge strategy
+const ENV = {
+    ...JSON.parse(fs.readFileSync(envFile)),  // 1. Load JSON file
+    ...process.env,                            // 2. process.env overrides
+    PORT,                                      // 3. Computed values
+    SERVER_URI,
+    PUBLIC_SERVER_URI
+}
+```
+→ [Environment Config: Merge Strategy](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file--processenv-overlay)
+
+```javascript
+// PORT resolution logic (fallback chain)
+// Standard mode:
+// 1. process.env.APP_PORT
+// 2. process.env.PORT
+// 3. env.APP_PORT (from JSON)
+// 4. env.PORT (from JSON)
+// 5. DEFAULT_PORT (9000)
+
+// PORT_VAR mode (cloud platforms):
+const PORT_VAR = process.env.PORT_VAR || env.PORT_VAR;
+const PORT = process.env[PORT_VAR] || env[PORT_VAR];
+```
+→ [Environment Config: PORT Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#complex-fallback-chain-with-port_var-indirection)
+
+```javascript
+// TLS/HTTPS configuration
+ENV.APP_TLS_CERT_FILE = '/path/to/cert.pem';  // Certificate file path
+ENV.APP_TLS_KEY_FILE = '/path/to/key.pem';    // Private key file path
+// ENV.TLS_MODE auto-enabled if both files exist and readable
+```
+→ [Environment Config: TLS Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file-based-certificate-loading)
+
+```javascript
+// Security: Master key IP whitelisting (CIDR notation)
+ENV.MASTER_KEY_IPS = [
+    "10.0.0.5",           // Single IP
+    "192.168.1.0/24",     // IP range
+    "::1"                 // IPv6 localhost
+];
+```
+→ [Environment Config: Master Key IP Whitelisting](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#master-key-ip-whitelisting)
+
+```javascript
+// Feature flags
+ENV.NO_PARSE = false;            // Disable Parse Server entirely
+ENV.NO_DOCS = false;             // Disable API documentation
+ENV.LIVE_QUERY_SERVER = true;    // Enable Live Query subscriptions
+```
+→ [Environment Config: Feature Flags](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#conditional-service-enablement)
+
+```javascript
+// Common environment variables
+ENV.DATABASE_URI          // MongoDB connection string
+ENV.APP_ID                // Parse Server app ID
+ENV.MASTER_KEY            // Parse Server master key
+ENV.SERVER_URI            // Internal server URL
+ENV.PUBLIC_SERVER_URI     // Public-facing URL
+ENV.PARSE_MOUNT           // Parse Server mount path (e.g., "/api")
+ENV.PARSE_DASHBOARD       // Enable Parse Dashboard
+ENV.MAX_UPLOAD_SIZE       // File upload size limit
+```
+→ [Environment Config: Complete Variable Reference](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#complete-environment-variable-reference)
 
 ### Middleware Registration
 

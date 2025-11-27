@@ -1,4 +1,4 @@
-<!-- v1.16.0 -->
+<!-- v1.18.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -11,6 +11,8 @@
 
 - **ACL** → [Cloud Functions: ACL Management](../CLAUDE/CLOUD_FUNCTIONS.md#acl-management)
 - **AclTargets** → [Cloud Functions: AclTargets](../CLAUDE/CLOUD_FUNCTIONS.md#acltargets---get-users-and-roles-for-acls)
+- **ACTINIUM_ENV_FILE** → [Environment Config: File Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#three-tier-priority-system)
+- **ACTINIUM_ENV_ID** → [Environment Config: File Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#three-tier-priority-system)
 - **Actinium** → [Actinium Complete Reference](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md)
 - **actinium-core** → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
 - **actinium_modules** → [Actinium: Plugin Discovery](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-discovery)
@@ -19,6 +21,7 @@
 - **API** → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 - **API registry** → [SDK Extension: APIRegistry Extension](../CLAUDE/SDK_EXTENSION_PATTERN.md#pattern-2-apiregistry-extension)
 - **APIRegistry** → [SDK Extension: APIRegistry Internals](../CLAUDE/SDK_EXTENSION_PATTERN.md#apiregistry-internals)
+- **APP_PORT** → [Environment Config: PORT Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#complex-fallback-chain-with-port_var-indirection)
 - **AppContext** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
 - **AppContext.register** → [AppContext: Registration API](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#reactiumappcontextregistername-data-order)
 - **app-bindpoint** → [Component Binding: app-bindpoint Hook](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#integration-with-app-bindpoint-hook)
@@ -26,6 +29,8 @@
 - **app-ready** → [Reactium: Hook System](../CLAUDE/REACTIUM_FRAMEWORK.md#common-framework-hooks)
 - **AppBindings** → [Component Binding: Server-Side](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#server-side-register-bind-point-markup)
 - **AppContexts** → [Component Binding: AppContexts Wrapper](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#appcontexts-wrapper)
+- **APP_TLS_CERT_FILE** → [Environment Config: TLS Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file-based-certificate-loading)
+- **APP_TLS_KEY_FILE** → [Environment Config: TLS Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file-based-certificate-loading)
 - **Atomic Design** → [Style Partial System: Priority Levels](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#priority-levels-enumsstyle)
 - **Authentication** → [Integration: Authentication & Session Management](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 - **Authorization** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
@@ -78,12 +83,15 @@
 - **Data loading** → [Reactium: Data Loading with loadState](../CLAUDE/REACTIUM_FRAMEWORK.md#data-loading-with-loadstate)
 - **data-reactium-bind** → [Component Binding: Attribute Pattern](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#the-data-reactium-bind-attribute)
 - **Database** → [Actinium Quick Ref: Database Schema](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#database-schema-definition)
+- **DATABASE_URI** → [Environment Config: Parse Server Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#environment--parse-server-mapping)
 - **Database schema** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
 - **DDD** → [Reactium: Domain-Driven Design](../CLAUDE/REACTIUM_FRAMEWORK.md#domain-driven-design-ddd-structure)
+- **Deployment** → [Environment Config: Multi-Environment Workflow](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#multi-environment-workflow)
 - **DevTools binding** → [Component Binding: Development Tools](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#1-development-tools)
 - **Debugging** → [Gotchas: Debugging Strategies](../CLAUDE/FRAMEWORK_GOTCHAS.md#debugging-strategies)
 - **Dependencies** → [Patterns: Plugin Dependency Management](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-12-plugin-dependency-management)
 - **Deploy** → [Integration: Deployment](../CLAUDE/FRAMEWORK_INTEGRATION.md#deployment)
+- **Docker** → [Environment Config: Docker Deployment](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#dockercontainer-deployment-patterns)
 - **Domain-driven** → [Reactium: Domain-Driven Design](../CLAUDE/REACTIUM_FRAMEWORK.md#domain-driven-design-ddd-structure)
 - **Domains (hooks)** → [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
 
@@ -91,15 +99,22 @@
 
 - **Enums** → [Actinium Quick Ref: Priority Constants](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#priority-constants)
 - **Enums.priority.normal** → [Gotchas: Priority Normal Does Not Exist](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-5-enumsprioritynormal-does-not-exist-critical-bug)
-- **Environment** → [Integration: Development Workflow](../CLAUDE/FRAMEWORK_INTEGRATION.md#development-workflow)
+- **ENV** → [Environment Config: Complete Variable Reference](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#complete-environment-variable-reference)
+- **ENV.EXPRESS_OPTIONS** → [Express Settings: Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#environment-variable-configuration)
+- **env.json** → [Environment Config: File Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#three-tier-priority-system)
+- **env.dev.json** → [Environment Config: Development Template](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#envdevjson-creation)
+- **Environment** → [Environment Configuration System](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#architecture-overview)
+- **Environment variables** → [Environment Config: Merge Strategy](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file--processenv-overlay)
 - **Errors** → [Gotchas: Common Error Messages](../CLAUDE/FRAMEWORK_GOTCHAS.md#common-error-messages)
 - **ES Modules** → [Gotchas: ES Module Syntax](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-11-es-module-syntax-required)
+- **etag** → [Express Settings: Security Headers](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#security-headers)
 - **Event flattening** → [ComponentEvent: Payload Flattening](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#1-payload-flattening)
 - **EventPayload** → [ComponentEvent: EventPayload Interface](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#eventpayload-interface)
 - **Events** → [ComponentEvent System](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#overview)
 - **Express** → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
 - **Express middleware** → [Actinium Middleware System](../CLAUDE/ACTINIUM_MIDDLEWARE.md#architecture-overview)
-- **Express settings** → [Actinium Middleware: Integration with Express Settings](../CLAUDE/ACTINIUM_MIDDLEWARE.md#express-settings)
+- **Express settings** → [Express Settings System](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#overview)
+- **Exp.init** → [Express Settings: Core Implementation](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#core-implementation)
 
 ## F
 
@@ -162,10 +177,11 @@
 ## M
 
 - **machineName** → [Content Type: UUID Generation](../CLAUDE/CONTENT_TYPE_SYSTEM.md#namespace-based-uuids)
-
 - **Manifest** → [Reactium: Manifest System](../CLAUDE/REACTIUM_FRAMEWORK.md#manifest-system)
 - **Mappers** → [Zone System: Filters, Mappers, Sorters](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#filters-mappers-and-sorters)
 - **Master key** → [Cloud Functions: MasterOptions](../CLAUDE/CLOUD_FUNCTIONS.md#masteroptions---force-master-key)
+- **MASTER_KEY** → [Environment Config: Parse Server Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#environment--parse-server-mapping)
+- **MASTER_KEY_IPS** → [Environment Config: Master Key IP Whitelisting](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#master-key-ip-whitelisting)
 - **MasterOptions** → [Cloud Functions: MasterOptions](../CLAUDE/CLOUD_FUNCTIONS.md#masteroptions---force-master-key)
 - **Middleware** → [Actinium Middleware System](../CLAUDE/ACTINIUM_MIDDLEWARE.md#architecture-overview)
 - **Middleware.register** → [Actinium Middleware: register API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareregisterid-callback-order)
@@ -175,6 +191,12 @@
 - **Middleware priority** → [Actinium Middleware: Priority-Based Ordering](../CLAUDE/ACTINIUM_MIDDLEWARE.md#priority-based-ordering)
 - **Migration** → [Known Issues](../CLAUDE/KNOWN_ISSUES.md)
 - **MongoDB** → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
+
+## N
+
+- **NO_DOCS** → [Environment Config: Feature Flags](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#conditional-service-enablement)
+- **NO_PARSE** → [Environment Config: Feature Flags](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#conditional-service-enablement)
+- **NODE_ENV** → [Environment Config: Development Template](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#envdevjson-creation)
 
 ## O
 
@@ -186,16 +208,23 @@
 - **page** → [Pagination: Skip-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#example-standard-pagelimit-pattern)
 - **Pagination** → [Pagination Strategies](../CLAUDE/PAGINATION_STRATEGIES.md#overview)
 - **Pagination performance** → [Pagination: Performance Comparison](../CLAUDE/PAGINATION_STRATEGIES.md#performance-comparison)
-
 - **Pagination** → [Patterns: Pagination Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-19-pagination-pattern)
 - **Parameter validation** → [Cloud Functions: Parameter Validation](../CLAUDE/CLOUD_FUNCTIONS.md#parameter-validation)
 - **Parse** → [Integration: Parse Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#parse-integration)
+- **Parse Dashboard** → [Environment Config: Dashboard Authentication](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#parse-dashboard-user-authentication)
+- **PARSE_DASHBOARD_USERS** → [Environment Config: Dashboard Authentication](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#parse-dashboard-user-authentication)
 - **Parse Schema** → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
+- **Parse Server** → [Environment Config: Parse Server Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#environment--parse-server-mapping)
 - **Parse SDK** → [Integration: Data Flow](../CLAUDE/FRAMEWORK_INTEGRATION.md#data-flow-patterns)
 - **Parse.Cloud.run** → [Integration: Cloud Function Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md#cloud-function-integration)
 - **Patterns** → [Framework Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md)
 - **Performance** → [Patterns: Performance Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md#performance-patterns)
 - **Permissions** → [Cloud Functions: Security & Authorization](../CLAUDE/CLOUD_FUNCTIONS.md#security--authorization)
+- **PORT** → [Environment Config: PORT Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#complex-fallback-chain-with-port_var-indirection)
+- **PORT_VAR** → [Environment Config: PORT_VAR Indirection](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#with-port_var-cloud-platform-mode)
+- **process.env** → [Environment Config: Merge Strategy](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file--processenv-overlay)
+- **Production** → [Environment Config: Production Example](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#production-envprodjson)
+- **PUBLIC_SERVER_URI** → [Environment Config: URI Generation](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#automatic-port-adjustment)
 - **Pointer** → [Collection Registration: Pattern 3](../CLAUDE/COLLECTION_REGISTRATION.md#pattern-3-complex-schema-with-relations)
 - **Public permissions** → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
 - **Polling** → [Pulse System: API Polling](../CLAUDE/PULSE_SYSTEM.md#1-api-polling)
@@ -253,6 +282,8 @@
 - **Schema (Content Type)** → [Content Type: Schema Management](../CLAUDE/CONTENT_TYPE_SYSTEM.md#schema-management)
 - **Schema evolution** → [Collection Registration: Migration Patterns](../CLAUDE/COLLECTION_REGISTRATION.md#migration-patterns)
 - **Schema field types** → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
+- **Security** → [Environment Config: Security Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#security-configuration)
+- **SERVER_URI** → [Environment Config: URI Generation](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#automatic-port-adjustment)
 - **skip** → [Pagination: Skip-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#1-skip-based-pagination-framework-default)
 - **SDK** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **SDK extension** → [SDK Extension Pattern](../CLAUDE/SDK_EXTENSION_PATTERN.md#overview)
@@ -263,6 +294,7 @@
 - **Server.AppHeaders** → [SSR: AppHeaders Hook](../CLAUDE/SSR_ARCHITECTURE.md#3-serverappheaders)
 - **Server.AppScripts** → [SSR: AppScripts Hook](../CLAUDE/SSR_ARCHITECTURE.md#4-serverappscripts)
 - **Server.AppStyleSheets** → [SSR: AppStyleSheets Hook](../CLAUDE/SSR_ARCHITECTURE.md#5-serverappstylesheets)
+- **Staging** → [Environment Config: Staging Example](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#staging-envstagingjson)
 - **Session** → [Cloud Functions: Request Object](../CLAUDE/CLOUD_FUNCTIONS.md#request-object-req)
 - **Session token** → [Cloud Functions: User Context Propagation](../CLAUDE/CLOUD_FUNCTIONS.md#user-context-propagation)
 - **Sorters** → [Zone System: Filters, Mappers, Sorters](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#filters-mappers-and-sorters)
@@ -272,19 +304,21 @@
 
 ## T
 
+- **Testing** → [Patterns: Testing Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md#testing-patterns)
+- **Theme** → [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
+- **ThemeProvider** → [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
+- **TLS** → [Environment Config: TLS Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file-based-certificate-loading)
+- **TLS_MODE** → [Environment Config: Server Creation with TLS](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#server-creation-with-tls)
+- **Transitions** → [Reactium: Route Transitions](../CLAUDE/REACTIUM_FRAMEWORK.md#route-transitions)
+- **transitionState** → [Reactium: Route Transitions](../CLAUDE/REACTIUM_FRAMEWORK.md#route-transitions)
+- **Troubleshooting** → [Framework Gotchas](../CLAUDE/FRAMEWORK_GOTCHAS.md)
+- **trust proxy** → [Express Settings: Proxy Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#proxy-configuration)
 - **Type** → [Content Type System Architecture](../CLAUDE/CONTENT_TYPE_SYSTEM.md#overview)
 - **Type.create** → [Content Type: Create Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#create-type)
 - **Type.delete** → [Content Type: Delete Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#delete-type)
 - **Type.retrieve** → [Content Type: Retrieve Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#retrieve-type)
 - **Type.update** → [Content Type: Update Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#update-type)
 - **type-saved hook** → [Content Type: Hooks](../CLAUDE/CONTENT_TYPE_SYSTEM.md#type-saved)
-
-- **Testing** → [Patterns: Testing Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md#testing-patterns)
-- **Theme** → [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
-- **ThemeProvider** → [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
-- **Transitions** → [Reactium: Route Transitions](../CLAUDE/REACTIUM_FRAMEWORK.md#route-transitions)
-- **transitionState** → [Reactium: Route Transitions](../CLAUDE/REACTIUM_FRAMEWORK.md#route-transitions)
-- **Troubleshooting** → [Framework Gotchas](../CLAUDE/FRAMEWORK_GOTCHAS.md)
 
 ## U
 
@@ -308,6 +342,8 @@
 ## V
 
 - **Validation** → [Patterns: Hook-Based Validation](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-9-hook-based-data-validation)
+- **View engine** → [Express Settings: View Engine Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#view-engine-configuration)
+- **Views** → [Express Settings: View Engine Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#view-engine-configuration)
 
 ## W
 
@@ -363,8 +399,11 @@
 - **Shared state** = **Handle** = **Global state** → [Handle System Architecture](../CLAUDE/HANDLE_SYSTEM.md#overview)
 - **Theming** = **AppParent replacement** → [hookableComponent: Real-World Use Cases](../CLAUDE/HOOKABLE_COMPONENT.md#real-world-use-cases)
 - **Webpack config** = **Build customization** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
+- **View engine** = **Template engine** = **EJS** = **Pug** → [Express Settings: View Engine Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#view-engine-configuration)
+- **Load balancer** = **trust proxy** = **Reverse proxy** → [Express Settings: Proxy Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#proxy-configuration)
+- **Express configuration** = **Express settings** = **Actinium.Exp** → [Express Settings System](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#overview)
 
 ---
 
 **Usage**: Search for keyword → Click link → Read exact section needed
-**Coverage**: ~100 most common developer search terms
+**Coverage**: ~105 most common developer search terms

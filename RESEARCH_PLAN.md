@@ -37,25 +37,45 @@ Topics for future exploration sessions with specialized agents.
 
 - ✅ **Middleware Auto-Discovery (Actinium)** - Complete Express middleware registration system with globby-based file discovery (ENV.GLOB_MIDDLEWARE patterns), priority-based sequential execution via ActionSequence, registration API (register, registerHook, replace, unregister), HookMiddleware wrapper class for hook-driven extensibility, lifecycle integration (fires after Exp.init, before Plugin.init), real-world examples from core middleware (body-parser, CORS, cookie-session, Parse Server, static assets, docs, morgan), common patterns (NPM wrapper, router-based, conditional, hook-driven, async), environment configuration, priority ordering (-100000 = early, 0 = Parse Server, 100 = default), replacement/unregister mechanisms, comprehensive source references from actinium-core/lib/middleware.js:1-133, actinium-core/actinium.js:77-87, actinium-core/globals.js:62-68, all core middleware files; discovered during research: Express Router patterns for route grouping, need for Express Settings (Actinium.Exp) documentation covering view engine, trust proxy, and other Express configuration (Nov 27, 2025)
 
+- ✅ **Express Settings System (Actinium.Exp)** - Complete Express app configuration system documentation; initialization sequence (runs after Express app creation, before middleware); ENV.EXPRESS_OPTIONS configuration via JSON environment variable; app.set() wrapper with boot logging; default settings (view engine: ejs, views: APP_DIR/view, x-powered-by: false); runtime override via Actinium.init(options) parameter; hook integration via 'init' hook for dynamic configuration; common settings reference (trust proxy, view engine, view cache, etag, json spaces, case sensitive routing); real-world patterns (load balancer trust proxy, custom template engines, environment-specific config, multi-tenant subdomains); integration with middleware system (settings MUST apply before middleware); best practices (trust proxy behind reverse proxies, security headers, environment variables); common gotchas (settings applied too late, JSON parsing in env vars, trust proxy misconfiguration, view engine registration order); debugging techniques; comprehensive source references from actinium-core/lib/express-settings.js:1-16, actinium-core/actinium.js:77-101, actinium-core/globals.js:70-74,109-111; discovered during research: Express Router patterns for route grouping in middleware (docs/middleware.js uses express.Router()), need for API organization and versioning patterns documentation (Nov 27, 2025)
+
+- ✅ **Actinium Environment-Specific Configuration System** - Complete environment file resolution and configuration management system; three-tier priority (ACTINIUM_ENV_FILE → ACTINIUM_ENV_ID → src/env.json); process.env overlay pattern (process.env overrides file values); complex PORT resolution with PORT_VAR indirection for cloud platforms; fallback chain (APP_PORT → PORT → env.APP_PORT → env.PORT → 9000); SERVER_URI/PUBLIC_SERVER_URI auto-generation with lazy port adjustment; development template auto-generation (env.def.json → env.dev.json); string-to-type normalization (stringToBoolean, stringToObject); Parse Server configuration integration; TLS/HTTPS file-based certificate loading (APP_TLS_CERT_FILE, APP_TLS_KEY_FILE); security patterns (MASTER_KEY_IPS CIDR whitelisting, Parse Dashboard authentication); feature flags (NO_PARSE, NO_DOCS, LIVE_QUERY_SERVER); real-world multi-environment examples (dev/staging/prod); Docker/container deployment patterns; complete ENV variable reference; comprehensive source references from actinium-core/boot.js:8-186, actinium-core/globals.js:30-148, actinium-core/middleware/parse/middleware.js:8-122; discovered during research: FileAdapter proxy pattern for Parse Server file handling (actinium-core/lib/files-adapter.js) - need to document pluggable file storage backends (S3, GridStore, GCS) and hook-driven file processing pipeline (Nov 27, 2025)
+
 ## Pending Research Topics
 
 ### High Priority
 
+1. **Actinium FileAdapter System and File Storage Backends**
+
+   - **Discovered during**: Actinium Environment Configuration System research - noticed FileAdapter.getProxy(config) pattern in Parse Server middleware (actinium-core/middleware/parse/middleware.js:27), need to understand pluggable file storage architecture
+   - **Why it matters**: Critical for production deployments requiring S3/GCS storage instead of local filesystem; helps Claude guide developers on scalable file storage setup; reveals hook-driven file processing pipeline for transforms (image resize, virus scanning, etc.); affects parse file URL generation and access control
+   - **Current gap**: No documentation on FileAdapter proxy pattern, pluggable backend registration (S3Adapter, GCSAdapter, GridStoreAdapter), file processing hooks, directAccess vs proxied file serving, preserveFileName behavior, integration with PARSE_FILES_DIRECT_ACCESS and PARSE_PRESERVE_FILENAME env vars
+   - **Key mechanisms**:
+     - FileAdapter.getProxy() factory pattern
+     - Pluggable backend adapter registration
+     - Hook integration for file processing pipeline
+     - Parse Server filesAdapter configuration
+     - File URL generation (direct vs proxied)
+     - File metadata preservation options
+   - **Real usage**: S3 storage for production, local filesystem for development, image transformation pipeline, file access control, file upload size limits (MAX_UPLOAD_SIZE)
+   - **Integration**: Environment configuration (ENV vars), Parse Server initialization, Cloud functions (file access), Middleware system
+   - **Critical for**: Production file storage architecture, CDN integration, file processing workflows, scalable deployments, debugging file upload/access issues
+
 ### Medium Priority
 
-1. **Express Settings System (Actinium.Exp)**
+1. **Express Router Patterns and Route Organization**
 
-   - **Discovered during**: Middleware Auto-Discovery research - noticed Actinium.Exp.init() fires before middleware, need to understand Express app configuration
-   - **Why it matters**: Critical for understanding Express app initialization, view engine setup, trust proxy configuration, and other Express settings that affect middleware and routing
-   - **Current gap**: How Actinium.Exp configures Express app, what settings are available, how to customize Express configuration, integration with middleware system
+   - **Discovered during**: Express Settings System research - noticed middleware examples using express.Router() for route grouping (docs/middleware.js:8-14), need to understand best practices for organizing API routes in Actinium
+   - **Why it matters**: Critical for understanding how to structure large Actinium APIs with multiple route groups, middleware scoping, and versioned endpoints; helps Claude recommend proper route organization patterns
+   - **Current gap**: How to use Express Router for route grouping, middleware scoping per router, integration with Actinium middleware system, best practices for API versioning
    - **Key mechanisms**:
-     - Express app configuration API
-     - Default settings (views, view engine, x-powered-by)
-     - Hook integration for custom settings
-     - Environment-based configuration
-   - **Real usage**: Custom view engines, trust proxy for load balancers, static file serving configuration, custom Express settings
-   - **Integration**: Middleware system (runs before middleware), Hook system
-   - **Critical for**: Building Actinium applications with custom Express configuration, understanding server initialization sequence
+     - Express Router creation and mounting
+     - Router-level middleware vs app-level middleware
+     - Route path prefixes and nesting
+     - Integration with Actinium.Middleware patterns
+   - **Real usage**: API versioning (/api/v1/, /api/v2/), admin route grouping, public vs authenticated route separation, modular route organization
+   - **Integration**: Middleware system, Cloud functions, Parse Server mount point
+   - **Critical for**: Building scalable Actinium APIs with clean route organization, proper middleware scoping, and maintainable code structure
 
 ### Lower Priority
 

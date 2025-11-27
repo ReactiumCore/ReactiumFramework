@@ -1,4 +1,4 @@
-<!-- v1.14.0 -->
+<!-- v1.16.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -91,6 +91,19 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Actinium Middleware: Registration API](../CLAUDE/ACTINIUM_MIDDLEWARE.md#actiniummiddlewareregisterid-callback-order)
 → [Actinium Middleware: Common Patterns](../CLAUDE/ACTINIUM_MIDDLEWARE.md#common-patterns)
 → [Actinium Middleware: Real-World Examples](../CLAUDE/ACTINIUM_MIDDLEWARE.md#real-world-examples)
+
+### Configure Express settings (view engine, trust proxy, etc.)
+→ [Express Settings: Overview](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#overview)
+→ [Express Settings: Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#configuration)
+→ [Express Settings: Common Settings Reference](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#common-express-settings)
+
+### Set trust proxy for load balancer
+→ [Express Settings: Proxy Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#proxy-configuration)
+→ [Express Settings: Pattern 1 - Load Balancer Deployment](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#pattern-1-load-balancer-deployment)
+
+### Change view engine (EJS, Pug, Handlebars)
+→ [Express Settings: View Engine Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#view-engine-configuration)
+→ [Express Settings: Pattern 2 - Custom Template Engine](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#pattern-2-custom-template-engine)
 
 ### Configure CORS in Actinium
 → [Actinium Middleware: CORS Example](../CLAUDE/ACTINIUM_MIDDLEWARE.md#real-world-examples)
@@ -401,7 +414,41 @@ npx reactium component -n MyComponent -d src/app/components -r "/my-route" -H -s
 → [Integration: Deployment](../CLAUDE/FRAMEWORK_INTEGRATION.md#deployment)
 
 ### Configure environment
+→ [Environment Configuration System](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#architecture-overview)
 → [Integration: Development Workflow](../CLAUDE/FRAMEWORK_INTEGRATION.md#development-workflow)
+
+### Set up multi-environment deployment
+→ [Environment Config: Multi-Environment Workflow](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#multi-environment-workflow)
+→ [Environment Config: Real-World Examples](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#real-world-configuration-examples)
+
+### Configure MongoDB connection
+→ [Environment Config: DATABASE_URI](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#environment--parse-server-mapping)
+→ [Environment Config: Production Example](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#production-envprodjson)
+
+### Configure environment-specific PORT
+→ [Environment Config: PORT Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#complex-fallback-chain-with-port_var-indirection)
+→ [Environment Config: PORT_VAR for Cloud Platforms](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#with-port_var-cloud-platform-mode)
+
+### Set up TLS/HTTPS
+→ [Environment Config: TLS Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file-based-certificate-loading)
+→ [Environment Config: Server Creation with TLS](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#server-creation-with-tls)
+
+### Configure Parse Dashboard authentication
+→ [Environment Config: Parse Dashboard Users](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#parse-dashboard-user-authentication)
+
+### Secure master key access
+→ [Environment Config: Master Key IP Whitelisting](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#master-key-ip-whitelisting)
+→ [Environment Config: Security Best Practices](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#best-practices)
+
+### Deploy with Docker
+→ [Environment Config: Docker Deployment Patterns](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#dockercontainer-deployment-patterns)
+
+### Override env vars at runtime
+→ [Environment Config: Merge Strategy](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file--processenv-overlay)
+
+### Debug environment configuration
+→ [Environment Config: Debugging](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#debugging-environment-configuration)
+→ [Environment Config: Common Gotchas](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#common-gotchas)
 
 ### Customize webpack
 → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
