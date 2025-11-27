@@ -1,4 +1,4 @@
-<!-- v1.0.0 -->
+<!-- v1.1.0 -->
 
 # CLI Commands Reference and Workflow Guide
 
@@ -153,15 +153,15 @@ These commands generate Reactium frontend code (components, routes, styles, hook
 - `-r, --route [route]` - Route path (e.g., `/about`, `['/page-1', '/page-2']`)
 - `--hooks` - Generate `reactium-hooks-*.js` file for plugin registration
 - `--domain` - Generate `reactium-domain-*.js` file for DDD domain
-- `--style [type]` - Generate stylesheet: `scss`, `less`, `css`
+- `--style [type]` - Generate style partial file with prefix: `default`, `mixins`, `variables`, `base`, `atoms`, `molecules`, `organisms`, `overrides`
 - `--unattended` - Skip confirmation prompts
 
 **Generated files**:
 - `ComponentName.jsx` - Functional component with useSyncState
-- `reactium-hooks-componentname.js` - Component registration hook
-- `reactium-route-componentname.js` - Route definition array
-- `reactium-domain-componentname.js` - DDD domain declaration
-- `[type]-ComponentName.scss` - Stylesheet partial
+- `reactium-hooks-componentname.js` - Component registration hook (if `--hooks` flag used)
+- `reactium-route-componentname.js` - Route definition array (if `--route` specified)
+- `reactium-domain-componentname.js` - DDD domain declaration (if `--domain` flag used)
+- `[prefix]-ComponentName.scss` - Style partial file (if `--style` flag used, e.g., `_reactium-style-ComponentName.scss`)
 
 **Example workflows**:
 ```bash
@@ -172,7 +172,7 @@ npx reactium component \
   --route '/about' \
   --hooks \
   --domain \
-  --style scss
+  --style default
 
 # Create simple reusable component (no route)
 npx reactium component \
@@ -189,7 +189,8 @@ npx reactium component --destination '[labels.pages]/Home' --name HomePage
 **Common gotchas**:
 - Route format must be string `'/path'` or array `['/path-1', '/path-2']`
 - Component name auto-converted to PascalCase
-- Stylesheet prefix determined by `styleType` (defaults to `scss`)
+- `--style` flag accepts prefix types (`default`, `variables`, etc.), NOT file extensions (`scss`, `less`, `css`)
+- Style files are always `.scss` extension, regardless of type (type controls prefix/compilation order)
 - Hooks file registers component in Component registry on `plugin-init`
 - Generated route uses dynamic import for code splitting
 
@@ -234,52 +235,87 @@ npx reactium route \
 
 #### `npx reactium style`
 
-**Purpose**: Generate SCSS/LESS/CSS stylesheet partial
+**Purpose**: Generate DDD style partial file with configurable prefix for compilation order control
 
-**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/style/reactium-arcli.js`
+**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/style/index.js:1-154`, `reactium-arcli.js:1-91`, `styleTypes.cjs:1-34`
 
 **When to use**:
-- Adding styles to existing components
-- Creating global stylesheet partials
-- Organizing styles by Atomic Design System levels
+- Adding style partials to existing components
+- Creating variables, mixins, or override files with correct compilation order
+- Organizing component styles by atomic design levels (atoms, molecules, organisms)
 
 **How it works**:
-1. Prompts for destination and style type
-2. Generates prefixed stylesheet file
-3. Auto-discovered by style partial system
+1. Prompts for destination (fuzzypath selector, default: `src/app/components`)
+2. Prompts for style type (8 prefix options that control compilation order)
+3. Sets `params.style = true` and calls `componentGen` (same generator as component command)
+4. Generates `.scss` file with selected prefix + component name from directory basename
+5. Auto-discovered by DDD style partial system via `_reactium-style-*` pattern
 
 **Flags**:
-- `-d, --destination [path]` - Stylesheet directory
-- `-t, --type [type]` - Style type: `scss`, `less`, `css`
-- `-n, --name [name]` - Stylesheet name
-- `--order [order]` - Compilation order (default: 0)
+- `-d, --destination [path]` - Component directory location
+- `-t, --type [type]` - Style prefix type (controls compilation order):
+  - `default` → `_reactium-style-ComponentName.scss`
+  - `mixins` → `_reactium-style-mixins-ComponentName.scss`
+  - `variables` → `_reactium-style-variables-ComponentName.scss`
+  - `base` → `_reactium-style-base-ComponentName.scss`
+  - `atoms` → `_reactium-style-atoms-ComponentName.scss`
+  - `molecules` → `_reactium-style-molecules-ComponentName.scss`
+  - `organisms` → `_reactium-style-organisms-ComponentName.scss`
+  - `overrides` → `_reactium-style-overrides-ComponentName.scss`
+- `-u, --unattended [unattended]` - Skip confirmation prompts
 
-**Stylesheet prefix patterns**:
-- `_reactium-style-*.scss` - Default/BASE level (order: 0)
-- `_reactium-style-variables-*.scss` - VARIABLES level (order: -1000)
-- `_reactium-style-mixins-*.scss` - MIXINS level (order: -900)
-- `_reactium-style-atoms-*.scss` - ATOMS level (order: 100)
-- `_reactium-style-molecules-*.scss` - MOLECULES level (order: 200)
-- `_reactium-style-organisms-*.scss` - ORGANISMS level (order: 300)
-- `_reactium-style-overrides-*.scss` - OVERRIDES level (order: 1000)
+**Generated files**:
+- `[prefix]-ComponentName.scss` - Style partial file (always `.scss` extension)
+- Examples:
+  - Type `variables` → `_reactium-style-variables-Button.scss`
+  - Type `default` → `_reactium-style-Button.scss`
+  - Type `overrides` → `_reactium-style-overrides-Modal.scss`
 
 **Example workflows**:
 ```bash
-# Add component styles
+# Create default style partial (prompts for type)
+npx reactium style --destination src/app/components/Button
+
+# Create variables partial (compiles early in order)
 npx reactium style \
   --destination src/app/components/Button \
-  --name Button \
-  --type scss
+  --type variables
 
-# Create global variables
+# Create overrides partial (compiles late in order)
 npx reactium style \
-  --destination src/app/styles \
-  --name theme-colors \
-  --type scss \
-  --order -1000
+  --destination src/app/components/Modal \
+  --type overrides
+
+# Create atomic design level partial
+npx reactium style \
+  --destination src/app/components/ui/InputField \
+  --type atoms
+
+# Unattended mode (skip prompts)
+npx reactium style \
+  --destination src/app/components/Modal \
+  --type default \
+  --unattended
 ```
 
-**Integration**: Auto-discovered by `ddd-styles-partial` hook, compiled in priority order
+**Integration**: Auto-discovered by `ddd-styles-partial` hook via `_reactium-style-*` filename pattern. Prefix determines compilation order in final CSS bundle.
+
+**Compilation Order** (from styleTypes.cjs):
+1. `variables` - Compiled first (for SCSS variables)
+2. `mixins` - Compiled second (for SCSS mixins)
+3. `base` - Base styles
+4. `atoms` - Atomic design atoms
+5. `molecules` - Atomic design molecules
+6. `organisms` - Atomic design organisms
+7. `default` - Default component styles
+8. `overrides` - Compiled last (for overriding other styles)
+
+**Common gotchas**:
+- **Type is NOT file extension** - All files are `.scss`, type controls prefix/order
+- **Invalid types**: `scss`, `less`, `css` are NOT valid type values
+- **Valid types**: `default`, `mixins`, `variables`, `base`, `atoms`, `molecules`, `organisms`, `overrides`
+- Stylesheet name always derived from directory basename (e.g., `Button` directory → `*-Button.scss`)
+- Files with `_reactium-style-*` prefix are auto-discovered - manual import NOT required
 
 ---
 
@@ -308,19 +344,33 @@ npx reactium hook --destination src/app/components/MyComponent
 
 **Purpose**: Generate DDD domain file
 
-**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/domain/reactium-arcli.js`
+**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/domain/index.js:1-150`, `reactium-arcli.js:1-78`
 
 **When to use**:
 - Organizing code by domain-driven design principles
 - Grouping related DDD artifacts in specific domains
 
+**How it works**:
+1. Prompts for destination directory
+2. Derives domain name from directory basename
+3. Uses same `componentGen` as component command with `params.domain = true`
+
+**Flags**:
+- `-d, --destination [path]` - Directory to save the domain file
+- `-u, --unattended [unattended]` - Skip confirmation prompts
+
 **Generated**: `reactium-domain-*.js` file with domain name declaration
 
 **Example workflows**:
 ```bash
-# Create domain file
-npx reactium domain --destination src/app/components/UserProfile --name User
+# Create domain file (name derived from directory basename)
+npx reactium domain --destination src/app/components/UserProfile
+
+# Unattended mode
+npx reactium domain --destination src/app/components/Checkout --unattended
 ```
+
+**Note**: Domain name is automatically derived from the basename of the destination path (e.g., `UserProfile` directory → domain name `UserProfile`)
 
 ---
 
@@ -462,7 +512,7 @@ npx reactium component \
   --route '/about' \
   --hooks \
   --domain \
-  --style scss
+  --style default
 ```
 
 **Generates**:
@@ -470,7 +520,7 @@ npx reactium component \
 - `reactium-hooks-aboutpage.js` - Component registration
 - `reactium-route-aboutpage.js` - Route definition
 - `reactium-domain-aboutpage.js` - Domain declaration
-- `scss-AboutPage.scss` - Stylesheet
+- `_reactium-style-AboutPage.scss` - Style partial file (default type)
 
 **Result**: Fully functional page accessible at `/about`
 
@@ -570,7 +620,7 @@ export default [
 ### "I want to create..."
 
 #### A new page
-→ `npx reactium component --route '/path' --hooks --style scss`
+→ `npx reactium component --route '/path' --hooks --style default`
 
 #### A reusable component (no route)
 → `npx reactium component --name MyComponent`
@@ -579,7 +629,7 @@ export default [
 → `npx reactium route --route '/path'`
 
 #### Just styles (component exists)
-→ `npx reactium style --name MyComponent --type scss`
+→ `npx reactium style --destination src/app/components/MyComponent --type default`
 
 #### A custom CLI command
 → `npx reactium cli command --name my-command`
@@ -692,7 +742,7 @@ npx reactium component \
   --route '/about' \
   --hooks \
   --domain \
-  --style scss
+  --style default
 ```
 
 ### 3. Organize Routes in Route Files
@@ -743,12 +793,15 @@ npx reactium package publish
 
 `npx reactium init` extracts to current directory and will overwrite existing files. Always run in empty directory.
 
-### 4. Style Prefix Matters
+### 4. Style Type Controls Prefix and Compilation Order
 
-Generated stylesheets use prefix to determine compilation order:
-- `scss-MyComponent.scss` → BASE level
-- `_reactium-style-MyComponent.scss` → BASE level (auto-discovered)
-- Custom prefix requires manual `ddd-styles-partial` hook registration
+The `--type` flag on `npx reactium style` controls the **prefix**, not the file extension:
+- Type `default` → `_reactium-style-MyComponent.scss` (default compilation order)
+- Type `variables` → `_reactium-style-variables-MyComponent.scss` (compiled first)
+- Type `overrides` → `_reactium-style-overrides-MyComponent.scss` (compiled last)
+- All files are `.scss` extension regardless of type
+- **Invalid**: `--type scss` (not a valid type)
+- **Valid**: `--type default`, `--type variables`, `--type atoms`, etc.
 
 ### 5. Hooks File Component Registration
 
