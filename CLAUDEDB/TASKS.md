@@ -1,4 +1,4 @@
-<!-- v1.20.0 -->
+<!-- v1.21.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -485,8 +485,99 @@ module.exports = spinner => {
 ### Define custom roles
 → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
 
-### Set up ACLs
-→ [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
+### Set up ACLs for objects (Parse.Object)
+→ [Parse ACL Patterns: Overview](../CLAUDE/PARSE_ACL_PATTERNS.md#overview)
+→ [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
+
+**Quick Example**:
+```javascript
+const acl = new Parse.ACL();
+acl.setPublicReadAccess(true);
+acl.setPublicWriteAccess(false);
+acl.setWriteAccess(currentUser.id, true);
+object.setACL(acl);
+```
+
+### Understand ACL vs CLP
+→ [Parse ACL Patterns: ACL vs CLP Decision Matrix](../CLAUDE/PARSE_ACL_PATTERNS.md#acl-vs-clp-decision-matrix)
+
+### Generate capability-based ACLs
+→ [Parse ACL Patterns: CloudACL Helper Pattern](../CLAUDE/PARSE_ACL_PATTERNS.md#cloudacl-helper-pattern)
+
+**Quick Example**:
+```javascript
+const acl = await Actinium.Utils.CloudACL(
+    [],
+    'content.read',   // Any role with this capability gets read access
+    'content.write'   // Any role with this capability gets write access
+);
+object.setACL(acl);
+```
+
+### Set object-level permissions (user-owned content)
+→ [Parse ACL Patterns: User-Owned Content Pattern](../CLAUDE/PARSE_ACL_PATTERNS.md#1-user-owned-content-author-only)
+
+### Set public read, restricted write
+→ [Parse ACL Patterns: Public Read Restricted Write](../CLAUDE/PARSE_ACL_PATTERNS.md#2-public-read-restricted-write)
+
+### Debug permission denied errors
+→ [Parse ACL Patterns: Debugging ACL Issues](../CLAUDE/PARSE_ACL_PATTERNS.md#debugging-acl-issues)
+→ [Parse ACL Patterns: Common Gotchas](../CLAUDE/PARSE_ACL_PATTERNS.md#common-gotchas)
+
+### Get users and roles for ACL selection
+→ [Parse ACL Patterns: AclTargets Helper](../CLAUDE/PARSE_ACL_PATTERNS.md#acltargets-helper)
+
+---
+
+## File Storage
+
+### Set up S3 file storage
+→ [FileAdapter System: S3Adapter Plugin](../CLAUDE/FILE_ADAPTER_SYSTEM.md#1-s3adapter-plugin)
+→ [FileAdapter System: Production Setup S3](../CLAUDE/FILE_ADAPTER_SYSTEM.md#production-setup-s3)
+
+**Quick Setup**:
+```javascript
+await Actinium.Setting.set('S3Adapter', {
+    accessKey: process.env.AWS_ACCESS_KEY,
+    secretKey: process.env.AWS_SECRET_KEY,
+    bucket: 'my-app-files',
+    region: 'us-west-2',
+    directAccess: true,
+    baseUrl: 'https://cdn.myapp.com'
+});
+
+await Actinium.Plugin.activate('S3Adapter');
+```
+
+### Switch file storage backend
+→ [FileAdapter System: Overview](../CLAUDE/FILE_ADAPTER_SYSTEM.md#overview)
+→ [FileAdapter System: Adapter Lifecycle](../CLAUDE/FILE_ADAPTER_SYSTEM.md#adapter-lifecycle)
+
+### Use local file storage (development)
+→ [FileAdapter System: FSFilesAdapter Plugin](../CLAUDE/FILE_ADAPTER_SYSTEM.md#2-fsfilesadapter-plugin)
+→ [FileAdapter System: Development Setup](../CLAUDE/FILE_ADAPTER_SYSTEM.md#development-setup)
+
+### Integrate CDN for file delivery
+→ [FileAdapter System: CDN Integration](../CLAUDE/FILE_ADAPTER_SYSTEM.md#1-cdn-integration)
+
+### Set up private file access (require authentication)
+→ [FileAdapter System: Private File Access](../CLAUDE/FILE_ADAPTER_SYSTEM.md#2-private-file-access)
+
+### Configure file upload size limits
+→ [FileAdapter System: Environment Configuration](../CLAUDE/FILE_ADAPTER_SYSTEM.md#key-environment-variables)
+
+**Quick Config**:
+```javascript
+ENV.MAX_UPLOAD_SIZE = 20 * 1024 * 1024;  // 20MB
+```
+
+### Debug file upload issues
+→ [FileAdapter System: Debugging File Storage Issues](../CLAUDE/FILE_ADAPTER_SYSTEM.md#debugging-file-storage-issues)
+→ [FileAdapter System: Common Gotchas](../CLAUDE/FILE_ADAPTER_SYSTEM.md#common-gotchas)
+
+### Create custom file adapter
+→ [FileAdapter System: Registering Custom Adapters](../CLAUDE/FILE_ADAPTER_SYSTEM.md#registering-custom-adapters)
+→ [FileAdapter System: FilesAdapter.register() API](../CLAUDE/FILE_ADAPTER_SYSTEM.md#filesadapterregister-api)
 
 ---
 

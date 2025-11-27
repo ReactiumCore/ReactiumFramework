@@ -52,41 +52,30 @@ Topics for future exploration sessions with specialized agents.
 
 - ✅ **Plugin CLI Extensibility Pattern (arcli-install.js / arcli-publish.js)** - Complete plugin CLI workflow extension system documentation; arcli-install.js pattern for post-install setup (discovered via globby in plugin directory after extraction, factory signature receives spinner/arcli/params/props, actions namespaced as postinstall_{i}_{key}); arcli-publish.js pattern for pre-publish asset compilation (discovered in cwd before publish, factory receives only spinner, actions namespaced as prepublish_{i}_{key}); integration with ActionSequence for workflow merging; params.pluginDirectory injection for install, props.cwd for publish; real-world examples from reactium-admin-core (SCSS injection with user prompts, Gulp-based CSS compilation); common use cases: database migration, config generation, user onboarding, dependency verification, asset compilation; best practices: spinner state management, unattended mode support, error handling, async operation completion; common gotchas: spinner not stopped before prompts, pluginDirectory not in publish, async operations not awaited, error swallowing, not respecting unattended flag; debugging techniques with verbose logging and spinner text; comprehensive source references from CLI/commands/package/install/actions.js:206-224, CLI/commands/package/publish/actions.js:76-99, Reactium-Admin-Plugins/reactium_modules_old/reactium-admin-core/arcli-install.js:1-187, arcli-publish.js:1-77; discovered during research: Parse Server ACL patterns at collection level (need to understand ACL vs CLP differences, collection-level access control, integration with Type system for dynamic collection ACLs) (Nov 27, 2025)
 
+## Completed Research
+
+- ✅ **Parse Server ACL Patterns and Collection-Level Access Control** - Complete object-level security documentation; ACL vs CLP differences (object vs collection permissions), Parse.ACL API (setPublicReadAccess, setRoleReadAccess, setReadAccess), CloudACL helper pattern for capability-based ACL generation, AclTargets helper with user/role caching, six common ACL patterns (user-owned content, public read restricted write, capability-based, role-based collaboration, self-protecting roles, user profiles), ACL vs CLP decision matrix, integration with CloudRunOptions for session token propagation, hook integration (content-acl), real-world examples from Content/Settings/User/Roles plugins, default ACL configuration (public read/write via defaultRoleACL), best practices (set in beforeSave hooks, use CloudACL for complex scenarios, cache targets, test multiple contexts), common gotchas (forgetting session token, ACL vs CLP confusion, anonymous role special handling, not setting on creation, role pointer vs name), performance considerations (check overhead, storage size), testing strategies, multi-tenant SaaS and CMS examples; comprehensive source references from actinium-core/lib/utils/acl.js:5-298, actinium-content/sdk.js:311-329, actinium-settings/plugin.js:102-121, actinium-roles/plugin.js:48-93, actinium-users/plugin.js:373-396; discovered during research: Parse Server beforeSave/afterSave hook patterns for automatic ACL application, need for Express Router organization patterns documentation (Nov 27, 2025)
+
+- ✅ **Actinium FileAdapter System and File Storage Backends** - Complete pluggable file storage architecture documentation; FilesAdapterProxy pattern for runtime adapter swapping, Parse FilesAdapter interface (createFile, deleteFile, getFileData, getFileLocation, validateFilename, handleFileStream), default GridFS adapter (MongoDB-based storage), Parse Server integration via filesAdapter config, environment variables (PARSE_FILES_DIRECT_ACCESS, PARSE_PRESERVE_FILENAME, MAX_UPLOAD_SIZE, PARSE_FS_FILES_SUB_DIRECTORY), FilesAdapter.register() API for plugin registration, installer function signature, built-in adapters (S3Adapter with AWS/Digital Ocean Spaces support, FSFilesAdapter for local filesystem), hook-driven extensibility (files-adapter hook), activation/deactivation lifecycle with graceful GridFS fallback, priority-based selection for multiple active adapters, real-world deployment patterns (dev GridFS/FS, prod S3+CDN), CDN integration with baseUrl configuration, direct access vs proxied serving trade-offs (performance vs security), filename validation patterns with custom logic support, debugging techniques, performance considerations (direct access offloads Parse Server, GridFS vs S3 scalability), common gotchas (adapter not switching, direct access config, S3 permissions, no automatic file migration, filename sanitization), best practices (direct access in prod, don't preserve filenames for security, reasonable upload limits, CDN for public files, separate buckets by environment); comprehensive source references from actinium-core/lib/files-adapter.js:1-193, actinium-fs-adapter/s3-plugin.js:1-65, actinium-fs-adapter/fs-plugin.js:1-58, actinium-core/middleware/parse/middleware.js:8-27; discovered during research: Potential for file processing hooks (image optimization, virus scanning, metadata extraction) - proxy pattern enables future extensibility, Parse Server file ACL integration for authenticated file access (Nov 27, 2025)
+
 ## Pending Research Topics
 
 ### High Priority
 
-1. **Parse Server ACL Patterns and Collection-Level Access Control**
+1. **Parse Server File ACL and Authenticated File Access**
 
-   - **Discovered during**: Plugin CLI Extensibility Pattern research - noticed CloudACL pattern in cloud functions uses ACL generation (actinium-core/lib/utils/acl.js), separate from CLP (Collection Level Permissions) used in collection registration; need to understand ACL patterns for individual Parse Objects vs CLP for entire collections, and how they interact
-   - **Why it matters**: Critical for understanding Parse Server security model at object level; helps Claude guide developers on proper ACL patterns for user-owned content, role-based object access, and privacy controls; complements existing CLP documentation (Collection Registration system); essential for content management systems where different users need different object-level permissions
-   - **Current gap**: No documentation on Parse.Object ACL patterns (read/write arrays with user/role pointers), ACL vs CLP differences, when to use each, CloudACL helper usage beyond cloud functions, ACL inheritance patterns, default ACL configuration, public read vs authenticated write patterns, individual user ACLs vs role-based ACLs
+   - **Discovered during**: FileAdapter System research - noticed potential for file ACL integration when directAccess is false (proxied serving allows ACL checks before file delivery)
+   - **Why it matters**: Helps Claude guide developers on implementing private file storage where files require authentication/authorization to access; complements ACL pattern documentation with file-specific use cases; critical for apps with sensitive documents, user uploads, paid content
+   - **Current gap**: No documentation on integrating file access with Parse Server ACL/CLP, implementing authenticated file downloads, protecting file URLs from unauthorized access, file ACL patterns in beforeSave hooks, using Parse.File with ACL restrictions
    - **Key mechanisms**:
-     - Parse.Object ACL (read/write arrays with Parse.User/Role pointers)
-     - CloudACL helper for generating ACLs from capabilities (actinium-core/lib/utils/acl.js)
-     - AclTargets helper for user/role selection
-     - ACL vs CLP: object-level vs collection-level permissions
-     - Default ACL configuration in Parse Server
-     - ACL inheritance and cascade patterns
-   - **Real usage**: User-owned content (only author can edit), role-based content access (moderators can edit all posts), public read with restricted write, private content (owner-only access), team collaboration (multiple users can edit)
-   - **Integration**: Cloud functions (CloudACL pattern), Collection Registration (CLP), Actinium Roles system, User system, Content Type system
-   - **Critical for**: Building secure content management systems, implementing privacy controls, debugging permission denied errors, understanding Parse Server security model completely
-
-2. **Actinium FileAdapter System and File Storage Backends**
-
-   - **Discovered during**: Actinium Environment Configuration System research - noticed FileAdapter.getProxy(config) pattern in Parse Server middleware (actinium-core/middleware/parse/middleware.js:27), need to understand pluggable file storage architecture
-   - **Why it matters**: Critical for production deployments requiring S3/GCS storage instead of local filesystem; helps Claude guide developers on scalable file storage setup; reveals hook-driven file processing pipeline for transforms (image resize, virus scanning, etc.); affects parse file URL generation and access control
-   - **Current gap**: No documentation on FileAdapter proxy pattern, pluggable backend registration (S3Adapter, GCSAdapter, GridStoreAdapter), file processing hooks, directAccess vs proxied file serving, preserveFileName behavior, integration with PARSE_FILES_DIRECT_ACCESS and PARSE_PRESERVE_FILENAME env vars
-   - **Key mechanisms**:
-     - FileAdapter.getProxy() factory pattern
-     - Pluggable backend adapter registration
-     - Hook integration for file processing pipeline
-     - Parse Server filesAdapter configuration
-     - File URL generation (direct vs proxied)
-     - File metadata preservation options
-   - **Real usage**: S3 storage for production, local filesystem for development, image transformation pipeline, file access control, file upload size limits (MAX_UPLOAD_SIZE)
-   - **Integration**: Environment configuration (ENV vars), Parse Server initialization, Cloud functions (file access), Middleware system
-   - **Critical for**: Production file storage architecture, CDN integration, file processing workflows, scalable deployments, debugging file upload/access issues
+     - Parse.File ACL integration (files inherit object ACL)
+     - Proxied file serving with session token validation
+     - Parse Server file middleware authentication hooks
+     - Signed URL generation patterns for temporary access
+     - Integration with CloudRunOptions for file queries
+   - **Real usage**: Private user documents, paid content downloads, medical records, confidential reports, subscription-based file access
+   - **Integration**: ACL patterns, FileAdapter system (proxied mode), Cloud functions (file access control), Session validation
+   - **Critical for**: Secure file storage, authenticated downloads, debugging file access denied errors, implementing pay-walled content
 
 ### Medium Priority
 

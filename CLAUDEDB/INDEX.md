@@ -1,4 +1,4 @@
-<!-- v1.22.0 -->
+<!-- v1.23.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -9,8 +9,10 @@
 
 ## A
 
-- **ACL** → [Cloud Functions: ACL Management](../CLAUDE/CLOUD_FUNCTIONS.md#acl-management)
-- **AclTargets** → [Cloud Functions: AclTargets](../CLAUDE/CLOUD_FUNCTIONS.md#acltargets---get-users-and-roles-for-acls)
+- **ACL** → [Parse ACL Patterns: Overview](../CLAUDE/PARSE_ACL_PATTERNS.md#overview)
+- **ACL vs CLP** → [Parse ACL Patterns: ACL vs CLP Decision Matrix](../CLAUDE/PARSE_ACL_PATTERNS.md#acl-vs-clp-decision-matrix)
+- **AclTargets** → [Parse ACL Patterns: AclTargets Helper](../CLAUDE/PARSE_ACL_PATTERNS.md#acltargets-helper)
+- **Access Control List** → [Parse ACL Patterns: Overview](../CLAUDE/PARSE_ACL_PATTERNS.md#overview)
 - **ACTINIUM_ENV_FILE** → [Environment Config: File Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#three-tier-priority-system)
 - **ACTINIUM_ENV_ID** → [Environment Config: File Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#three-tier-priority-system)
 - **Actinium** → [Actinium Complete Reference](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md)
@@ -72,9 +74,10 @@
 - **Collection** → [Collection Registration System](../CLAUDE/COLLECTION_REGISTRATION.md#overview)
 - **Collection.register** → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
 - **collection-clp hook** → [Collection Registration: Hook Integration](../CLAUDE/COLLECTION_REGISTRATION.md#collection-clp)
-- **CloudACL** → [Cloud Functions: CloudACL](../CLAUDE/CLOUD_FUNCTIONS.md#cloudacl---generate-acl-from-permissions)
+- **CloudACL** → [Parse ACL Patterns: CloudACL Helper](../CLAUDE/PARSE_ACL_PATTERNS.md#cloudacl-helper-pattern)
 - **CloudCapOptions** → [Cloud Functions: CloudCapOptions](../CLAUDE/CLOUD_FUNCTIONS.md#cloudcapoptions---capability-based-escalation)
 - **CloudHasCapabilities** → [Cloud Functions: CloudHasCapabilities](../CLAUDE/CLOUD_FUNCTIONS.md#cloudhascapabilities---check-without-escalation)
+- **Collection Level Permissions** → [Parse ACL Patterns: ACL vs CLP](../CLAUDE/PARSE_ACL_PATTERNS.md#acl-vs-clp-decision-matrix)
 - **CloudMasterOptions** → [Cloud Functions: Security](../CLAUDE/CLOUD_FUNCTIONS.md#security--authorization)
 - **CloudRunOptions** → [Cloud Functions: CloudRunOptions](../CLAUDE/CLOUD_FUNCTIONS.md#cloudrunoptions---automatic-privilege-escalation)
 - **Code splitting** → [Routing System: Code Splitting Patterns](../CLAUDE/ROUTING_SYSTEM.md#code-splitting-patterns)
@@ -135,6 +138,12 @@
 
 ## F
 
+- **File storage** → [FileAdapter System: Overview](../CLAUDE/FILE_ADAPTER_SYSTEM.md#overview)
+- **FileAdapter** → [FileAdapter System: Architecture](../CLAUDE/FILE_ADAPTER_SYSTEM.md#architecture)
+- **FilesAdapterProxy** → [FileAdapter System: FilesAdapterProxy Pattern](../CLAUDE/FILE_ADAPTER_SYSTEM.md#filesadapterproxy-pattern)
+- **File upload** → [FileAdapter System: Common Use Cases](../CLAUDE/FILE_ADAPTER_SYSTEM.md#common-use-cases)
+- **FSFilesAdapter** → [FileAdapter System: FSFilesAdapter Plugin](../CLAUDE/FILE_ADAPTER_SYSTEM.md#2-fsfilesadapter-plugin)
+
 - **Field types** → [Content Type: Field Configuration](../CLAUDE/CONTENT_TYPE_SYSTEM.md#field-configuration)
 - **fieldId** → [Content Type: Field Structure](../CLAUDE/CONTENT_TYPE_SYSTEM.md#field-structure)
 - **fieldName** → [Content Type: Field Name Uniqueness](../CLAUDE/CONTENT_TYPE_SYSTEM.md#field-name-uniqueness)
@@ -147,7 +156,10 @@
 ## G
 
 - **generator** → [CLI Templates: Generator Wrapper](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#4-generator-pattern-and-actionsequence)
+- **getACL** → [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
+- **getProxy** → [FileAdapter System: FilesAdapterProxy](../CLAUDE/FILE_ADAPTER_SYSTEM.md#filesadapterproxy-pattern)
 - **Global State** → [Reactium: State Management](../CLAUDE/REACTIUM_FRAMEWORK.md#state-management)
+- **GridFS** → [FileAdapter System: Default Adapter GridFS](../CLAUDE/FILE_ADAPTER_SYSTEM.md#default-adapter-gridfs)
 - **Gulp** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
 
 ## H
@@ -230,6 +242,12 @@
 
 - **page** → [Pagination: Skip-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#example-standard-pagelimit-pattern)
 - **Pagination** → [Pagination Strategies](../CLAUDE/PAGINATION_STRATEGIES.md#overview)
+- **Parse.ACL** → [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
+- **PARSE_FILES_DIRECT_ACCESS** → [FileAdapter System: Environment Configuration](../CLAUDE/FILE_ADAPTER_SYSTEM.md#key-environment-variables)
+- **PARSE_PRESERVE_FILENAME** → [FileAdapter System: Environment Configuration](../CLAUDE/FILE_ADAPTER_SYSTEM.md#key-environment-variables)
+- **Permission denied** → [Parse ACL Patterns: Debugging ACL Issues](../CLAUDE/PARSE_ACL_PATTERNS.md#debugging-acl-issues)
+- **Permissions** → [Parse ACL Patterns: Overview](../CLAUDE/PARSE_ACL_PATTERNS.md#overview)
+- **Private files** → [FileAdapter System: Private File Access](../CLAUDE/FILE_ADAPTER_SYSTEM.md#2-private-file-access)
 - **Pagination performance** → [Pagination: Performance Comparison](../CLAUDE/PAGINATION_STRATEGIES.md#performance-comparison)
 - **Pagination** → [Patterns: Pagination Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-19-pagination-pattern)
 - **Parameter validation** → [Cloud Functions: Parameter Validation](../CLAUDE/CLOUD_FUNCTIONS.md#parameter-validation)
@@ -311,10 +329,16 @@
 
 ## S
 
+- **S3** → [FileAdapter System: S3Adapter Plugin](../CLAUDE/FILE_ADAPTER_SYSTEM.md#1-s3adapter-plugin)
+- **S3Adapter** → [FileAdapter System: S3Adapter Plugin](../CLAUDE/FILE_ADAPTER_SYSTEM.md#1-s3adapter-plugin)
 - **Schema** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
 - **Schema (Content Type)** → [Content Type: Schema Management](../CLAUDE/CONTENT_TYPE_SYSTEM.md#schema-management)
 - **Schema evolution** → [Collection Registration: Migration Patterns](../CLAUDE/COLLECTION_REGISTRATION.md#migration-patterns)
 - **Schema field types** → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
+- **Session token** → [Parse ACL Patterns: CloudRunOptions and Session Tokens](../CLAUDE/PARSE_ACL_PATTERNS.md#cloudrunoptions-and-session-tokens)
+- **setACL** → [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
+- **setPublicReadAccess** → [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
+- **setRoleReadAccess** → [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
 - **Security** → [Environment Config: Security Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#security-configuration)
 - **SERVER_URI** → [Environment Config: URI Generation](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#automatic-port-adjustment)
 - **skip** → [Pagination: Skip-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#1-skip-based-pagination-framework-default)
