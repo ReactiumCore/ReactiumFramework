@@ -74,24 +74,11 @@ Topics for future exploration sessions with specialized agents.
 
 - ✅ **Actinium Route System (Admin API Routes)** - Database-backed route management with Parse Server Route collection storage, blueprint-based frontend integration (route references blueprint component ID for rendering), CRUD operations (save with upsert logic, retrieve by path/objectId, list with pagination, delete with built-in protection), plugin lifecycle integration pattern (save on start/activate/update hooks, delete on deactivate hook), capability-based access control (capabilities array with CloudHasCapabilities check, route-list-output hook adds permitted field), hook-extensible validation (route-before-save, route-saved, beforeSave-route, beforeDelete-route), cloud functions API (route-save, route-retrieve, routes, route-delete), built-in route protection (meta.builtIn prevents deletion), metadata support (meta.app for multi-app organization, meta.category, custom fields), real-world examples from Settings/Admin/Route plugins (PLUGIN_ROUTES array pattern); comprehensive source references from actinium-route/plugin.js:1-288, sdk.js:1-94, schema.js:1-28, routes.js:1-12; best practices (always use meta.builtIn, register capability before route, use meta.app, clean up on deactivate, use order for grouping, validate blueprint exists); common gotchas (forgetting blueprint field, built-in routes not deleting, route not showing in UI, duplicate routes on restart, capability not registered, routes not cleaning up, hook order confusion, frontend blueprint mismatch, missing meta fields, query performance); discovered during research: Blueprint registration pattern in Reactium Admin (component registry integration), route-list-output permission filtering mechanism; critical for Actinium Admin navigation, dynamic route lists, plugin-specific admin pages, capability-based UI visibility (Nov 28, 2025)
 
+- ✅ **Reactium Blueprint System (Frontend Component Registry)** - Complete page layout template system for Reactium Admin; Registry-based architecture with CLEAN mode; three built-in blueprints (Admin, Simple, Profile); section-zone architecture (sidebar/main/tools sections containing zones); Blueprint component renderer with automatic transition state management; route integration via Blueprint.initRoutes() with capability-based filtering; tools section auto-injection (admin-tools zone added if missing); blueprint-route-loader hook for data loading during LOADING transition; route-to-blueprint mapping via database Route collection blueprint field; section metadata to data-attributes conversion; ZoneLoading component for loading states; hookableComponent integration; body/HTML namespace attributes; preloader removal; real-world examples from Content Type Editor (multi-blueprint variants), Login (minimal single-section layout); comprehensive source references from Reactium-Admin-Plugins/reactium_modules/@atomic-reactor/reactium-admin-core/Blueprint/sdk.js:1-220, index.js:1-188, reactium-hooks.js:1-99, enums.js:1-22; best practices (use built-ins first, namespace consistency, zone naming convention, register on blueprints hook); common gotchas (blueprint not found fallback to Admin, tools section auto-added, route component always Blueprint, capability filtering at registration, transition states auto-progress, section meta className removed before data attributes, blueprint-load hook unused pattern); discovered during research: ZoneLoading hookable component pattern (loading state component registry), Route meta.app filtering pattern (noAppProp vs hasAppRoute query), Transition state management patterns (automatic nextState progression); critical for Reactium Admin page structure, route-to-layout mapping, capability-based UI visibility, custom admin page layouts (Nov 28, 2025)
+
 ## Pending Research Topics
 
 ### High Priority
-
-1. **Reactium Blueprint System (Frontend Component Registry)**
-
-   - Blueprint registration and component mapping
-   - Integration with Route system (blueprint field references)
-   - Dynamic blueprint resolution and rendering
-   - Blueprint configuration structure (sections, zones, meta)
-   - Admin UI blueprint patterns (Admin/Simple/Profile defaults)
-   - hookableComponent integration
-   - Route loading and capability filtering (blueprints hook)
-   - **Why it matters**: Critical for understanding admin UI rendering, route-to-component mapping, dynamic page generation in Actinium Admin
-   - **What's undocumented**: Complete blueprint registration API, configuration options, integration with routing system, component resolution mechanism, section/zone architecture
-   - **Key mechanisms**: Reactium.Blueprint.register(), blueprint lookup by ID, component rendering pipeline, Reactium.Blueprint.initRoutes(), capability-based route filtering
-   - **Source files**: Reactium-Admin-Plugins/reactium_modules/@atomic-reactor/reactium-admin-core/Blueprint/sdk.js (1-150 lines)
-   - **Discovered during**: Route System research - routes reference blueprints for frontend rendering (Nov 28, 2025)
 
 2. **Actinium Search and Indexing System**
 
@@ -269,34 +256,9 @@ Topics for future exploration sessions with specialized agents.
 
 ### High Priority (New - Nov 28 Evening)
 
-21. **Reactium Utility Hooks Collection (Phase 2: Advanced Hooks)**
-    - useAsyncEffect - async side effects with isMounted pattern and cleanup
-    - useDerivedState - prop-to-state derivation with selective subscriptions and deep comparison
-    - useStatus - type-safe status management with ENUMS
-    - useFocusEffect - focus state management with event listeners
-    - useFullfilledObject - promise resolution tracking for complex async states
-    - useScrollToggle - scroll-based state toggling with threshold configuration
-    - useIsContainer - DOM hierarchy checking with ref management
-    - **Why it matters**: Essential React patterns for Reactium development, async handling, derived state patterns, status management beyond useState
-    - **What's undocumented**: Complete hooks API reference with real-world usage, best practices for async operations, comparison with standard React hooks, integration patterns with Reactium state management
-    - **Key mechanisms**: Each hook's signature, parameter options, gotchas, real examples from core plugins
-    - **Source files**: reactium-sdk-core/src/browser/useAsyncEffect.ts (72 lines), useDerivedState.ts (180 lines), useStatus.ts (58 lines), useFocusEffect.ts, useScrollToggle.ts, useIsContainer.ts, useFullfilledObject.ts
-    - **Discovered during**: Third exploration - substantial utility hook library with complex implementations (Nov 28, 2025)
+- ✅ **Reactium Utility Hooks Collection (Phase 2: Advanced Hooks)** - Complete collection of 7 specialized React hooks for advanced patterns; useAsyncEffect for async side effects with AsyncUpdate class for mount safety (isMounted check prevents state updates on unmounted components), cleanup function support; useDerivedState for prop-to-state derivation with selective subscriptions (shallow comparison per object-path, updateAll flag for imprinting all props on ANY subscribed prop change, forceRefresh method, non-reactive derivedStateRef with opt-in re-renders); useStatus for type-safe status management (ref-based non-reactive storage with opt-in forceRender flag, isStatus array checking, TypeScript literal type support); useFocusEffect for auto-focus on render (data-focus attribute default, custom selector support, container ref or element, focus-once behavior); useScrollToggle for body scroll control (fixed position with negative margin trick, position preservation via window._scrollTogglePosition, global BodyScroll handle registration, enable/disable/toggle methods, ReactiumSyncState integration); useIsContainer for DOM hierarchy checking (parent node traversal, strict equality comparison, null-safe); useFulfilledObject for promise fulfillment tracking (polling-based object-path checking with configurable delay, ready/obj/count tuple return, useful for complex async initialization); comprehensive source references from reactium-sdk-core/src/browser/use*.ts files; comparison tables with standard hooks (useEffect, useState, etc.); real-world examples (data fetching, controlled components, modal scroll prevention, click-outside detection); best practices (mount checking, subscription optimization, type safety, cleanup patterns); common gotchas (useAsyncEffect cleanup timing after async completes, useDerivedState empty subscriptions never update from props, useStatus no auto-rerender without forceRender, useScrollToggle global handle affects all components, useIsContainer not actually a hook internally, useFulfilledObject infinite polling if keys never fulfilled); discovered during research: AsyncUpdate mount tracking pattern (class-based isMounted flag), ReactiumSyncState.extend() pattern for handle methods (useScrollToggle uses extend for enable/disable/toggle), Object-path subscription patterns (useDerivedState selective prop watching); critical for async data loading, controlled components, status-driven UI, form auto-focus, modal scroll prevention, click-outside detection, complex async state initialization (Nov 28, 2025)
 
-22. **Actinium Recycle System Architecture**
-    - Three-tier recycle types (archive/delete/revision)
-    - Soft delete patterns with Parse Server integration
-    - Trash/restore workflow (Actinium.Recycle.trash/restore)
-    - Permanent deletion (purge operation)
-    - Type-based filtering and retrieval
-    - ACL preservation on recycled objects
-    - Settings-based capability configuration
-    - Cloud functions API (recycle, recycle-archive, recycle-revision, recycled, recycle-archived, recycle-revisions, recycle-restore, recycle-purge)
-    - **Why it matters**: Data safety patterns for CMS applications, audit trail implementation, version control system, content recovery workflows
-    - **What's undocumented**: Complete Recycle SDK (267 lines), three-tier type system, restore workflow mechanics, ACL handling during recycle/restore, capability-based access control patterns
-    - **Key mechanisms**: Actinium.Recycle.trash/archive/revision/restore/purge, type filtering, Parse Object serialization/deserialization
-    - **Source files**: actinium-recycle/sdk.js (267 lines), plugin.js (237 lines), schema.js (577 bytes)
-    - **Discovered during**: Third exploration - substantial SDK with three-tier type system (Nov 28, 2025)
+- ✅ **Actinium Recycle System Architecture** - Complete soft delete and object archiving system with three-tier type system (delete for trash/30-day retention, archive for inactive records, revision for version snapshots); Recycle collection structure (type/collection/object/user/ACL fields, double-nested object preservation); SDK API (trash/archive/revision for creation, retrieve/retrieveAll for querying with pagination, restore/restoreAll for object restoration, purge for permanent deletion); restore creates NEW objectId (original ID discarded); ACL preservation from original object restored on restoration; Pointer field restoration (__type: 'Pointer' re-added); cloud function API (recycle, recycle-archive, recycle-revision, recycled, recycle-archived, recycle-revisions, recycle-restore, recycle-purge); capability-based access control (Recycle.create/retrieve/update/delete/addField capabilities, settings override via recycle.capabilities.create/retrieve); recycle-query hook for custom filtering; pagination support (page/limit with count/pages/next/prev metadata); capability settings only checked in cloud functions not SDK methods; real-world patterns: content soft delete with auto-purge cron (beforeDelete hook interception), revision history (beforeSave snapshot), user archive on deactivation; comprehensive source references from Actinium-Plugins/actinium_modules/@atomic-reactor/actinium-recycle/sdk.js:1-267, plugin.js:1-237, schema.js, enums.js; best practices (use correct type for intent, verify ACL preserved, implement retention policies with cron, confirm before restore creates new ID, use pagination for large datasets); common gotchas (restored object gets new objectId breaking references, recycle NOT version control system with no diff/merge tools, type field accepts any string with no validation, purge only deletes Recycle records not original objects, capability settings bypassed by SDK direct calls, restore without items parameter fetches most recent which may be wrong version); discovered during research: Parse Object serialization patterns (toJSON with ACL extraction), Actinium.Cache integration for query results, ENV-based retention period configuration patterns, Hook-driven query modification for date range filtering; critical for content management systems, user management, audit trails, undo workflows, data retention policies, archival strategies (Nov 28, 2025)
 
 23. **Actinium Taxonomy System Architecture**
     - Hierarchical taxonomy structure (parent/child relationships)
@@ -408,6 +370,23 @@ Topics for future exploration sessions with specialized agents.
     - **Key mechanisms**: ActiniumFile class, File.create(filePath, targetPath), mediaURL() method, getArrayBuffer utility
     - **Source files**: actinium-core/lib/file.js (1-53 lines), lib/utils/file-api.js (1-36 lines)
     - **Discovered during**: Actinium core lib exploration - critical for file handling workflows (Nov 28, 2025)
+
+## NEW RESEARCH TOPICS (Nov 28, 2025 - Fourth Cycle)
+
+### Medium Priority (New - Nov 28 Evening)
+
+24. **ZoneLoading hookableComponent Pattern and Loading States**
+    - ZoneLoading hookable component for zone loading indicators
+    - Integration with Blueprint section refresh pattern (meta.refresh: true)
+    - Blueprint component loading state rendering (loading vs ready zones)
+    - useHookComponent('ZoneLoading') retrieval pattern
+    - Custom loading components per zone or section
+    - Transition state integration (LOADING → ENTERING → READY)
+    - **Why it matters**: Understanding loading state patterns in Reactium Admin, custom loading indicators, transition state UI feedback
+    - **What's undocumented**: ZoneLoading component registration, customization patterns, integration with transition states, per-zone loading indicators
+    - **Key mechanisms**: useHookComponent hookable retrieval, Blueprint section meta.refresh flag, transitionState !== 'READY' conditional rendering
+    - **Source files**: Blueprint component (index.js:138-176 uses ZoneLoading), core ZoneLoading component registration
+    - **Discovered during**: Blueprint System research - ZoneLoading used for section refresh states (Nov 28, 2025)
 
 ## RESEARCH MODE DIRECTIVES
 
