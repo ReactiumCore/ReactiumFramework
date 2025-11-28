@@ -1,4 +1,4 @@
-<!-- v1.22.0 -->
+<!-- v1.23.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -158,6 +158,42 @@ const migrations = {
     },
 };
 Actinium.Hook.register('update', Actinium.Plugin.updateHookHelper('MY_PLUGIN', migrations));
+```
+
+### Register admin routes for plugin
+→ [Route System: Plugin Lifecycle Integration](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#plugin-lifecycle-integration)
+→ [Route System: Real-World Plugin Examples](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#real-world-plugin-examples)
+
+**Quick Example**:
+```javascript
+const PLUGIN_ROUTES = [{
+  route: '/admin/my-plugin',
+  blueprint: 'MyPlugin',
+  capabilities: ['my-plugin.view'],
+  meta: { builtIn: true, app: 'admin' },
+}];
+
+Actinium.Hook.register('start', async () => {
+  if (Actinium.Plugin.isActive(PLUGIN.ID)) {
+    for (const route of PLUGIN_ROUTES) {
+      await Actinium.Route.save(route);
+    }
+  }
+});
+```
+
+### Add development tests for plugin
+→ [Harness Testing: Integration with Plugin Development](../CLAUDE/ACTINIUM_HARNESS_TESTING.md#integration-with-plugin-development)
+→ [Harness Testing: Test Registration API](../CLAUDE/ACTINIUM_HARNESS_TESTING.md#actiniumharnesstest)
+
+**Quick Example**:
+```javascript
+if (ENV.RUN_TEST === true) {
+  Actinium.Harness.test('Plugin Cloud Functions', async assert => {
+    const result = await Actinium.Cloud.run('my-function', {}, { useMasterKey: true });
+    assert.strictEqual(result.status, 'ok', 'Should return success');
+  });
+}
 ```
 
 ### Gate cloud functions by plugin active state
@@ -905,6 +941,18 @@ ENV.MAX_UPLOAD_SIZE = 20 * 1024 * 1024;  // 20MB
 ### Debug environment configuration
 → [Environment Config: Debugging](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#debugging-environment-configuration)
 → [Environment Config: Common Gotchas](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#common-gotchas)
+
+### Build a UMD library
+→ [UMD Library System: Custom UMD Library Creation](../CLAUDE/UMD_LIBRARY_SYSTEM.md#custom-umd-library-creation)
+
+### Externalize dependencies to reduce bundle size
+→ [UMD Library System: Default Library Externals](../CLAUDE/UMD_LIBRARY_SYSTEM.md#default-library-externals)
+
+### Load a library at runtime
+→ [UMD Library System: Runtime Loading Patterns](../CLAUDE/UMD_LIBRARY_SYSTEM.md#runtime-loading-patterns)
+
+### Create a service worker UMD library
+→ [UMD Library System: Service Worker Pattern](../CLAUDE/UMD_LIBRARY_SYSTEM.md#service-worker-pattern)
 
 ### Customize webpack
 → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)

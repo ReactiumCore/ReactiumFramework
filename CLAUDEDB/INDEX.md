@@ -1,4 +1,4 @@
-<!-- v1.25.0 -->
+<!-- v1.26.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -47,6 +47,7 @@
 - **Atomic Design** → [Style Partial System: Priority Levels](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#priority-levels-enumsstyle)
 - **Authentication** → [Integration: Authentication & Session Management](../CLAUDE/FRAMEWORK_INTEGRATION.md#authentication--session-management)
 - **Authorization** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
+- **assert** → [Harness Testing: Assertion Patterns](../CLAUDE/ACTINIUM_HARNESS_TESTING.md#assertion-patterns)
 
 ## B
 
@@ -54,6 +55,9 @@
 - **babel-loader** → [ReactiumWebpack: Babel Configuration](../CLAUDE/REACTIUM_WEBPACK.md#adding-a-custom-loader)
 - **Base64 embedding** → [Gulp Build: Plugin Assets](../CLAUDE/GULP_BUILD_SYSTEM.md#plugin-assets-base64-embedding)
 - **beforeSave** → [Cloud Functions: Hook Integration](../CLAUDE/CLOUD_FUNCTIONS.md#hook-integration)
+- **Blueprint** → [Route System: Blueprint Concept](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#blueprint-concept)
+- **Blueprint integration** → [Route System: Blueprint Integration](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#blueprint-integration)
+- **Built-in routes** → [Route System: Built-In Protection](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#hook-example-built-in-route-protection)
 - **BrowserSync** → [Gulp Build: BrowserSync Integration](../CLAUDE/GULP_BUILD_SYSTEM.md#browsersync-integration)
 - **Build** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
 - **Build errors** → [Gotchas: Build System](../CLAUDE/FRAMEWORK_GOTCHAS.md#build-system-gotchas)
@@ -135,10 +139,13 @@
 - **Enums.priority.normal** → [Gotchas: Priority Normal Does Not Exist](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-5-enumsprioritynormal-does-not-exist-critical-bug)
 - **ENV** → [Environment Config: Complete Variable Reference](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#complete-environment-variable-reference)
 - **ENV.EXPRESS_OPTIONS** → [Express Settings: Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#environment-variable-configuration)
+- **ENV.RUN_TEST** → [Harness Testing: Overview](../CLAUDE/ACTINIUM_HARNESS_TESTING.md#overview)
 - **env.json** → [Environment Config: File Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#three-tier-priority-system)
 - **env.dev.json** → [Environment Config: Development Template](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#envdevjson-creation)
 - **Environment** → [Environment Configuration System](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#architecture-overview)
 - **Environment variables** → [Environment Config: Merge Strategy](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file--processenv-overlay)
+- **External dependencies** → [UMD Library System: Default Library Externals](../CLAUDE/UMD_LIBRARY_SYSTEM.md#default-library-externals)
+- **Externals** → [UMD Library System: How Externals Work](../CLAUDE/UMD_LIBRARY_SYSTEM.md#how-externals-work)
 - **Errors** → [Gotchas: Common Error Messages](../CLAUDE/FRAMEWORK_GOTCHAS.md#common-error-messages)
 - **ES Modules** → [Gotchas: ES Module Syntax](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-11-es-module-syntax-required)
 - **etag** → [Express Settings: Security Headers](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#security-headers)
@@ -188,7 +195,8 @@
 
 - **Handlebars** → [CLI Templates: Template Syntax](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#3-template-syntax-and-variables)
 - **Handlebars helpers** → [CLI Templates: Handlebars Helpers](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#handlebars-helpers-standard)
-
+- **Harness** → [Harness Testing System](../CLAUDE/ACTINIUM_HARNESS_TESTING.md#overview)
+- **Harness.test** → [Harness Testing: Test Registration API](../CLAUDE/ACTINIUM_HARNESS_TESTING.md#actiniumharnesstest)
 - **hookedQuery** → [Pagination: HookedQuery Utility](../CLAUDE/PAGINATION_STRATEGIES.md#example-hookedquery-utility)
 
 - **Handle** → [Handle System Architecture](../CLAUDE/HANDLE_SYSTEM.md#overview)
@@ -346,6 +354,13 @@
 - **reactium_modules** → [Reactium: Project Structure](../CLAUDE/REACTIUM_FRAMEWORK.md#project-structure)
 - **React Context** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
 - **ReactiumSyncState** → [ReactiumSyncState Architecture](../CLAUDE/REACTIUM_SYNC_STATE.md#core-concept)
+- **Route** → [Actinium Route System](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#overview)
+- **Route.save** → [Route System: Save Operation](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#actiniumroutesave)
+- **Route.retrieve** → [Route System: Retrieve Operation](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#actiniumrouteretrieve)
+- **Route.list** → [Route System: List Operation](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#actiniumroutelist)
+- **Route.delete** → [Route System: Delete Operation](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#actiniumroutedelete)
+- **Route collection** → [Route System: Collection Schema](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#route-collection-schema)
+- **route-save cloud function** → [Route System: Cloud Functions](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#route-save)
 - **ReactiumSyncState.get** → [ReactiumSyncState: get() method](../CLAUDE/REACTIUM_SYNC_STATE.md#getpath-defaultvalue)
 - **ReactiumSyncState.set** → [ReactiumSyncState: set() method](../CLAUDE/REACTIUM_SYNC_STATE.md#setpath-value-update-forcemerge)
 - **ReactiumSyncState.extend** → [ReactiumSyncState: extend() method](../CLAUDE/REACTIUM_SYNC_STATE.md#extendprop-method)
@@ -437,6 +452,13 @@
 
 ## U
 
+- **UMD** → [UMD Library System](../CLAUDE/UMD_LIBRARY_SYSTEM.md#overview)
+- **UMD build** → [UMD Library System: Webpack Build Process](../CLAUDE/UMD_LIBRARY_SYSTEM.md#webpack-build-process)
+- **UMD configuration** → [UMD Library System: Configuration Structure](../CLAUDE/UMD_LIBRARY_SYSTEM.md#umd-configjson)
+- **UMD entry point** → [UMD Library System: Entry Point Discovery](../CLAUDE/UMD_LIBRARY_SYSTEM.md#entry-point-discovery)
+- **umd-config.json** → [UMD Library System: Configuration Structure](../CLAUDE/UMD_LIBRARY_SYSTEM.md#umd-configjson)
+- **umd.js** → [UMD Library System: File Naming Conventions](../CLAUDE/UMD_LIBRARY_SYSTEM.md#file-naming-conventions)
+- **umdWebpackGenerator** → [UMD Library System: umdWebpackGenerator Function](../CLAUDE/UMD_LIBRARY_SYSTEM.md#umdwebpackgenerator-function)
 - **UUID** → [Content Type: UUID Generation](../CLAUDE/CONTENT_TYPE_SYSTEM.md#uuid-generation)
 - **UUID v5** → [Content Type: Namespace-Based UUIDs](../CLAUDE/CONTENT_TYPE_SYSTEM.md#namespace-based-uuids)
 - **UUID namespace** → [Content Type: Namespace Configuration](../CLAUDE/CONTENT_TYPE_SYSTEM.md#namespace-based-uuids)

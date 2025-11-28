@@ -68,58 +68,137 @@ Topics for future exploration sessions with specialized agents.
 
 - ✅ **Gulp Build System and Asset Pipeline** - Complete build orchestration documentation (production vs development flow, 11-stage build pipeline with preBuild/postBuild hooks, task series/parallel composition), gulp.config.js structure (port configuration, source/dest paths, UMD config, BrowserSync settings), core tasks (clean, manifest generation, styles with SCSS compilation, scripts with webpack integration, umdLibraries, assets/markup/json copying, compress with gzip, serviceWorker stub), SCSS system (plugin-assets.json for base64 embedding, DDD style partial discovery with Registry-based priority, multi-level sort algorithm for Atomic Design, Handlebars template aggregation, reactiumImporter for "+" prefix resolution, seven priority tiers: VARIABLES→MIXINS→BASE→ATOMS→MOLECULES→ORGANISMS→OVERRIDES), development mode (watch task with forked process, file watchers for manifest/styles/assets/markup, BrowserSync proxy integration with WebSocket live reload), hook integration (preBuild, postBuild, build-series, main-webpack-assets, ddd-styles-partial, ddd-styles-partial-glob), configuration override pattern (gulp.config.override.js), environment variables (PORT/APP_PORT, BROWSERSYNC_PORT, NODE_ENV, MANUAL_DEV_BUILD, DEBUG, BROWERSYNC_OPEN_BROWSER), task composition helpers (generateSeries/generateParallel for declarative orchestration), CLI commands, best practices (hook registration timing, style partial naming conventions, asset organization, custom build tasks via hooks not file edits, watch performance optimization), common gotchas (manifest not regenerating, SCSS partial not included, asset not copied, webpack bundle not updating in dev, BrowserSync not reloading, styles compiled in wrong order, UMD build failures, compress task errors), performance optimization strategies, debugging techniques, integration with manifest/webpack/service worker/SSR systems; discovered during research: UMD webpack configuration (umdWebpackGenerator function, library externalization) - next topic to research; Service Worker plugin implementation patterns - lower priority; gulp.watch.js forked process implementation details - sufficient coverage; webpack-manifest.json SSR integration - already documented in SSR_ARCHITECTURE.md; comprehensive source references from gulp.tasks.js:1-824, gulp.config.js:30-128, reactium-config.js:9-84, manifest templates and processors (Nov 28, 2025)
 
+- ✅ **UMD Library System and External Dependencies** - Complete UMD build architecture with manifest-based discovery (umd.js pattern, umd-config.json configuration), webpack config generation via umdWebpackGenerator factory function, WebpackSDK integration for consistent configuration, default library externals (React/ReactDOM/Reactium SDK/14 common libraries with externalName/requirePath/defaultAlias structure), library externalization preventing dependency duplication, babel-loader configuration (preset-env/react/class-properties), output configuration (UMD library target, globalObject selection), production compression with gzip, service worker patterns (globalObject this, babel disabled, workerRestAPI define), runtime loading patterns (dynamic import, script tag, worker context), Gulp task integration (sequential webpack builds per library, error handling), real-world examples from service worker and admin plugins; discovered during research: UMD webpack override pattern (umd.webpack.override.js for per-library customization), DefinePlugin workerRestAPIConfig injection for Parse Server access in workers; comprehensive source references from umd.webpack.config.js:1-122, reactium-config.js:9-84,119-150, manifest/processors/umd.js:1-77, gulp.tasks.js:447-486; best practices (externalize React/Reactium, minimal entry points, proper globalObject, source maps dev only); common gotchas (missing umd-config.json, external reference mismatch, service worker babel config, manifest not regenerating, circular UMD dependencies, missing runtime dependencies, compression errors); critical for plugin distribution, service worker implementation, code splitting, bundle size optimization (Nov 28, 2025)
+
+- ✅ **Actinium Harness Testing System** - Development-only test runner with boot-time execution (ENV.RUN_TEST gated), Hook-based registration on tests domain with priority ordering, Node.js assert module integration for assertions, optional setup/teardown lifecycle (always runs teardown even on failure), test context with slugified keys, real-world examples from actinium-features plugin (core SDK validation), integration patterns for plugin self-testing (cloud functions, schema validation, capability checks); comprehensive source references from actinium-core/lib/harness.js:1-101, actinium-features/plugin.js:4-28; best practices (environment gating, descriptive test names, cleanup in teardown, master key usage, async/await patterns, priority ordering for dependencies, scope test data); common gotchas (missing ENV.RUN_TEST check, teardown not cleaning up, async not awaited, forgetting master key, test order dependencies, teardown errors silent, priority confusion, hook context conflicts, not checking plugin active state, unclear assertion messages); critical for rapid plugin development validation, core API smoke tests, database schema verification without full test suite overhead (Nov 28, 2025)
+
+- ✅ **Actinium Route System (Admin API Routes)** - Database-backed route management with Parse Server Route collection storage, blueprint-based frontend integration (route references blueprint component ID for rendering), CRUD operations (save with upsert logic, retrieve by path/objectId, list with pagination, delete with built-in protection), plugin lifecycle integration pattern (save on start/activate/update hooks, delete on deactivate hook), capability-based access control (capabilities array with CloudHasCapabilities check, route-list-output hook adds permitted field), hook-extensible validation (route-before-save, route-saved, beforeSave-route, beforeDelete-route), cloud functions API (route-save, route-retrieve, routes, route-delete), built-in route protection (meta.builtIn prevents deletion), metadata support (meta.app for multi-app organization, meta.category, custom fields), real-world examples from Settings/Admin/Route plugins (PLUGIN_ROUTES array pattern); comprehensive source references from actinium-route/plugin.js:1-288, sdk.js:1-94, schema.js:1-28, routes.js:1-12; best practices (always use meta.builtIn, register capability before route, use meta.app, clean up on deactivate, use order for grouping, validate blueprint exists); common gotchas (forgetting blueprint field, built-in routes not deleting, route not showing in UI, duplicate routes on restart, capability not registered, routes not cleaning up, hook order confusion, frontend blueprint mismatch, missing meta fields, query performance); discovered during research: Blueprint registration pattern in Reactium Admin (component registry integration), route-list-output permission filtering mechanism; critical for Actinium Admin navigation, dynamic route lists, plugin-specific admin pages, capability-based UI visibility (Nov 28, 2025)
+
 ## Pending Research Topics
 
 ### High Priority
 
-3. **UMD Library System and External Dependencies**
+1. **Reactium Blueprint System (Frontend Component Registry)**
 
-   - UMD build configuration and patterns
-   - Library externalization for code splitting
-   - UMD entry point discovery (reactium-umd.js files)
-   - umd-config.json structure and usage
-   - Default library externals (React, ReactDOM, Reactium SDK)
-   - Custom UMD library registration
-   - Runtime loading patterns
-   - Integration with webpack externals
-   - umdWebpackGenerator function implementation
-   - **Why it matters**: Critical for building reusable components, plugins, and optimizing bundle size
-   - **What's undocumented**: Complete UMD system architecture, config structure, library registration patterns, webpack generator
-   - **Key mechanisms**: umd.webpack.config.js, defaultLibraryExternals, UMD manifest generation, umdWebpackGenerator
-   - **Source files**: reactium-core/umd.webpack.config.js, reactium-config.js umd section, gulp.tasks.js:447-486
-   - **Discovered during**: Manifest and Gulp research - UMD manifest generation, library build process (Nov 28, 2025)
+   - Blueprint registration and component mapping
+   - Integration with Route system (blueprint field references)
+   - Dynamic blueprint resolution and rendering
+   - Blueprint configuration structure (sections, zones, meta)
+   - Admin UI blueprint patterns (Admin/Simple/Profile defaults)
+   - hookableComponent integration
+   - Route loading and capability filtering (blueprints hook)
+   - **Why it matters**: Critical for understanding admin UI rendering, route-to-component mapping, dynamic page generation in Actinium Admin
+   - **What's undocumented**: Complete blueprint registration API, configuration options, integration with routing system, component resolution mechanism, section/zone architecture
+   - **Key mechanisms**: Reactium.Blueprint.register(), blueprint lookup by ID, component rendering pipeline, Reactium.Blueprint.initRoutes(), capability-based route filtering
+   - **Source files**: Reactium-Admin-Plugins/reactium_modules/@atomic-reactor/reactium-admin-core/Blueprint/sdk.js (1-150 lines)
+   - **Discovered during**: Route System research - routes reference blueprints for frontend rendering (Nov 28, 2025)
 
-6. **Actinium Harness Testing System**
+2. **Actinium Search and Indexing System**
 
-   - Development-only test runner (ENV.RUN_TEST)
-   - Test registration via Harness.test()
-   - Setup and teardown lifecycle
-   - Assert-based testing with node.js assert
-   - Hook-based test execution (tests hook)
-   - Test ordering via priority
-   - Boot-time test execution
-   - **Why it matters**: Enables rapid development testing without full test suite, critical for plugin development
-   - **What's undocumented**: Complete Harness API, best practices, integration with plugin development
-   - **Key mechanisms**: Harness.test(description, cb, setup, teardown, order), tests hook
-   - **Source files**: actinium-core/lib/harness.js
+   - Hook-driven search architecture (pluggable indexers)
+   - Content indexing workflow (Actinium.Search.index)
+   - Search normalization pipeline (search-index-item-normalize hook)
+   - Lunr.js integration pattern (actinium-search-lunr plugin)
+   - Cron-based automatic reindexing with Pulse
+   - RichText field plaintext extraction
+   - Search API (index, search cloud functions)
+   - Threshold-based result filtering
+   - **Why it matters**: Critical for CMS search functionality, understanding pluggable search backends, content indexing strategies
+   - **What's undocumented**: Complete search architecture, hook integration patterns, custom indexer implementation guide, normalization strategies, Lunr.js plugin pattern
+   - **Key mechanisms**: Actinium.Search.index(), search-index-config hook, search-index-item-normalize hook, search-index hook, search hook
+   - **Source files**: actinium-search/sdk.js (1-130 lines), actinium-search/search-plugin.js (1-126 lines), actinium-search-lunr-plugin.js
+   - **Discovered during**: Codebase exploration - substantial hook-driven system with pluggable architecture (Nov 28, 2025)
 
-7. **Actinium Route System (Admin API Routes)**
+3. **Actinium Syndicate Multi-Tenant Content Distribution**
 
-   - Route storage in Parse Server Route collection
-   - Blueprint concept for frontend routing integration
-   - Route CRUD operations (save, delete, retrieve)
-   - Hook integration (route-saved, route-deleted)
-   - Plugin lifecycle integration (activate/deactivate saves/removes routes)
-   - Built-in route protection and metadata
-   - **Why it matters**: Critical for Actinium Admin frontend, API documentation, dynamic routing
-   - **What's undocumented**: Complete Route API, blueprint patterns, admin integration
-   - **Key mechanisms**: Actinium.Route.save/delete, blueprint field, PLUGIN_ROUTES array pattern
-   - **Source files**: Seen in actinium-settings/plugin.js, actinium-taxonomy/plugin.js usage patterns
-   - **Discovered during**: Plugin Management research - all plugins register routes on activate/start hooks (Nov 27, 2025)
+   - JWT-based client authentication (refresh + access tokens)
+   - SyndicateClient collection and token management
+   - Content API for cross-site content serving
+   - Media directory and file syndication
+   - Taxonomy syndication
+   - Security model (ENV.ACCESS_SECRET, ENV.REFRESH_SECRET)
+   - Client CRUD operations
+   - Token verification and refresh patterns
+   - **Why it matters**: Critical for multi-site Actinium deployments, headless CMS use cases, content distribution networks
+   - **What's undocumented**: Complete syndication architecture, token lifecycle, client setup workflow, security best practices, API integration patterns
+   - **Key mechanisms**: Actinium.Syndicate.Client.create/token/verify, jwt.sign/verify, SyndicateClient collection, syndicate-* cloud functions
+   - **Source files**: actinium-syndicate/sdk.js (1-200+ lines), actinium-syndicate/plugin.js (1-185 lines)
+   - **Discovered during**: Settings system research - complex multi-tenant config use case (Nov 28, 2025)
+
+4. **Reactium Utility Hooks Collection**
+
+   - useAsyncEffect - async side effects with isMounted pattern
+   - useDerivedState - prop-to-state derivation with selective subscriptions
+   - useStatus - type-safe status management
+   - useEventEffect - ComponentEvent subscription hook
+   - useFocusEffect - focus state management
+   - useFullfilledObject - promise resolution tracking
+   - useScrollToggle - scroll-based state toggling
+   - useIsContainer - DOM hierarchy checking
+   - cxFactory - namespaced classname generation
+   - **Why it matters**: Essential patterns for Reactium development, common use cases, type-safe state management
+   - **What's undocumented**: Complete hooks reference with real-world usage patterns, best practices, comparison with standard hooks
+   - **Key mechanisms**: Each hook's signature, use cases, gotchas, integration patterns
+   - **Source files**: reactium-sdk-core/src/browser/*.ts (useAsyncEffect.ts:1-72, useDerivedState.ts:1-180, useStatus.ts:1-58, etc.)
+   - **Discovered during**: Codebase exploration - substantial utility hook library beyond documented hooks (Nov 28, 2025)
 
 ### Medium Priority
 
-8. **Reactium Server-Side Routing and Middleware**
+5. **Actinium Mailer System (Email Integration)**
+
+   - Pluggable transport architecture (SMTP, Mailgun, SES)
+   - Hook-driven transport configuration (mailer-transport hook)
+   - Actinium.Mail.send API with nodemailer integration
+   - Settings-based configuration (mailer settings group)
+   - Multiple provider patterns (default sendmail, SMTP, Mailgun, AWS SES)
+   - Environment variable configuration (SENDMAIL_BIN, SENDMAIL_NEWLINE_STYLE)
+   - **Why it matters**: Essential for user notifications, password resets, transactional emails in Actinium apps
+   - **What's undocumented**: Complete mailer architecture, transport plugin pattern, provider comparison, configuration best practices
+   - **Key mechanisms**: Actinium.Mail.send(), mailer-transport hook, nodemailer.createTransport(), Settings integration
+   - **Source files**: actinium-mailer/mailer-plugin.js (1-63 lines), smtp-plugin.js, mailgun-plugin.js, actinium-ses-mailer plugin
+   - **Discovered during**: Codebase exploration - hook-driven email system with multiple provider support (Nov 28, 2025)
+
+6. **Actinium IO WebSocket System (Real-Time Communication)**
+
+   - Socket.io server integration with Actinium HTTP server
+   - Client registry pattern (Actinium.IO.clients Registry)
+   - Hook-driven lifecycle (io.config, io.init, io.connection, io.disconnecting)
+   - Connection/disconnection event handling
+   - CORS configuration patterns
+   - Custom socket path (/actinium.io)
+   - Real-time event broadcasting patterns
+   - **Why it matters**: Critical for real-time features, live updates, collaborative editing, notifications
+   - **What's undocumented**: Complete IO architecture, client management patterns, room/namespace usage, real-world integration examples
+   - **Key mechanisms**: Actinium.IO.server, io.connection hook, client registry, Socket.io Server configuration
+   - **Source files**: actinium-io/plugin.js (1-104 lines)
+   - **Discovered during**: Codebase exploration - simple but critical real-time infrastructure (Nov 28, 2025)
+
+7. **Reactium Window and Breakpoint Utilities**
+
+   - SSR-safe window/document access (conditionalWindow, conditionalDocument)
+   - Breakpoint system (xs/sm/md/lg/xl with custom thresholds)
+   - Dynamic breakpoint detection (window.innerWidth based)
+   - Electron detection (isElectronWindow)
+   - Window.breakpoints customization pattern
+   - **Why it matters**: Responsive design patterns, SSR compatibility, cross-platform support
+   - **What's undocumented**: Breakpoint customization guide, responsive hook patterns, integration with Reactium components
+   - **Key mechanisms**: breakpoint(), breakpoints(), isWindow(), BREAKPOINTS_DEFAULT
+   - **Source files**: reactium-sdk-core/src/browser/window.ts (1-70 lines)
+   - **Discovered during**: Codebase exploration - foundational responsive utilities (Nov 28, 2025)
+
+8. **Reactium Fullscreen API**
+
+   - Fullscreen class with expand/collapse/toggle methods
+   - Body class toggling (.fullscreen)
+   - Fullscreen change event handling
+   - Element-specific fullscreen (not just documentElement)
+   - **Why it matters**: Media viewers, presentations, immersive experiences
+   - **What's undocumented**: Usage patterns, integration with components, browser compatibility handling
+   - **Key mechanisms**: Fullscreen.expand/collapse/toggle, isExpanded/isCollapsed, fullscreenchange event
+   - **Source files**: reactium-sdk-core/src/browser/Fullscreen.ts (1-61 lines)
+   - **Discovered during**: Codebase exploration - simple but useful browser API wrapper (Nov 28, 2025)
+
+9. **Reactium Server-Side Routing and Middleware**
 
    - Express router configuration in Reactium
    - Basic auth integration (.htpasswd pattern)
@@ -135,60 +214,200 @@ Topics for future exploration sessions with specialized agents.
 
 ### Lower Priority
 
-8. **Actinium Taxonomy System**
+10. **Actinium Taxonomy System**
 
-   - Hierarchical taxonomy architecture
-   - Taxonomy type registration
-   - Content-taxonomy relationships
-   - Query patterns for taxonomized content
-   - **Why it matters**: Content organization for CMS use cases
-   - **What's undocumented**: Complete taxonomy API and patterns
-   - **Source files**: actinium-taxonomy/plugin.js
+    - Hierarchical taxonomy architecture
+    - Taxonomy type registration
+    - Content-taxonomy relationships
+    - Query patterns for taxonomized content
+    - **Why it matters**: Content organization for CMS use cases
+    - **What's undocumented**: Complete taxonomy API and patterns
+    - **Source files**: actinium-taxonomy/plugin.js
+    - **Evaluation**: Lower priority - CMS-specific feature, may be trivial type registration pattern
 
-9. **Actinium Navigation System**
+11. **Actinium Navigation System**
 
-   - Navigation menu structure
-   - Dynamic navigation generation
-   - Integration with routing
-   - **Why it matters**: Dynamic navigation for CMS applications
-   - **Source files**: actinium-navigation/plugin.js
+    - Navigation menu structure (MenuBuilder field type)
+    - Type registration pattern for Navigation content type
+    - RichText integration for additional content
+    - Publisher workflow integration
+    - **Why it matters**: Dynamic navigation for CMS applications
+    - **What's undocumented**: MenuBuilder field type usage, navigation rendering patterns
+    - **Source files**: actinium-navigation/plugin.js (1-89 lines)
+    - **Evaluation**: Lower priority - appears to be simple type registration, MenuBuilder field type might warrant documentation if complex
 
-10. **Actinium Shortcodes System**
+12. **Actinium Shortcodes System**
 
     - Shortcode registration and parsing
     - Content transformation pipeline
     - Built-in vs custom shortcodes
     - **Why it matters**: Content flexibility in CMS
+    - **What's undocumented**: Shortcode registration API, parsing mechanism, transformation hooks
     - **Source files**: actinium-shortcodes/plugin.js
+    - **Evaluation**: Medium-low priority - useful for CMS content, but may be straightforward pattern
 
-11. **Actinium IO System (WebSockets)**
-
-    - Socket.io integration patterns
-    - Real-time event broadcasting
-    - Client-server communication
-    - **Why it matters**: Real-time features, live updates
-    - **Source files**: actinium-io/plugin.js
-
-12. **Actinium Recycle System**
+13. **Actinium Recycle System**
 
     - Soft delete patterns
     - Trash/restore functionality
     - Permanent deletion
+    - Parse Server beforeDelete hook integration
     - **Why it matters**: Data safety in CMS applications
+    - **What's undocumented**: Recycle bin architecture, restore workflow, collection-specific recycling
     - **Source files**: actinium-recycle/plugin.js
+    - **Evaluation**: Lower priority - useful but may follow standard soft-delete pattern
 
-13. **Parse Server Integration**
+14. **Parse Server Integration Deep Dive**
 
     - Session management patterns (user context propagation)
     - Live Query setup and usage
     - Advanced proxy configuration patterns
     - Parse SDK initialization flow
+    - **Evaluation**: Lower priority - mostly standard Parse Server usage, not framework-specific
 
-14. **Component Registry Patterns**
-    - Dynamic component replacement
-    - Plugin-based component overrides
-    - Versioning components
-    - Component decoration
+## NEW RESEARCH TOPICS (Nov 28, 2025 - Third Exploration)
+
+### High Priority (New - Nov 28 Evening)
+
+21. **Reactium Utility Hooks Collection (Phase 2: Advanced Hooks)**
+    - useAsyncEffect - async side effects with isMounted pattern and cleanup
+    - useDerivedState - prop-to-state derivation with selective subscriptions and deep comparison
+    - useStatus - type-safe status management with ENUMS
+    - useFocusEffect - focus state management with event listeners
+    - useFullfilledObject - promise resolution tracking for complex async states
+    - useScrollToggle - scroll-based state toggling with threshold configuration
+    - useIsContainer - DOM hierarchy checking with ref management
+    - **Why it matters**: Essential React patterns for Reactium development, async handling, derived state patterns, status management beyond useState
+    - **What's undocumented**: Complete hooks API reference with real-world usage, best practices for async operations, comparison with standard React hooks, integration patterns with Reactium state management
+    - **Key mechanisms**: Each hook's signature, parameter options, gotchas, real examples from core plugins
+    - **Source files**: reactium-sdk-core/src/browser/useAsyncEffect.ts (72 lines), useDerivedState.ts (180 lines), useStatus.ts (58 lines), useFocusEffect.ts, useScrollToggle.ts, useIsContainer.ts, useFullfilledObject.ts
+    - **Discovered during**: Third exploration - substantial utility hook library with complex implementations (Nov 28, 2025)
+
+22. **Actinium Recycle System Architecture**
+    - Three-tier recycle types (archive/delete/revision)
+    - Soft delete patterns with Parse Server integration
+    - Trash/restore workflow (Actinium.Recycle.trash/restore)
+    - Permanent deletion (purge operation)
+    - Type-based filtering and retrieval
+    - ACL preservation on recycled objects
+    - Settings-based capability configuration
+    - Cloud functions API (recycle, recycle-archive, recycle-revision, recycled, recycle-archived, recycle-revisions, recycle-restore, recycle-purge)
+    - **Why it matters**: Data safety patterns for CMS applications, audit trail implementation, version control system, content recovery workflows
+    - **What's undocumented**: Complete Recycle SDK (267 lines), three-tier type system, restore workflow mechanics, ACL handling during recycle/restore, capability-based access control patterns
+    - **Key mechanisms**: Actinium.Recycle.trash/archive/revision/restore/purge, type filtering, Parse Object serialization/deserialization
+    - **Source files**: actinium-recycle/sdk.js (267 lines), plugin.js (237 lines), schema.js (577 bytes)
+    - **Discovered during**: Third exploration - substantial SDK with three-tier type system (Nov 28, 2025)
+
+23. **Actinium Taxonomy System Architecture**
+    - Hierarchical taxonomy structure (parent/child relationships)
+    - Taxonomy-content relationships (many-to-many)
+    - Taxonomy type registration and CRUD
+    - Content-taxonomy linking patterns
+    - Query patterns for taxonomized content
+    - Slug-based taxonomy lookup
+    - Hook integration (taxonomy-saved, taxonomy-deleted)
+    - Cloud functions API (taxonomy-create, taxonomy-retrieve, taxonomy-update, taxonomy-delete, taxonomies)
+    - **Why it matters**: Content organization for CMS use cases, category/tag systems, hierarchical navigation, SEO-friendly content structure
+    - **What's undocumented**: Complete Taxonomy SDK (336 lines), hierarchical parent/child mechanics, content linking patterns, query strategies for taxonomized content
+    - **Key mechanisms**: Actinium.Taxonomy CRUD operations, parent relation handling, content-taxonomy many-to-many relationships
+    - **Source files**: actinium-taxonomy/sdk.js (336 lines), plugin.js (583 lines)
+    - **Discovered during**: Third exploration - substantial SDK with hierarchical relationship management (Nov 28, 2025)
+
+### Medium Priority (Re-evaluated)
+
+**REMOVED (Trivial):**
+- ❌ Shortcodes System - 102-line plugin, simple registration pattern, no substantial SDK, settings-based config only
+- ❌ Navigation System - 88-line plugin, simple type registration, MenuBuilder field type is RichText editor config not framework pattern
+- ❌ Parse Server Integration Deep Dive - Standard Parse Server usage, not framework-specific
+
+## NEW RESEARCH TOPICS (Nov 28, 2025 - Second Exploration)
+
+### High Priority (New)
+
+15. **Actinium Content System Deep Dive**
+    - Complete Content CRUD API (find, retrieve, save, delete, purge)
+    - Content-Type relationship patterns
+    - UUID-based content identification (type + slug → uuid)
+    - Content query patterns (status, user, type+slug filters)
+    - Content utilities (slug generation, search length validation, type resolution)
+    - Content ACL integration
+    - Hook-driven extensibility (content-before-save, content-saved, content-deleted)
+    - Real-world patterns from actinium-content plugin
+    - **Why it matters**: Core CMS functionality, central to Actinium applications, complex Content SDK with 500+ lines
+    - **What's undocumented**: Complete Content API reference, uuid generation patterns, content query strategies, integration with Type system
+    - **Key mechanisms**: Actinium.Content.find/retrieve/save/delete, genUUID pattern, content utilities, beforeSave hooks
+    - **Source files**: actinium-content/sdk.js (1-530 lines), plugin.js (1-179 lines), schema.js
+    - **Discovered during**: Exploration of Actinium core plugins - largest SDK after actinium-core itself (Nov 28, 2025)
+
+16. **MemoryCache System Architecture**
+    - Object-path addressing for hierarchical cache keys
+    - Subscribe/notify pattern for cache change events
+    - TTL support with expiration callbacks
+    - Import/export/merge operations
+    - Deep path subscriptions (subscribe to 'a.b' triggers on 'a.b.c' changes)
+    - Integration with Reactium.Cache and Actinium.Cache
+    - Comparison with browser Cache API and localStorage
+    - Real-world patterns: route caching, role caching, settings caching
+    - **Why it matters**: Foundational caching system used throughout framework, performance optimization patterns, real-time cache invalidation
+    - **What's undocumented**: Complete MemoryCache API, subscription patterns, hierarchical key addressing, TTL strategies, cache invalidation patterns
+    - **Key mechanisms**: Cache.get/set/del/subscribe, object-path support, expiration callbacks, subscriber notifications
+    - **Source files**: reactium-sdk-core/src/core/MemoryCache.ts (1-357 lines)
+    - **Discovered during**: SDK exploration - substantial TypeScript implementation with event-driven architecture (Nov 28, 2025)
+
+17. **Reactium SplitParts String Template System**
+    - Token-based string splitting (%key% replacement syntax)
+    - Progressive replacement with .replace() chaining
+    - Part/replacement type tracking
+    - Integration with component rendering (dynamic content injection)
+    - Comparison with template literals and handlebars
+    - Real-world use cases in admin UI
+    - **Why it matters**: Enables dynamic string templating beyond template literals, useful for plugin-extensible UI strings, email templates, dynamic content
+    - **What's undocumented**: SplitParts API, replacement patterns, integration with framework components, use cases vs alternatives
+    - **Key mechanisms**: SplitParts class, replace() method, value()/toString() output, token syntax
+    - **Source files**: reactium-sdk-core/src/browser/splitter.ts (1-163 lines)
+    - **Discovered during**: Browser SDK exploration - specialized string manipulation utility (Nov 28, 2025)
+
+18. **Reactium Classnames Factory (cxFactory)**
+    - Namespace-based classname generation
+    - Integration with classnames library
+    - Consistent component styling patterns
+    - BEM-style naming conventions
+    - Real-world usage in core components
+    - **Why it matters**: Essential for component library development, consistent CSS naming, plugin-based theming
+    - **What's undocumented**: cxFactory usage patterns, integration with component development, naming conventions
+    - **Key mechanisms**: cxFactory(namespace) factory function, automatic prefix application
+    - **Source files**: reactium-sdk-core/src/browser/classnames.ts (1-21 lines)
+    - **Discovered during**: Browser SDK exploration - small but framework-critical styling utility (Nov 28, 2025)
+
+### Medium Priority (New)
+
+19. **Server Template System and Custom Templates**
+    - Template discovery pattern (local override vs core template)
+    - Template structure (version, template function)
+    - req object properties (headTags, styles, scripts, appBindings, appGlobals)
+    - defines object serialization
+    - Custom template creation patterns
+    - Template versioning and compatibility
+    - Integration with SSR renderer
+    - **Why it matters**: Enables custom HTML structure, multi-app deployments, specialized SSR scenarios, progressive enhancement
+    - **What's undocumented**: Template creation guide, req object complete reference, versioning strategy, override patterns
+    - **Key mechanisms**: Template file structure, req property injection points, serialize-javascript usage
+    - **Source files**: reactium-core/server/template/feo.js (1-26 lines), server/renderer/index.mjs template discovery
+    - **Discovered during**: Server-side exploration - simple but enables advanced customization (Nov 28, 2025)
+
+20. **Actinium File Creation API**
+    - ActiniumFile class extending Parse.File
+    - File.create() pattern for disk-to-Parse conversion
+    - mediaURL() transformation for frontend access
+    - File path transformation (targetPath parameter)
+    - MIME type detection and handling
+    - Base64 encoding for Parse Server storage
+    - Integration with FileAdapter system
+    - **Why it matters**: Essential for programmatic file uploads, content management, media handling in cloud functions
+    - **What's undocumented**: Complete File API, file creation patterns from disk, mediaURL usage, integration with syndication/media systems
+    - **Key mechanisms**: ActiniumFile class, File.create(filePath, targetPath), mediaURL() method, getArrayBuffer utility
+    - **Source files**: actinium-core/lib/file.js (1-53 lines), lib/utils/file-api.js (1-36 lines)
+    - **Discovered during**: Actinium core lib exploration - critical for file handling workflows (Nov 28, 2025)
 
 ## RESEARCH MODE DIRECTIVES
 
