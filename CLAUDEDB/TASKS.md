@@ -1,4 +1,4 @@
-<!-- v1.21.0 -->
+<!-- v1.22.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -89,9 +89,94 @@ npx reactium route --destination src/app/components/MyComponent --route '/path'
 → [Patterns: Hook-Based Plugin Architecture](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-4-hook-based-plugin-architecture)
 
 ### Create a backend plugin
-→ [Actinium: Plugin System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-system)
-→ [Actinium Quick Ref: Essential Plugin Structure](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#essential-plugin-structure)
+→ [Plugin Management System: Overview](../CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md#overview)
+→ [Plugin System: Plugin Registration](../CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md#basic-plugin-object)
+→ [Plugin System: Lifecycle Hooks](../CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md#plugin-lifecycle)
 → [Patterns: Plugin SDK Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-8-plugin-sdk-pattern-server-side)
+
+**Quick Example**:
+```javascript
+const PLUGIN = {
+    ID: 'MY_PLUGIN',
+    name: 'My Plugin',
+    description: 'Plugin description',
+    order: 100,
+    version: {
+        actinium: '>=3.2.0',
+        plugin: '1.0.0',
+    },
+};
+Actinium.Plugin.register(PLUGIN, true);
+```
+
+### Activate/deactivate an Actinium plugin
+→ [Plugin System: Activation](../CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md#3-activation)
+→ [Plugin System: Deactivation](../CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md#5-deactivation)
+→ [Plugin System: Check Active Status](../CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md#check-active-status)
+
+**Programmatic Control**:
+```javascript
+// Activate
+await Actinium.Plugin.activate('MY_PLUGIN');
+
+// Deactivate
+await Actinium.Plugin.deactivate('MY_PLUGIN');
+
+// Check if active
+if (Actinium.Plugin.isActive('MY_PLUGIN')) {
+    // Plugin-specific logic
+}
+```
+
+### Add plugin assets (logo, scripts, stylesheets)
+→ [Plugin System: File-Based Assets](../CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md#file-based-assets)
+→ [Plugin System: Asset Upload Lifecycle](../CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md#asset-upload-lifecycle)
+
+**Quick Example**:
+```javascript
+Actinium.Plugin.addLogo(PLUGIN.ID, path.resolve(__dirname, 'logo.svg'));
+Actinium.Plugin.addScript(PLUGIN.ID, path.resolve(__dirname, 'bundle.js'));
+Actinium.Plugin.addStylesheet(PLUGIN.ID, path.resolve(__dirname, 'styles.css'));
+```
+
+### Create plugin version migrations
+→ [Plugin System: updateHookHelper Pattern](../CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md#updatehookhelper-pattern)
+→ [Plugin System: Version Management](../CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md#version-management-and-migrations)
+
+**Quick Example**:
+```javascript
+const migrations = {
+    '1.0.4': {
+        migration: async (plugin, req, old) => {
+            // Upgrade logic for version 1.0.4
+        }
+    },
+    '1.0.5': {
+        migration: async (plugin, req, old) => {
+            // Upgrade logic for version 1.0.5
+        }
+    },
+};
+Actinium.Hook.register('update', Actinium.Plugin.updateHookHelper('MY_PLUGIN', migrations));
+```
+
+### Gate cloud functions by plugin active state
+→ [Plugin System: Gate Cloud Functions](../CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md#gate-cloud-functions)
+
+**Quick Example**:
+```javascript
+Actinium.Cloud.define(PLUGIN.ID, 'my-function', (req) => {
+    return Actinium.Plugin.gate({
+        req,
+        ID: PLUGIN.ID,
+        name: 'my-function',
+        callback: async (req) => {
+            // Function logic runs only if plugin is active
+            return doWork(req.params);
+        }
+    });
+});
+```
 
 ### Extend the Reactium SDK (browser-side)
 → [SDK Extension Pattern: Overview](../CLAUDE/SDK_EXTENSION_PATTERN.md#overview)
@@ -417,6 +502,92 @@ module.exports = spinner => {
 ### Persist UI state across sessions
 → [Prefs System: Sidebar/Panel Size Persistence](../CLAUDE/PREFS_SYSTEM.md#pattern-3-sidebarpanel-size-persistence)
 → [Prefs System: Best Practices](../CLAUDE/PREFS_SYSTEM.md#best-practices)
+
+### Store application settings (server-side)
+→ [Settings System: Overview](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#overview)
+→ [Settings System: Setting.set()](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#settingsetkey-value-acl)
+→ [Settings System: Setting.get()](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#settinggetkey-defaultvalue-options)
+
+**Quick Example**:
+```javascript
+// Set entire group
+await Actinium.Setting.set('site', {
+    title: 'My Awesome Site',
+    hostname: 'example.com',
+});
+
+// Set nested key
+await Actinium.Setting.set('site.hostname', 'newdomain.com');
+
+// Get value
+const hostname = await Actinium.Setting.get('site.hostname');
+const siteSettings = await Actinium.Setting.get('site');
+```
+
+### Configure plugin settings
+→ [Settings System: Hierarchical Addressing](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#hierarchical-addressing)
+→ [Settings System: Real-World Usage Examples](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#real-world-usage-examples)
+
+**Quick Example**:
+```javascript
+// Plugin configuration
+await Actinium.Setting.set('MyPlugin', {
+    enabled: true,
+    apiKey: 'secret-key',
+    refreshInterval: 60,
+});
+
+// Read plugin settings
+const config = await Actinium.Setting.get('MyPlugin', {
+    enabled: false,  // Default if not set
+});
+```
+
+### Make settings publicly readable (anonymous access)
+→ [Settings System: Anonymous Group Registry](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#anonymous-group-registry)
+→ [Settings System: Capability-Based Access Control](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#capability-based-access-control)
+
+**Quick Example**:
+```javascript
+// Register as anonymous (during plugin init)
+Actinium.Setting.anonymousGroup.register('app', { id: 'app' });
+
+// Now 'app' settings are publicly readable
+await Actinium.Setting.set('app', {
+    name: 'My App',
+    version: '1.0.0',
+});
+
+// Client can access without auth
+const appSettings = await Actinium.Cloud.run('setting-get', { key: 'app' });
+```
+
+### Implement feature flags with settings
+→ [Settings System: Example 2 - Feature Flag / Toggle](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#example-2-feature-flag--toggle)
+
+**Quick Example**:
+```javascript
+const { enabled } = await Actinium.Setting.get('feature.newUI', { enabled: false });
+
+if (enabled) {
+    // Show new UI
+} else {
+    // Show old UI
+}
+```
+
+### Control access to specific settings
+→ [Settings System: Per-Group Capabilities](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#per-group-capabilities)
+→ [Settings System: ACL Generation](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#acl-generation)
+
+**Quick Example**:
+```javascript
+// Grant role access to setting group
+await Actinium.Capability.Role.grant('editor', 'setting.theme-set');
+await Actinium.Capability.Role.grant('editor', 'setting.theme-get');
+
+// Now 'editor' role can read/write 'theme' settings
+```
 
 ### Optimize Handle re-renders (select specific state)
 → [Handle System: Selective Re-rendering](../CLAUDE/HANDLE_SYSTEM.md#selective-re-rendering-useselecthandle)

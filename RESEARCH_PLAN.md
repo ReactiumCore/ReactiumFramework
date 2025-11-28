@@ -58,42 +58,150 @@ Topics for future exploration sessions with specialized agents.
 
 - ✅ **Actinium FileAdapter System and File Storage Backends** - Complete pluggable file storage architecture documentation; FilesAdapterProxy pattern for runtime adapter swapping, Parse FilesAdapter interface (createFile, deleteFile, getFileData, getFileLocation, validateFilename, handleFileStream), default GridFS adapter (MongoDB-based storage), Parse Server integration via filesAdapter config, environment variables (PARSE_FILES_DIRECT_ACCESS, PARSE_PRESERVE_FILENAME, MAX_UPLOAD_SIZE, PARSE_FS_FILES_SUB_DIRECTORY), FilesAdapter.register() API for plugin registration, installer function signature, built-in adapters (S3Adapter with AWS/Digital Ocean Spaces support, FSFilesAdapter for local filesystem), hook-driven extensibility (files-adapter hook), activation/deactivation lifecycle with graceful GridFS fallback, priority-based selection for multiple active adapters, real-world deployment patterns (dev GridFS/FS, prod S3+CDN), CDN integration with baseUrl configuration, direct access vs proxied serving trade-offs (performance vs security), filename validation patterns with custom logic support, debugging techniques, performance considerations (direct access offloads Parse Server, GridFS vs S3 scalability), common gotchas (adapter not switching, direct access config, S3 permissions, no automatic file migration, filename sanitization), best practices (direct access in prod, don't preserve filenames for security, reasonable upload limits, CDN for public files, separate buckets by environment); comprehensive source references from actinium-core/lib/files-adapter.js:1-193, actinium-fs-adapter/s3-plugin.js:1-65, actinium-fs-adapter/fs-plugin.js:1-58, actinium-core/middleware/parse/middleware.js:8-27; discovered during research: Potential for file processing hooks (image optimization, virus scanning, metadata extraction) - proxy pattern enables future extensibility, Parse Server file ACL integration for authenticated file access (Nov 27, 2025)
 
+## Completed Research
+
+- ✅ **Actinium Plugin Management System** - Complete plugin lifecycle documentation with discovery (globby-based ENV.GLOB_PLUGINS), registration (Plugin.register with semver validation), database storage (Parse Plugin collection), lifecycle hooks (install, schema, activate, update, deactivate, uninstall), built-in detection (.core directory auto-flagging), version management (updateHookHelper for migrations with test functions), metadata handling (file-based assets with addLogo/addScript/addStylesheet), hook-driven extensibility (plugin-before-save, activate, update), gating pattern (Plugin.gate for cloud function protection), capability-based security (Plugin.* collection + plugin.view/activate capabilities), cache management (Actinium.Cache plugins.{ID}), active state queries (isActive, isValid), cloud function integration (plugin-activate, plugin-deactivate, plugin-uninstall, plugins list); real-world examples from Settings/Taxonomy/Type plugins; comprehensive source references from actinium-core/lib/plugable.js:1-731, actinium-core/cloud/actinium-plugin.js:1-292; best practices (check active state in hooks, lifecycle setup/teardown, schema on schema hook, updateHookHelper migrations, ID filtering, semver ranges, built-in protection); common gotchas (database active overrides default, schema hook timing, update only for active plugins, asset upload requires activation, order doesn't control hook priority, cache vs database inconsistency, built-in can't be deleted); discovered during research: Collection registration integration, capability registration patterns, route system integration for admin UI; critical for plugin development and Actinium extensibility (Nov 27, 2025)
+
+- ✅ **Actinium Settings System Architecture** - Complete hierarchical settings management with object-path addressing (group.subkey.leaf), database storage (Setting collection with double-nesting value.value), capability-based access control (per-group setting.{group}-get/set/delete), anonymous group registry (whitelist non-sensitive groups for public access), cache-first strategy (Actinium.Cache with dataLoading TTL), hook integration (setting-set, setting-change, setting-unset, settings-sync), ENV.SETTINGS bootstrap initialization, cloud functions (settings list, setting-get, setting-set/save, setting-unset/del/rm), Pulse-based periodic sync (SETTINGS_SYNC_SCHEDULE cron), type validation (string/number/boolean/date/array/object), ACL generation with CloudACL helper, settings-acl-roles hook for customization; real-world examples from S3Adapter (config storage), Mailer (feature flags), Search (cron schedule), Syndicate (multi-tenant config), Shortcodes (anonymous access); comprehensive source references from actinium-core/lib/setting.js:1-175, actinium-settings/plugin.js:1-429; best practices (hierarchical keys, anonymous groups for non-sensitive, defaults, ENV bootstrap, cache-bust on change, capability checks, group related settings); common gotchas (double-nesting value structure, nested key creates intermediates, unset sets undefined not delete, anonymous registration timing, cached values, capability uses group only, ENV overridden by database); integration with Pulse, Capability, Parse ACL systems; critical for application configuration and feature flags (Nov 27, 2025)
+
 ## Pending Research Topics
 
 ### High Priority
 
-1. **Parse Server File ACL and Authenticated File Access**
+3. **Manifest System and Dependency Loading**
 
-   - **Discovered during**: FileAdapter System research - noticed potential for file ACL integration when directAccess is false (proxied serving allows ACL checks before file delivery)
-   - **Why it matters**: Helps Claude guide developers on implementing private file storage where files require authentication/authorization to access; complements ACL pattern documentation with file-specific use cases; critical for apps with sensitive documents, user uploads, paid content
-   - **Current gap**: No documentation on integrating file access with Parse Server ACL/CLP, implementing authenticated file downloads, protecting file URLs from unauthorized access, file ACL patterns in beforeSave hooks, using Parse.File with ACL restrictions
-   - **Key mechanisms**:
-     - Parse.File ACL integration (files inherit object ACL)
-     - Proxied file serving with session token validation
-     - Parse Server file middleware authentication hooks
-     - Signed URL generation patterns for temporary access
-     - Integration with CloudRunOptions for file queries
-   - **Real usage**: Private user documents, paid content downloads, medical records, confidential reports, subscription-based file access
-   - **Integration**: ACL patterns, FileAdapter system (proxied mode), Cloud functions (file access control), Session validation
-   - **Critical for**: Secure file storage, authenticated downloads, debugging file access denied errors, implementing pay-walled content
+   - Manifest generation from DDD file discovery
+   - Dependency types (allRoutes, allServices, allHooks, allPlugins)
+   - Pattern-based file discovery configuration
+   - Source mappings and path transformations
+   - Dynamic import loader architecture
+   - Hook-driven dependency filtering (load-dependency hook)
+   - Module caching strategy
+   - Integration with webpack builds
+   - **Why it matters**: Core to understanding how Reactium discovers and loads application code, critical for build optimization
+   - **What's undocumented**: Complete manifest generation process, dependency type system, loader architecture
+   - **Key mechanisms**: ReactiumDependencies class, manifestLoader, load-dependency hook
+   - **Source files**: reactium-core/dependencies/index.js, reactium-config.js patterns, manifest generation in gulp
+
+4. **UMD Library System and External Dependencies**
+
+   - UMD build configuration and patterns
+   - Library externalization for code splitting
+   - UMD entry point discovery (reactium-umd.js files)
+   - umd-config.json structure and usage
+   - Default library externals (React, ReactDOM, Reactium SDK)
+   - Custom UMD library registration
+   - Runtime loading patterns
+   - Integration with webpack externals
+   - **Why it matters**: Critical for building reusable components, plugins, and optimizing bundle size
+   - **What's undocumented**: Complete UMD system architecture, config structure, library registration patterns
+   - **Key mechanisms**: umd.webpack.config.js, defaultLibraryExternals, UMD manifest generation
+   - **Source files**: reactium-core/umd.webpack.config.js, reactium-config.js umd section
+
+5. **Gulp Build System and Asset Pipeline**
+
+   - Gulp task orchestration and dependencies
+   - Hook-driven build extensibility (ddd-styles-partial, etc.)
+   - Asset discovery and copying patterns
+   - SCSS compilation with style partials
+   - Color system generation from JSON
+   - Plugin asset injection via plugin-assets.json
+   - Watch system and file change handling
+   - BrowserSync integration
+   - Service Worker generation
+   - Compression pipeline
+   - **Why it matters**: Understanding build process is critical for debugging, optimization, and extending build pipeline
+   - **What's undocumented**: Complete task orchestration, hook integration points, override patterns
+   - **Key mechanisms**: gulp.tasks.js task definitions, gulp.config.override.js pattern, Hook.run in build tasks
+   - **Source files**: reactium-core/gulp.tasks.js, gulp.config.js, gulp.bootup.js
+
+6. **Actinium Harness Testing System**
+
+   - Development-only test runner (ENV.RUN_TEST)
+   - Test registration via Harness.test()
+   - Setup and teardown lifecycle
+   - Assert-based testing with node.js assert
+   - Hook-based test execution (tests hook)
+   - Test ordering via priority
+   - Boot-time test execution
+   - **Why it matters**: Enables rapid development testing without full test suite, critical for plugin development
+   - **What's undocumented**: Complete Harness API, best practices, integration with plugin development
+   - **Key mechanisms**: Harness.test(description, cb, setup, teardown, order), tests hook
+   - **Source files**: actinium-core/lib/harness.js
+
+7. **Actinium Route System (Admin API Routes)**
+
+   - Route storage in Parse Server Route collection
+   - Blueprint concept for frontend routing integration
+   - Route CRUD operations (save, delete, retrieve)
+   - Hook integration (route-saved, route-deleted)
+   - Plugin lifecycle integration (activate/deactivate saves/removes routes)
+   - Built-in route protection and metadata
+   - **Why it matters**: Critical for Actinium Admin frontend, API documentation, dynamic routing
+   - **What's undocumented**: Complete Route API, blueprint patterns, admin integration
+   - **Key mechanisms**: Actinium.Route.save/delete, blueprint field, PLUGIN_ROUTES array pattern
+   - **Source files**: Seen in actinium-settings/plugin.js, actinium-taxonomy/plugin.js usage patterns
+   - **Discovered during**: Plugin Management research - all plugins register routes on activate/start hooks (Nov 27, 2025)
 
 ### Medium Priority
 
-1. **Express Router Patterns and Route Organization**
+8. **Reactium Server-Side Routing and Middleware**
 
-   - **Discovered during**: Express Settings System research - noticed middleware examples using express.Router() for route grouping (docs/middleware.js:8-14), need to understand best practices for organizing API routes in Actinium
-   - **Why it matters**: Critical for understanding how to structure large Actinium APIs with multiple route groups, middleware scoping, and versioned endpoints; helps Claude recommend proper route organization patterns
-   - **Current gap**: How to use Express Router for route grouping, middleware scoping per router, integration with Actinium middleware system, best practices for API versioning
-   - **Key mechanisms**:
-     - Express Router creation and mounting
-     - Router-level middleware vs app-level middleware
-     - Route path prefixes and nesting
-     - Integration with Actinium.Middleware patterns
-   - **Real usage**: API versioning (/api/v1/, /api/v2/), admin route grouping, public vs authenticated route separation, modular route organization
-   - **Integration**: Middleware system, Cloud functions, Parse Server mount point
-   - **Critical for**: Building scalable Actinium APIs with clean route organization, proper middleware scoping, and maintainable code structure
+   - Express router configuration in Reactium
+   - Basic auth integration (.htpasswd pattern)
+   - Health check endpoints
+   - Server.ResponseHeaders hook for custom headers
+   - SSR vs static file handling
+   - Redirect handling from React Router
+   - Error handling patterns
+   - **Why it matters**: Understanding server-side request handling, SSR integration, deployment patterns
+   - **What's undocumented**: Complete router architecture, middleware integration, hook patterns
+   - **Key mechanisms**: Server.ResponseHeaders hook, renderer integration, basic auth middleware
+   - **Source files**: reactium-core/server/router.mjs
 
 ### Lower Priority
+
+8. **Actinium Taxonomy System**
+
+   - Hierarchical taxonomy architecture
+   - Taxonomy type registration
+   - Content-taxonomy relationships
+   - Query patterns for taxonomized content
+   - **Why it matters**: Content organization for CMS use cases
+   - **What's undocumented**: Complete taxonomy API and patterns
+   - **Source files**: actinium-taxonomy/plugin.js
+
+9. **Actinium Navigation System**
+
+   - Navigation menu structure
+   - Dynamic navigation generation
+   - Integration with routing
+   - **Why it matters**: Dynamic navigation for CMS applications
+   - **Source files**: actinium-navigation/plugin.js
+
+10. **Actinium Shortcodes System**
+
+    - Shortcode registration and parsing
+    - Content transformation pipeline
+    - Built-in vs custom shortcodes
+    - **Why it matters**: Content flexibility in CMS
+    - **Source files**: actinium-shortcodes/plugin.js
+
+11. **Actinium IO System (WebSockets)**
+
+    - Socket.io integration patterns
+    - Real-time event broadcasting
+    - Client-server communication
+    - **Why it matters**: Real-time features, live updates
+    - **Source files**: actinium-io/plugin.js
+
+12. **Actinium Recycle System**
+
+    - Soft delete patterns
+    - Trash/restore functionality
+    - Permanent deletion
+    - **Why it matters**: Data safety in CMS applications
+    - **Source files**: actinium-recycle/plugin.js
 
 13. **Parse Server Integration**
 
