@@ -64,26 +64,15 @@ Topics for future exploration sessions with specialized agents.
 
 - ✅ **Actinium Settings System Architecture** - Complete hierarchical settings management with object-path addressing (group.subkey.leaf), database storage (Setting collection with double-nesting value.value), capability-based access control (per-group setting.{group}-get/set/delete), anonymous group registry (whitelist non-sensitive groups for public access), cache-first strategy (Actinium.Cache with dataLoading TTL), hook integration (setting-set, setting-change, setting-unset, settings-sync), ENV.SETTINGS bootstrap initialization, cloud functions (settings list, setting-get, setting-set/save, setting-unset/del/rm), Pulse-based periodic sync (SETTINGS_SYNC_SCHEDULE cron), type validation (string/number/boolean/date/array/object), ACL generation with CloudACL helper, settings-acl-roles hook for customization; real-world examples from S3Adapter (config storage), Mailer (feature flags), Search (cron schedule), Syndicate (multi-tenant config), Shortcodes (anonymous access); comprehensive source references from actinium-core/lib/setting.js:1-175, actinium-settings/plugin.js:1-429; best practices (hierarchical keys, anonymous groups for non-sensitive, defaults, ENV bootstrap, cache-bust on change, capability checks, group related settings); common gotchas (double-nesting value structure, nested key creates intermediates, unset sets undefined not delete, anonymous registration timing, cached values, capability uses group only, ENV overridden by database); integration with Pulse, Capability, Parse ACL systems; critical for application configuration and feature flags (Nov 27, 2025)
 
+- ✅ **Manifest System and Dependency Loading** - Complete documentation of manifest generation (DDD file discovery via globby + directory-tree, pattern matching with sourceMappings/searchParams, path transformation for imports, domain resolution system), ReactiumDependencies class architecture (loadAll/load methods, caching strategy, core type mapping), generated manifest structure (dynamic import() loaders for code-splitting, domain-keyed organization), load-dependency hook for conditional loading, NPM package discovery with reactiumDependencies support, four manifest types (domains.js, manifest.js, externals-manifest.js, umd-manifest.json), processors (domains/manifest/externals/umd), Handlebars template system, Gulp integration (parallel generation with dependency ordering), webpack integration (dynamic imports create split points), configuration override pattern (manifest.config.override.js), best practices (file naming, domain organization, performance optimization), common gotchas (manifest not regenerating, incorrect import paths, domain collisions, hook filtering timing, cache staleness); discovered during research: UMD system integration (defaultLibraryExternals, library externalization pattern) - already on list; Gulp watch process architecture (forked process for isolation) - documented in Gulp research; reactiumDependencies vs dependencies naming inconsistency - minor; comprehensive source references from manifest-tools.js:1-242, dependencies/index.js:1-153, reactium-config.js:86-188, gulp.tasks.js:320-388, manifest processors and templates (Nov 28, 2025)
+
+- ✅ **Gulp Build System and Asset Pipeline** - Complete build orchestration documentation (production vs development flow, 11-stage build pipeline with preBuild/postBuild hooks, task series/parallel composition), gulp.config.js structure (port configuration, source/dest paths, UMD config, BrowserSync settings), core tasks (clean, manifest generation, styles with SCSS compilation, scripts with webpack integration, umdLibraries, assets/markup/json copying, compress with gzip, serviceWorker stub), SCSS system (plugin-assets.json for base64 embedding, DDD style partial discovery with Registry-based priority, multi-level sort algorithm for Atomic Design, Handlebars template aggregation, reactiumImporter for "+" prefix resolution, seven priority tiers: VARIABLES→MIXINS→BASE→ATOMS→MOLECULES→ORGANISMS→OVERRIDES), development mode (watch task with forked process, file watchers for manifest/styles/assets/markup, BrowserSync proxy integration with WebSocket live reload), hook integration (preBuild, postBuild, build-series, main-webpack-assets, ddd-styles-partial, ddd-styles-partial-glob), configuration override pattern (gulp.config.override.js), environment variables (PORT/APP_PORT, BROWSERSYNC_PORT, NODE_ENV, MANUAL_DEV_BUILD, DEBUG, BROWERSYNC_OPEN_BROWSER), task composition helpers (generateSeries/generateParallel for declarative orchestration), CLI commands, best practices (hook registration timing, style partial naming conventions, asset organization, custom build tasks via hooks not file edits, watch performance optimization), common gotchas (manifest not regenerating, SCSS partial not included, asset not copied, webpack bundle not updating in dev, BrowserSync not reloading, styles compiled in wrong order, UMD build failures, compress task errors), performance optimization strategies, debugging techniques, integration with manifest/webpack/service worker/SSR systems; discovered during research: UMD webpack configuration (umdWebpackGenerator function, library externalization) - next topic to research; Service Worker plugin implementation patterns - lower priority; gulp.watch.js forked process implementation details - sufficient coverage; webpack-manifest.json SSR integration - already documented in SSR_ARCHITECTURE.md; comprehensive source references from gulp.tasks.js:1-824, gulp.config.js:30-128, reactium-config.js:9-84, manifest templates and processors (Nov 28, 2025)
+
 ## Pending Research Topics
 
 ### High Priority
 
-3. **Manifest System and Dependency Loading**
-
-   - Manifest generation from DDD file discovery
-   - Dependency types (allRoutes, allServices, allHooks, allPlugins)
-   - Pattern-based file discovery configuration
-   - Source mappings and path transformations
-   - Dynamic import loader architecture
-   - Hook-driven dependency filtering (load-dependency hook)
-   - Module caching strategy
-   - Integration with webpack builds
-   - **Why it matters**: Core to understanding how Reactium discovers and loads application code, critical for build optimization
-   - **What's undocumented**: Complete manifest generation process, dependency type system, loader architecture
-   - **Key mechanisms**: ReactiumDependencies class, manifestLoader, load-dependency hook
-   - **Source files**: reactium-core/dependencies/index.js, reactium-config.js patterns, manifest generation in gulp
-
-4. **UMD Library System and External Dependencies**
+3. **UMD Library System and External Dependencies**
 
    - UMD build configuration and patterns
    - Library externalization for code splitting
@@ -93,27 +82,12 @@ Topics for future exploration sessions with specialized agents.
    - Custom UMD library registration
    - Runtime loading patterns
    - Integration with webpack externals
+   - umdWebpackGenerator function implementation
    - **Why it matters**: Critical for building reusable components, plugins, and optimizing bundle size
-   - **What's undocumented**: Complete UMD system architecture, config structure, library registration patterns
-   - **Key mechanisms**: umd.webpack.config.js, defaultLibraryExternals, UMD manifest generation
-   - **Source files**: reactium-core/umd.webpack.config.js, reactium-config.js umd section
-
-5. **Gulp Build System and Asset Pipeline**
-
-   - Gulp task orchestration and dependencies
-   - Hook-driven build extensibility (ddd-styles-partial, etc.)
-   - Asset discovery and copying patterns
-   - SCSS compilation with style partials
-   - Color system generation from JSON
-   - Plugin asset injection via plugin-assets.json
-   - Watch system and file change handling
-   - BrowserSync integration
-   - Service Worker generation
-   - Compression pipeline
-   - **Why it matters**: Understanding build process is critical for debugging, optimization, and extending build pipeline
-   - **What's undocumented**: Complete task orchestration, hook integration points, override patterns
-   - **Key mechanisms**: gulp.tasks.js task definitions, gulp.config.override.js pattern, Hook.run in build tasks
-   - **Source files**: reactium-core/gulp.tasks.js, gulp.config.js, gulp.bootup.js
+   - **What's undocumented**: Complete UMD system architecture, config structure, library registration patterns, webpack generator
+   - **Key mechanisms**: umd.webpack.config.js, defaultLibraryExternals, UMD manifest generation, umdWebpackGenerator
+   - **Source files**: reactium-core/umd.webpack.config.js, reactium-config.js umd section, gulp.tasks.js:447-486
+   - **Discovered during**: Manifest and Gulp research - UMD manifest generation, library build process (Nov 28, 2025)
 
 6. **Actinium Harness Testing System**
 

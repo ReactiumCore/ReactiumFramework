@@ -1,4 +1,4 @@
-<!-- v1.24.0 -->
+<!-- v1.25.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -52,9 +52,13 @@
 
 - **babel** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
 - **babel-loader** → [ReactiumWebpack: Babel Configuration](../CLAUDE/REACTIUM_WEBPACK.md#adding-a-custom-loader)
+- **Base64 embedding** → [Gulp Build: Plugin Assets](../CLAUDE/GULP_BUILD_SYSTEM.md#plugin-assets-base64-embedding)
 - **beforeSave** → [Cloud Functions: Hook Integration](../CLAUDE/CLOUD_FUNCTIONS.md#hook-integration)
+- **BrowserSync** → [Gulp Build: BrowserSync Integration](../CLAUDE/GULP_BUILD_SYSTEM.md#browsersync-integration)
 - **Build** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
 - **Build errors** → [Gotchas: Build System](../CLAUDE/FRAMEWORK_GOTCHAS.md#build-system-gotchas)
+- **Build pipeline** → [Gulp Build: Build Pipeline Overview](../CLAUDE/GULP_BUILD_SYSTEM.md#build-pipeline-overview)
+- **Build tasks** → [Gulp Build: Core Build Tasks](../CLAUDE/GULP_BUILD_SYSTEM.md#core-build-tasks)
 
 ## C
 
@@ -106,14 +110,24 @@
 - **DATABASE_URI** → [Environment Config: Parse Server Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#environment--parse-server-mapping)
 - **Database schema** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
 - **DDD** → [Reactium: Domain-Driven Design](../CLAUDE/REACTIUM_FRAMEWORK.md#domain-driven-design-ddd-structure)
+- **DDD style partials** → [Gulp Build: DDD Style Partials Discovery](../CLAUDE/GULP_BUILD_SYSTEM.md#ddd-style-partials-discovery)
+- **defaultLibraryExternals** → [Manifest System: Default Library Externals](../CLAUDE/MANIFEST_SYSTEM.md#default-patterns-reactium-configjs)
+- **Dependency loading** → [Manifest System: Runtime Loading](../CLAUDE/MANIFEST_SYSTEM.md#runtime-loading-reactiumdependencies)
+- **dependencies.load** → [Manifest System: Loading Lifecycle](../CLAUDE/MANIFEST_SYSTEM.md#loading-lifecycle)
 - **Deployment** → [Environment Config: Multi-Environment Workflow](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#multi-environment-workflow)
 - **DevTools binding** → [Component Binding: Development Tools](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#1-development-tools)
 - **Debugging** → [Gotchas: Debugging Strategies](../CLAUDE/FRAMEWORK_GOTCHAS.md#debugging-strategies)
 - **Dependencies** → [Patterns: Plugin Dependency Management](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-12-plugin-dependency-management)
 - **Deploy** → [Integration: Deployment](../CLAUDE/FRAMEWORK_INTEGRATION.md#deployment)
+- **directory-tree** → [Manifest System: File Discovery Algorithm](../CLAUDE/MANIFEST_SYSTEM.md#file-discovery-algorithm)
 - **Docker** → [Environment Config: Docker Deployment](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#dockercontainer-deployment-patterns)
+- **Domain collision** → [Manifest System: Gotcha - Domain Collision Warnings](../CLAUDE/MANIFEST_SYSTEM.md#3-domain-collision-warnings)
+- **Domain resolution** → [Manifest System: Domain System](../CLAUDE/MANIFEST_SYSTEM.md#domain-system)
 - **Domain-driven** → [Reactium: Domain-Driven Design](../CLAUDE/REACTIUM_FRAMEWORK.md#domain-driven-design-ddd-structure)
 - **Domains (hooks)** → [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
+- **Domains (manifest)** → [Manifest System: Domain Discovery](../CLAUDE/MANIFEST_SYSTEM.md#domain-discovery-domainsjs)
+- **domains.js** → [Manifest System: Domain Processor](../CLAUDE/MANIFEST_SYSTEM.md#domain-processor)
+- **Dynamic imports** → [Manifest System: Webpack Integration](../CLAUDE/MANIFEST_SYSTEM.md#dynamic-imports--code-splitting)
 
 ## E
 
@@ -159,8 +173,16 @@
 - **getACL** → [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
 - **getProxy** → [FileAdapter System: FilesAdapterProxy](../CLAUDE/FILE_ADAPTER_SYSTEM.md#filesadapterproxy-pattern)
 - **Global State** → [Reactium: State Management](../CLAUDE/REACTIUM_FRAMEWORK.md#state-management)
+- **globby** → [Manifest System: File Discovery Algorithm](../CLAUDE/MANIFEST_SYSTEM.md#file-discovery-algorithm)
 - **GridFS** → [FileAdapter System: Default Adapter GridFS](../CLAUDE/FILE_ADAPTER_SYSTEM.md#default-adapter-gridfs)
-- **Gulp** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
+- **Gulp** → [Gulp Build System](../CLAUDE/GULP_BUILD_SYSTEM.md#overview)
+- **gulp.config.js** → [Gulp Build: Configuration](../CLAUDE/GULP_BUILD_SYSTEM.md#gulp-configuration-gulpconfigjs)
+- **gulp.config.override.js** → [Gulp Build: Configuration Override](../CLAUDE/GULP_BUILD_SYSTEM.md#gulpconfigoverridejs)
+- **gulp clean** → [Gulp Build: clean Task](../CLAUDE/GULP_BUILD_SYSTEM.md#1-clean---remove-build-artifacts)
+- **gulp manifest** → [Gulp Build: manifest Task](../CLAUDE/GULP_BUILD_SYSTEM.md#2-manifest---generate-all-manifests)
+- **gulp styles** → [Gulp Build: styles Task](../CLAUDE/GULP_BUILD_SYSTEM.md#3-styles---scss-compilation-with-ddd-partials)
+- **gulp watch** → [Gulp Build: Development Mode](../CLAUDE/GULP_BUILD_SYSTEM.md#development-mode)
+- **gzip compression** → [Gulp Build: compress Task](../CLAUDE/GULP_BUILD_SYSTEM.md#9-compress---gzip-static-assets)
 
 ## H
 
@@ -212,7 +234,12 @@
 ## M
 
 - **machineName** → [Content Type: UUID Generation](../CLAUDE/CONTENT_TYPE_SYSTEM.md#namespace-based-uuids)
-- **Manifest** → [Reactium: Manifest System](../CLAUDE/REACTIUM_FRAMEWORK.md#manifest-system)
+- **Manifest** → [Manifest System Overview](../CLAUDE/MANIFEST_SYSTEM.md#system-architecture)
+- **manifest.config.override.js** → [Manifest System: Configuration Override](../CLAUDE/MANIFEST_SYSTEM.md#manifestconfigoverridejs)
+- **Manifest generation** → [Manifest System: Generation Flow](../CLAUDE/MANIFEST_SYSTEM.md#generation-flow-regenmanifest-function)
+- **manifest.js** → [Manifest System: Generated Manifest Structure](../CLAUDE/MANIFEST_SYSTEM.md#generated-manifest-structure-manifestjs)
+- **manifestLoader** → [Manifest System: Loading Lifecycle](../CLAUDE/MANIFEST_SYSTEM.md#loading-lifecycle)
+- **manifest-tools.js** → [Manifest System: Discovery Process](../CLAUDE/MANIFEST_SYSTEM.md#discovery-process-manifest-toolsjs)
 - **Mappers** → [Zone System: Filters, Mappers, Sorters](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#filters-mappers-and-sorters)
 - **Master key** → [Cloud Functions: MasterOptions](../CLAUDE/CLOUD_FUNCTIONS.md#masteroptions---force-master-key)
 - **MASTER_KEY** → [Environment Config: Parse Server Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#environment--parse-server-mapping)
@@ -344,6 +371,9 @@
 
 - **S3** → [FileAdapter System: S3Adapter Plugin](../CLAUDE/FILE_ADAPTER_SYSTEM.md#1-s3adapter-plugin)
 - **S3Adapter** → [FileAdapter System: S3Adapter Plugin](../CLAUDE/FILE_ADAPTER_SYSTEM.md#1-s3adapter-plugin)
+- **SassPartialRegistry** → [Gulp Build: Registry-Based Priority System](../CLAUDE/GULP_BUILD_SYSTEM.md#registry-based-priority-system)
+- **SCSS compilation** → [Gulp Build: SCSS Compilation Flow](../CLAUDE/GULP_BUILD_SYSTEM.md#scss-compilation-flow)
+- **SCSS partials** → [Gulp Build: DDD Style Partials Discovery](../CLAUDE/GULP_BUILD_SYSTEM.md#ddd-style-partials-discovery)
 - **Schema** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
 - **Schema (Content Type)** → [Content Type: Schema Management](../CLAUDE/CONTENT_TYPE_SYSTEM.md#schema-management)
 - **Schema evolution** → [Collection Registration: Migration Patterns](../CLAUDE/COLLECTION_REGISTRATION.md#migration-patterns)
@@ -354,6 +384,7 @@
 - **setRoleReadAccess** → [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
 - **Security** → [Environment Config: Security Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#security-configuration)
 - **SERVER_URI** → [Environment Config: URI Generation](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#automatic-port-adjustment)
+- **sourceMappings** → [Manifest System: Configuration Elements](../CLAUDE/MANIFEST_SYSTEM.md#configuration-elements)
 - **skip** → [Pagination: Skip-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#1-skip-based-pagination-framework-default)
 - **SDK** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 - **SDK extension** → [SDK Extension Pattern](../CLAUDE/SDK_EXTENSION_PATTERN.md#overview)
@@ -380,6 +411,7 @@
 - **SSR** → [SSR Architecture](../CLAUDE/SSR_ARCHITECTURE.md#overview)
 - **State** → [Reactium: State Management](../CLAUDE/REACTIUM_FRAMEWORK.md#state-management)
 - **Static methods** → [Patterns: Static Method Data Loading](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-2-static-method-data-loading)
+- **Style partials** → [Gulp Build: DDD Style Partials Discovery](../CLAUDE/GULP_BUILD_SYSTEM.md#ddd-style-partials-discovery)
 
 ## T
 
