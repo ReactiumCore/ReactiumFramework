@@ -1,4 +1,4 @@
-<!-- v1.26.0 -->
+<!-- v1.27.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -66,8 +66,18 @@
 
 ## C
 
-- **Cache** → [Patterns: Backend Caching](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-15-backend-caching-pattern)
+- **Cache** → [MemoryCache System Architecture](../CLAUDE/MEMORY_CACHE_SYSTEM.md#overview)
+- **Cache.get** → [MemoryCache: get() method](../CLAUDE/MEMORY_CACHE_SYSTEM.md#getkey-defaultvalue)
+- **Cache.put** → [MemoryCache: put() method](../CLAUDE/MEMORY_CACHE_SYSTEM.md#putkey-value-time-timeoutcallback)
+- **Cache.set** → [MemoryCache: set() alias](../CLAUDE/MEMORY_CACHE_SYSTEM.md#setkey-value-time-timeoutcallback)
+- **Cache.del** → [MemoryCache: del() method](../CLAUDE/MEMORY_CACHE_SYSTEM.md#delkey-args)
+- **Cache.clear** → [MemoryCache: clear() method](../CLAUDE/MEMORY_CACHE_SYSTEM.md#clear)
+- **Cache.subscribe** → [MemoryCache: subscribe() method](../CLAUDE/MEMORY_CACHE_SYSTEM.md#subscribekey-callback)
+- **Cache.merge** → [MemoryCache: merge() method](../CLAUDE/MEMORY_CACHE_SYSTEM.md#mergevalues-options)
+- **Cache subscriptions** → [MemoryCache: Subscribe API](../CLAUDE/MEMORY_CACHE_SYSTEM.md#subscribekey-callback)
+- **Cache TTL** → [MemoryCache: TTL Support](../CLAUDE/MEMORY_CACHE_SYSTEM.md#putkey-value-time-timeoutcallback)
 - **Capabilities** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
+- **Category** → [Taxonomy System: Default Installation](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#default-installation)
 - **Capability checking** → [Cloud Functions: CloudHasCapabilities](../CLAUDE/CLOUD_FUNCTIONS.md#cloudhascapabilities---check-without-escalation)
 - **Class-Level Permissions** → [Collection Registration: CLP Generation](../CLAUDE/COLLECTION_REGISTRATION.md#clp-generation-mechanism)
 - **CLI** → [CLI Command System](../CLAUDE/CLI_COMMAND_SYSTEM.md#overview)
@@ -217,11 +227,14 @@
 
 - **IIFE** → [Gotchas: Hook Registration Must Be in IIFE](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-3-hook-registration-must-be-in-iife)
 - **Indexes** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
+- **Indexing** → [Search System: Indexing Workflow](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#actiniumsearchindexparams)
+- **index-frequency** → [Search System: Automatic Reindexing](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#pulse-based-cron-scheduling)
 - **init** → [Actinium Quick Ref: Lifecycle Hooks](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#common-lifecycle-hooks)
 - **Initialization** → [Actinium: Initialization Sequence](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#initialization-sequence)
 - **init command** → [CLI Commands: Project Initialization](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-init)
 - **install command** → [CLI Commands: Package Management](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-install)
 - **Integration** → [Framework Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md)
+- **In-memory cache** → [MemoryCache: Architecture](../CLAUDE/MEMORY_CACHE_SYSTEM.md#wrapper-pattern)
 
 ## K
 
@@ -232,8 +245,8 @@
 - **Large datasets** → [Pagination: Cursor-Based for Scale](../CLAUDE/PAGINATION_STRATEGIES.md#3-cursor-based-pagination-recommended-for-scale)
 - **limit** → [Pagination: Skip-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#1-skip-based-pagination-framework-default)
 - **Load-all pagination** → [Pagination: Load-All Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#2-load-all-pattern-skip-incrementation)
-
 - **Live Query** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
+- **Lunr.js** → [Search System: Lunr.js Implementation](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#search-hook)
 - **Loaders (webpack)** → [ReactiumWebpack: addRule Method](../CLAUDE/REACTIUM_WEBPACK.md#addruleid-rule-order)
 - **loadState** → [Routing System: loadState Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
 - **LocalStorage** → [Prefs System: Overview](../CLAUDE/PREFS_SYSTEM.md#architecture-overview)
@@ -243,6 +256,8 @@
 
 - **machineName** → [Content Type: UUID Generation](../CLAUDE/CONTENT_TYPE_SYSTEM.md#namespace-based-uuids)
 - **Manifest** → [Manifest System Overview](../CLAUDE/MANIFEST_SYSTEM.md#system-architecture)
+- **Many-to-many relationships** → [Taxonomy System: Architecture](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#three-collection-system)
+- **MemoryCache** → [MemoryCache System Architecture](../CLAUDE/MEMORY_CACHE_SYSTEM.md#overview)
 - **manifest.config.override.js** → [Manifest System: Configuration Override](../CLAUDE/MANIFEST_SYSTEM.md#manifestconfigoverridejs)
 - **Manifest generation** → [Manifest System: Generation Flow](../CLAUDE/MANIFEST_SYSTEM.md#generation-flow-regenmanifest-function)
 - **manifest.js** → [Manifest System: Generated Manifest Structure](../CLAUDE/MANIFEST_SYSTEM.md#generated-manifest-structure-manifestjs)
@@ -270,6 +285,7 @@
 
 ## O
 
+- **Object-path addressing** → [MemoryCache: Object-Path Keys](../CLAUDE/MEMORY_CACHE_SYSTEM.md#getkey-defaultvalue)
 - **Optimistic UI** → [Patterns: Optimistic UI Updates](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-14-optimistic-ui-updates)
 - **order** → [Actinium Quick Ref: Priority Constants](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#priority-constants)
 
@@ -364,8 +380,11 @@
 - **ReactiumSyncState.get** → [ReactiumSyncState: get() method](../CLAUDE/REACTIUM_SYNC_STATE.md#getpath-defaultvalue)
 - **ReactiumSyncState.set** → [ReactiumSyncState: set() method](../CLAUDE/REACTIUM_SYNC_STATE.md#setpath-value-update-forcemerge)
 - **ReactiumSyncState.extend** → [ReactiumSyncState: extend() method](../CLAUDE/REACTIUM_SYNC_STATE.md#extendprop-method)
+- **Reactium.Cache** → [MemoryCache: Browser Singleton](../CLAUDE/MEMORY_CACHE_SYSTEM.md#overview)
 - **Real-time** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
 - **Redux** → [AppContext: Redux Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#2-redux-store)
+- **Relation** → [Taxonomy System: Parse Relation Architecture](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#three-collection-system)
+- **RichText plaintext extraction** → [Search System: Normalization Hook](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#search-index-item-normalize-hook)
 - **register-route** → [Routing System: The register-route Hook](../CLAUDE/ROUTING_SYSTEM.md#the-register-route-hook)
 - **Registry** → [Registry System Architecture](../CLAUDE/REGISTRY_SYSTEM.md#overview)
 - **Registry.MODES.CLEAN** → [Registry System: CLEAN Mode](../CLAUDE/REGISTRY_SYSTEM.md#clean-mode-recommended-default)
@@ -387,6 +406,13 @@
 - **S3** → [FileAdapter System: S3Adapter Plugin](../CLAUDE/FILE_ADAPTER_SYSTEM.md#1-s3adapter-plugin)
 - **S3Adapter** → [FileAdapter System: S3Adapter Plugin](../CLAUDE/FILE_ADAPTER_SYSTEM.md#1-s3adapter-plugin)
 - **SassPartialRegistry** → [Gulp Build: Registry-Based Priority System](../CLAUDE/GULP_BUILD_SYSTEM.md#registry-based-priority-system)
+- **Search** → [Search System Overview](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#overview)
+- **Search.index** → [Search System: Indexing API](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#actiniumsearchindexparams)
+- **Search.search** → [Search System: Search API](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#actiniumsearchsearchreq)
+- **search-index hook** → [Search System: search-index Hook](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#search-index-hook)
+- **search-index-config hook** → [Search System: search-index-config Hook](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#search-index-config-hook)
+- **search-index-item-normalize hook** → [Search System: Normalization Hook](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#search-index-item-normalize-hook)
+- **search hook** → [Search System: search Hook](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#search-hook)
 - **SCSS compilation** → [Gulp Build: SCSS Compilation Flow](../CLAUDE/GULP_BUILD_SYSTEM.md#scss-compilation-flow)
 - **SCSS partials** → [Gulp Build: DDD Style Partials Discovery](../CLAUDE/GULP_BUILD_SYSTEM.md#ddd-style-partials-discovery)
 - **Schema** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
@@ -439,10 +465,23 @@
 - **ThemeProvider** → [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
 - **TLS** → [Environment Config: TLS Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file-based-certificate-loading)
 - **TLS_MODE** → [Environment Config: Server Creation with TLS](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#server-creation-with-tls)
+- **Tag** → [Taxonomy System: Default Installation](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#default-installation)
+- **Taxonomy** → [Taxonomy System Overview](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#overview)
+- **Taxonomy.create** → [Taxonomy System: Create Taxonomy](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#taxonomycreateparams-options)
+- **Taxonomy.retrieve** → [Taxonomy System: Retrieve Taxonomy](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#taxonomyretrieveparams-options)
+- **Taxonomy.list** → [Taxonomy System: List Taxonomies](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#taxonomylistparams-options)
+- **Taxonomy.update** → [Taxonomy System: Update Taxonomy](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#taxonomyupdateparams-options)
+- **Taxonomy.delete** → [Taxonomy System: Delete Taxonomy](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#taxonomydeleteparams-options)
+- **Taxonomy.Type** → [Taxonomy System: Taxonomy Types](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#taxonomy-type-crud)
+- **Taxonomy.Content.attach** → [Taxonomy System: Attach to Content](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#taxonomycontentattachparams-options)
+- **Taxonomy.Content.detach** → [Taxonomy System: Detach from Content](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#taxonomycontentdetachparams-options)
+- **Taxonomy.Content.retrieve** → [Taxonomy System: Retrieve Content Taxonomies](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#taxonomycontentretrieveparams-options)
+- **Taxonomy field type** → [Taxonomy System: Content Type Integration](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#taxonomy-field-type)
 - **Transitions** → [Reactium: Route Transitions](../CLAUDE/REACTIUM_FRAMEWORK.md#route-transitions)
 - **transitionState** → [Reactium: Route Transitions](../CLAUDE/REACTIUM_FRAMEWORK.md#route-transitions)
 - **Troubleshooting** → [Framework Gotchas](../CLAUDE/FRAMEWORK_GOTCHAS.md)
 - **trust proxy** → [Express Settings: Proxy Configuration](../CLAUDE/EXPRESS_SETTINGS_SYSTEM.md#proxy-configuration)
+- **TTL** → [MemoryCache: TTL Support](../CLAUDE/MEMORY_CACHE_SYSTEM.md#putkey-value-time-timeoutcallback)
 - **Type** → [Content Type System Architecture](../CLAUDE/CONTENT_TYPE_SYSTEM.md#overview)
 - **Type.create** → [Content Type: Create Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#create-type)
 - **Type.delete** → [Content Type: Delete Type](../CLAUDE/CONTENT_TYPE_SYSTEM.md#delete-type)

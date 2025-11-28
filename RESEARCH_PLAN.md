@@ -80,21 +80,7 @@ Topics for future exploration sessions with specialized agents.
 
 ### High Priority
 
-2. **Actinium Search and Indexing System**
-
-   - Hook-driven search architecture (pluggable indexers)
-   - Content indexing workflow (Actinium.Search.index)
-   - Search normalization pipeline (search-index-item-normalize hook)
-   - Lunr.js integration pattern (actinium-search-lunr plugin)
-   - Cron-based automatic reindexing with Pulse
-   - RichText field plaintext extraction
-   - Search API (index, search cloud functions)
-   - Threshold-based result filtering
-   - **Why it matters**: Critical for CMS search functionality, understanding pluggable search backends, content indexing strategies
-   - **What's undocumented**: Complete search architecture, hook integration patterns, custom indexer implementation guide, normalization strategies, Lunr.js plugin pattern
-   - **Key mechanisms**: Actinium.Search.index(), search-index-config hook, search-index-item-normalize hook, search-index hook, search hook
-   - **Source files**: actinium-search/sdk.js (1-130 lines), actinium-search/search-plugin.js (1-126 lines), actinium-search-lunr-plugin.js
-   - **Discovered during**: Codebase exploration - substantial hook-driven system with pluggable architecture (Nov 28, 2025)
+2. ✅ **Actinium Search and Indexing System** - Complete hook-driven search architecture with pluggable indexers; two-plugin pattern (core search framework + Lunr.js implementation); three-phase workflow (config → normalize → index); `search-index-config` hook for indexing control, `search-index-item-normalize` hook for RichText plaintext extraction via tree-flatten, `search-index` hook for actual indexing (Lunr.js builder pattern with ref/fields), `search` hook for query execution with scoring; automatic reindexing via Pulse cron schedule (default midnight, configurable via `index-frequency` setting); threshold-based result filtering (min score cutoff); cloud functions (search-index requires Search.index capability, search public); real-world Lunr.js implementation with in-memory indexes (not persisted), pagination support, Parse Query for full content fetch; discovered during research: Custom search backend patterns (Elasticsearch example), cursor-based pagination for large collections, type-specific filtering strategies; comprehensive source references from actinium-search/sdk.js:1-130, search-plugin.js:1-126, search-lunr-plugin.js:1-96; best practices (cron scheduling, early filtering, field normalization, pagination); common gotchas (empty permittedFields param, no auto-index on content save, threshold filtering after search hook, in-memory loss on restart, no autocomplete); critical for CMS search, content discovery, full-text search implementation (Nov 28, 2025)
 
 3. **Actinium Syndicate Multi-Tenant Content Distribution**
 
@@ -201,17 +187,6 @@ Topics for future exploration sessions with specialized agents.
 
 ### Lower Priority
 
-10. **Actinium Taxonomy System**
-
-    - Hierarchical taxonomy architecture
-    - Taxonomy type registration
-    - Content-taxonomy relationships
-    - Query patterns for taxonomized content
-    - **Why it matters**: Content organization for CMS use cases
-    - **What's undocumented**: Complete taxonomy API and patterns
-    - **Source files**: actinium-taxonomy/plugin.js
-    - **Evaluation**: Lower priority - CMS-specific feature, may be trivial type registration pattern
-
 11. **Actinium Navigation System**
 
     - Navigation menu structure (MenuBuilder field type)
@@ -274,6 +249,10 @@ Topics for future exploration sessions with specialized agents.
     - **Key mechanisms**: Actinium.Taxonomy CRUD operations, parent relation handling, content-taxonomy many-to-many relationships
     - **Source files**: actinium-taxonomy/sdk.js (336 lines), plugin.js (583 lines)
     - **Discovered during**: Third exploration - substantial SDK with hierarchical relationship management (Nov 28, 2025)
+
+- ✅ **Actinium Taxonomy System** - Two-level hierarchical classification with Type_taxonomy → Taxonomy → Content structure; many-to-many Parse Relation architecture; complete CRUD SDK (Taxonomy.create/update/delete/retrieve/list, Taxonomy.Type CRUD, Taxonomy.Content attach/detach/retrieve/fields); hook-extensible operations (taxonomy-save, taxonomy-after-save, taxonomy-type-save, taxonomy-type-after-delete with cascade, beforeSave_content unsets taxonomy fields, content-retrieve auto-populates taxonomies, content-saved processes pending/deleted attachments); default installation (Category/Tag types with Blog/Featured taxonomies on first start); Taxonomy field type integration (Relation<Taxonomy> schema, region-based UI); cloud functions (taxonomy-* and taxonomy-type-* operations, taxonomy-content-attach/detach/retrieve); slug validation (type slugs must be unique, taxonomy slugs not enforced); relation-based content linking (contentObj.relation(field).add/remove); complete content retrieval with type pointer inclusion; comprehensive source references from actinium-taxonomy/sdk.js:1-336, plugin.js:1-584; discovered during research: No native parent-child hierarchy support (flat structure only, requires custom parent field), relation count before fetch creates N+1 query problem, outputType parameter inconsistency (can be set on Type/Taxonomy/query params with unclear precedence); best practices (hierarchical keys, field name matches type slug, cache taxonomy lists, limit taxonomy fields, use pointers for queries); common gotchas (taxonomy fields can't be saved directly, content-retrieve auto-adds taxonomies causing extra queries, type deletion cascades to all taxonomies, slug uniqueness not enforced for taxonomies, relation count queries twice per field); critical for content organization, categorization, tagging, SEO-friendly URLs, navigation systems; comparison with WordPress taxonomies (missing: hierarchical categories, term metadata, slug enforcement; has: Parse Relation flexibility, hook extensibility, auto-populate) (Nov 28, 2025)
+
+- ✅ **MemoryCache System Architecture** - Object-path addressing with subscribe/notify pattern wrapping memory-cache NPM package; singleton exports (Reactium.Cache browser, Actinium.Cache server); core API (get/put/set/del/clear with nested path support, subscribe with deep path notifications, merge for import/export); TTL support with expiration callbacks (auto-delete after milliseconds); subscriber registry with UUID-based IDs and hierarchical path tracking; deep path subscriptions (subscribe to 'a.b' fires on 'a.b.c' changes); dispatch notifications (op: set/del/expire/clear/merge with key/value); properties (size, memsize, keys); static helpers (sanitizeKey, denormalizeKey, normalizeKey, getKeyRoot); comprehensive source references from reactium-sdk-core/src/core/MemoryCache.ts:1-357; real-world integration: Actinium.Cache for roles (byName/byLevel/byObjectId with decorateRoles pattern, afterSave invalidation), ACL targets caching (user/role lookups with object-path keys), React hooks with subscriptions (reactive state sync); discovered during research: Nested path sets MERGE not replace (can accumulate stale data), subscriptions fire on ALL descendant changes (parent subscription gets child notifications), TTL expiration callbacks get value but subscribers don't, memory-only cache lost on restart (requires start hook rebuild), merge() converts relative TTL to absolute timestamp, no built-in serialization (must serialize Parse Objects); best practices (hierarchical key naming with namespaces, cleanup subscriptions on unmount, choose deep vs shallow carefully, TTL strategy by data volatility, cache frequently accessed data, batch invalidation via root key deletion); common gotchas (merged nested paths don't replace, subscriber overhead on root keys with high churn, no eviction policy without TTL, single-threaded but no concurrent access issues); critical for performance optimization, reactive state management, role/settings caching, temporary data storage; not suitable for multi-process caching, persistence, large datasets >1GB, cross-server communication (Nov 28, 2025)
 
 ### Medium Priority (Re-evaluated)
 
@@ -372,6 +351,21 @@ Topics for future exploration sessions with specialized agents.
     - **Discovered during**: Actinium core lib exploration - critical for file handling workflows (Nov 28, 2025)
 
 ## NEW RESEARCH TOPICS (Nov 28, 2025 - Fourth Cycle)
+
+### High Priority (New - Nov 28 Evening)
+
+25. **Parse Object Serialization Patterns (Actinium.Utils.serialize)**
+    - Complete serialization of Parse Objects to JSON
+    - Pointer field preservation vs resolution
+    - Relation field handling
+    - ACL extraction patterns
+    - Deep object traversal for nested Parse Objects
+    - Integration with toJSON() method
+    - **Why it matters**: Critical for cache storage, API responses, search indexing, cross-system data transfer
+    - **What's undocumented**: Complete serialization algorithm, pointer handling strategies, relation serialization, ACL preservation patterns
+    - **Key mechanisms**: Actinium.Utils.serialize(), Parse.Object.toJSON(), pointer/relation detection
+    - **Source files**: actinium-core/lib/utils/*.js
+    - **Discovered during**: Search and Taxonomy research - serialize() used extensively for cache storage and API responses, but implementation not documented (Nov 28, 2025)
 
 ### Medium Priority (New - Nov 28 Evening)
 
