@@ -1,4 +1,4 @@
-<!-- v1.24.0 -->
+<!-- v1.25.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -233,6 +233,36 @@ Actinium.Cloud.define(PLUGIN.ID, 'my-function', (req) => {
 ### Register custom SCSS patterns
 → [Style Partial System: Hook Extension](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#2-pre-registration--hook-extension)
 → [Style Partial System: Pattern 4 - Custom Priority](../CLAUDE/REACTIUM_STYLE_PARTIAL_SYSTEM.md#pattern-4-custom-priority-registration)
+
+### Create namespaced BEM-style component classnames
+→ [Utility Helpers: cxFactory Overview](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#cxfactory---namespaced-classname-generation)
+→ [Utility Helpers: cxFactory Usage Patterns](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#usage-patterns)
+
+**Quick Pattern**:
+```javascript
+const MyComponent = ({ namespace = 'my-component' }) => {
+    const cx = Reactium.Utils.cxFactory(namespace);
+    return (
+        <div className={cx()}>
+            <header className={cx('header')}>
+                <h1 className={cx('title')}>Title</h1>
+            </header>
+        </div>
+    );
+};
+// Renders: my-component, my-component-header, my-component-title
+```
+
+### Generate dynamic internationalized UI strings
+→ [Utility Helpers: SplitParts Overview](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#splitparts---token-based-string-templates)
+→ [Utility Helpers: SplitParts Usage Patterns](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#usage-patterns-1)
+
+**Quick Pattern**:
+```javascript
+const template = Reactium.Utils.splitParts(__('Welcome %username%, you have %count% messages'));
+template.replace({ username: user.name, count: user.messageCount });
+return <p>{template.toString()}</p>;
+```
 
 ### Integrate Apollo GraphQL
 → [AppContext: Apollo GraphQL Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#1-apollo-graphql-client)

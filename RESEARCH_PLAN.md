@@ -268,30 +268,7 @@ Topics for future exploration sessions with specialized agents.
     - **Source files**: reactium-sdk-core/src/core/MemoryCache.ts (1-357 lines)
     - **Discovered during**: SDK exploration - substantial TypeScript implementation with event-driven architecture (Nov 28, 2025)
 
-17. **Reactium SplitParts String Template System**
-    - Token-based string splitting (%key% replacement syntax)
-    - Progressive replacement with .replace() chaining
-    - Part/replacement type tracking
-    - Integration with component rendering (dynamic content injection)
-    - Comparison with template literals and handlebars
-    - Real-world use cases in admin UI
-    - **Why it matters**: Enables dynamic string templating beyond template literals, useful for plugin-extensible UI strings, email templates, dynamic content
-    - **What's undocumented**: SplitParts API, replacement patterns, integration with framework components, use cases vs alternatives
-    - **Key mechanisms**: SplitParts class, replace() method, value()/toString() output, token syntax
-    - **Source files**: reactium-sdk-core/src/browser/splitter.ts (1-163 lines)
-    - **Discovered during**: Browser SDK exploration - specialized string manipulation utility (Nov 28, 2025)
-
-18. **Reactium Classnames Factory (cxFactory)**
-    - Namespace-based classname generation
-    - Integration with classnames library
-    - Consistent component styling patterns
-    - BEM-style naming conventions
-    - Real-world usage in core components
-    - **Why it matters**: Essential for component library development, consistent CSS naming, plugin-based theming
-    - **What's undocumented**: cxFactory usage patterns, integration with component development, naming conventions
-    - **Key mechanisms**: cxFactory(namespace) factory function, automatic prefix application
-    - **Source files**: reactium-sdk-core/src/browser/classnames.ts (1-21 lines)
-    - **Discovered during**: Browser SDK exploration - small but framework-critical styling utility (Nov 28, 2025)
+- ✅ **Reactium Utility Helpers (SplitParts & cxFactory)** - Complete documentation of two essential browser utilities; SplitParts class for token-based string template replacement (%key% syntax), progressive .replace() chaining, .value()/.toString() output, Part type with 'part'/'replacement' distinction, React component integration patterns, i18n usage with __() strings, real-world activity log example with conditional templates; cxFactory for namespace-based classname generation, automatic prefix application to all classnames, integration with classnames NPM library for conditional/array/object syntax, BEM-style component naming patterns, real-world usage in AdminSidebar/Dashboard/EventForm with cx() function prop passing, body class management patterns; comparison with alternatives (template literals, Handlebars, CSS Modules, manual concatenation); TypeScript generic support; comprehensive source references from reactium-sdk-core/src/browser/splitter.ts:1-163, classnames.ts:1-21, reactium-admin-content/Content/ActivityLog/ActivityUpdates.js:30-82, reactium-admin-core/Sidebar/index.js:46-169; best practices (i18n templates, namespace conventions, cx prop passing, BEM element naming); common gotchas (SplitParts token format exact match, empty cx() returns namespace, double namespacing, non-string value toString(), React component rendering needs .value() not .toString(), cxFactory not reactive to namespace changes); discovered during research: Activity log ENUMS pattern for scope-based template selection (general vs specific), Handle system exposes cx function for external styling control, useWindowSize/breakpoint integration for responsive class management; critical for component library development, internationalized dynamic content, consistent BEM naming, plugin-extensible UI strings (Nov 28, 2025)
 
 ### Medium Priority (New)
 
@@ -361,6 +338,20 @@ Topics for future exploration sessions with specialized agents.
     - **Key mechanisms**: Actinium.URL.list({ contentId }), URL collection schema, syndicate hook enrichment
     - **Source files**: actinium-url plugin (sdk.js, plugin.js)
     - **Discovered during**: Syndicate research - syndicate-content-list hook auto-adds URLs to content (Nov 28, 2025)
+
+27. **Reactium Activity Log and Change Tracking Patterns**
+    - Activity log event structure (changeType, meta, user, timestamp)
+    - ENUMS-based template selection (general vs specific scope)
+    - Change type categories (CREATED, REVISED, CREATED_BRANCH, DELETED_BRANCH, LABELED_BRANCH, SLUG_CHANGED, SET_REVISION, SET_ACL, SET_STATUS)
+    - SplitParts integration for dynamic message generation
+    - User lookup via acl-targets cache
+    - Real-time activity feed rendering
+    - History metadata structure (branch, revision, version labeling)
+    - **Why it matters**: Critical pattern for audit trails, content management UX, user activity tracking, version history UI
+    - **What's undocumented**: Activity log data structure, change event types, template selection patterns, metadata conventions
+    - **Key mechanisms**: ChangeItem component pattern, ENUMS.CHANGES template registry, Cache.get('acl-targets') user resolution
+    - **Source files**: reactium-admin-content/Content/ActivityLog/ActivityUpdates.js:19-82, enums.js:2-60
+    - **Discovered during**: SplitParts/cxFactory research - real-world example of template-based UI messaging (Nov 28, 2025)
 
 ## RESEARCH MODE DIRECTIVES
 

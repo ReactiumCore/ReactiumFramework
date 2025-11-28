@@ -1,4 +1,4 @@
-<!-- v1.28.0 -->
+<!-- v1.29.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -118,6 +118,8 @@
 - **Content\_\* collections** → [Content Type: Collection Naming](../CLAUDE/CONTENT_TYPE_SYSTEM.md#collection-name-generation)
 - **Custom events** → [ComponentEvent: Overview](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#overview)
 - **Cursor pagination** → [Pagination: Cursor-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#3-cursor-based-pagination-recommended-for-scale)
+- **cxFactory** → [Utility Helpers: cxFactory Overview](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#cxfactory---namespaced-classname-generation)
+- **Classnames** → [Utility Helpers: cxFactory Namespace](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#architecture)
 - **component-bindings** → [Component Binding: Lifecycle Integration](../CLAUDE/COMPONENT_BINDING_SYSTEM.md#lifecycle-integration)
 - **Component Registry** → [hookableComponent: Component Registry](../CLAUDE/HOOKABLE_COMPONENT.md#component-registry)
 - **Component replacement** → [hookableComponent: Component Replacement Strategy](../CLAUDE/HOOKABLE_COMPONENT.md#component-replacement-strategy)
@@ -431,6 +433,9 @@
 - **Session token** → [Parse ACL Patterns: CloudRunOptions and Session Tokens](../CLAUDE/PARSE_ACL_PATTERNS.md#cloudrunoptions-and-session-tokens)
 - **setACL** → [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
 - **setPublicReadAccess** → [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
+- **SplitParts** → [Utility Helpers: SplitParts Overview](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#splitparts---token-based-string-templates)
+- **String templates** → [Utility Helpers: SplitParts Architecture](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#architecture-1)
+- **splitParts** → [Utility Helpers: SplitParts Factory Function](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#api)
 - **setRoleReadAccess** → [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
 - **Security** → [Environment Config: Security Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#security-configuration)
 - **SERVER_URI** → [Environment Config: URI Generation](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#automatic-port-adjustment)

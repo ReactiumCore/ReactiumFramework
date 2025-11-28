@@ -1,4 +1,4 @@
-<!-- v1.13.0 -->
+<!-- v1.14.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -19,6 +19,19 @@
 7. [Gotchas: Component Registration Timing](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-9-component-registration-timing) - Common issues
 
 **Related**: CLI Tools, DDD Structure, Hookable Components, Component Registry
+
+### Utility Helpers (cxFactory & SplitParts)
+**Learning Path**:
+1. [Utility Helpers: Overview](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#overview) - Purpose and use cases
+2. [Utility Helpers: cxFactory Overview](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#cxfactory---namespaced-classname-generation) - BEM-style classname generation
+3. [Utility Helpers: cxFactory Usage Patterns](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#usage-patterns) - Real-world component examples
+4. [Utility Helpers: SplitParts Overview](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#splitparts---token-based-string-templates) - Token-based templates
+5. [Utility Helpers: SplitParts Usage Patterns](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#usage-patterns-1) - i18n and dynamic content
+6. [Utility Helpers: Comparison with Alternatives](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#comparison-with-alternatives) - When to use each
+7. [Utility Helpers: Best Practices](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#best-practices) - Naming conventions, React integration
+8. [Utility Helpers: Common Gotchas](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#common-gotchas) - Avoid mistakes
+
+**Related**: BEM naming, CSS Modules, i18n, template literals, classnames library
 
 ### Routing System
 **Learning Path**:

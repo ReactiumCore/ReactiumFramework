@@ -1,4 +1,4 @@
-<!-- v1.18.0 -->
+<!-- v1.19.0 -->
 
 # CLAUDEDB - API Quick Reference
 
@@ -211,6 +211,30 @@ Reactium.breakpoint; // Current breakpoint name
 ```
 
 → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
+
+```javascript
+// cxFactory - Namespaced classname generation
+const cx = Reactium.Utils.cxFactory('my-component');
+cx()                         // → 'my-component'
+cx('header')                 // → 'my-component-header'
+cx('title', { active: true}) // → 'my-component-title my-component-active'
+```
+
+→ [Utility Helpers: cxFactory API](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#api)
+→ [Utility Helpers: cxFactory Usage](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#usage-patterns)
+
+```javascript
+// SplitParts - Token-based string templates
+const template = Reactium.Utils.splitParts('Hello %name%, you have %count% messages');
+template.replace('name', 'Alice');
+template.replace({ count: 5 });
+template.toString();     // → 'Hello Alice, you have 5 messages'
+template.value();        // → Part[] array for React rendering
+template.reset();        // Reset to original
+```
+
+→ [Utility Helpers: SplitParts API](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#api-1)
+→ [Utility Helpers: SplitParts Usage](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#usage-patterns-1)
 
 ### SDK Extension
 
