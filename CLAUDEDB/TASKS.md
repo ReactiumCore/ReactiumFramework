@@ -1,4 +1,4 @@
-<!-- v1.23.0 -->
+<!-- v1.24.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -589,6 +589,79 @@ const config = await Actinium.Setting.get('MyPlugin', {
 Actinium.Setting.anonymousGroup.register('app', { id: 'app' });
 
 // Now 'app' settings are publicly readable
+```
+
+### Create CMS content
+→ [Content System: Create/Update API](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentsaveparams-options)
+→ [Content System: Real-World Pattern 1 - Create Blog Post](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#pattern-1-create-blog-post)
+
+**Quick Example**:
+```javascript
+const post = await Actinium.Content.save({
+  type: 'blog',
+  title: 'Getting Started',
+  slug: 'getting-started',
+  status: 'PUBLISHED',
+  user: req.user.id,
+  data: {
+    body: '<p>Content here...</p>',
+    excerpt: 'Summary'
+  }
+}, { sessionToken: req.sessionToken });
+```
+
+### Query content by type and status
+→ [Content System: Query API](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentfindparams-options)
+→ [Content System: Pattern 2 - Query with Filters](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#pattern-2-query-with-type--status-filter)
+
+**Quick Example**:
+```javascript
+const { results, count, pages } = await Actinium.Content.find({
+  type: 'blog',
+  status: 'PUBLISHED',
+  limit: 20,
+  page: 1
+}, { useMasterKey: true });
+```
+
+### Soft delete content (recycle bin)
+→ [Content System: Soft Delete Workflow](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentdeleteparams-options)
+→ [Content System: Pattern 4 - Soft Delete Workflow](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#pattern-4-soft-delete-workflow)
+
+### Permanently delete content
+→ [Content System: Hard Delete](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentpurgeparams-options)
+
+### Serialize Parse Objects for API responses
+→ [Serialization: Overview](../CLAUDE/PARSE_OBJECT_SERIALIZATION.md#api-reference)
+→ [Serialization: Pattern 1 - Cloud Function Response](../CLAUDE/PARSE_OBJECT_SERIALIZATION.md#pattern-1-cloud-function-response)
+
+**Quick Example**:
+```javascript
+Actinium.Cloud.define('MY_PLUGIN', 'get-data', async (req) => {
+  const content = await query.include('type').include('user').first();
+  return Actinium.Utils.serialize(content);  // Clean JSON response
+});
+```
+
+### Syndicate content to external sites
+→ [Syndicate System: Overview](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#architecture-overview)
+→ [Syndicate System: Client Setup Pattern](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#pattern-1-initial-client-setup)
+
+### Create syndication client
+→ [Syndicate: Create Client](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#actiniumsyndicateclientcreatereq-options)
+
+**Quick Example**:
+```javascript
+const { token: refreshToken, objectId } = await Actinium.Cloud.run(
+  'syndicate-client-create',
+  { client: 'Consumer Site #1' }
+);
+// Store refreshToken securely on consumer site
+```
+
+### Fetch syndicated content from API
+→ [Syndicate: Content List](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#actiniumsyndicatecontentlistreq)
+→ [Syndicate: Token Refresh Pattern](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#pattern-2-token-refresh-workflow)
 await Actinium.Setting.set('app', {
     name: 'My App',
     version: '1.0.0',

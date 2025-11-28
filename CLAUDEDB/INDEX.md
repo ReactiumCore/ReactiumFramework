@@ -1,4 +1,4 @@
-<!-- v1.27.0 -->
+<!-- v1.28.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -67,6 +67,15 @@
 ## C
 
 - **Cache** → [MemoryCache System Architecture](../CLAUDE/MEMORY_CACHE_SYSTEM.md#overview)
+- **Content** → [Actinium Content System](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#overview)
+- **Content.find** → [Content: Query API](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentfindparams-options)
+- **Content.retrieve** → [Content: Retrieve Single](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentretrieveparams-options-create--false)
+- **Content.save** → [Content: Create/Update](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentsaveparams-options)
+- **Content.delete** → [Content: Soft Delete](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentdeleteparams-options)
+- **Content.purge** → [Content: Hard Delete](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentpurgeparams-options)
+- **Content.exists** → [Content: Check Existence](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentexists-type-slug--options)
+- **Content UUID** → [Content: UUID System](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#uuid-v5-namespacing)
+- **Content Type** → [Content: Type Integration](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#type-system)
 - **Cache.get** → [MemoryCache: get() method](../CLAUDE/MEMORY_CACHE_SYSTEM.md#getkey-defaultvalue)
 - **Cache.put** → [MemoryCache: put() method](../CLAUDE/MEMORY_CACHE_SYSTEM.md#putkey-value-time-timeoutcallback)
 - **Cache.set** → [MemoryCache: set() alias](../CLAUDE/MEMORY_CACHE_SYSTEM.md#setkey-value-time-timeoutcallback)
@@ -438,8 +447,19 @@
 - **Server.AppStyleSheets** → [SSR: AppStyleSheets Hook](../CLAUDE/SSR_ARCHITECTURE.md#5-serverappstylesheets)
 - **Staging** → [Environment Config: Staging Example](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#staging-envstagingjson)
 - **Session** → [Cloud Functions: Request Object](../CLAUDE/CLOUD_FUNCTIONS.md#request-object-req)
+- **Serialize** → [Parse Object Serialization](../CLAUDE/PARSE_OBJECT_SERIALIZATION.md#api-reference)
+- **Actinium.Utils.serialize** → [Serialization: API](../CLAUDE/PARSE_OBJECT_SERIALIZATION.md#actiniumutilsserializedata)
 - **Session token** → [Cloud Functions: User Context Propagation](../CLAUDE/CLOUD_FUNCTIONS.md#user-context-propagation)
 - **Setting** → [Settings System Architecture](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#overview)
+- **Syndicate** → [Syndicate Multi-Tenant System](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#overview)
+- **Syndicate.Client.create** → [Syndicate: Create Client](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#actiniumsyndicateclientcreatereq-options)
+- **Syndicate.Client.token** → [Syndicate: Access Token](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#actiniumsyndicateclienttokenreq)
+- **Syndicate.Client.verify** → [Syndicate: Verify Token](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#actiniumsyndicateclientverifyreq)
+- **Syndicate.Content.list** → [Syndicate: Content List](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#actiniumsyndicatecontentlistreq)
+- **Syndicate.Content.types** → [Syndicate: Content Types](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#actiniumsyndicatecontenttypesreq)
+- **JWT** → [Syndicate: Two-Token System](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#two-token-system)
+- **Refresh Token** → [Syndicate: Two-Token System](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#two-token-system)
+- **Access Token** → [Syndicate: Two-Token System](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#two-token-system)
 - **Setting.set** → [Settings System: Setting.set()](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#settingsetkey-value-acl)
 - **Setting.get** → [Settings System: Setting.get()](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#settinggetkey-defaultvalue-options)
 - **Setting.unset** → [Settings System: Setting.unset()](../CLAUDE/ACTINIUM_SETTINGS_SYSTEM.md#settingunsetkey)

@@ -82,21 +82,7 @@ Topics for future exploration sessions with specialized agents.
 
 2. ✅ **Actinium Search and Indexing System** - Complete hook-driven search architecture with pluggable indexers; two-plugin pattern (core search framework + Lunr.js implementation); three-phase workflow (config → normalize → index); `search-index-config` hook for indexing control, `search-index-item-normalize` hook for RichText plaintext extraction via tree-flatten, `search-index` hook for actual indexing (Lunr.js builder pattern with ref/fields), `search` hook for query execution with scoring; automatic reindexing via Pulse cron schedule (default midnight, configurable via `index-frequency` setting); threshold-based result filtering (min score cutoff); cloud functions (search-index requires Search.index capability, search public); real-world Lunr.js implementation with in-memory indexes (not persisted), pagination support, Parse Query for full content fetch; discovered during research: Custom search backend patterns (Elasticsearch example), cursor-based pagination for large collections, type-specific filtering strategies; comprehensive source references from actinium-search/sdk.js:1-130, search-plugin.js:1-126, search-lunr-plugin.js:1-96; best practices (cron scheduling, early filtering, field normalization, pagination); common gotchas (empty permittedFields param, no auto-index on content save, threshold filtering after search hook, in-memory loss on restart, no autocomplete); critical for CMS search, content discovery, full-text search implementation (Nov 28, 2025)
 
-3. **Actinium Syndicate Multi-Tenant Content Distribution**
-
-   - JWT-based client authentication (refresh + access tokens)
-   - SyndicateClient collection and token management
-   - Content API for cross-site content serving
-   - Media directory and file syndication
-   - Taxonomy syndication
-   - Security model (ENV.ACCESS_SECRET, ENV.REFRESH_SECRET)
-   - Client CRUD operations
-   - Token verification and refresh patterns
-   - **Why it matters**: Critical for multi-site Actinium deployments, headless CMS use cases, content distribution networks
-   - **What's undocumented**: Complete syndication architecture, token lifecycle, client setup workflow, security best practices, API integration patterns
-   - **Key mechanisms**: Actinium.Syndicate.Client.create/token/verify, jwt.sign/verify, SyndicateClient collection, syndicate-* cloud functions
-   - **Source files**: actinium-syndicate/sdk.js (1-200+ lines), actinium-syndicate/plugin.js (1-185 lines)
-   - **Discovered during**: Settings system research - complex multi-tenant config use case (Nov 28, 2025)
+3. ✅ **Actinium Syndicate Multi-Tenant Content Distribution** - Complete JWT-based authentication system for multi-site content distribution; two-token architecture (refresh token permanent, access token 60-second expiration); SyndicateClient collection with user/client/token fields; client management API (create/retrieve/delete/list/token/verify); content syndication API (types/list/media/mediaDirectories/taxonomies/taxonomyTypes/taxonomiesAttached); ENV-based secrets (ACCESS_SECRET, REFRESH_SECRET with default warning hook); capability-based security (SyndicateClient.*/setting.Syndicate-*/Syndicate.Client); Settings-driven type filtering (Syndicate.types whitelist); hook integration (syndicate-content-list auto-enriches with URLs, syndicate-* hooks for extensibility); cloud function API (13 endpoints); real-world patterns (client setup, token refresh workflow, multi-tenant config); comprehensive source references from actinium-syndicate/sdk.js:1-478, plugin.js:1-185, schema.js:1-24, enums.js:1-7; best practices (change default secrets, cache access tokens, settings-driven config); common gotchas (default secrets warning, token expiration handling, refresh token exposure, missing type config, capability misconfiguration); discovered during research: URL plugin integration for content enrichment, Settings system for type whitelisting; critical for headless CMS, multi-site deployments, content distribution networks (Nov 28, 2025)
 
 4. **Reactium Utility Hooks Collection**
 
@@ -265,20 +251,7 @@ Topics for future exploration sessions with specialized agents.
 
 ### High Priority (New)
 
-15. **Actinium Content System Deep Dive**
-    - Complete Content CRUD API (find, retrieve, save, delete, purge)
-    - Content-Type relationship patterns
-    - UUID-based content identification (type + slug → uuid)
-    - Content query patterns (status, user, type+slug filters)
-    - Content utilities (slug generation, search length validation, type resolution)
-    - Content ACL integration
-    - Hook-driven extensibility (content-before-save, content-saved, content-deleted)
-    - Real-world patterns from actinium-content plugin
-    - **Why it matters**: Core CMS functionality, central to Actinium applications, complex Content SDK with 500+ lines
-    - **What's undocumented**: Complete Content API reference, uuid generation patterns, content query strategies, integration with Type system
-    - **Key mechanisms**: Actinium.Content.find/retrieve/save/delete, genUUID pattern, content utilities, beforeSave hooks
-    - **Source files**: actinium-content/sdk.js (1-530 lines), plugin.js (1-179 lines), schema.js
-    - **Discovered during**: Exploration of Actinium core plugins - largest SDK after actinium-core itself (Nov 28, 2025)
+15. ✅ **Actinium Content System Deep Dive** - Complete type-based content management with UUID v5 namespacing for cross-environment consistency; class-based SDK singleton with property getters; Content collection schema (title/meta/data/slug/uuid/taxonomy/type/status/user/parent/children/file fields); CRUD API (find with filtering/pagination, retrieve by uuid/objectId/type+slug, save with validation, delete soft-delete, purge hard-delete, exists check); UUID generation (type+slug→deterministic hash with ENV.CONTENT_NAMESPACE); query parameters (uuid/objectId/title/status/user/type/slug/limit/page); content-query hook for Parse.Query modification; beforeSave hook handler (type/user resolution, ACL generation, status/uuid/slug/data/meta initialization, validation); ACL pattern (private by default, user read/write, super-admin/administrator roles); utility methods (genUUID, genSlug, type resolution, userFromString, stringToArray, assertions); cloud functions (content-save/list/delete/purge/retrieve/exists); Parse Server hooks (beforeFind/afterFind/beforeSave/afterSave/beforeDelete/afterDelete); hook integration (content-save-sanitize, content-before-save, content-validate, content-acl, content-save lifecycle); real-world patterns (blog post creation, type+status filtering, update workflow, soft delete with purge, search by title, hierarchical content, custom validation); comprehensive source references from actinium-content/sdk.js:1-531, plugin.js:1-180, schema.js:1-57; best practices (always provide type, use UUID for sync, structure data/meta appropriately, pagination for large datasets, soft delete workflow, validate in hooks not cloud functions, master key for internal operations); common gotchas (title search min 4 chars, slug defaults to UUID not title, status from type's first value, type resolution performance, pagination limit capped at 100, required fields hardcoded, delete is soft not hard, ACL prevents user access without session, sanitize removes unknown fields, user string not auto-fetched); discovered during research: Taxonomy relation integration, URL plugin integration, Syndicate content enrichment patterns; critical for CMS content management, type-safe content creation, cross-environment sync (Nov 28, 2025)
 
 16. **MemoryCache System Architecture**
     - Object-path addressing for hierarchical cache keys
@@ -354,18 +327,7 @@ Topics for future exploration sessions with specialized agents.
 
 ### High Priority (New - Nov 28 Evening)
 
-25. **Parse Object Serialization Patterns (Actinium.Utils.serialize)**
-    - Complete serialization of Parse Objects to JSON
-    - Pointer field preservation vs resolution
-    - Relation field handling
-    - ACL extraction patterns
-    - Deep object traversal for nested Parse Objects
-    - Integration with toJSON() method
-    - **Why it matters**: Critical for cache storage, API responses, search indexing, cross-system data transfer
-    - **What's undocumented**: Complete serialization algorithm, pointer handling strategies, relation serialization, ACL preservation patterns
-    - **Key mechanisms**: Actinium.Utils.serialize(), Parse.Object.toJSON(), pointer/relation detection
-    - **Source files**: actinium-core/lib/utils/*.js
-    - **Discovered during**: Search and Taxonomy research - serialize() used extensively for cache storage and API responses, but implementation not documented (Nov 28, 2025)
+25. ✅ **Parse Object Serialization Patterns (Actinium.Utils.serialize)** - Complete utility for converting Parse Objects to plain JavaScript with automatic pointer cleanup; null-safe pass-through (returns null/undefined/primitives as-is); calls toJSON() on data and nested objects; strips __type: 'Pointer' metadata from all pointer fields; preserves ACL objects unchanged; does NOT auto-fetch relations (shows metadata only); handles nested Parse Objects recursively (one serialize call resolves all levels); comparison with alternatives (.toJSON() preserves __type and doesn't resolve nested, JSON.stringify() throws on Parse Objects); real-world usage patterns (cloud function responses, array mapping, cache storage, search indexing, API pagination, nested object resolution, plugin registration); extensive framework usage (20+ files, 40+ direct calls in syndicate/route/user/plugin/search systems); comprehensive source references from actinium-core/lib/utils/serialize.js:19-35; best practices (serialize before cloud function returns, use .map() for arrays, include pointers before serializing, don't serialize twice, cache serialized not Parse Objects, null-safe by design); common gotchas (relations not auto-fetched, pointers not included without .include(), array not auto-mapped, circular references not handled, custom toJSON may not handle nesting, File objects preserve __type, ACL becomes plain object not Parse.ACL instance); performance considerations (lightweight O(n) operation, include vs serialize efficiency, bulk map vs loop); TypeScript integration patterns for type safety; discovered during research: serialize() used in 15+ cloud functions for clean API responses, critical for cache storage to avoid Parse Object issues, required pattern for search indexing with Lunr.js; critical for API responses, cache storage, search indexing, cross-system data transfer (Nov 28, 2025)
 
 ### Medium Priority (New - Nov 28 Evening)
 
@@ -381,6 +343,24 @@ Topics for future exploration sessions with specialized agents.
     - **Key mechanisms**: useHookComponent hookable retrieval, Blueprint section meta.refresh flag, transitionState !== 'READY' conditional rendering
     - **Source files**: Blueprint component (index.js:138-176 uses ZoneLoading), core ZoneLoading component registration
     - **Discovered during**: Blueprint System research - ZoneLoading used for section refresh states (Nov 28, 2025)
+
+## NEW RESEARCH TOPICS (Nov 28, 2025 - Full Cycle Research)
+
+### High Priority (Discovered during Syndicate/Content/Serialization research)
+
+26. **Actinium URL System and SEO-Friendly Routing**
+    - Database-backed URL management (URL collection)
+    - Content-to-URL mapping (contentId relations)
+    - Route pattern generation and resolution
+    - Hook integration with syndicate-content-list (auto-enrichment)
+    - URL CRUD operations (list, create, update, delete)
+    - Multi-route support per content item
+    - SEO pattern generation
+    - **Why it matters**: Critical for SEO, content syndication enrichment, multi-route content access
+    - **What's undocumented**: Complete URL API, content-URL relationship management, route pattern system, SEO optimization patterns
+    - **Key mechanisms**: Actinium.URL.list({ contentId }), URL collection schema, syndicate hook enrichment
+    - **Source files**: actinium-url plugin (sdk.js, plugin.js)
+    - **Discovered during**: Syndicate research - syndicate-content-list hook auto-adds URLs to content (Nov 28, 2025)
 
 ## RESEARCH MODE DIRECTIVES
 

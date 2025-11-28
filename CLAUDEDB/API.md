@@ -1,4 +1,4 @@
-<!-- v1.17.0 -->
+<!-- v1.18.0 -->
 
 # CLAUDEDB - API Quick Reference
 
@@ -1112,6 +1112,122 @@ ENV.MAX_UPLOAD_SIZE; // File upload size limit
 ```
 
 → [Environment Config: Complete Variable Reference](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#complete-environment-variable-reference)
+
+### Content Management
+
+```javascript
+Actinium.Content.save(params, options)
+// Create or update content
+// params: { type, title, slug?, uuid?, status?, user?, data?, meta?, ... }
+// options: Parse options (sessionToken or useMasterKey)
+// Returns: Promise<Parse.Object>
+```
+
+→ [Content System: save() API](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentsaveparams-options)
+
+```javascript
+Actinium.Content.find(params, options)
+// Query content with filters and pagination
+// params: { uuid?, objectId?, title?, status?, user?, type?, slug?, limit?, page? }
+// Returns: Promise<{ count, page, pages, limit, index, results }>
+```
+
+→ [Content System: find() API](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentfindparams-options)
+
+```javascript
+Actinium.Content.retrieve(params, options, create = false)
+// Retrieve single content by uuid/objectId/type+slug
+// params: { uuid?, objectId?, type?, slug? }
+// create: Boolean - return new object if not found
+// Returns: Promise<Parse.Object | undefined>
+```
+
+→ [Content System: retrieve() API](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentretrieveparams-options-create--false)
+
+```javascript
+Actinium.Content.delete(params, options)
+// Soft delete (sets status='DELETE')
+// Returns: Promise<{ items: Parse.Object[] }>
+```
+
+→ [Content System: delete() API](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentdeleteparams-options)
+
+```javascript
+Actinium.Content.purge(params, options)
+// Hard delete (permanent removal)
+// Returns: Promise<{ items: Parse.Object[] }>
+```
+
+→ [Content System: purge() API](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentpurgeparams-options)
+
+```javascript
+Actinium.Content.exists({ type, slug }, options)
+// Check if content exists
+// Returns: Promise<boolean>
+```
+
+→ [Content System: exists() API](../CLAUDE/ACTINIUM_CONTENT_SYSTEM.md#actiniumcontentexists-type-slug--options)
+
+### Content Syndication
+
+```javascript
+Actinium.Syndicate.Client.create(req, options)
+// Create syndication client with refresh token
+// req.params: { client, user? }
+// Returns: Promise<{ objectId, token, client, user }>
+```
+
+→ [Syndicate: Client.create()](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#actiniumsyndicateclientcreatereq-options)
+
+```javascript
+Actinium.Syndicate.Client.token(req)
+// Exchange refresh token for access token (60s expiration)
+// req.params: { token } // refresh token
+// Returns: Promise<{ token }> // access token
+```
+
+→ [Syndicate: Client.token()](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#actiniumsyndicateclienttokenreq)
+
+```javascript
+Actinium.Syndicate.Client.verify(req)
+// Verify access token validity
+// req.params: { token } // access token
+// Returns: Promise<Object | false> // JWT payload or false
+```
+
+→ [Syndicate: Client.verify()](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#actiniumsyndicateclientverifyreq)
+
+```javascript
+Actinium.Syndicate.Content.list(req)
+// Get syndicated content (requires valid access token)
+// Auto-enriches with URLs via hook
+// Returns: Promise<PaginatedResults>
+```
+
+→ [Syndicate: Content.list()](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#actiniumsyndicatecontentlistreq)
+
+```javascript
+Actinium.Syndicate.Content.types(req)
+// Get whitelisted content types (requires valid access token)
+// Filtered by 'Syndicate.types' setting
+// Returns: Promise<Type[]>
+```
+
+→ [Syndicate: Content.types()](../CLAUDE/ACTINIUM_SYNDICATE_SYSTEM.md#actiniumsyndicatecontenttypesreq)
+
+### Parse Object Serialization
+
+```javascript
+Actinium.Utils.serialize(data)
+// Convert Parse Object to plain JavaScript
+// - Calls toJSON() on data and nested objects
+// - Strips __type: 'Pointer' metadata
+// - Preserves ACL objects
+// - Null-safe (returns null/undefined/primitives as-is)
+// Returns: PlainObject | null | undefined | Primitive
+```
+
+→ [Serialization: API](../CLAUDE/PARSE_OBJECT_SERIALIZATION.md#actiniumutilsserializedata)
 
 ### Middleware Registration
 
