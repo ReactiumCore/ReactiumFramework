@@ -80,44 +80,17 @@ Topics for future exploration sessions with specialized agents.
 
 ### High Priority
 
-2. ✅ **Actinium Search and Indexing System** - Complete hook-driven search architecture with pluggable indexers; two-plugin pattern (core search framework + Lunr.js implementation); three-phase workflow (config → normalize → index); `search-index-config` hook for indexing control, `search-index-item-normalize` hook for RichText plaintext extraction via tree-flatten, `search-index` hook for actual indexing (Lunr.js builder pattern with ref/fields), `search` hook for query execution with scoring; automatic reindexing via Pulse cron schedule (default midnight, configurable via `index-frequency` setting); threshold-based result filtering (min score cutoff); cloud functions (search-index requires Search.index capability, search public); real-world Lunr.js implementation with in-memory indexes (not persisted), pagination support, Parse Query for full content fetch; discovered during research: Custom search backend patterns (Elasticsearch example), cursor-based pagination for large collections, type-specific filtering strategies; comprehensive source references from actinium-search/sdk.js:1-130, search-plugin.js:1-126, search-lunr-plugin.js:1-96; best practices (cron scheduling, early filtering, field normalization, pagination); common gotchas (empty permittedFields param, no auto-index on content save, threshold filtering after search hook, in-memory loss on restart, no autocomplete); critical for CMS search, content discovery, full-text search implementation (Nov 28, 2025)
+1. ✅ **Reactium Utility Hooks Collection** - Complete collection of 8 specialized React hooks for common patterns; useAsyncEffect for async side effects with AsyncUpdate mount safety (isMounted check prevents state updates on unmounted components), cleanup function support after async completes; useEventEffect for event listener lifecycle management with automatic cleanup (multiple events on same target, sanitized handlers); useFulfilledObject for promise fulfillment tracking via polling (object-path key checking with configurable delay); useIsContainer for DOM hierarchy checking (parent node traversal with strict equality); useScrollToggle for body scroll control (fixed position with negative margin trick, position preservation via window._scrollTogglePosition, global BodyScroll handle registration); useDerivedState already documented in Phase 2; useStatus already documented in Phase 2; useFocusEffect already documented in Phase 2; comprehensive source references from reactium-sdk-core/src/browser/use*.ts files; real-world examples from admin plugins (EventForm, User editor, Media tools); comparison with standard React hooks (useEffect, useState); best practices (mount checking, event management, polling optimization); common gotchas (cleanup timing after async completes, useEventEffect target null on first render, useFulfilledObject infinite polling, useIsContainer not actually a hook, useScrollToggle global handle affects all components); discovered during research: FormEvent pattern in EventForm extends CustomEvent with property flattening (similar to ComponentEvent); critical for async data loading, event management, scroll control, DOM utilities, controlled components (Nov 28, 2025)
+
+2. ✅ **Actinium Mailer System** - Hook-driven email transport architecture with pluggable backends; core API Actinium.Mail.send(nodemailer.MailOptions) runs mailer-transport hook; default sendmail transport (priority 0) with ENV.SENDMAIL_BIN/SENDMAIL_NEWLINE_STYLE configuration; SMTP plugin transport (priority 1) with host/port/user/pass from Settings API or ENV variables or JSON file (SMTP_MAILER_SETTINGS_FILE); Mailgun plugin transport (priority 1) with api_key/domain/proxy from Settings or ENV (MAILGUN_API_KEY/MAILGUN_DOMAIN/MAILGUN_PROXY); AWS SES plugin pattern; hook priority determines transport (last registered wins, only activate ONE transport plugin); warning hook validates configuration on startup (missing credentials fall back to sendmail); real-world patterns: password reset emails, welcome emails, notifications with attachments, cloud function integration with error handling; environment strategies: dev uses sendmail, staging uses SMTP (Mailtrap), production uses Mailgun/SES, multi-tenant uses Settings-driven config; comprehensive source references from actinium-mailer/mailer-plugin.js:1-63, smtp-plugin.js:1-137, mailgun-plugin.js:1-106; best practices: ENV for secrets, Settings for runtime config, enable only one transport, don't block user operations on email failure, validate email addresses, rate limiting; common gotchas: multiple active transports undefined behavior, Gmail requires App Password not regular password, hardcoded from address rejected by SMTP, missing config falls back silently; discovered during research: nodemailer.createTransport() pattern, Settings.get() fallback to ENV variables, Plugin.isActive() gating; critical for transactional emails, user notifications, password resets, system alerts (Nov 28, 2025)
+
+3. ✅ **Actinium Search and Indexing System** - Complete hook-driven search architecture with pluggable indexers; two-plugin pattern (core search framework + Lunr.js implementation); three-phase workflow (config → normalize → index); `search-index-config` hook for indexing control, `search-index-item-normalize` hook for RichText plaintext extraction via tree-flatten, `search-index` hook for actual indexing (Lunr.js builder pattern with ref/fields), `search` hook for query execution with scoring; automatic reindexing via Pulse cron schedule (default midnight, configurable via `index-frequency` setting); threshold-based result filtering (min score cutoff); cloud functions (search-index requires Search.index capability, search public); real-world Lunr.js implementation with in-memory indexes (not persisted), pagination support, Parse Query for full content fetch; discovered during research: Custom search backend patterns (Elasticsearch example), cursor-based pagination for large collections, type-specific filtering strategies; comprehensive source references from actinium-search/sdk.js:1-130, search-plugin.js:1-126, search-lunr-plugin.js:1-96; best practices (cron scheduling, early filtering, field normalization, pagination); common gotchas (empty permittedFields param, no auto-index on content save, threshold filtering after search hook, in-memory loss on restart, no autocomplete); critical for CMS search, content discovery, full-text search implementation (Nov 28, 2025)
 
 3. ✅ **Actinium Syndicate Multi-Tenant Content Distribution** - Complete JWT-based authentication system for multi-site content distribution; two-token architecture (refresh token permanent, access token 60-second expiration); SyndicateClient collection with user/client/token fields; client management API (create/retrieve/delete/list/token/verify); content syndication API (types/list/media/mediaDirectories/taxonomies/taxonomyTypes/taxonomiesAttached); ENV-based secrets (ACCESS_SECRET, REFRESH_SECRET with default warning hook); capability-based security (SyndicateClient.*/setting.Syndicate-*/Syndicate.Client); Settings-driven type filtering (Syndicate.types whitelist); hook integration (syndicate-content-list auto-enriches with URLs, syndicate-* hooks for extensibility); cloud function API (13 endpoints); real-world patterns (client setup, token refresh workflow, multi-tenant config); comprehensive source references from actinium-syndicate/sdk.js:1-478, plugin.js:1-185, schema.js:1-24, enums.js:1-7; best practices (change default secrets, cache access tokens, settings-driven config); common gotchas (default secrets warning, token expiration handling, refresh token exposure, missing type config, capability misconfiguration); discovered during research: URL plugin integration for content enrichment, Settings system for type whitelisting; critical for headless CMS, multi-site deployments, content distribution networks (Nov 28, 2025)
 
-4. **Reactium Utility Hooks Collection**
-
-   - useAsyncEffect - async side effects with isMounted pattern
-   - useDerivedState - prop-to-state derivation with selective subscriptions
-   - useStatus - type-safe status management
-   - useEventEffect - ComponentEvent subscription hook
-   - useFocusEffect - focus state management
-   - useFullfilledObject - promise resolution tracking
-   - useScrollToggle - scroll-based state toggling
-   - useIsContainer - DOM hierarchy checking
-   - cxFactory - namespaced classname generation
-   - **Why it matters**: Essential patterns for Reactium development, common use cases, type-safe state management
-   - **What's undocumented**: Complete hooks reference with real-world usage patterns, best practices, comparison with standard hooks
-   - **Key mechanisms**: Each hook's signature, use cases, gotchas, integration patterns
-   - **Source files**: reactium-sdk-core/src/browser/*.ts (useAsyncEffect.ts:1-72, useDerivedState.ts:1-180, useStatus.ts:1-58, etc.)
-   - **Discovered during**: Codebase exploration - substantial utility hook library beyond documented hooks (Nov 28, 2025)
-
 ### Medium Priority
 
-5. **Actinium Mailer System (Email Integration)**
-
-   - Pluggable transport architecture (SMTP, Mailgun, SES)
-   - Hook-driven transport configuration (mailer-transport hook)
-   - Actinium.Mail.send API with nodemailer integration
-   - Settings-based configuration (mailer settings group)
-   - Multiple provider patterns (default sendmail, SMTP, Mailgun, AWS SES)
-   - Environment variable configuration (SENDMAIL_BIN, SENDMAIL_NEWLINE_STYLE)
-   - **Why it matters**: Essential for user notifications, password resets, transactional emails in Actinium apps
-   - **What's undocumented**: Complete mailer architecture, transport plugin pattern, provider comparison, configuration best practices
-   - **Key mechanisms**: Actinium.Mail.send(), mailer-transport hook, nodemailer.createTransport(), Settings integration
-   - **Source files**: actinium-mailer/mailer-plugin.js (1-63 lines), smtp-plugin.js, mailgun-plugin.js, actinium-ses-mailer plugin
-   - **Discovered during**: Codebase exploration - hook-driven email system with multiple provider support (Nov 28, 2025)
-
-6. **Actinium IO WebSocket System (Real-Time Communication)**
+4. **Actinium IO WebSocket System (Real-Time Communication)**
 
    - Socket.io server integration with Actinium HTTP server
    - Client registry pattern (Actinium.IO.clients Registry)
@@ -132,7 +105,7 @@ Topics for future exploration sessions with specialized agents.
    - **Source files**: actinium-io/plugin.js (1-104 lines)
    - **Discovered during**: Codebase exploration - simple but critical real-time infrastructure (Nov 28, 2025)
 
-7. **Reactium Window and Breakpoint Utilities**
+5. **Reactium Window and Breakpoint Utilities**
 
    - SSR-safe window/document access (conditionalWindow, conditionalDocument)
    - Breakpoint system (xs/sm/md/lg/xl with custom thresholds)
@@ -145,7 +118,7 @@ Topics for future exploration sessions with specialized agents.
    - **Source files**: reactium-sdk-core/src/browser/window.ts (1-70 lines)
    - **Discovered during**: Codebase exploration - foundational responsive utilities (Nov 28, 2025)
 
-8. **Reactium Fullscreen API**
+6. **Reactium Fullscreen API**
 
    - Fullscreen class with expand/collapse/toggle methods
    - Body class toggling (.fullscreen)
@@ -157,7 +130,7 @@ Topics for future exploration sessions with specialized agents.
    - **Source files**: reactium-sdk-core/src/browser/Fullscreen.ts (1-61 lines)
    - **Discovered during**: Codebase exploration - simple but useful browser API wrapper (Nov 28, 2025)
 
-9. **Reactium Server-Side Routing and Middleware**
+7. **Reactium Server-Side Routing and Middleware**
 
    - Express router configuration in Reactium
    - Basic auth integration (.htpasswd pattern)
@@ -325,21 +298,7 @@ Topics for future exploration sessions with specialized agents.
 
 ### High Priority (Discovered during Syndicate/Content/Serialization research)
 
-26. **Actinium URL System and SEO-Friendly Routing**
-    - Database-backed URL management (URL collection)
-    - Content-to-URL mapping (contentId relations)
-    - Route pattern generation and resolution
-    - Hook integration with syndicate-content-list (auto-enrichment)
-    - URL CRUD operations (list, create, update, delete)
-    - Multi-route support per content item
-    - SEO pattern generation
-    - **Why it matters**: Critical for SEO, content syndication enrichment, multi-route content access
-    - **What's undocumented**: Complete URL API, content-URL relationship management, route pattern system, SEO optimization patterns
-    - **Key mechanisms**: Actinium.URL.list({ contentId }), URL collection schema, syndicate hook enrichment
-    - **Source files**: actinium-url plugin (sdk.js, plugin.js)
-    - **Discovered during**: Syndicate research - syndicate-content-list hook auto-adds URLs to content (Nov 28, 2025)
-
-27. **Reactium Activity Log and Change Tracking Patterns**
+26. **Reactium Activity Log and Change Tracking Patterns**
     - Activity log event structure (changeType, meta, user, timestamp)
     - ENUMS-based template selection (general vs specific scope)
     - Change type categories (CREATED, REVISED, CREATED_BRANCH, DELETED_BRANCH, LABELED_BRANCH, SLUG_CHANGED, SET_REVISION, SET_ACL, SET_STATUS)
@@ -352,6 +311,23 @@ Topics for future exploration sessions with specialized agents.
     - **Key mechanisms**: ChangeItem component pattern, ENUMS.CHANGES template registry, Cache.get('acl-targets') user resolution
     - **Source files**: reactium-admin-content/Content/ActivityLog/ActivityUpdates.js:19-82, enums.js:2-60
     - **Discovered during**: SplitParts/cxFactory research - real-world example of template-based UI messaging (Nov 28, 2025)
+
+27. **Nodemailer Message Options Deep Dive**
+    - Complete message options reference (from/to/cc/bcc/subject/text/html/attachments)
+    - Attachment patterns (file path, buffer, stream, content types)
+    - Email headers customization (replyTo, inReplyTo, headers object, priority)
+    - Template integration patterns (Handlebars, EJS, React Email)
+    - Inline images and embedded content (cid: references)
+    - Multi-part email structure (text + HTML alternatives)
+    - Email address formats (string vs object with name/address)
+    - Bulk email patterns and rate limiting
+    - Email queue systems for reliability
+    - Testing strategies (Mailtrap, MailHog, test accounts)
+    - **Why it matters**: Claude needs to generate correct email code for password resets, notifications, marketing emails, transactional workflows
+    - **What's undocumented**: Complete nodemailer options reference in Actinium context, real-world email patterns, template integration, testing strategies
+    - **Key mechanisms**: Actinium.Mail.send() message object structure, nodemailer.MailOptions interface, attachment handling, template rendering
+    - **Source files**: nodemailer documentation + actinium-mailer integration patterns
+    - **Discovered during**: Mailer System research - realized nodemailer message options are extensive and critical for proper email generation, but not documented in framework context (Nov 28, 2025)
 
 ## RESEARCH MODE DIRECTIVES
 

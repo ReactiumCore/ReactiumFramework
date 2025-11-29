@@ -1,4 +1,4 @@
-<!-- v1.19.0 -->
+<!-- v1.20.0 -->
 
 # CLAUDEDB - API Quick Reference
 
@@ -235,6 +235,62 @@ template.reset();        // Reset to original
 
 → [Utility Helpers: SplitParts API](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#api-1)
 → [Utility Helpers: SplitParts Usage](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#usage-patterns-1)
+
+### Utility Hooks
+
+```javascript
+// useAsyncEffect - Async side effects with mount safety
+useAsyncEffect(async (isMounted) => {
+    const data = await fetch('/api');
+    if (!isMounted()) return;
+    setData(data);
+}, [deps]);
+```
+
+→ [Utility Hooks: useAsyncEffect](../CLAUDE/UTILITY_HOOKS.md#useasynceffect)
+
+```javascript
+// useEventEffect - Event listener management
+useEventEffect(
+    target,
+    {
+        click: (e) => console.log('clicked'),
+        keydown: (e) => console.log('key:', e.key)
+    },
+    [deps]
+);
+```
+
+→ [Utility Hooks: useEventEffect](../CLAUDE/UTILITY_HOOKS.md#useeventeffect)
+
+```javascript
+// useFulfilledObject - Wait for object properties
+const [ready, obj, attempts] = useFulfilledObject(
+    stateRef.current,
+    ['user.profile', 'settings.loaded'],
+    100 // poll interval ms
+);
+```
+
+→ [Utility Hooks: useFulfilledObject](../CLAUDE/UTILITY_HOOKS.md#usefulfilledobject)
+
+```javascript
+// useIsContainer - DOM hierarchy checking
+const isInside = useIsContainer(element, container);
+if (!isInside) closePopover();
+```
+
+→ [Utility Hooks: useIsContainer](../CLAUDE/UTILITY_HOOKS.md#useiscontainer)
+
+```javascript
+// useScrollToggle - Body scroll control
+const scroll = useScrollToggle();
+scroll.disable(); // Freeze scroll (for modals)
+scroll.enable();  // Restore scroll
+scroll.toggle();  // Toggle state
+```
+
+→ [Utility Hooks: useScrollToggle](../CLAUDE/UTILITY_HOOKS.md#usescrolltoggle)
 
 ### SDK Extension
 
@@ -1004,6 +1060,53 @@ Actinium.Collection.unregister(collection);
 // Resets collection to default (private) permissions
 // collection: String - Collection name
 ```
+
+### Email (Mailer System)
+
+```javascript
+await Actinium.Mail.send(message);
+// Sends email via configured transport (SMTP, Mailgun, SES, or sendmail)
+// message: nodemailer.MailOptions - Standard nodemailer message object
+// Returns: Promise<SentMessageInfo>
+```
+
+→ [Mailer System: Actinium.Mail.send()](../CLAUDE/MAILER_SYSTEM.md#actiniummailsend)
+
+```javascript
+// Message options (nodemailer)
+{
+    from: 'noreply@example.com' | { name: string, address: string },
+    to: string | string[],
+    cc?: string | string[],
+    bcc?: string | string[],
+    subject: string,
+    text?: string,        // Plain text body
+    html?: string,        // HTML body
+    attachments?: [{
+        filename: string,
+        path?: string,
+        content?: Buffer | string,
+        contentType?: string
+    }],
+    replyTo?: string,
+    priority?: 'high' | 'normal' | 'low'
+}
+```
+
+→ [Mailer System: Message Options](../CLAUDE/MAILER_SYSTEM.md#core-api)
+
+```javascript
+// Hook: mailer-transport (choose email provider)
+Actinium.Hook.register(
+    'mailer-transport',
+    async (context) => {
+        context.transport = nodemailer.createTransport(config);
+    },
+    priority  // 0 = sendmail, 1+ = plugins
+);
+```
+
+→ [Mailer System: Hook Integration](../CLAUDE/MAILER_SYSTEM.md#mailer-transport-hook)
 
 → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
 

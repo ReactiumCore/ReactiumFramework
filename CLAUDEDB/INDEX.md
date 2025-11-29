@@ -1,4 +1,4 @@
-<!-- v1.29.0 -->
+<!-- v1.30.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -266,6 +266,10 @@
 ## M
 
 - **machineName** → [Content Type: UUID Generation](../CLAUDE/CONTENT_TYPE_SYSTEM.md#namespace-based-uuids)
+- **Mail.send** → [Mailer System: Actinium.Mail.send()](../CLAUDE/MAILER_SYSTEM.md#actiniummailsend)
+- **Mailer** → [Mailer System: Overview](../CLAUDE/MAILER_SYSTEM.md#overview)
+- **mailer-transport** → [Mailer System: Hook Integration](../CLAUDE/MAILER_SYSTEM.md#mailer-transport-hook)
+- **Mailgun** → [Mailer System: Mailgun Transport](../CLAUDE/MAILER_SYSTEM.md#mailgun-transport-plugin)
 - **Manifest** → [Manifest System Overview](../CLAUDE/MANIFEST_SYSTEM.md#system-architecture)
 - **Many-to-many relationships** → [Taxonomy System: Architecture](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#three-collection-system)
 - **MemoryCache** → [MemoryCache System Architecture](../CLAUDE/MEMORY_CACHE_SYSTEM.md#overview)
@@ -424,9 +428,12 @@
 - **search-index-config hook** → [Search System: search-index-config Hook](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#search-index-config-hook)
 - **search-index-item-normalize hook** → [Search System: Normalization Hook](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#search-index-item-normalize-hook)
 - **search hook** → [Search System: search Hook](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#search-hook)
+- **Scroll prevention** → [Utility Hooks: useScrollToggle](../CLAUDE/UTILITY_HOOKS.md#usescrolltoggle)
 - **SCSS compilation** → [Gulp Build: SCSS Compilation Flow](../CLAUDE/GULP_BUILD_SYSTEM.md#scss-compilation-flow)
 - **SCSS partials** → [Gulp Build: DDD Style Partials Discovery](../CLAUDE/GULP_BUILD_SYSTEM.md#ddd-style-partials-discovery)
 - **Schema** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
+- **Sendmail** → [Mailer System: Default Transport](../CLAUDE/MAILER_SYSTEM.md#default-transport-sendmail)
+- **SMTP** → [Mailer System: SMTP Transport](../CLAUDE/MAILER_SYSTEM.md#smtp-transport-plugin)
 - **Schema (Content Type)** → [Content Type: Schema Management](../CLAUDE/CONTENT_TYPE_SYSTEM.md#schema-management)
 - **Schema evolution** → [Collection Registration: Migration Patterns](../CLAUDE/COLLECTION_REGISTRATION.md#migration-patterns)
 - **Schema field types** → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
@@ -527,11 +534,15 @@
 - **UUID v5** → [Content Type: Namespace-Based UUIDs](../CLAUDE/CONTENT_TYPE_SYSTEM.md#namespace-based-uuids)
 - **UUID namespace** → [Content Type: Namespace Configuration](../CLAUDE/CONTENT_TYPE_SYSTEM.md#namespace-based-uuids)
 
-- **useEventEffect** → [ComponentEvent: useEventEffect Hook](../CLAUDE/COMPONENT_EVENT_SYSTEM.md#useeventeffect-hook)
+- **useAsyncEffect** → [Utility Hooks: useAsyncEffect](../CLAUDE/UTILITY_HOOKS.md#useasynceffect)
+- **useEventEffect** → [Utility Hooks: useEventEffect](../CLAUDE/UTILITY_HOOKS.md#useeventeffect)
+- **useFulfilledObject** → [Utility Hooks: useFulfilledObject](../CLAUDE/UTILITY_HOOKS.md#usefulfilledobject)
 - **useHandle** → [Handle System: Consumer Pattern](../CLAUDE/HANDLE_SYSTEM.md#consumer-pattern-usehandle)
 - **useHookComponent** → [hookableComponent: useHookComponent Hook](../CLAUDE/HOOKABLE_COMPONENT.md#usehookcomponent-hook)
+- **useIsContainer** → [Utility Hooks: useIsContainer](../CLAUDE/UTILITY_HOOKS.md#useiscontainer)
 - **useRegisterHandle** → [Handle System: Provider Pattern](../CLAUDE/HANDLE_SYSTEM.md#provider-pattern-useregisterhandle)
 - **useRegisterSyncHandle** → [Handle System: Observable State Provider](../CLAUDE/HANDLE_SYSTEM.md#observable-state-provider-useregistersynchandle)
+- **useScrollToggle** → [Utility Hooks: useScrollToggle](../CLAUDE/UTILITY_HOOKS.md#usescrolltoggle)
 - **User preferences** → [User.Pref System](../CLAUDE/USER_PREF_SYSTEM.md#overview)
 - **User.Pref.update** → [User.Pref: Client API](../CLAUDE/USER_PREF_SYSTEM.md#1-userprefupdateparams)
 - **User.Pref.delete** → [User.Pref: Client API](../CLAUDE/USER_PREF_SYSTEM.md#2-userprefdelete params)
