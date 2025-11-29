@@ -1,4 +1,4 @@
-<!-- v1.21.0 -->
+<!-- v1.22.0 -->
 
 # CLAUDEDB - API Quick Reference
 
@@ -628,6 +628,28 @@ Reactium.Enums.priority.lowest; // 1000 (runs last)
 
 **Note**: `Enums.priority.normal` does NOT exist (common bug)
 → [Gotchas: Enums.priority.normal Does Not Exist](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-5-enumsprioritynormal-does-not-exist-critical-bug)
+
+---
+
+### Server Hooks
+
+```javascript
+ReactiumBoot.Hook.registerSync('Server.ResponseHeaders', (responseHeaders, req, res) => {
+    // Add custom HTTP headers
+    responseHeaders['X-Frame-Options'] = 'SAMEORIGIN';
+    responseHeaders['Cache-Control'] = 'public, max-age=3600';
+});
+```
+
+→ [Server Routing: Custom Response Headers](../CLAUDE/SERVER_ROUTING.md#custom-response-headers)
+
+```javascript
+await ReactiumBoot.Hook.run('Server.ResponseHeaders', responseHeaders, req, res);
+// Async version of Server.ResponseHeaders hook
+// Both sync and async hooks run during SSR
+```
+
+→ [Server Routing: Server.ResponseHeaders Hook](../CLAUDE/SERVER_ROUTING.md#serverresponseheaders-hook)
 
 ---
 

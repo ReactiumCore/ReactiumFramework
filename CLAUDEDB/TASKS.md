@@ -1,4 +1,4 @@
-<!-- v1.26.0 -->
+<!-- v1.27.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -1123,6 +1123,39 @@ const { breakpoint } = useWindowSize({ delay: 300 }); // 300ms debounce
 ### Secure master key access
 → [Environment Config: Master Key IP Whitelisting](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#master-key-ip-whitelisting)
 → [Environment Config: Security Best Practices](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#best-practices)
+
+### Add basic authentication to frontend
+→ [Server Routing: Basic Authentication](../CLAUDE/SERVER_ROUTING.md#basic-authentication)
+→ [Server Routing: Configuration](../CLAUDE/SERVER_ROUTING.md#configuration)
+
+**Quick Start**:
+```bash
+# Create .htpasswd file
+htpasswd -c .htpasswd username
+
+# Set environment variable
+BASIC_AUTH_FILE=.htpasswd npm run local
+```
+
+### Add custom HTTP headers
+→ [Server Routing: Custom Response Headers](../CLAUDE/SERVER_ROUTING.md#custom-response-headers)
+→ [Server Routing: Real-World Examples](../CLAUDE/SERVER_ROUTING.md#real-world-examples)
+
+**Quick Start**:
+```javascript
+ReactiumBoot.Hook.registerSync('Server.ResponseHeaders', (responseHeaders) => {
+    responseHeaders['X-Frame-Options'] = 'SAMEORIGIN';
+    responseHeaders['Cache-Control'] = 'public, max-age=3600';
+});
+```
+
+### Configure health check endpoint
+→ [Server Routing: Health Check Endpoint](../CLAUDE/SERVER_ROUTING.md#health-check-endpoint)
+→ [Server Routing: Real-World Patterns](../CLAUDE/SERVER_ROUTING.md#real-world-patterns)
+
+### Handle 404 errors correctly
+→ [Server Routing: 404 Detection](../CLAUDE/SERVER_ROUTING.md#404-detection)
+→ [Server Routing: Status Code Handling](../CLAUDE/SERVER_ROUTING.md#status-code-handling)
 
 ### Deploy with Docker
 → [Environment Config: Docker Deployment Patterns](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#dockercontainer-deployment-patterns)

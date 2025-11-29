@@ -1,4 +1,4 @@
-<!-- v1.31.0 -->
+<!-- v1.32.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -57,6 +57,8 @@
 - **babel** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
 - **babel-loader** → [ReactiumWebpack: Babel Configuration](../CLAUDE/REACTIUM_WEBPACK.md#adding-a-custom-loader)
 - **Base64 embedding** → [Gulp Build: Plugin Assets](../CLAUDE/GULP_BUILD_SYSTEM.md#plugin-assets-base64-embedding)
+- **Basic auth** → [Server Routing: Basic Authentication](../CLAUDE/SERVER_ROUTING.md#basic-authentication)
+- **Basic authentication** → [Server Routing: File-Based Auth](../CLAUDE/SERVER_ROUTING.md#file-based-auth-with-htpasswd)
 - **beforeSave** → [Cloud Functions: Hook Integration](../CLAUDE/CLOUD_FUNCTIONS.md#hook-integration)
 - **Blueprint** → [Route System: Blueprint Concept](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#blueprint-concept)
 - **Blueprint integration** → [Route System: Blueprint Integration](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#blueprint-integration)
@@ -476,6 +478,11 @@
 - **Server.AppHeaders** → [SSR: AppHeaders Hook](../CLAUDE/SSR_ARCHITECTURE.md#3-serverappheaders)
 - **Server.AppScripts** → [SSR: AppScripts Hook](../CLAUDE/SSR_ARCHITECTURE.md#4-serverappscripts)
 - **Server.AppStyleSheets** → [SSR: AppStyleSheets Hook](../CLAUDE/SSR_ARCHITECTURE.md#5-serverappstylesheets)
+- **Server.ResponseHeaders** → [Server Routing: Custom Response Headers](../CLAUDE/SERVER_ROUTING.md#custom-response-headers)
+- **Server routing** → [Server Routing: Overview](../CLAUDE/SERVER_ROUTING.md#overview)
+- **SSR** → [SSR Architecture](../CLAUDE/SSR_ARCHITECTURE.md#overview)
+- **SSR error handling** → [Server Routing: SSR Error Handling](../CLAUDE/SERVER_ROUTING.md#ssr-error-handling)
+- **SSR middleware** → [Server Routing: SSR Middleware](../CLAUDE/SERVER_ROUTING.md#ssr-middleware)
 - **Staging** → [Environment Config: Staging Example](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#staging-envstagingjson)
 - **Session** → [Cloud Functions: Request Object](../CLAUDE/CLOUD_FUNCTIONS.md#request-object-req)
 - **Serialize** → [Parse Object Serialization](../CLAUDE/PARSE_OBJECT_SERIALIZATION.md#api-reference)
