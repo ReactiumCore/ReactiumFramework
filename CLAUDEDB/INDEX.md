@@ -1,4 +1,4 @@
-<!-- v1.34.0 -->
+<!-- v1.35.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -220,7 +220,11 @@
 
 - **generator** → [CLI Templates: Generator Wrapper](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#4-generator-pattern-and-actionsequence)
 - **getACL** → [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
+- **getJed()** → [i18n System: Jed.js Instance](../CLAUDE/I18N_SYSTEM.md#i18n-singleton-class)
 - **getProxy** → [FileAdapter System: FilesAdapterProxy](../CLAUDE/FILE_ADAPTER_SYSTEM.md#filesadapterproxy-pattern)
+- **gettext** → [i18n System: Overview](../CLAUDE/I18N_SYSTEM.md#overview)
+- **gettext-extract** → [i18n System: CLI Extraction Command](../CLAUDE/I18N_SYSTEM.md#cli-extraction-command)
+- **.gettext.json** → [i18n System: Configuration File](../CLAUDE/I18N_SYSTEM.md#configuration-file)
 - **Global State** → [Reactium: State Management](../CLAUDE/REACTIUM_FRAMEWORK.md#state-management)
 - **globby** → [Manifest System: File Discovery Algorithm](../CLAUDE/MANIFEST_SYSTEM.md#file-discovery-algorithm)
 - **GridFS** → [FileAdapter System: Default Adapter GridFS](../CLAUDE/FILE_ADAPTER_SYSTEM.md#default-adapter-gridfs)
@@ -259,6 +263,11 @@
 
 ## I
 
+- **i18n** → [i18n System: Overview](../CLAUDE/I18N_SYSTEM.md#overview)
+- **i18n.locale** → [i18n System: Locale Detection](../CLAUDE/I18N_SYSTEM.md#browser-locale-detection)
+- **i18n.getJed()** → [i18n System: Jed.js Instance](../CLAUDE/I18N_SYSTEM.md#i18n-singleton-class)
+- **__()** → [i18n System: Singular Translation](../CLAUDE/I18N_SYSTEM.md#__---singular-translation)
+- **_n()** → [i18n System: Plural Translation](../CLAUDE/I18N_SYSTEM.md#_n---plural-translation)
 - **IIFE** → [Gotchas: Hook Registration Must Be in IIFE](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-3-hook-registration-must-be-in-iife)
 - **Indexes** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
 - **Indexing** → [Search System: Indexing Workflow](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#actiniumsearchindexparams)
@@ -269,6 +278,7 @@
 - **install command** → [CLI Commands: Package Management](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-install)
 - **Integration** → [Framework Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md)
 - **In-memory cache** → [MemoryCache: Architecture](../CLAUDE/MEMORY_CACHE_SYSTEM.md#wrapper-pattern)
+- **Internationalization** → [i18n System: Overview](../CLAUDE/I18N_SYSTEM.md#overview)
 - **io.config hook** → [Actinium IO: Server Configuration](../CLAUDE/ACTINIUM_IO_SYSTEM.md#socketio-server-configuration)
 - **io.init hook** → [Actinium IO: Lifecycle Hooks](../CLAUDE/ACTINIUM_IO_SYSTEM.md#connection-lifecycle-hooks)
 - **io.connection hook** → [Actinium IO: Connection Handler](../CLAUDE/ACTINIUM_IO_SYSTEM.md#connection-lifecycle-hooks)
@@ -340,6 +350,11 @@
 - **page** → [Pagination: Skip-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#example-standard-pagelimit-pattern)
 - **Pagination** → [Pagination Strategies](../CLAUDE/PAGINATION_STRATEGIES.md#overview)
 - **Parse.ACL** → [Parse ACL Patterns: Core ACL API](../CLAUDE/PARSE_ACL_PATTERNS.md#core-acl-api)
+- **Plural forms** → [i18n System: _n() Plural Translation](../CLAUDE/I18N_SYSTEM.md#_n---plural-translation)
+- **Plural-Forms header** → [i18n System: Plural Forms Header](../CLAUDE/I18N_SYSTEM.md#plural-forms-header)
+- **.po file** → [i18n System: Translation Files](../CLAUDE/I18N_SYSTEM.md#po-file-translations)
+- **po-loader** → [i18n System: Webpack Integration](../CLAUDE/I18N_SYSTEM.md#webpack-po-loader-integration)
+- **Poedit** → [i18n System: Best Practices](../CLAUDE/I18N_SYSTEM.md#6-locale-files)
 - **PARSE_FILES_DIRECT_ACCESS** → [FileAdapter System: Environment Configuration](../CLAUDE/FILE_ADAPTER_SYSTEM.md#key-environment-variables)
 - **PARSE_PRESERVE_FILENAME** → [FileAdapter System: Environment Configuration](../CLAUDE/FILE_ADAPTER_SYSTEM.md#key-environment-variables)
 - **Permission denied** → [Parse ACL Patterns: Debugging ACL Issues](../CLAUDE/PARSE_ACL_PATTERNS.md#debugging-acl-issues)
@@ -531,11 +546,13 @@
 ## T
 
 - **Template** → [CLI Template System](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#overview)
+- **template.pot** → [i18n System: Translation File Structure](../CLAUDE/I18N_SYSTEM.md#pot-file-template)
 - **Template directory** → [CLI Templates: Template Directory Structure](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#2-template-directory-structure)
 - **Template generation** → [CLI Templates: Component Generator Pattern](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#5-component-generator-pattern)
 - **Template variables** → [CLI Templates: Variable Substitution](../CLAUDE/CLI_TEMPLATE_SYSTEM.md#3-template-syntax-and-variables)
 - **Testing** → [Patterns: Testing Patterns](../CLAUDE/FRAMEWORK_PATTERNS.md#testing-patterns)
 - **Theme** → [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
+- **Translation** → [i18n System: Overview](../CLAUDE/I18N_SYSTEM.md#overview)
 - **ThemeProvider** → [AppContext: Material-UI Theme](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#3-material-ui-theme)
 - **TLS** → [Environment Config: TLS Configuration](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#file-based-certificate-loading)
 - **TLS_MODE** → [Environment Config: Server Creation with TLS](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#server-creation-with-tls)

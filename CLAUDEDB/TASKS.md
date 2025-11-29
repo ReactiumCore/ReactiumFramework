@@ -1,4 +1,4 @@
-<!-- v1.29.0 -->
+<!-- v1.30.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -288,9 +288,31 @@ const MyComponent = ({ namespace = 'my-component' }) => {
 // Renders: my-component, my-component-header, my-component-title
 ```
 
+### Translate UI strings (internationalization)
+→ [i18n System: Translation Functions](../CLAUDE/I18N_SYSTEM.md#translation-functions)
+→ [i18n System: __() Singular Translation](../CLAUDE/I18N_SYSTEM.md#__---singular-translation)
+
+**Quick Pattern**:
+```javascript
+import { __ } from '@atomic-reactor/reactium-core/sdk';
+
+<h1>{__('Welcome to Reactium')}</h1>
+<Button>{__('Save')}</Button>
+```
+
+### Extract translatable strings to .pot file
+→ [i18n System: CLI Extraction Command](../CLAUDE/I18N_SYSTEM.md#cli-extraction-command)
+→ [i18n System: Extraction Workflow](../CLAUDE/I18N_SYSTEM.md#extraction-workflow)
+
+**Quick CLI**:
+```bash
+npx reactium i18n
+# Generates src/reactium-translations/template.pot
+```
+
 ### Generate dynamic internationalized UI strings
+→ [i18n System: Integration with SplitParts](../CLAUDE/I18N_SYSTEM.md#integration-with-splitparts)
 → [Utility Helpers: SplitParts Overview](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#splitparts---token-based-string-templates)
-→ [Utility Helpers: SplitParts Usage Patterns](../CLAUDE/REACTIUM_UTILITY_HELPERS.md#usage-patterns-1)
 
 **Quick Pattern**:
 ```javascript

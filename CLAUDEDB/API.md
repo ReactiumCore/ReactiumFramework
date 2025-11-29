@@ -1,4 +1,4 @@
-<!-- v1.23.0 -->
+<!-- v1.24.0 -->
 
 # CLAUDEDB - API Quick Reference
 
@@ -386,6 +386,62 @@ scroll.toggle();  // Toggle state
 ```
 
 → [Utility Hooks: useScrollToggle](../CLAUDE/UTILITY_HOOKS.md#usescrolltoggle)
+
+### Internationalization (i18n)
+
+```javascript
+// __() - Singular translation
+import { __ } from '@atomic-reactor/reactium-core/sdk';
+
+const translated = __('Welcome to Reactium');
+// Returns: Translated string or original if no translation
+// param text: string literal (must NOT be a variable)
+// Returns: string
+```
+
+→ [i18n System: __() Singular Translation](../CLAUDE/I18N_SYSTEM.md#__---singular-translation)
+
+```javascript
+// _n() - Plural translation
+import { _n } from '@atomic-reactor/reactium-core/sdk';
+
+const label = _n('%s item', '%s items', count);
+// Params:
+//   singular: string literal (singular form)
+//   plural: string literal (plural form)
+//   count: number
+// Returns: string (appropriate plural form for locale)
+```
+
+→ [i18n System: _n() Plural Translation](../CLAUDE/I18N_SYSTEM.md#_n---plural-translation)
+
+```javascript
+// Integration with SplitParts for dynamic content
+const template = Reactium.Utils.splitParts(__('Hello %name%, you have %count% messages'));
+template.replace({ name: 'Alice', count: 5 });
+template.toString();
+// → "Hello Alice, you have 5 messages" (translated)
+```
+
+→ [i18n System: Integration with SplitParts](../CLAUDE/I18N_SYSTEM.md#integration-with-splitparts)
+
+```javascript
+// CLI extraction command
+// npx reactium i18n
+// Extracts all __() and _n() strings to src/reactium-translations/template.pot
+```
+
+→ [i18n System: CLI Extraction Command](../CLAUDE/I18N_SYSTEM.md#cli-extraction-command)
+
+```javascript
+// set-default-locale hook - Customize locale detection
+Reactium.Hook.register('set-default-locale', async (i18nInstance) => {
+    // Override locale from URL query param or user preference
+    i18nInstance.locale = 'fr_FR';
+});
+```
+
+→ [i18n System: Hook Integration](../CLAUDE/I18N_SYSTEM.md#hook-integration)
 
 ### SDK Extension
 
