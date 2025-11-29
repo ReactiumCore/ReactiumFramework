@@ -1,4 +1,4 @@
-<!-- v1.32.0 -->
+<!-- v1.33.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -67,7 +67,10 @@
 - **Breakpoint system** → [Window/Breakpoint: Breakpoint System](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#breakpoint-system)
 - **BREAKPOINTS_DEFAULT** → [Window/Breakpoint: Default Configuration](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#default-breakpoint-configuration)
 - **Built-in routes** → [Route System: Built-In Protection](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#hook-example-built-in-route-protection)
-- **BrowserSync** → [Gulp Build: BrowserSync Integration](../CLAUDE/GULP_BUILD_SYSTEM.md#browsersync-integration)
+- **BrowserSync** → [Dev Server: BrowserSync Live Reload](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#browsersync-live-reload)
+- **BrowserSync port** → [Dev Server: Port Configuration](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#port-configuration)
+- **BrowserSync proxy** → [Dev Server: BrowserSync Configuration](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#configuration)
+- **BROWSERSYNC_PORT** → [Dev Server: Environment Variables](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#environment-variables)
 - **Build** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
 - **Build errors** → [Gotchas: Build System](../CLAUDE/FRAMEWORK_GOTCHAS.md#build-system-gotchas)
 - **Build pipeline** → [Gulp Build: Build Pipeline Overview](../CLAUDE/GULP_BUILD_SYSTEM.md#build-pipeline-overview)
@@ -153,6 +156,10 @@
 - **Debugging** → [Gotchas: Debugging Strategies](../CLAUDE/FRAMEWORK_GOTCHAS.md#debugging-strategies)
 - **Dependencies** → [Patterns: Plugin Dependency Management](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-12-plugin-dependency-management)
 - **Deploy** → [Integration: Deployment](../CLAUDE/FRAMEWORK_INTEGRATION.md#deployment)
+- **Development mode** → [Dev Server: Development vs Production](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#development-vs-production-differences)
+- **Development server** → [Dev Server: Architecture Overview](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#architecture-overview)
+- **devtool** → [Dev Server: Source Maps](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#source-maps)
+- **DISABLE_HMR** → [Dev Server: Environment Variables](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#environment-variables)
 - **directory-tree** → [Manifest System: File Discovery Algorithm](../CLAUDE/MANIFEST_SYSTEM.md#file-discovery-algorithm)
 - **Docker** → [Environment Config: Docker Deployment](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#dockercontainer-deployment-patterns)
 - **Domain collision** → [Manifest System: Gotcha - Domain Collision Warnings](../CLAUDE/MANIFEST_SYSTEM.md#3-domain-collision-warnings)
@@ -234,7 +241,9 @@
 - **Handle.get** → [Handle System: Core Architecture](../CLAUDE/HANDLE_SYSTEM.md#the-handle-registry)
 - **Handle.unregister** → [Handle System: Core Architecture](../CLAUDE/HANDLE_SYSTEM.md#the-handle-registry)
 - **handleId** → [Routing System: Data Loading Pattern](../CLAUDE/ROUTING_SYSTEM.md#loadstate-pattern-data-preloading)
-- **HMR** → [Gotchas: Build System](../CLAUDE/FRAMEWORK_GOTCHAS.md#build-system-gotchas)
+- **HMR** → [Dev Server: Hot Module Replacement](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#hot-module-replacement-hmr)
+- **Hot Module Replacement** → [Dev Server: HMR Configuration](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#configuration)
+- **Hot reload** → [Dev Server: HMR vs BrowserSync](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#what-hmr-updates)
 - **Hook** → [Reactium: Hook System](../CLAUDE/REACTIUM_FRAMEWORK.md#hook-system)
 - **Hook.register** → [Reactium: Hook Registration](../CLAUDE/REACTIUM_FRAMEWORK.md#hook-registration)
 - **Hook domains** → [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
@@ -270,6 +279,7 @@
 
 - **Large datasets** → [Pagination: Cursor-Based for Scale](../CLAUDE/PAGINATION_STRATEGIES.md#3-cursor-based-pagination-recommended-for-scale)
 - **limit** → [Pagination: Skip-Based Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#1-skip-based-pagination-framework-default)
+- **Live reload** → [Dev Server: BrowserSync Live Reload](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#browsersync-live-reload)
 - **Load-all pagination** → [Pagination: Load-All Pattern](../CLAUDE/PAGINATION_STRATEGIES.md#2-load-all-pattern-skip-incrementation)
 - **Live Query** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
 - **Lunr.js** → [Search System: Lunr.js Implementation](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#search-hook)
@@ -286,6 +296,7 @@
 - **mailer-transport** → [Mailer System: Hook Integration](../CLAUDE/MAILER_SYSTEM.md#mailer-transport-hook)
 - **Mailgun** → [Mailer System: Mailgun Transport](../CLAUDE/MAILER_SYSTEM.md#mailgun-transport-plugin)
 - **Manifest** → [Manifest System Overview](../CLAUDE/MANIFEST_SYSTEM.md#system-architecture)
+- **Memory filesystem** → [Dev Server: Memory Filesystem](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#memory-filesystem)
 - **Many-to-many relationships** → [Taxonomy System: Architecture](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#three-collection-system)
 - **MemoryCache** → [MemoryCache System Architecture](../CLAUDE/MEMORY_CACHE_SYSTEM.md#overview)
 - **manifest.config.override.js** → [Manifest System: Configuration Override](../CLAUDE/MANIFEST_SYSTEM.md#manifestconfigoverridejs)
@@ -587,8 +598,12 @@
 
 - **Webpack** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
 - **webpack.override.js** → [ReactiumWebpack: Migration from webpack.override.js](../CLAUDE/REACTIUM_WEBPACK.md#migration-from-webpackoverridejs)
+- **webpack-dev-middleware** → [Dev Server: webpack-dev-middleware Integration](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#webpack-dev-middleware-integration)
+- **webpack-hot-middleware** → [Dev Server: HMR Middleware](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#webpack-hot-middleware-registration)
 - **WebpackSDK** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md#webpacksdk-class)
 - **WebSocket** → [Actinium IO System](../CLAUDE/ACTINIUM_IO_SYSTEM.md#architecture-overview)
+- **Watch process** → [Dev Server: Forked Watch Process](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#forked-watch-process)
+- **Watchers** → [Dev Server: Gulp File Watchers](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#gulp-file-watchers)
 - **Webhooks** → [Patterns: Webhook Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-16-webhook-pattern)
 - **Window utilities** → [Window/Breakpoint System](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#architecture-overview)
 - **window** → [Window/Breakpoint: SSR-Safe Access](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#ssr-safe-windowdocument-access)

@@ -1,4 +1,4 @@
-<!-- v1.27.0 -->
+<!-- v1.28.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -1088,7 +1088,54 @@ const { breakpoint } = useWindowSize({ delay: 300 }); // 300ms debounce
 ## Build & Deploy
 
 ### Run development server
+→ [Dev Server: Development Workflow](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#development-workflow)
 → [Integration: Development Workflow](../CLAUDE/FRAMEWORK_INTEGRATION.md#development-workflow)
+
+**Quick Start**:
+```bash
+npm run local
+# Opens browser to http://localhost:3000 with live reload
+```
+
+### Debug HMR issues (changes not appearing)
+→ [Dev Server: Common Gotchas - Changes Not Appearing](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#1-changes-not-appearing)
+→ [Dev Server: Debugging](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#debugging)
+
+**Common fixes**:
+1. Check browser console for HMR errors
+2. Verify webpack compilation succeeded (check terminal)
+3. Try `DISABLE_HMR=on npm run local` to isolate issue
+4. Hard refresh browser (Ctrl+Shift+R)
+
+### Stop full page reload (want HMR instead)
+→ [Dev Server: HMR vs BrowserSync](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#what-hmr-updates)
+→ [Dev Server: Common Gotchas - Full Page Reload](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#2-full-page-reload-instead-of-hmr)
+
+**Understanding the difference**:
+- **HMR (no reload)**: React components, JavaScript modules
+- **BrowserSync reload**: CSS changes, HTML changes, static assets
+
+### Configure BrowserSync port
+→ [Dev Server: Port Configuration](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#port-configuration)
+→ [Dev Server: Environment Variables](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#environment-variables)
+
+**Quick config**:
+```bash
+BROWSERSYNC_PORT=4000 npm run local
+```
+
+### Debug webpack-dev-middleware 404 errors
+→ [Dev Server: Common Gotchas - webpack-dev-middleware 404](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#4-webpack-dev-middleware-404-on-assets)
+→ [Dev Server: Middleware Order](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#check-middleware-order)
+
+**Check**:
+1. Verify Express server running on port 3030
+2. Check webpack compilation success
+3. Verify publicPath matches server URL
+
+### Understand development server architecture
+→ [Dev Server: Architecture Overview](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#architecture-overview)
+→ [Dev Server: Development vs Production](../CLAUDE/DEV_SERVER_ARCHITECTURE.md#development-vs-production-differences)
 
 ### Build for production
 → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)

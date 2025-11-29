@@ -24,19 +24,7 @@ Topics for future exploration sessions with specialized agents.
 
 ### Medium Priority (New - Nov 29, 2025)
 
-6. **Reactium Development Server and Hot Module Reloading**
-
-   - webpack-dev-middleware integration in development mode
-   - Hot Module Replacement (HMR) configuration
-   - BrowserSync integration for live reload
-   - Development vs production server differences
-   - Asset serving in dev mode (memory vs filesystem)
-   - Source map handling
-   - **Why it matters**: Claude needs to help developers debug build issues, configure development environment, understand why changes aren't appearing
-   - **What's undocumented**: Complete dev server architecture, webpack-dev-middleware configuration, HMR patterns, BrowserSync proxy setup, development-only middleware stack
-   - **Key mechanisms**: webpack-dev-middleware, webpack-hot-middleware, BrowserSync proxy, memory filesystem in dev
-   - **Source files**: Reactium server bootstrap, webpack dev config, gulp watch tasks
-   - **Discovered during**: Server-Side Routing research - router delegates to static middleware which differs in dev/prod (Nov 29, 2025)
+6. ✅ **Reactium Development Server and Hot Module Reloading** - Complete multi-layer development system with webpack-dev-middleware (memory filesystem for JS bundles, res.locals.webpack.devMiddleware stats injection for SSR), webpack-hot-middleware (EventStream at /__webpack_hmr, HotModuleReplacementPlugin, reload=true fallback), BrowserSync proxy (port 3000 proxy to Express 3030, WebSocket live reload, CSS/HTML/asset reload trigger), Gulp file watchers (forked child process for isolation, manifest→mainManifest, styles→recompile, partials→regenerate, markup/assets→copy, critical files→full restart), three-tier reload system (HMR for React no-reload, SCSS Gulp compile+BrowserSync, HTML/assets copy+BrowserSync); development vs production (dev: memory filesystem + HMR + BrowserSync + source maps + res.locals stats, prod: disk + webpack-manifest.json + gzip + no HMR); port configuration (3000 BrowserSync, 3001 UI, 3030 Express); watch process architecture (IPC messages build-started/restart-watches, asyncBuild series, serve vs serve-restart); SSR integration (reads res.locals.webpack.devMiddleware.stats in dev, webpack-manifest.json in prod); environment variables (BROWSERSYNC_PORT, DISABLE_HMR, BROWERSYNC_OPEN_BROWSER); comprehensive source references from index.mjs:189-416, webpack.config.js:46-48, gulp.tasks.js:74-970, gulp.watch.js:1-28, gulp.config.js:19-56, server/router.mjs:88-91, server/renderer/index.mjs:78-99; discovered during research: Forked watch process pattern (isolation + clean restart), res.locals.webpack injection critical for SSR, BrowserSync auto-detects public/ changes (no explicit reload call), entry style file changes trigger full watch restart (not partial compile), memory filesystem all JS bundles never touch disk, three different reload mechanisms for different file types; best practices (use HMR for components, create partials not entry SCSS, check HMR vs BrowserSync behavior, monitor webpack compilation, disable HMR if infinite loops); common gotchas (changes not appearing from HMR fail/wrong glob/build error, full reload instead of HMR from CSS/disabled/client error, infinite reload from circular writes/HMR triggers, middleware 404 from publicPath mismatch/order/compilation fail, BrowserSync proxy error from Express not running/port conflict, SCSS not compiling from syntax error/glob mismatch, server restart loop from entry file changes/nodemon detect); critical for development workflow, debugging build issues, understanding why changes don't appear, configuring dev environment properly (Nov 29, 2025)
 
 7. **Socket.io Room and Namespace Organization Patterns**
 
@@ -64,6 +52,19 @@ Topics for future exploration sessions with specialized agents.
    - **Key mechanisms**: React.lazy + useWindowSize, component composition patterns, debouncing strategies
    - **Source files**: Real-world admin plugin patterns, useWindowSize implementation
    - **Discovered during**: Window/Breakpoint research - realized responsive patterns need comprehensive performance guidance (Nov 29, 2025)
+
+9. **Express res.locals Middleware Communication Pattern**
+   - res.locals as middleware → SSR data passing mechanism
+   - webpack-dev-middleware uses res.locals.webpack.devMiddleware (stats injection)
+   - Other middleware patterns using res.locals for SSR renderer
+   - Custom middleware res.locals integration patterns
+   - Naming conventions and collision avoidance
+   - Type safety for res.locals properties
+   - **Why it matters**: Critical pattern for understanding complete middleware → SSR data flow, helps Claude write custom middleware that integrates with SSR correctly
+   - **What's undocumented**: Complete res.locals usage patterns across framework, custom middleware integration guide, SSR renderer res.locals consumption patterns
+   - **Key mechanisms**: res.locals property injection, SSR renderer reads res.locals, middleware order affects availability
+   - **Source files**: index.mjs middleware registration, server/renderer/index.mjs res.locals consumption, other middleware using res.locals
+   - **Discovered during**: Development Server research - res.locals.webpack.devMiddleware critical for SSR but broader pattern undocumented (Nov 29, 2025)
 
 ### Lower Priority
 
