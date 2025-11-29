@@ -26,45 +26,23 @@ Topics for future exploration sessions with specialized agents.
 
 6. ✅ **Reactium Development Server and Hot Module Reloading** - Complete multi-layer development system with webpack-dev-middleware (memory filesystem for JS bundles, res.locals.webpack.devMiddleware stats injection for SSR), webpack-hot-middleware (EventStream at /__webpack_hmr, HotModuleReplacementPlugin, reload=true fallback), BrowserSync proxy (port 3000 proxy to Express 3030, WebSocket live reload, CSS/HTML/asset reload trigger), Gulp file watchers (forked child process for isolation, manifest→mainManifest, styles→recompile, partials→regenerate, markup/assets→copy, critical files→full restart), three-tier reload system (HMR for React no-reload, SCSS Gulp compile+BrowserSync, HTML/assets copy+BrowserSync); development vs production (dev: memory filesystem + HMR + BrowserSync + source maps + res.locals stats, prod: disk + webpack-manifest.json + gzip + no HMR); port configuration (3000 BrowserSync, 3001 UI, 3030 Express); watch process architecture (IPC messages build-started/restart-watches, asyncBuild series, serve vs serve-restart); SSR integration (reads res.locals.webpack.devMiddleware.stats in dev, webpack-manifest.json in prod); environment variables (BROWSERSYNC_PORT, DISABLE_HMR, BROWERSYNC_OPEN_BROWSER); comprehensive source references from index.mjs:189-416, webpack.config.js:46-48, gulp.tasks.js:74-970, gulp.watch.js:1-28, gulp.config.js:19-56, server/router.mjs:88-91, server/renderer/index.mjs:78-99; discovered during research: Forked watch process pattern (isolation + clean restart), res.locals.webpack injection critical for SSR, BrowserSync auto-detects public/ changes (no explicit reload call), entry style file changes trigger full watch restart (not partial compile), memory filesystem all JS bundles never touch disk, three different reload mechanisms for different file types; best practices (use HMR for components, create partials not entry SCSS, check HMR vs BrowserSync behavior, monitor webpack compilation, disable HMR if infinite loops); common gotchas (changes not appearing from HMR fail/wrong glob/build error, full reload instead of HMR from CSS/disabled/client error, infinite reload from circular writes/HMR triggers, middleware 404 from publicPath mismatch/order/compilation fail, BrowserSync proxy error from Express not running/port conflict, SCSS not compiling from syntax error/glob mismatch, server restart loop from entry file changes/nodemon detect); critical for development workflow, debugging build issues, understanding why changes don't appear, configuring dev environment properly (Nov 29, 2025)
 
-7. **Socket.io Room and Namespace Organization Patterns**
+7. ✅ ❌ **Socket.io Room and Namespace Organization Patterns** - REMOVED (Trivial - Nov 29, 2025)
+   - **Evaluation**: Standard Socket.io patterns with NO framework-specific abstractions
+   - **Reality**: Actinium IO only exposes raw Socket.io server - no helpers, no patterns, no examples in codebase
+   - **Directive 1 Assessment**: Does not help Claude understand Reactium/Actinium framework better - this is Socket.io documentation, not framework documentation
+   - **Decision**: Removed - developers should reference Socket.io official docs for rooms/namespaces
 
-   - Advanced room management for feature isolation
-   - Namespace creation for multi-tenant/multi-app scenarios
-   - Room-based permission patterns (join room only if authorized)
-   - Room cleanup strategies (disconnect, leave rooms)
-   - Broadcasting patterns (to room, except sender, to specific clients)
-   - Namespace middleware for per-feature authentication
-   - **Why it matters**: Claude needs to generate correct real-time architecture for complex apps (multi-tenant CMS, collaborative editors, chat systems)
-   - **What's undocumented**: Room organization best practices, namespace patterns in Actinium context, permission-based room access, cleanup strategies
-   - **Key mechanisms**: Socket.io rooms API (join/leave/to), namespace creation, middleware per namespace
-   - **Source files**: Socket.io documentation + Actinium IO integration patterns
-   - **Discovered during**: Actinium IO research - realized room/namespace patterns critical for scaling real-time features but not documented (Nov 29, 2025)
+8. ✅ ❌ **Responsive Component Composition and Performance Patterns** - REMOVED (Trivial - Nov 29, 2025)
+   - **Evaluation**: 80% standard React/HTML/CSS patterns, 20% already documented framework features
+   - **Reality**: useWindowSize with breakpoint/debounce already comprehensively documented in REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md; React.lazy, component composition, srcset, IntersectionObserver are standard web development patterns, not framework-specific
+   - **Directive 1 Assessment**: Does not help Claude understand Reactium framework better - these are general React best practices found in React/MDN docs
+   - **Decision**: Removed - framework-specific responsive utilities already documented, rest is standard React/web development
 
-8. **Responsive Component Composition and Performance Patterns**
-   - Lazy loading strategies based on breakpoint (desktop-only features)
-   - Component composition patterns (mobile vs desktop variants)
-   - Performance optimization for high-frequency resize events
-   - Image responsive loading (srcset integration with breakpoints)
-   - Viewport-based rendering strategies (IntersectionObserver + breakpoints)
-   - Breakpoint-aware code splitting patterns
-   - **Why it matters**: Claude needs to generate performant responsive code, not just functional
-   - **What's undocumented**: Best practices for breakpoint-driven lazy loading, composition strategies for multi-variant components, performance optimization techniques
-   - **Key mechanisms**: React.lazy + useWindowSize, component composition patterns, debouncing strategies
-   - **Source files**: Real-world admin plugin patterns, useWindowSize implementation
-   - **Discovered during**: Window/Breakpoint research - realized responsive patterns need comprehensive performance guidance (Nov 29, 2025)
-
-9. **Express res.locals Middleware Communication Pattern**
-   - res.locals as middleware → SSR data passing mechanism
-   - webpack-dev-middleware uses res.locals.webpack.devMiddleware (stats injection)
-   - Other middleware patterns using res.locals for SSR renderer
-   - Custom middleware res.locals integration patterns
-   - Naming conventions and collision avoidance
-   - Type safety for res.locals properties
-   - **Why it matters**: Critical pattern for understanding complete middleware → SSR data flow, helps Claude write custom middleware that integrates with SSR correctly
-   - **What's undocumented**: Complete res.locals usage patterns across framework, custom middleware integration guide, SSR renderer res.locals consumption patterns
-   - **Key mechanisms**: res.locals property injection, SSR renderer reads res.locals, middleware order affects availability
-   - **Source files**: index.mjs middleware registration, server/renderer/index.mjs res.locals consumption, other middleware using res.locals
-   - **Discovered during**: Development Server research - res.locals.webpack.devMiddleware critical for SSR but broader pattern undocumented (Nov 29, 2025)
+9. ✅ ❌ **Express res.locals Middleware Communication Pattern** - REMOVED (Trivial + Already Documented - Nov 29, 2025)
+   - **Evaluation**: Only ONE usage (res.locals.webpack.devMiddleware) already documented in DEV_SERVER_ARCHITECTURE.md and SSR_ARCHITECTURE.md
+   - **Reality**: Standard Express pattern, not framework-specific; no other middleware uses res.locals in codebase; no framework abstractions or helpers exist
+   - **Directive 1 Assessment**: Does not help Claude understand Reactium better - the one instance is already documented, rest would be hypothetical Express patterns
+   - **Decision**: Removed - existing usage already documented, no framework-specific patterns to teach
 
 ### Lower Priority
 
@@ -253,6 +231,82 @@ Topics for future exploration sessions with specialized agents.
     - **Key mechanisms**: Actinium.Mail.send() message object structure, nodemailer.MailOptions interface, attachment handling, template rendering
     - **Source files**: nodemailer documentation + actinium-mailer integration patterns
     - **Discovered during**: Mailer System research - realized nodemailer message options are extensive and critical for proper email generation, but not documented in framework context (Nov 28, 2025)
+
+## NEW RESEARCH TOPICS (Nov 29, 2025 - Development Server Exploration)
+
+### High Priority (New - Nov 29, 2025)
+
+28. ✅ ❌ **Hooked CRUD Pattern (hookedRetrieve/hookedSave)** - REMOVED (Trivial + Already Documented - Nov 29, 2025)
+    - **Evaluation**: hookedSave is trivial 12-line wrapper (just outputType), hookedRetrieve adds 2 hooks + default sorting (50 lines), hookedQuery already documented
+    - **Reality**: Actual "hooked CRUD" pattern (beforeSave/afterSave/beforeDelete hooks with validation/ACL/enrichment) already comprehensively documented in CONTENT_SYSTEM.md, CLOUD_FUNCTION_PATTERNS.md, TAXONOMY_SYSTEM.md
+    - **Directive 1 Assessment**: Does not add value - these are thin convenience wrappers around Parse SDK, real extensibility hooks already documented
+    - **Decision**: Removed - hookedQuery documented in PARSE_QUERY_PATTERNS.md, Parse Server hooks documented in CLOUD_FUNCTION_PATTERNS.md, hookedSave/hookedRetrieve too trivial
+
+29. ✅ **Field Type Plugin System and Content Type Field Architecture** - COMPLETED (Nov 29, 2025 - Cycle #25)
+    - **Research Summary**: Three-registry plugin architecture (ContentType.FieldType for metadata, Component for configuration UI, Content.Editor for editor UI); 20+ built-in field types (Text, Number, Boolean, Date, Select, Array, Object, Pointer, File, URL, RichText, Taxonomy, Publisher, Status); complete registration pattern with FieldType.register(), Component.register(), Content.Editor.register(); configuration component contract (settings via input name attributes), editor component contract (value/onChange/settings props); FieldTypeDialog wrapper for consistent UI; settings flow from config to editor; hookableComponent pattern for extensibility; field-to-schema mapping for Parse Server; priority-based ordering with Enums.priority values
+    - **Documentation Created**: FIELD_TYPE_PLUGIN_SYSTEM.md (v1.0.0) with complete registration examples, component contracts, 20+ built-in field types catalog, configuration/editor patterns, best practices, common gotchas
+    - **CLAUDEDB Updated**: INDEX.md v1.34.0 (+7 keywords), TASKS.md v1.29.0 (+2 tasks with examples), API.md v1.23.0 (+5 APIs with signatures)
+    - **Source References**: reactium-admin-core/Content/TypeEditor/sdk/index.js:141 (FieldType registry), Content/Editor/sdk.js:30-32 (Editor registry), Plugins/FieldTypeText/reactium-hooks.js:1-25 (registration pattern), 20+ field type implementations
+    - **Discovered During Research**: FieldTypeDialog hookable component for consistent field config UI, MediaPicker integration patterns for file fields, Content.QuickEditor and Content.Comparison registries (currently TODO in codebase for quick edit/comparison components)
+    - **Critical For**: Custom CMS field types, domain-specific content modeling, third-party integrations, workflow-specific fields
+
+### Medium Priority (New - Nov 29, 2025)
+
+30. **FieldTypeDialog Hookable Component and Field Config UI Patterns**
+    - FieldTypeDialog hookable component providing consistent field configuration wrapper
+    - Drag handle integration for field reordering in Content Type Editor
+    - Field name/label standard UI elements (common across all field types)
+    - Delete button with confirmation
+    - Collapse/expand behavior for field settings
+    - Styling conventions and CSS class patterns
+    - Props contract for field configuration components
+    - Integration with Content Type Editor state management
+    - **Why it matters**: Essential for creating custom field types with consistent UX, understanding field config UI architecture, proper integration with Content Type Editor
+    - **What's undocumented**: FieldTypeDialog component API and props contract, field configuration lifecycle, drag handle integration patterns, state management for field settings
+    - **Key mechanisms**: useHookComponent('FieldTypeDialog', DragHandle) pattern, children render prop for custom settings UI, automatic name/label/delete UI injection
+    - **Source files**: reactium-admin-core registered-components/FieldTypeDialog implementation (need to locate), field type plugin implementations using FieldTypeDialog
+    - **Discovered during**: Field Type Plugin System research - realized FieldTypeDialog is critical wrapper but not documented, all 20+ field types use it (Nov 29, 2025 - Cycle #25)
+
+31. **Admin Registered Components Pattern**
+    - AdminTools.Component.register() pattern for admin UI extensibility
+    - Component ID-based retrieval (Component.get('MyComponent'))
+    - Integration with admin sections (Dashboard, Content, User, Media)
+    - Component lifecycle within admin context
+    - Props injection patterns for admin components
+    - Real-world examples (custom widgets, content editor extensions, dashboard cards)
+    - Comparison with hookable components vs registered components
+    - **Why it matters**: Understanding admin plugin architecture, custom admin UI development, component registration patterns
+    - **What's undocumented**: AdminTools.Component registration API, component lifecycle, props contract, retrieval patterns
+    - **Key mechanisms**: AdminTools.Component.register/get, component ID namespace, admin context injection
+    - **Source files**: reactium-admin-core AdminTools implementation, admin plugin component registrations
+    - **Discovered during**: Development Server research - admin component registry used throughout but not documented (Nov 29, 2025)
+
+31. **Warning Hook System and Boot-Time Validation**
+    - warning hook pattern for startup validation messages
+    - ENV variable validation patterns (missing secrets, default values)
+    - Configuration validation best practices
+    - Warning message formatting and display
+    - Integration with development vs production environments
+    - Boot-time health checks and diagnostics
+    - **Why it matters**: Plugin quality standards, configuration validation, developer experience improvements
+    - **What's undocumented**: warning hook usage patterns, validation strategies, message formatting conventions
+    - **Key mechanisms**: Hook.register('warning', ...), console.warn() output, ENV validation checks
+    - **Source files**: Multiple plugins with warning hooks (mailer, syndicate, etc.)
+    - **Discovered during**: Development Server research - warning hooks used for config validation but pattern not documented (Nov 29, 2025)
+
+### Lower Priority (New - Nov 29, 2025)
+
+32. **Fullscreen API Wrapper and Browser API Patterns**
+    - Fullscreen API cross-browser wrapper (reactium-sdk-core/src/browser/fullscreen.ts)
+    - Browser API abstraction patterns (vendor prefixes, feature detection)
+    - Real-world usage in media components
+    - Fullscreen state management
+    - Exit fullscreen cleanup patterns
+    - **Why it matters**: Example of browser API abstraction pattern, useful for media-heavy applications
+    - **What's undocumented**: Fullscreen API wrapper usage, browser API abstraction best practices
+    - **Key mechanisms**: Vendor prefix handling, feature detection, state management
+    - **Source files**: reactium-sdk-core/src/browser/fullscreen.ts
+    - **Discovered during**: Development Server research - fullscreen wrapper exists but lower priority utility (Nov 29, 2025)
 
 ## RESEARCH MODE DIRECTIVES
 

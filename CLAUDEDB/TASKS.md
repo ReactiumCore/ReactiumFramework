@@ -1,4 +1,4 @@
-<!-- v1.28.0 -->
+<!-- v1.29.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -127,6 +127,41 @@ if (Actinium.Plugin.isActive('MY_PLUGIN')) {
     // Plugin-specific logic
 }
 ```
+
+### Create a custom Content Type field type
+→ [Field Type Plugin System: Overview](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#architecture-overview)
+→ [Field Type Plugin System: Registration Pattern](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#registration-pattern)
+→ [Field Type Plugin System: Configuration Component](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#configuration-component-fieldtype)
+→ [Field Type Plugin System: Editor Component](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#editor-component)
+
+**Quick Example**:
+```javascript
+const ID = 'MyField';
+const fieldType = {
+    label: __('My Field'),
+    icon: Icon.Feather.Star,
+    tooltip: __('Custom field type'),
+    component: 'FieldTypeMyField',
+    order: Reactium.Enums.priority.neutral,
+};
+
+Reactium.Plugin.register(`CTE-${ID}`).then(() => {
+    // Register field type metadata
+    Reactium.ContentType.FieldType.register(ID, fieldType);
+
+    // Register configuration component
+    Reactium.Component.register(fieldType.component, FieldType);
+
+    // Register editor component
+    Reactium.Content.Editor.register(ID, { component: Editor });
+});
+```
+
+### Use built-in field types in Content Type Editor
+→ [Field Type Plugin System: Built-In Field Types](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#built-in-field-types)
+→ [Field Type Plugin System: Field Configuration](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#content-type-field-configuration)
+
+**Available Types**: Text, Number, Boolean, Date, Select, Array, Object, Pointer, File, URL, RichText, Taxonomy, Publisher, Status
 
 ### Add plugin assets (logo, scripts, stylesheets)
 → [Plugin System: File-Based Assets](../CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md#file-based-assets)

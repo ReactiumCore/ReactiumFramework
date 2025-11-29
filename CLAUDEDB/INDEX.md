@@ -1,4 +1,4 @@
-<!-- v1.33.0 -->
+<!-- v1.34.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -202,10 +202,15 @@
 - **File upload** → [FileAdapter System: Common Use Cases](../CLAUDE/FILE_ADAPTER_SYSTEM.md#common-use-cases)
 - **FSFilesAdapter** → [FileAdapter System: FSFilesAdapter Plugin](../CLAUDE/FILE_ADAPTER_SYSTEM.md#2-fsfilesadapter-plugin)
 
-- **Field types** → [Content Type: Field Configuration](../CLAUDE/CONTENT_TYPE_SYSTEM.md#field-configuration)
+- **Field Type Plugin System** → [Field Type Plugin System: Overview](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#architecture-overview)
+- **Field types** → [Field Type Plugin System: Built-In Field Types](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#built-in-field-types)
+- **FieldType.register** → [Field Type Plugin System: Registration Pattern](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#registration-pattern)
+- **ContentType.FieldType** → [Field Type Plugin System: SDK Reference](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#contenttypefieldtype-registry)
+- **Content.Editor** → [Field Type Plugin System: Editor Registry](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#contenteditor-registry)
+- **FieldType component** → [Field Type Plugin System: Configuration Component](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#configuration-component-fieldtype)
+- **FieldType Editor** → [Field Type Plugin System: Editor Component](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#editor-component)
 - **fieldId** → [Content Type: Field Structure](../CLAUDE/CONTENT_TYPE_SYSTEM.md#field-structure)
 - **fieldName** → [Content Type: Field Name Uniqueness](../CLAUDE/CONTENT_TYPE_SYSTEM.md#field-name-uniqueness)
-- **fieldType** → [Content Type: Field Types](../CLAUDE/CONTENT_TYPE_SYSTEM.md#field-types-pluggable)
 
 - **File uploads** → [Integration: File Uploads](../CLAUDE/FRAMEWORK_INTEGRATION.md#file-uploads)
 - **Filters** → [Zone System: Filters](../CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md#filters-mappers-and-sorters)

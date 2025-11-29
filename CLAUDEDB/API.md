@@ -1,4 +1,4 @@
-<!-- v1.22.0 -->
+<!-- v1.23.0 -->
 
 # CLAUDEDB - API Quick Reference
 
@@ -650,6 +650,54 @@ await ReactiumBoot.Hook.run('Server.ResponseHeaders', responseHeaders, req, res)
 ```
 
 → [Server Routing: Server.ResponseHeaders Hook](../CLAUDE/SERVER_ROUTING.md#serverresponseheaders-hook)
+
+---
+
+### Content Type & Field Type APIs
+
+```javascript
+Reactium.ContentType.FieldType.register(id, definition)
+// Register custom field type for Content Type Editor
+// id: string (field type ID, e.g., 'Text', 'MyCustomField')
+// definition: { label, icon, tooltip, component, order }
+```
+
+→ [Field Type Plugin System: Registration Pattern](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#registration-pattern)
+
+```javascript
+Reactium.ContentType.FieldType.get(id)
+// Get field type definition by ID
+// id: string
+// Returns: FieldType definition object
+```
+
+→ [Field Type Plugin System: SDK Reference](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#contenttypefieldtype-registry)
+
+```javascript
+Reactium.ContentType.FieldType.list
+// Get all registered field types
+// Returns: Array of FieldType objects
+```
+
+→ [Field Type Plugin System: SDK Reference](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#contenttypefieldtype-registry)
+
+```javascript
+Reactium.Content.Editor.register(id, { component })
+// Register content editor component for field type
+// id: string (field type ID)
+// component: React component for editing field value
+```
+
+→ [Field Type Plugin System: Editor Component](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#editor-component)
+
+```javascript
+Reactium.Component.register(componentId, Component)
+// Register configuration component for field type
+// componentId: string (matches fieldType.component property)
+// Component: React component for field settings UI
+```
+
+→ [Field Type Plugin System: Configuration Component](../CLAUDE/FIELD_TYPE_PLUGIN_SYSTEM.md#configuration-component-fieldtype)
 
 ---
 
