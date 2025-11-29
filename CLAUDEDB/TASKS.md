@@ -1,4 +1,4 @@
-<!-- v1.25.0 -->
+<!-- v1.26.0 -->
 # CLAUDEDB - Task-Based Index
 
 **Purpose**: "I need to..." → implementation sections
@@ -893,10 +893,42 @@ ENV.MAX_UPLOAD_SIZE = 20 * 1024 * 1024;  // 20MB
 
 ## Real-Time Features
 
-### Set up real-time updates
-→ [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
+### Set up WebSocket communication (Socket.io)
+→ [Actinium IO System: Architecture](../CLAUDE/ACTINIUM_IO_SYSTEM.md#architecture-overview)
+→ [Actinium IO: Server Configuration](../CLAUDE/ACTINIUM_IO_SYSTEM.md#socketio-server-configuration)
+→ [Actinium IO: Browser Integration](../CLAUDE/ACTINIUM_IO_SYSTEM.md#browser-side-integration)
 
-### Subscribe to database changes
+**Quick Start (Server)**:
+```javascript
+// Configure CORS/auth in plugin
+Actinium.Hook.register('io.config', (socketConfig) => {
+    socketConfig.cors = { origin: process.env.ALLOWED_ORIGINS.split(',') };
+});
+```
+
+**Quick Start (Browser)**:
+```javascript
+// Connect after auth
+const { api: Actinium } = await import('@atomic-reactor/reactium-api');
+Actinium.IO.auth = { token: Reactium.User.getSessionToken() };
+Actinium.IO.connect();
+Actinium.IO.on('content-update', (data) => console.log(data));
+```
+
+### Broadcast events to all connected clients
+→ [Actinium IO: Pattern 1 - Broadcast to All](../CLAUDE/ACTINIUM_IO_SYSTEM.md#pattern-1-broadcast-to-all-clients)
+
+### Send events to specific users/rooms
+→ [Actinium IO: Pattern 2 - Room-Based Broadcasting](../CLAUDE/ACTINIUM_IO_SYSTEM.md#pattern-2-room-based-broadcasting)
+→ [Actinium IO: Pattern 3 - Client-Specific Targeting](../CLAUDE/ACTINIUM_IO_SYSTEM.md#pattern-3-client-specific-targeting)
+
+### Authenticate WebSocket connections
+→ [Actinium IO: Authentication Middleware](../CLAUDE/ACTINIUM_IO_SYSTEM.md#authentication-middleware)
+
+### Track online users (presence)
+→ [Actinium IO: Presence Tracking](../CLAUDE/ACTINIUM_IO_SYSTEM.md#presence-tracking)
+
+### Subscribe to database changes (Live Query)
 → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
 
 ### Configure Live Query
@@ -910,7 +942,64 @@ ENV.MAX_UPLOAD_SIZE = 20 * 1024 * 1024;  // 20MB
 → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
 
 ### Check window size or breakpoint
-→ [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
+→ [Window/Breakpoint: useWindowSize Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usewindowsize---reactive-window-size-with-breakpoint)
+
+**Quick Example**:
+```javascript
+import { useWindowSize } from '@atomic-reactor/reactium-core/sdk';
+
+const { width, height, breakpoint } = useWindowSize();
+// breakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+```
+
+### Render different components for mobile vs desktop
+→ [Window/Breakpoint: Pattern 1 - Responsive Rendering](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#pattern-1-responsive-component-rendering)
+
+**Quick Example**:
+```javascript
+const { breakpoint } = useWindowSize();
+return ['xs', 'sm'].includes(breakpoint) ? <MobileView /> : <DesktopView />;
+```
+
+### Access window/document safely (SSR-compatible)
+→ [Window/Breakpoint: SSR-Safe Access](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#ssr-safe-windowdocument-access)
+→ [Window/Breakpoint: useWindow Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usewindow---context-aware-window-access)
+
+**Quick Example**:
+```javascript
+import { conditionalWindow, isWindow } from '@atomic-reactor/reactium-core/sdk';
+
+const window = conditionalWindow();
+if (isWindow(window)) {
+    window.gtag('event', 'page_view');
+}
+```
+
+### Detect Electron environment
+→ [Window/Breakpoint: Electron Detection](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#electron-detection)
+
+### Customize breakpoint thresholds
+→ [Window/Breakpoint: Runtime Breakpoint Access](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#runtime-breakpoint-access)
+
+**Quick Example**:
+```javascript
+// Override globally
+window.breakpoints = {
+    xs: 600,
+    sm: 900,
+    md: 1200,
+    lg: 1400,
+    xl: 1800,
+};
+```
+
+### Debounce resize events for performance
+→ [Window/Breakpoint: useWindowSize Parameters](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usewindowsize---reactive-window-size-with-breakpoint)
+
+**Quick Example**:
+```javascript
+const { breakpoint } = useWindowSize({ delay: 300 }); // 300ms debounce
+```
 
 ### Add component to zone
 → [Zone System Quick Ref: Component Registration](../CLAUDE/ZONE_SYSTEM_QUICK_REFERENCE.md#component-registration)

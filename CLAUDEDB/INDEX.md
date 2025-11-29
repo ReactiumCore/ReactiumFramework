@@ -1,4 +1,4 @@
-<!-- v1.30.0 -->
+<!-- v1.31.0 -->
 
 # CLAUDEDB - Keyword Index
 
@@ -16,6 +16,9 @@
 - **ACTINIUM_ENV_FILE** → [Environment Config: File Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#three-tier-priority-system)
 - **ACTINIUM_ENV_ID** → [Environment Config: File Resolution](../CLAUDE/ACTINIUM_ENVIRONMENT_CONFIGURATION.md#three-tier-priority-system)
 - **Actinium** → [Actinium Complete Reference](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md)
+- **Actinium.IO** → [Actinium IO System: Architecture](../CLAUDE/ACTINIUM_IO_SYSTEM.md#architecture-overview)
+- **Actinium.IO.clients** → [Actinium IO: Client Registry](../CLAUDE/ACTINIUM_IO_SYSTEM.md#client-registry-pattern)
+- **Actinium.IO.server** → [Actinium IO: Socket.io Server](../CLAUDE/ACTINIUM_IO_SYSTEM.md#socketio-server-configuration)
 - **actinium-core** → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
 - **actinium_modules** → [Actinium: Plugin Discovery](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#plugin-discovery)
 - **afterSave** → [Cloud Functions: Hook Integration](../CLAUDE/CLOUD_FUNCTIONS.md#hook-integration)
@@ -57,6 +60,10 @@
 - **beforeSave** → [Cloud Functions: Hook Integration](../CLAUDE/CLOUD_FUNCTIONS.md#hook-integration)
 - **Blueprint** → [Route System: Blueprint Concept](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#blueprint-concept)
 - **Blueprint integration** → [Route System: Blueprint Integration](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#blueprint-integration)
+- **breakpoint()** → [Window/Breakpoint: Determine Current Breakpoint](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#determine-current-breakpoint)
+- **breakpoints()** → [Window/Breakpoint: Runtime Breakpoint Access](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#runtime-breakpoint-access)
+- **Breakpoint system** → [Window/Breakpoint: Breakpoint System](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#breakpoint-system)
+- **BREAKPOINTS_DEFAULT** → [Window/Breakpoint: Default Configuration](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#default-breakpoint-configuration)
 - **Built-in routes** → [Route System: Built-In Protection](../CLAUDE/ACTINIUM_ROUTE_SYSTEM.md#hook-example-built-in-route-protection)
 - **BrowserSync** → [Gulp Build: BrowserSync Integration](../CLAUDE/GULP_BUILD_SYSTEM.md#browsersync-integration)
 - **Build** → [Reactium: Build System](../CLAUDE/REACTIUM_FRAMEWORK.md#build-system)
@@ -246,6 +253,12 @@
 - **install command** → [CLI Commands: Package Management](../CLAUDE/CLI_COMMANDS_REFERENCE.md#npx-reactium-install)
 - **Integration** → [Framework Integration](../CLAUDE/FRAMEWORK_INTEGRATION.md)
 - **In-memory cache** → [MemoryCache: Architecture](../CLAUDE/MEMORY_CACHE_SYSTEM.md#wrapper-pattern)
+- **io.config hook** → [Actinium IO: Server Configuration](../CLAUDE/ACTINIUM_IO_SYSTEM.md#socketio-server-configuration)
+- **io.init hook** → [Actinium IO: Lifecycle Hooks](../CLAUDE/ACTINIUM_IO_SYSTEM.md#connection-lifecycle-hooks)
+- **io.connection hook** → [Actinium IO: Connection Handler](../CLAUDE/ACTINIUM_IO_SYSTEM.md#connection-lifecycle-hooks)
+- **io.disconnecting hook** → [Actinium IO: Disconnection Handler](../CLAUDE/ACTINIUM_IO_SYSTEM.md#connection-lifecycle-hooks)
+- **isWindow()** → [Window/Breakpoint: Window Existence Check](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#ssr-safe-windowdocument-access)
+- **isElectronWindow()** → [Window/Breakpoint: Electron Detection](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#electron-detection)
 
 ## K
 
@@ -397,7 +410,9 @@
 - **ReactiumSyncState.extend** → [ReactiumSyncState: extend() method](../CLAUDE/REACTIUM_SYNC_STATE.md#extendprop-method)
 - **Reactium.Cache** → [MemoryCache: Browser Singleton](../CLAUDE/MEMORY_CACHE_SYSTEM.md#overview)
 - **Real-time** → [Integration: Real-Time Communication](../CLAUDE/FRAMEWORK_INTEGRATION.md#real-time-communication)
+- **Real-time communication** → [Actinium IO System](../CLAUDE/ACTINIUM_IO_SYSTEM.md#architecture-overview)
 - **Redux** → [AppContext: Redux Provider](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#2-redux-store)
+- **Responsive design** → [Window/Breakpoint: Responsive Patterns](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#real-world-patterns)
 - **Relation** → [Taxonomy System: Parse Relation Architecture](../CLAUDE/ACTINIUM_TAXONOMY_SYSTEM.md#three-collection-system)
 - **RichText plaintext extraction** → [Search System: Normalization Hook](../CLAUDE/ACTINIUM_SEARCH_SYSTEM.md#search-index-item-normalize-hook)
 - **register-route** → [Routing System: The register-route Hook](../CLAUDE/ROUTING_SYSTEM.md#the-register-route-hook)
@@ -434,6 +449,10 @@
 - **Schema** → [Collection Registration: Schema Field Management](../CLAUDE/COLLECTION_REGISTRATION.md#schema-field-management)
 - **Sendmail** → [Mailer System: Default Transport](../CLAUDE/MAILER_SYSTEM.md#default-transport-sendmail)
 - **SMTP** → [Mailer System: SMTP Transport](../CLAUDE/MAILER_SYSTEM.md#smtp-transport-plugin)
+- **Socket.io** → [Actinium IO System](../CLAUDE/ACTINIUM_IO_SYSTEM.md#architecture-overview)
+- **Socket.io client** → [Actinium IO: Browser Integration](../CLAUDE/ACTINIUM_IO_SYSTEM.md#browser-side-integration)
+- **Socket.io server** → [Actinium IO: Server Architecture](../CLAUDE/ACTINIUM_IO_SYSTEM.md#server-side-architecture)
+- **SSR-safe window** → [Window/Breakpoint: SSR-Safe Access](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#ssr-safe-windowdocument-access)
 - **Schema (Content Type)** → [Content Type: Schema Management](../CLAUDE/CONTENT_TYPE_SYSTEM.md#schema-management)
 - **Schema evolution** → [Collection Registration: Migration Patterns](../CLAUDE/COLLECTION_REGISTRATION.md#migration-patterns)
 - **Schema field types** → [Collection Registration: Core API](../CLAUDE/COLLECTION_REGISTRATION.md#actiniumcollectionregister)
@@ -562,8 +581,18 @@
 - **Webpack** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
 - **webpack.override.js** → [ReactiumWebpack: Migration from webpack.override.js](../CLAUDE/REACTIUM_WEBPACK.md#migration-from-webpackoverridejs)
 - **WebpackSDK** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md#webpacksdk-class)
+- **WebSocket** → [Actinium IO System](../CLAUDE/ACTINIUM_IO_SYSTEM.md#architecture-overview)
 - **Webhooks** → [Patterns: Webhook Pattern](../CLAUDE/FRAMEWORK_PATTERNS.md#pattern-16-webhook-pattern)
-- **Window utilities** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
+- **Window utilities** → [Window/Breakpoint System](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#architecture-overview)
+- **window** → [Window/Breakpoint: SSR-Safe Access](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#ssr-safe-windowdocument-access)
+- **WindowProvider** → [Window/Breakpoint: WindowProvider Context](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#windowprovider-context-advanced)
+- **conditionalWindow()** → [Window/Breakpoint: Conditional Window](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#core-utilities)
+- **conditionalDocument()** → [Window/Breakpoint: Conditional Document](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#core-utilities)
+- **useWindow()** → [Window/Breakpoint: useWindow Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usewindow---context-aware-window-access)
+- **useDocument()** → [Window/Breakpoint: useDocument Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usedocument---context-aware-document-access)
+- **useBreakpoints()** → [Window/Breakpoint: useBreakpoints Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usebreakpoints---get-breakpoint-configuration)
+- **useBreakpoint()** → [Window/Breakpoint: useBreakpoint Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usebreakpointwidth---get-breakpoint-for-specific-width)
+- **useWindowSize()** → [Window/Breakpoint: useWindowSize Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usewindowsize---reactive-window-size-with-breakpoint)
 
 ## Z
 
@@ -580,13 +609,15 @@
 - **API extension** = **SDK extension** = **sdk-init** → [SDK Extension Pattern](../CLAUDE/SDK_EXTENSION_PATTERN.md#overview)
 - **AppParent** = **App wrapper** → [hookableComponent: Original Component Implementation](../CLAUDE/HOOKABLE_COMPONENT.md#original-component-implementation)
 - **Authorization** = **Permissions** = **Capabilities** → [Actinium: Capabilities System](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
-- **Breakpoints** = **Responsive** = **Window utilities** → [Reactium: The Reactium SDK](../CLAUDE/REACTIUM_FRAMEWORK.md#the-reactium-sdk)
+- **Breakpoints** = **Responsive** = **Window utilities** → [Window/Breakpoint System](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#architecture-overview)
 - **Backend** = **Actinium** → [Actinium Complete Reference](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md)
 - **Build customization** = **webpack.override.js** = **reactium-webpack.js** → [ReactiumWebpack SDK](../CLAUDE/REACTIUM_WEBPACK.md)
 - **CLP** = **Class-Level Permissions** = **Parse permissions** → [Collection Registration: CLP Generation](../CLAUDE/COLLECTION_REGISTRATION.md#clp-generation-mechanism)
 - **Collection** = **Parse Collection** = **Schema** → [Collection Registration System](../CLAUDE/COLLECTION_REGISTRATION.md#overview)
 - **Component override** = **Component replacement** = **hookableComponent** → [hookableComponent System](../CLAUDE/HOOKABLE_COMPONENT.md#overview)
 - **Context providers** = **React Context** = **AppContext** → [AppContext Provider System](../CLAUDE/APPCONTEXT_PROVIDER_SYSTEM.md#overview)
+- **Real-time** = **WebSocket** = **Socket.io** → [Actinium IO System](../CLAUDE/ACTINIUM_IO_SYSTEM.md#architecture-overview)
+- **Responsive** = **Breakpoints** = **Media queries** → [Window/Breakpoint System](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#breakpoint-system)
 - **Dynamic components** = **hookableComponent** = **useHookComponent** → [hookableComponent System](../CLAUDE/HOOKABLE_COMPONENT.md#overview)
 - **Domain (hooks)** = **Hook namespace** = **Hook lifecycle** → [Hook Domains Deep Dive](../CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
 - **Frontend** = **Reactium** → [Reactium Framework](../CLAUDE/REACTIUM_FRAMEWORK.md)

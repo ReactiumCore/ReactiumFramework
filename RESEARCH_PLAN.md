@@ -90,33 +90,9 @@ Topics for future exploration sessions with specialized agents.
 
 ### Medium Priority
 
-4. **Actinium IO WebSocket System (Real-Time Communication)**
+4. ✅ **Actinium IO WebSocket System** - Complete Socket.io integration with Actinium HTTP server; Registry-based client tracking (Actinium.IO.clients with CLEAN mode); hook-driven lifecycle (io.config for server configuration before creation, io.init after server created, io.connection per client, io.disconnecting on disconnect); custom socket path `/actinium.io` (MUST match client path); CORS configuration via io.config hook (default origin: '*'); browser SDK auto-configuration in @atomic-reactor/reactium-api (autoConnect: false for manual auth-first pattern, polling transport); real-world patterns: broadcast to all clients (Actinium.IO.clients.list iteration), room-based broadcasting (client.join/to pattern), client-specific targeting (custom userId tracking), manual connection after auth (Actinium.IO.connect() with session token); hook integration (io.config for CORS/auth middleware, io.connection for presence tracking); authentication middleware pattern (io.init hook with Socket.io use() middleware); comprehensive source references from actinium-io/plugin.js:1-104, reactium-api/sdk/actinium/index.js:19-48; discovered during research: Socket.io namespaces for feature isolation (not used in core but extensible via io.init hook), Parse LiveQuery coexists with IO (different systems - IO for custom events, LiveQuery for database subscriptions), need for advanced room/namespace organization patterns documentation; critical for real-time features, live updates, collaborative editing, notifications, presence tracking, chat systems (Nov 29, 2025)
 
-   - Socket.io server integration with Actinium HTTP server
-   - Client registry pattern (Actinium.IO.clients Registry)
-   - Hook-driven lifecycle (io.config, io.init, io.connection, io.disconnecting)
-   - Connection/disconnection event handling
-   - CORS configuration patterns
-   - Custom socket path (/actinium.io)
-   - Real-time event broadcasting patterns
-   - **Why it matters**: Critical for real-time features, live updates, collaborative editing, notifications
-   - **What's undocumented**: Complete IO architecture, client management patterns, room/namespace usage, real-world integration examples
-   - **Key mechanisms**: Actinium.IO.server, io.connection hook, client registry, Socket.io Server configuration
-   - **Source files**: actinium-io/plugin.js (1-104 lines)
-   - **Discovered during**: Codebase exploration - simple but critical real-time infrastructure (Nov 28, 2025)
-
-5. **Reactium Window and Breakpoint Utilities**
-
-   - SSR-safe window/document access (conditionalWindow, conditionalDocument)
-   - Breakpoint system (xs/sm/md/lg/xl with custom thresholds)
-   - Dynamic breakpoint detection (window.innerWidth based)
-   - Electron detection (isElectronWindow)
-   - Window.breakpoints customization pattern
-   - **Why it matters**: Responsive design patterns, SSR compatibility, cross-platform support
-   - **What's undocumented**: Breakpoint customization guide, responsive hook patterns, integration with Reactium components
-   - **Key mechanisms**: breakpoint(), breakpoints(), isWindow(), BREAKPOINTS_DEFAULT
-   - **Source files**: reactium-sdk-core/src/browser/window.ts (1-70 lines)
-   - **Discovered during**: Codebase exploration - foundational responsive utilities (Nov 28, 2025)
+5. ✅ **Reactium Window and Breakpoint Utilities** - Complete SSR-safe window/document access and responsive breakpoint system; core utilities (conditionalWindow/conditionalDocument return undefined on server never crash, isWindow/isBrowserWindow for existence checks, isElectronWindow for desktop detection); breakpoint system (BREAKPOINTS_DEFAULT: xs=640/sm=990/md=1280/lg=1440/xl=1600 matches SCSS $breakpoints-max); SCSS integration (breakpoint values encoded in CSS :after pseudo-element content for single source of truth); runtime access (breakpoints() reads window.breakpoints or CSS or defaults, breakpoint(width) binary search O(log n) via _.sortedIndex returns current breakpoint); React hooks (useWindow/useDocument context-aware via WindowProvider for frame support, useBreakpoints/useBreakpoint for config/calculation, useWindowSize for reactive width/height/breakpoint with debounce and scroll tracking); real-world patterns: responsive component rendering (switch on breakpoint), conditional feature loading (lazy import for desktop), dynamic columns (breakpoint → grid-template-columns), debounced updates for performance (delay parameter prevents excessive re-renders); WindowProvider Context for react-frame-component toolkit support; mobile-first SCSS patterns (@include breakpoint(sm) for progressive enhancement); comprehensive source references from reactium-sdk-core/src/browser/window.ts:1-70, reactium-core/sdk/named-exports/window.js:1-221; discovered during research: useWindowSize includes scrollX/scrollY tracking (not just dimensions), SCSS breakpoint mixin usage throughout admin UI (30+ files), need for advanced responsive pattern documentation (component composition strategies, performance optimization for high-frequency resize); critical for responsive design, SSR-safe window access, adaptive component rendering, cross-platform Electron support, Reactium Toolkit development (Nov 29, 2025)
 
 6. **Reactium Fullscreen API**
 
@@ -143,6 +119,34 @@ Topics for future exploration sessions with specialized agents.
    - **What's undocumented**: Complete router architecture, middleware integration, hook patterns
    - **Key mechanisms**: Server.ResponseHeaders hook, renderer integration, basic auth middleware
    - **Source files**: reactium-core/server/router.mjs
+
+### Medium Priority (New - Nov 29, 2025)
+
+8. **Socket.io Room and Namespace Organization Patterns**
+   - Advanced room management for feature isolation
+   - Namespace creation for multi-tenant/multi-app scenarios
+   - Room-based permission patterns (join room only if authorized)
+   - Room cleanup strategies (disconnect, leave rooms)
+   - Broadcasting patterns (to room, except sender, to specific clients)
+   - Namespace middleware for per-feature authentication
+   - **Why it matters**: Claude needs to generate correct real-time architecture for complex apps (multi-tenant CMS, collaborative editors, chat systems)
+   - **What's undocumented**: Room organization best practices, namespace patterns in Actinium context, permission-based room access, cleanup strategies
+   - **Key mechanisms**: Socket.io rooms API (join/leave/to), namespace creation, middleware per namespace
+   - **Source files**: Socket.io documentation + Actinium IO integration patterns
+   - **Discovered during**: Actinium IO research - realized room/namespace patterns critical for scaling real-time features but not documented (Nov 29, 2025)
+
+9. **Responsive Component Composition and Performance Patterns**
+   - Lazy loading strategies based on breakpoint (desktop-only features)
+   - Component composition patterns (mobile vs desktop variants)
+   - Performance optimization for high-frequency resize events
+   - Image responsive loading (srcset integration with breakpoints)
+   - Viewport-based rendering strategies (IntersectionObserver + breakpoints)
+   - Breakpoint-aware code splitting patterns
+   - **Why it matters**: Claude needs to generate performant responsive code, not just functional
+   - **What's undocumented**: Best practices for breakpoint-driven lazy loading, composition strategies for multi-variant components, performance optimization techniques
+   - **Key mechanisms**: React.lazy + useWindowSize, component composition patterns, debouncing strategies
+   - **Source files**: Real-world admin plugin patterns, useWindowSize implementation
+   - **Discovered during**: Window/Breakpoint research - realized responsive patterns need comprehensive performance guidance (Nov 29, 2025)
 
 ### Lower Priority
 

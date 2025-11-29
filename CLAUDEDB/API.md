@@ -1,4 +1,4 @@
-<!-- v1.20.0 -->
+<!-- v1.21.0 -->
 
 # CLAUDEDB - API Quick Reference
 
@@ -8,6 +8,101 @@
 ---
 
 ## Reactium API
+
+### Window & Breakpoint Utilities
+
+```javascript
+conditionalWindow()
+// Returns window or undefined (SSR-safe)
+// Returns: Window | undefined
+```
+
+→ [Window/Breakpoint: SSR-Safe Accessors](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#ssr-safe-windowdocument-access)
+
+```javascript
+conditionalDocument()
+// Returns document or undefined (SSR-safe)
+// Returns: Document | undefined
+```
+
+→ [Window/Breakpoint: SSR-Safe Accessors](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#ssr-safe-windowdocument-access)
+
+```javascript
+isWindow(iWindow?)
+// Checks if window exists
+// Returns: boolean
+```
+
+→ [Window/Breakpoint: Window Existence Check](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#core-utilities)
+
+```javascript
+isElectronWindow(iWindow?)
+// Detects Electron environment
+// Returns: boolean
+```
+
+→ [Window/Breakpoint: Electron Detection](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#electron-detection)
+
+```javascript
+breakpoint(width?, iWindow?, iDocument?)
+// Returns current breakpoint name for given width
+// width: number (optional, defaults to window.innerWidth)
+// Returns: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+```
+
+→ [Window/Breakpoint: Determine Current Breakpoint](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#determine-current-breakpoint)
+
+```javascript
+breakpoints(iWindow?)
+// Returns breakpoint configuration object
+// Returns: { xs: number, sm: number, md: number, lg: number, xl: number }
+```
+
+→ [Window/Breakpoint: Runtime Breakpoint Access](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#runtime-breakpoint-access)
+
+```javascript
+useWindow()
+// React hook for context-aware window access
+// Returns: Window | undefined
+```
+
+→ [Window/Breakpoint: useWindow Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usewindow---context-aware-window-access)
+
+```javascript
+useDocument()
+// React hook for context-aware document access
+// Returns: Document | undefined
+```
+
+→ [Window/Breakpoint: useDocument Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usedocument---context-aware-document-access)
+
+```javascript
+useBreakpoints()
+// React hook for breakpoint configuration
+// Returns: { xs: number, sm: number, md: number, lg: number, xl: number }
+```
+
+→ [Window/Breakpoint: useBreakpoints Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usebreakpoints---get-breakpoint-configuration)
+
+```javascript
+useBreakpoint(width)
+// React hook to get breakpoint for specific width
+// width: number
+// Returns: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+```
+
+→ [Window/Breakpoint: useBreakpoint Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usebreakpointwidth---get-breakpoint-for-specific-width)
+
+```javascript
+useWindowSize({ defaultWidth?, defaultHeight?, delay? })
+// React hook for reactive window dimensions and breakpoint
+// defaultWidth: number (default: 1) - Width when window undefined
+// defaultHeight: number (default: 1) - Height when window undefined
+// delay: number (default: 0) - Debounce delay in ms
+// Returns: { width, height, breakpoint, scrollX?, scrollY? }
+```
+
+→ [Window/Breakpoint: useWindowSize Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usewindowsize---reactive-window-size-with-breakpoint)
 
 ### Component Registration
 
@@ -1017,6 +1112,77 @@ Hook.registerSync(
 ---
 
 ## Actinium API
+
+### WebSocket (Socket.io)
+
+```javascript
+// Server-side: Actinium.IO object
+Actinium.IO.server
+// Socket.io Server instance attached to HTTP server
+// Type: Server (socket.io)
+```
+
+→ [Actinium IO: Socket.io Server Configuration](../CLAUDE/ACTINIUM_IO_SYSTEM.md#socketio-server-configuration)
+
+```javascript
+Actinium.IO.clients
+// Registry of connected clients (CLEAN mode)
+// Type: Registry<{ id: string, client: Socket }>
+```
+
+→ [Actinium IO: Client Registry Pattern](../CLAUDE/ACTINIUM_IO_SYSTEM.md#client-registry-pattern)
+
+```javascript
+// Hooks for Socket.io lifecycle
+Actinium.Hook.register('io.config', async (socketConfig) => {
+    // Modify Socket.io server configuration before creation
+    socketConfig.cors = { origin: allowedOrigins };
+});
+```
+
+→ [Actinium IO: Server Configuration](../CLAUDE/ACTINIUM_IO_SYSTEM.md#socketio-server-configuration)
+
+```javascript
+Actinium.Hook.register('io.init', async (IO) => {
+    // Runs after IO.server created
+    // Add middleware, authentication, etc.
+});
+```
+
+→ [Actinium IO: Lifecycle Hooks](../CLAUDE/ACTINIUM_IO_SYSTEM.md#connection-lifecycle-hooks)
+
+```javascript
+Actinium.Hook.register('io.connection', async (client) => {
+    // Fires for each client connection
+    // client: Socket (socket.io client object)
+});
+```
+
+→ [Actinium IO: Connection Handler](../CLAUDE/ACTINIUM_IO_SYSTEM.md#connection-lifecycle-hooks)
+
+```javascript
+Actinium.Hook.register('io.disconnecting', async (client) => {
+    // Fires when client disconnects
+});
+```
+
+→ [Actinium IO: Disconnection Handler](../CLAUDE/ACTINIUM_IO_SYSTEM.md#connection-lifecycle-hooks)
+
+```javascript
+// Browser-side: Actinium.IO client (auto-configured)
+import { api as Actinium } from '@atomic-reactor/reactium-api';
+
+Actinium.IO.connect()
+// Manually connect to Socket.io server
+
+Actinium.IO.on(eventName, handler)
+// Listen for server events
+
+Actinium.IO.emit(eventName, data)
+// Send event to server
+```
+
+→ [Actinium IO: Browser Integration](../CLAUDE/ACTINIUM_IO_SYSTEM.md#browser-side-integration)
 
 ### Collection Registration
 

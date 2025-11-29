@@ -1,4 +1,4 @@
-<!-- v1.14.0 -->
+<!-- v1.15.0 -->
 # CLAUDEDB - Concept Map
 
 **Purpose**: Concept → multi-step implementation path
@@ -19,6 +19,19 @@
 7. [Gotchas: Component Registration Timing](../CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-9-component-registration-timing) - Common issues
 
 **Related**: CLI Tools, DDD Structure, Hookable Components, Component Registry
+
+### Responsive Design & Breakpoints
+**Learning Path**:
+1. [Window/Breakpoint: Architecture Overview](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#architecture-overview) - System overview
+2. [Window/Breakpoint: SSR-Safe Access](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#ssr-safe-windowdocument-access) - Safe window/document access
+3. [Window/Breakpoint: Breakpoint System](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#breakpoint-system) - Default configuration
+4. [Window/Breakpoint: useWindowSize Hook](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#usewindowsize---reactive-window-size-with-breakpoint) - Reactive dimensions
+5. [Window/Breakpoint: Responsive Patterns](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#real-world-patterns) - Real-world usage
+6. [Window/Breakpoint: SCSS Integration](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#scss-breakpoint-integration) - SCSS synchronization
+7. [Window/Breakpoint: Best Practices](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#best-practices) - Guidelines
+8. [Window/Breakpoint: Common Gotchas](../CLAUDE/REACTIUM_WINDOW_BREAKPOINT_SYSTEM.md#common-gotchas) - Avoid mistakes
+
+**Related**: SCSS breakpoints, Media queries, Mobile-first design, SSR compatibility
 
 ### Utility Helpers (cxFactory & SplitParts)
 **Learning Path**:
@@ -277,6 +290,20 @@
 ---
 
 ## Actinium Concepts
+
+### Real-Time Communication (Socket.io)
+**Learning Path**:
+1. [Actinium IO: Architecture Overview](../CLAUDE/ACTINIUM_IO_SYSTEM.md#architecture-overview) - What is Actinium IO
+2. [Actinium IO: Server-Side Architecture](../CLAUDE/ACTINIUM_IO_SYSTEM.md#server-side-architecture) - Initialization and configuration
+3. [Actinium IO: Client Registry Pattern](../CLAUDE/ACTINIUM_IO_SYSTEM.md#client-registry-pattern) - Tracking connected clients
+4. [Actinium IO: Connection Lifecycle Hooks](../CLAUDE/ACTINIUM_IO_SYSTEM.md#connection-lifecycle-hooks) - io.config, io.init, io.connection, io.disconnecting
+5. [Actinium IO: Browser-Side Integration](../CLAUDE/ACTINIUM_IO_SYSTEM.md#browser-side-integration) - Client setup and connection
+6. [Actinium IO: Real-World Patterns](../CLAUDE/ACTINIUM_IO_SYSTEM.md#real-world-patterns) - Broadcasting, rooms, targeting
+7. [Actinium IO: Hook Integration Patterns](../CLAUDE/ACTINIUM_IO_SYSTEM.md#hook-integration-patterns) - CORS, auth, presence
+8. [Actinium IO: Best Practices](../CLAUDE/ACTINIUM_IO_SYSTEM.md#best-practices) - Validation, rooms, authentication
+9. [Actinium IO: Common Gotchas](../CLAUDE/ACTINIUM_IO_SYSTEM.md#common-gotchas) - Path mismatch, auto-connect, CORS
+
+**Related**: WebSocket, Parse LiveQuery, Real-time updates, Event broadcasting, Presence tracking
 
 ### Collection Registration & Schema Management
 **Learning Path**:
