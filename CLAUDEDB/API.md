@@ -957,7 +957,7 @@ const customValue = op.get(config, 'custom.key');
 
 // Configuration hierarchy (later overrides earlier):
 // 1. CLI/config.json (base)
-// 2. [cwd]/.core/.cli/config.json (app)
+// 2. [cwd]/CLI/.cli/config.json (app legacy, rarely exists)
 // 3. [homedir]/.arcli/config.json (user)
 // 4. [cwd]/.cli/config.json (project - highest priority)
 ```

@@ -77,7 +77,7 @@ global.arcli = {
 **Configuration Hierarchy** (later configs override earlier):
 
 1. `CLI/config.json` - Base CLI configuration
-2. `[cwd]/.core/.cli/config.json` - Application config (legacy)
+2. `[cwd]/CLI/.cli/config.json` - Application config (legacy, rarely exists)
 3. `[homedir]/.arcli/config.json` - User-specific config
 4. `[cwd]/.cli/config.json` - Project-specific config
 

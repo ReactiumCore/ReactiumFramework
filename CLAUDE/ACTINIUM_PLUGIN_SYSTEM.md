@@ -12,7 +12,7 @@ The Plugin system provides a database-backed, hook-driven architecture for manag
 - **Database Storage**: Parse Server `Plugin` collection for persistent plugin state
 - **Version Validation**: Semver-based compatibility checks against Actinium core version
 - **Lifecycle Hooks**: `install`, `schema`, `activate`, `update`, `deactivate`, `uninstall`
-- **Built-in Plugin Detection**: Core plugins auto-flagged based on `.core` directory location
+- **Built-in Plugin Detection**: Core plugins auto-flagged based on location within core plugin workspace
 - **Metadata and Assets**: File-based assets (logos, scripts, stylesheets) uploaded to Parse Server
 - **Capability-Based Security**: Granular permissions for plugin operations
 
@@ -47,7 +47,7 @@ Actinium.Plugin.register(PLUGIN, true); // Second param: default active state
 
 ### Built-in Plugin Detection
 
-Plugins in the `.core` directory (relative to `BASE_DIR`) are automatically flagged:
+Core plugins located within the Actinium core plugin workspace are automatically flagged:
 
 ```javascript
 // Core plugins get special treatment (line 130-145)
