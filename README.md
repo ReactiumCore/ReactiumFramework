@@ -10,18 +10,215 @@ Reactium Framework is a comprehensive full-stack development platform that unifi
 - **Actinium** - Backend Parse Server framework with plugins, cloud functions, and database management
 - **Seamless Integration** - Built-in patterns for connecting frontend and backend with real-time capabilities
 
-### Key Features
+---
 
-- 🎯 **Domain-Driven Design** - Convention-over-configuration file structure
-- 🔌 **Plugin Architecture** - Extend both frontend and backend with modular plugins
-- 🎨 **Component System** - Hookable, replaceable components with dynamic registration
-- 🌐 **Zone System** - Dynamic UI composition without prop drilling
-- ⚡ **Observable State** - Event-driven state management with ReactiumSyncState
-- 🔐 **Capabilities System** - Granular permission control and authorization
-- 🚦 **Route Management** - Advanced routing with transitions and data preloading
-- 📡 **Real-Time Updates** - Built-in Parse Live Query support
-- 🛠️ **Extensible SDK** - Framework APIs available throughout the stack
-- 📦 **Build System** - Webpack/Gulp-based build with manifest auto-discovery
+## ⭐ Top 10 Framework Features
+
+The features that make Reactium/Actinium unique and powerful for rapid development:
+
+### 1. 🎯 Event-Driven Hook System
+
+**What it is**: Unified lifecycle event system for both frontend and backend with priority-based execution.
+
+**Why it matters**: Every plugin, component, route, and cloud function can be extended or modified through hooks. No need to fork code—just register a hook.
+
+**Example**:
+```javascript
+// Modify all routes before registration
+Hook.register('register-route', (route) => {
+    route.secure = true; // Add auth to every route
+    return route;
+}, Enums.priority.highest);
+```
+
+→ **Learn more**: [Hook System](./CLAUDEDB/INDEX.md#hook) | [Hook Domains](./CLAUDE/HOOK_DOMAINS_DEEP_DIVE.md)
+
+---
+
+### 2. 🌐 Zone System (Dynamic UI Composition)
+
+**What it is**: Inject UI components into named zones anywhere in your app without prop drilling or component nesting.
+
+**Why it matters**: Build plugin-extensible UIs where any plugin can add widgets, toolbars, or panels to specific zones. Perfect for admin dashboards and extensible applications.
+
+**Example**:
+```javascript
+// Plugin adds widget to sidebar
+Zone.addComponent({
+    id: 'analytics-widget',
+    zone: 'sidebar',
+    component: AnalyticsWidget,
+    order: 100
+});
+```
+
+→ **Learn more**: [Zone System](./CLAUDE/ZONE_SYSTEM_DEEP_DIVE.md) | [Quick Ref](./CLAUDE/ZONE_SYSTEM_QUICK_REFERENCE.md)
+
+---
+
+### 3. 🔄 Component Registry & hookableComponent
+
+**What it is**: All framework components are registered and replaceable. Change any core component (404 page, app wrapper, router) by registering your own with the same ID.
+
+**Why it matters**: Enable theming, A/B testing, feature flags, and custom branding without forking framework code.
+
+**Example**:
+```javascript
+// Replace the 404 page
+Component.register('NotFound', CustomNotFoundPage);
+```
+
+→ **Learn more**: [hookableComponent System](./CLAUDE/HOOKABLE_COMPONENT.md)
+
+---
+
+### 4. 🔗 Handle System (Global Observable State)
+
+**What it is**: Named, observable state handles that any component can register and consume. Built on ReactiumSyncState with automatic cleanup.
+
+**Why it matters**: Share state and APIs globally without Context provider nesting. Perfect for plugin communication, route data loading, and cross-component coordination.
+
+**Example**:
+```javascript
+// Provider
+const userHandle = useRegisterSyncHandle('userData', { user: null });
+
+// Consumer (any component, anywhere)
+const userHandle = useSyncHandle('userData');
+console.log(userHandle.get('user'));
+```
+
+→ **Learn more**: [Handle System](./CLAUDE/HANDLE_SYSTEM.md) | [Best Practices](./CLAUDEDB/TASKS.md#share-state-between-components)
+
+---
+
+### 5. 🚦 Advanced Routing System
+
+**What it is**: File-based route discovery, hook-driven modification, state machine transitions (EXITING → LOADING → ENTERING → READY), and data preloading via `loadState`.
+
+**Why it matters**: Build sophisticated SPAs with page transitions, loading states, and data fetched before rendering. Routes auto-discovered from file structure.
+
+**Example**:
+```javascript
+// Route with data loading
+export default {
+    path: '/blog/:slug',
+    component: 'BlogPost',
+    loadState: async ({ params, search }) => {
+        const post = await fetchPost(params.slug);
+        return { post };
+    }
+};
+```
+
+→ **Learn more**: [Routing System](./CLAUDE/ROUTING_SYSTEM.md) | [Data Loading](./CLAUDEDB/TASKS.md#load-data-on-route-navigation)
+
+---
+
+### 6. 📁 Domain-Driven Design & Manifest System
+
+**What it is**: Convention-over-configuration file naming (`reactium-hooks.js`, `route.js`, `_style.scss`) with automatic discovery and manifest generation.
+
+**Why it matters**: Zero configuration needed. Add a file with the right name in any directory, and the framework finds it. Plugins, routes, hooks, styles—all auto-discovered.
+
+**Example**:
+```
+my-feature/
+├── index.js              # Component
+├── route.js              # Auto-discovered route
+├── reactium-hooks.js     # Auto-discovered hooks
+└── _style.scss           # Auto-discovered styles
+```
+
+→ **Learn more**: [DDD Structure](./CLAUDE/REACTIUM_FRAMEWORK.md#domain-driven-design-ddd-structure) | [Manifest System](./CLAUDE/MANIFEST_SYSTEM.md)
+
+---
+
+### 7. ☁️ Cloud Functions & Granular Capabilities
+
+**What it is**: Parse Server cloud functions with built-in capability-based authorization. Define APIs with fine-grained permissions.
+
+**Why it matters**: Build secure APIs with role-based access control out of the box. Capabilities auto-generate Class-Level Permissions (CLP) on database collections.
+
+**Example**:
+```javascript
+// Secure endpoint with capabilities
+Actinium.Cloud.define('MY_PLUGIN', 'create-post', async (req) => {
+    // Check permission
+    if (!Actinium.Utils.CloudHasCapabilities(req, ['content.create'])) {
+        throw new Error('Permission denied');
+    }
+    return await createPost(req.params);
+});
+```
+
+→ **Learn more**: [Cloud Functions](./CLAUDE/CLOUD_FUNCTIONS.md) | [Capabilities System](./CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#capabilities-system)
+
+---
+
+### 8. 🔌 Full-Stack Plugin Architecture
+
+**What it is**: Modular plugin system for both frontend (Reactium) and backend (Actinium) with lifecycle hooks (install, activate, update, deactivate).
+
+**Why it matters**: Build reusable, distributable features. Plugins can register routes, components, cloud functions, database schemas, and hooks. Perfect for building SaaS platforms.
+
+**Example**:
+```javascript
+// Backend plugin with lifecycle
+const PLUGIN = {
+    ID: 'MyPlugin',
+    name: 'My Plugin',
+    version: '1.0.0'
+};
+
+Actinium.Plugin.register(PLUGIN, true);
+
+Actinium.Hook.register('activate', async () => {
+    if (Actinium.Plugin.isActive(PLUGIN.ID)) {
+        await setupDatabase();
+        await registerCloudFunctions();
+    }
+});
+```
+
+→ **Learn more**: [Plugin System (Actinium)](./CLAUDE/ACTINIUM_PLUGIN_SYSTEM.md) | [Plugin System (Reactium)](./CLAUDE/REACTIUM_FRAMEWORK.md#plugin-system--registration)
+
+---
+
+### 9. ⚡ ReactiumSyncState (Observable State)
+
+**What it is**: EventTarget-based observable state with object-path addressing, smart merging, and hook-extensible merge conditions.
+
+**Why it matters**: Foundation for Handles, Global State, and Component Registry. NOT the same as `useState`—dispatches events on every change, enabling reactive patterns framework-wide.
+
+**Example**:
+```javascript
+const state = new ReactiumSyncState({ user: { name: 'Alice' } });
+
+// Listen for changes
+state.addEventListener('change', (e) => console.log('Changed:', e.path));
+
+// Set with object-path
+state.set('user.name', 'Bob'); // Fires 'change' event
+```
+
+→ **Learn more**: [ReactiumSyncState](./CLAUDE/REACTIUM_SYNC_STATE.md) | [Gotcha: Not useState](./CLAUDE/FRAMEWORK_GOTCHAS.md#gotcha-2-usesyncstate-is-not-usestate)
+
+---
+
+### 10. 🛠️ CLI & ActionSequence (Powerful Scaffolding)
+
+**What it is**: Extensible CLI with template-based generators and ActionSequence pattern for sequential async workflows. Commands auto-discovered from multiple locations.
+
+**Why it matters**: Generate components, routes, plugins, and cloud functions in seconds. Custom commands and templates for project-specific patterns. Plugin install/publish hooks for automation.
+
+**Example**:
+```bash
+# Generate complete page (component + route + styles + hooks)
+npx reactium component --name BlogPost --destination src/app/components/BlogPost --route '/blog/:slug' --hooks --style atoms
+```
+
+→ **Learn more**: [CLI Commands](./CLAUDE/CLI_COMMANDS_REFERENCE.md) | [ActionSequence Pattern](./CLAUDE/ACTIONSEQUENCE_PATTERN.md)
 
 ---
 
@@ -127,7 +324,7 @@ Actinium.Cloud.define('my-function', async (req) => {
 
 ```javascript
 // Provider
-useRegisterSyncHandle('myHandle', () => new ReactiumSyncState({ count: 0 }));
+const handle = useRegisterSyncHandle('myHandle', { count: 0 });
 
 // Consumer
 const handle = useSyncHandle('myHandle');

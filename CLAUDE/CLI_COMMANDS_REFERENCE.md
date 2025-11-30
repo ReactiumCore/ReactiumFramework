@@ -29,7 +29,7 @@ The Reactium CLI (`npx reactium`) provides 30+ commands for project initializati
 
 **Purpose**: Initialize a new Reactium (frontend) or Actinium (backend) project
 
-**Source**: `CLI/commands/init/index.js:1-104`, `CLI/commands/init/actions.js:1-114`
+**Source**: `CLI/commands/init/index.js:1-103`, `CLI/commands/init/actions.js:1-113`
 
 **When to use**:
 - Starting a new Reactium web application
@@ -43,19 +43,18 @@ The Reactium CLI (`npx reactium`) provides 30+ commands for project initializati
 4. Optionally runs `npm install` for dependencies
 
 **Flags**:
-- `-t, --type [flavor]` - Project type: `app` or `api`
-- `--quick` - Skip dependency installation
+- `-t, --type [flavor]` - Project type: `app` (Reactium) or `api` (Actinium)
 
 **Example workflows**:
 ```bash
-# Initialize Reactium application
-npx reactium init --type app
+# Initialize Reactium application (prompts for type)
+npx reactium init
+
+# Initialize Reactium application with flag
+npx reactium init -t app
 
 # Initialize Actinium API server
-npx reactium init --type api
-
-# Quick init without installing deps (faster evaluation)
-npx reactium init --type app --quick
+npx reactium init -t api
 ```
 
 **Integration**: Downloads from GitHub repos configured in `config.reactium.repo` and `config.actinium.repo`
@@ -63,7 +62,7 @@ npx reactium init --type app --quick
 **Common gotchas**:
 - Must be run in empty directory or will overwrite files
 - Uses `decompress` with strip:1, so repo structure flattens
-- `--quick` flag skips `npm install`, must run manually later
+- Always runs `npm install` after extraction (no skip option)
 
 ---
 
@@ -73,7 +72,7 @@ npx reactium init --type app --quick
 
 **Purpose**: Authenticate against Actinium registry or custom Actinium server for publishing plugins/packages
 
-**Source**: `CLI/commands/auth/index.js:1-149`
+**Source**: `CLI/commands/auth/index.js:1-148`
 
 **When to use**:
 - Before publishing plugins to Reactium registry
@@ -134,7 +133,7 @@ These commands generate Reactium frontend code (components, routes, styles, hook
 
 **Purpose**: Generate React component with optional route, hooks, domain, and stylesheet
 
-**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/component/reactium-arcli.js:1-159`
+**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/component/index.js:1-213`, `reactium-arcli.js:1-158`
 
 **When to use**:
 - Creating new page components
@@ -151,10 +150,10 @@ These commands generate Reactium frontend code (components, routes, styles, hook
 - `-d, --destination [path]` - Component directory location
 - `-n, --name [name]` - Component name (PascalCase)
 - `-r, --route [route]` - Route path (e.g., `/about`, `['/page-1', '/page-2']`)
-- `--hooks` - Generate `reactium-hooks-*.js` file for plugin registration
-- `--domain` - Generate `reactium-domain-*.js` file for DDD domain
-- `--style [type]` - Generate style partial file with prefix: `default`, `mixins`, `variables`, `base`, `atoms`, `molecules`, `organisms`, `overrides`
-- `--unattended` - Skip confirmation prompts
+- `-H, --hooks [hooks]` - Generate `reactium-hooks-*.js` file for plugin registration
+- `-D, --domain [domain]` - Generate `reactium-domain-*.js` file for DDD domain
+- `-s, --style [type]` - Generate style partial file with prefix: `default`, `mixins`, `variables`, `base`, `atoms`, `molecules`, `organisms`, `overrides`
+- `-u, --unattended [unattended]` - Skip confirmation prompts
 
 **Generated files**:
 - `ComponentName.jsx` - Functional component with useSyncState
@@ -167,21 +166,21 @@ These commands generate Reactium frontend code (components, routes, styles, hook
 ```bash
 # Create full page component with all features
 npx reactium component \
-  --destination src/app/components/AboutPage \
-  --name AboutPage \
-  --route '/about' \
-  --hooks \
-  --domain \
-  --style default
+  -d src/app/components/AboutPage \
+  -n AboutPage \
+  -r '/about' \
+  -H \
+  -D \
+  -s atoms
 
 # Create simple reusable component (no route)
 npx reactium component \
-  --destination src/app/components/Button \
-  --name Button
+  -d src/app/components/Button \
+  -n Button
 
 # Create component at labeled path
-npx reactium label --path src/app/pages --key labels.pages
-npx reactium component --destination '[labels.pages]/Home' --name HomePage
+npx reactium label -p src/app/pages -k labels.pages
+npx reactium component -d '[labels.pages]/Home' -n HomePage
 ```
 
 **Hook integration**: Fires `arcli-component-input`, `arcli-component-confirm`, `arcli-component-conform`, `arcli-component-preflight`, `arcli-component-actions` hooks for customization
@@ -189,9 +188,10 @@ npx reactium component --destination '[labels.pages]/Home' --name HomePage
 **Common gotchas**:
 - Route format must be string `'/path'` or array `['/path-1', '/path-2']`
 - Component name auto-converted to PascalCase
-- `--style` flag accepts prefix types (`default`, `variables`, etc.), NOT file extensions (`scss`, `less`, `css`)
+- `-s, --style` flag accepts prefix types (`default`, `variables`, etc.), NOT file extensions (`scss`, `less`, `css`)
 - Style files are always `.scss` extension, regardless of type (type controls prefix/compilation order)
-- Hooks file registers component in Component registry on `plugin-init`
+- `-H, --hooks` flag generates hooks file that registers component in Component registry on `plugin-init`
+- `-D, --domain` flag generates domain file for DDD organization
 - Generated route uses dynamic import for code splitting
 
 ---
@@ -200,7 +200,7 @@ npx reactium component --destination '[labels.pages]/Home' --name HomePage
 
 **Purpose**: Generate standalone route file without component (for existing components)
 
-**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/route/reactium-arcli.js:1-94`
+**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/route/index.js:1-156`, `reactium-arcli.js:1-93`
 
 **When to use**:
 - Adding routes to existing components
@@ -220,13 +220,13 @@ npx reactium component --destination '[labels.pages]/Home' --name HomePage
 ```bash
 # Add route to existing component directory
 npx reactium route \
-  --destination src/app/components/AboutPage \
-  --route '/about'
+  -d src/app/components/AboutPage \
+  -r '/about'
 
 # Create multi-route file
 npx reactium route \
-  --destination src/app/components/HomePage \
-  --route '["/", "/home"]'
+  -d src/app/components/HomePage \
+  -r '["/", "/home"]'
 ```
 
 **Integration**: Route files auto-discovered by routing system via `routes-init` hook
@@ -237,7 +237,7 @@ npx reactium route \
 
 **Purpose**: Generate DDD style partial file with configurable prefix for compilation order control
 
-**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/style/index.js:1-154`, `reactium-arcli.js:1-91`, `styleTypes.cjs:1-34`
+**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/style/index.js:1-153`, `reactium-arcli.js:1-91`, `styleTypes.cjs:1-34`
 
 **When to use**:
 - Adding style partials to existing components
@@ -274,28 +274,28 @@ npx reactium route \
 **Example workflows**:
 ```bash
 # Create default style partial (prompts for type)
-npx reactium style --destination src/app/components/Button
+npx reactium style -d src/app/components/Button
 
 # Create variables partial (compiles early in order)
 npx reactium style \
-  --destination src/app/components/Button \
-  --type variables
+  -d src/app/components/Button \
+  -t variables
 
 # Create overrides partial (compiles late in order)
 npx reactium style \
-  --destination src/app/components/Modal \
-  --type overrides
+  -d src/app/components/Modal \
+  -t overrides
 
 # Create atomic design level partial
 npx reactium style \
-  --destination src/app/components/ui/InputField \
-  --type atoms
+  -d src/app/components/ui/InputField \
+  -t atoms
 
 # Unattended mode (skip prompts)
 npx reactium style \
-  --destination src/app/components/Modal \
-  --type default \
-  --unattended
+  -d src/app/components/Modal \
+  -t default \
+  -u
 ```
 
 **Integration**: Auto-discovered by `ddd-styles-partial` hook via `_reactium-style-*` filename pattern. Prefix determines compilation order in final CSS bundle.
@@ -323,7 +323,7 @@ npx reactium style \
 
 **Purpose**: Generate Reactium plugin hook file
 
-**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/hook/reactium-arcli.js`
+**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/hook/index.js:1-151`, `reactium-arcli.js`
 
 **When to use**:
 - Adding plugin lifecycle hooks
@@ -335,7 +335,7 @@ npx reactium style \
 **Example workflows**:
 ```bash
 # Add hook file to component directory
-npx reactium hook --destination src/app/components/MyComponent
+npx reactium hook -d src/app/components/MyComponent
 ```
 
 ---
@@ -344,7 +344,7 @@ npx reactium hook --destination src/app/components/MyComponent
 
 **Purpose**: Generate DDD domain file
 
-**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/domain/index.js:1-150`, `reactium-arcli.js:1-78`
+**Source**: `Reactium-Core-Plugins/reactium_modules/@atomic-reactor/reactium-core/.cli/commands/reactium/domain/index.js:1-149`, `reactium-arcli.js:1-78`
 
 **When to use**:
 - Organizing code by domain-driven design principles
@@ -364,10 +364,10 @@ npx reactium hook --destination src/app/components/MyComponent
 **Example workflows**:
 ```bash
 # Create domain file (name derived from directory basename)
-npx reactium domain --destination src/app/components/UserProfile
+npx reactium domain -d src/app/components/UserProfile
 
 # Unattended mode
-npx reactium domain --destination src/app/components/Checkout --unattended
+npx reactium domain -d src/app/components/Checkout -u
 ```
 
 **Note**: Domain name is automatically derived from the basename of the destination path (e.g., `UserProfile` directory → domain name `UserProfile`)
@@ -380,7 +380,7 @@ npx reactium domain --destination src/app/components/Checkout --unattended
 
 **Purpose**: Label a directory path for reuse in other commands
 
-**Source**: `CLI/commands/label/index.js:1-249`
+**Source**: `CLI/commands/label/index.js:1-248`
 
 **When to use**:
 - Creating shortcuts to frequently used directories
@@ -400,16 +400,16 @@ npx reactium domain --destination src/app/components/Checkout --unattended
 ```bash
 # Label components directory
 npx reactium label \
-  --path '[cwd]/src/app/components' \
-  --key 'labels.components'
+  -p '[cwd]/src/app/components' \
+  -k 'labels.components'
 
 # Use label in component command
 npx reactium component \
-  --destination '[labels.components]/Button' \
-  --name Button
+  -d '[labels.components]/Button' \
+  -n Button
 
 # Label pages directory
-npx reactium label --path src/app/pages --key labels.pages
+npx reactium label -p src/app/pages -k labels.pages
 ```
 
 **Integration**: Path aliases resolved by CLI commands during parameter processing
@@ -423,24 +423,35 @@ npx reactium label --path src/app/pages --key labels.pages
 
 ### 5. Package Management Commands
 
-#### `npx reactium install`
+#### `npx reactium package install`
 
-**Purpose**: Install NPM dependencies (wrapper for `npm install`)
+**Purpose**: Install Reactium or Actinium plugin packages from registry or NPM
+
+**Source**: `CLI/commands/package/install/index.js:1-90`
 
 **When to use**:
-- After `npx reactium init --quick`
-- Installing dependencies after cloning repo
-- Refreshing node_modules
+- Installing plugins from Reactium registry
+- Installing plugins from NPM
+- Reinstalling plugins listed in `package.json` reactiumDependencies/actiniumDependencies
+
+**Flags**:
+- `--app [app]` - Actinium app ID
+- `--npm` - Install from NPM instead of registry
+- `--server [server]` - Actinium server URL
 
 **Example workflows**:
 ```bash
-# Install all dependencies
-npx reactium install
+# Install plugin from registry
+npx reactium package install @atomic-reactor/admin
 
-# Install after init
-npx reactium init --type app --quick
-npx reactium install
+# Install from NPM
+npx reactium package install @atomic-reactor/admin --npm
+
+# Reinstall all registered plugins (devops)
+npx reactium package install
 ```
+
+**Note**: For installing NPM dependencies, use `npm install` directly. This command is specifically for Reactium/Actinium plugin packages.
 
 ---
 
@@ -465,11 +476,11 @@ npx reactium update
 
 ### 6. Custom Command Development
 
-#### `npx reactium cli command`
+#### `npx reactium commander`
 
 **Purpose**: Generate new CLI command with template structure
 
-**Source**: `CLI/commands/cli/command/` (template-based generator)
+**Source**: `CLI/commands/cli/command/index.js:1-255` (template-based generator)
 
 **When to use**:
 - Creating project-specific CLI commands
@@ -483,10 +494,18 @@ npx reactium update
 
 **Template**: Uses handlebars templates from `CLI/commands/cli/command/template/`
 
+**Flags**:
+- `-c, --command [command]` - Command name
+- `-d, --destination [destination]` - Path where the command is saved (supports `cwd/`, `app/`, `root/` shortcuts)
+- `-o, --overwrite [overwrite]` - Overwrite existing command (default: false)
+
 **Example workflows**:
 ```bash
-# Generate custom command
-npx reactium cli command --name deploy
+# Generate custom command (with prompts)
+npx reactium commander
+
+# Generate custom command with flags
+npx reactium commander -c deploy -d cwd/deploy
 
 # Creates structure:
 # .cli/commands/deploy/
@@ -507,12 +526,12 @@ npx reactium cli command --name deploy
 ```bash
 # Single command approach (recommended)
 npx reactium component \
-  --destination src/app/components/AboutPage \
-  --name AboutPage \
-  --route '/about' \
-  --hooks \
-  --domain \
-  --style default
+  -d src/app/components/AboutPage \
+  -n AboutPage \
+  -r '/about' \
+  -H \
+  -D \
+  -s atoms
 ```
 
 **Generates**:
@@ -534,8 +553,8 @@ npx reactium component \
 ```bash
 # Generate route file only
 npx reactium route \
-  --destination src/app/components/ExistingComponent \
-  --route '/new-path'
+  -d src/app/components/ExistingComponent \
+  -r '/new-path'
 ```
 
 **Manual step**: Update route file to import existing component
@@ -550,13 +569,13 @@ npx reactium route \
 ```bash
 # Label components directory
 npx reactium label \
-  --path src/app/components/common \
-  --key labels.common
+  -p src/app/components/common \
+  -k labels.common
 
 # Generate components with label
-npx reactium component --destination '[labels.common]/Button' --name Button
-npx reactium component --destination '[labels.common]/Input' --name Input
-npx reactium component --destination '[labels.common]/Modal' --name Modal
+npx reactium component -d '[labels.common]/Button' -n Button
+npx reactium component -d '[labels.common]/Input' -n Input
+npx reactium component -d '[labels.common]/Modal' -n Modal
 ```
 
 ---
@@ -573,8 +592,7 @@ cd reactium_modules/@myorg/my-plugin
 npm init -y
 
 # 2. Generate CLI commands (optional)
-mkdir -p .cli/commands/my-command
-npx reactium cli command --name my-command
+npx reactium commander -c my-command -d cwd/my-command
 
 # 3. Develop plugin with local testing
 # (code your plugin with reactium-hooks.js, etc.)
@@ -600,10 +618,10 @@ npx reactium package publish
 ```bash
 # Create component with array route
 npx reactium component \
-  --destination src/app/components/Profile \
-  --name Profile \
-  --route '["/profile", "/user", "/account"]' \
-  --hooks
+  -d src/app/components/Profile \
+  -n Profile \
+  -r '["/profile", "/user", "/account"]' \
+  -H
 ```
 
 **Generated route**:
@@ -620,39 +638,36 @@ export default [
 ### "I want to create..."
 
 #### A new page
-→ `npx reactium component --route '/path' --hooks --style default`
+→ `npx reactium component -r '/path' -H -s atoms`
 
 #### A reusable component (no route)
-→ `npx reactium component --name MyComponent`
+→ `npx reactium component -n MyComponent`
 
 #### Just a route (component exists)
-→ `npx reactium route --route '/path'`
+→ `npx reactium route -r '/path'`
 
 #### Just styles (component exists)
-→ `npx reactium style --destination src/app/components/MyComponent --type default`
+→ `npx reactium style -d src/app/components/MyComponent -t default`
 
 #### A custom CLI command
-→ `npx reactium cli command --name my-command`
+→ `npx reactium commander -c my-command`
 
 ---
 
 ### "I want to initialize..."
 
 #### A new Reactium app
-→ `npx reactium init --type app`
+→ `npx reactium init -t app`
 
 #### A new Actinium server
-→ `npx reactium init --type api`
-
-#### Quick evaluation (skip deps)
-→ `npx reactium init --type app --quick`
+→ `npx reactium init -t api`
 
 ---
 
 ### "I want to manage..."
 
-#### Dependencies
-→ `npx reactium install`
+#### Plugin packages
+→ `npx reactium package install [name]`
 
 #### Updates
 → `npx reactium update`
@@ -661,7 +676,7 @@ export default [
 → `npx reactium auth`
 
 #### Directory labels
-→ `npx reactium label --path [path] --key [key]`
+→ `npx reactium label -p [path] -k [key]`
 
 ---
 
@@ -728,8 +743,8 @@ Generated files auto-discovered by framework:
 
 Instead of repeating long paths, label them:
 ```bash
-npx reactium label --path src/app/components --key labels.components
-npx reactium component --destination '[labels.components]/Button' --name Button
+npx reactium label -p src/app/components -k labels.components
+npx reactium component -d '[labels.components]/Button' -n Button
 ```
 
 ### 2. Generate Complete Pages with Single Command
@@ -737,12 +752,12 @@ npx reactium component --destination '[labels.components]/Button' --name Button
 Use all flags for full-featured pages:
 ```bash
 npx reactium component \
-  --destination src/app/pages/About \
-  --name AboutPage \
-  --route '/about' \
-  --hooks \
-  --domain \
-  --style default
+  -d src/app/pages/About \
+  -n AboutPage \
+  -r '/about' \
+  -H \
+  -D \
+  -s atoms
 ```
 
 ### 3. Organize Routes in Route Files
@@ -750,10 +765,10 @@ npx reactium component \
 Keep routes separate from components for flexibility:
 ```bash
 # Component without route
-npx reactium component --name Profile
+npx reactium component -n Profile
 
 # Add routes later
-npx reactium route --destination src/app/components/Profile --route '["/profile", "/user"]'
+npx reactium route -d src/app/components/Profile -r '["/profile", "/user"]'
 ```
 
 ### 4. Use Unattended Mode for Scripts
@@ -761,9 +776,9 @@ npx reactium route --destination src/app/components/Profile --route '["/profile"
 Skip prompts in automation:
 ```bash
 npx reactium component \
-  --destination src/app/components/Button \
-  --name Button \
-  --unattended
+  -d src/app/components/Button \
+  -n Button \
+  -u
 ```
 
 ### 5. Authenticate Before Publishing
@@ -795,17 +810,17 @@ npx reactium package publish
 
 ### 4. Style Type Controls Prefix and Compilation Order
 
-The `--type` flag on `npx reactium style` controls the **prefix**, not the file extension:
+The `-t, --type` flag on `npx reactium style` controls the **prefix**, not the file extension:
 - Type `default` → `_reactium-style-MyComponent.scss` (default compilation order)
 - Type `variables` → `_reactium-style-variables-MyComponent.scss` (compiled first)
 - Type `overrides` → `_reactium-style-overrides-MyComponent.scss` (compiled last)
 - All files are `.scss` extension regardless of type
-- **Invalid**: `--type scss` (not a valid type)
-- **Valid**: `--type default`, `--type variables`, `--type atoms`, etc.
+- **Invalid**: `-t scss` (not a valid type)
+- **Valid**: `-t default`, `-t variables`, `-t atoms`, etc.
 
 ### 5. Hooks File Component Registration
 
-Generated `reactium-hooks-*.js` registers component in Component registry. Without this, hookableComponent won't find it.
+Generated `reactium-hooks-*.js` (via `-H` flag) registers component in Component registry. Without this, hookableComponent won't find it.
 
 ### 6. Auth Persistence
 
@@ -880,11 +895,11 @@ Labels saved to `.cli/config.json` in current working directory. Not global unle
 - `config` - Manage CLI configuration
 
 ### Development Commands
-- `cli command` - Generate custom CLI command
+- `commander` - Generate custom CLI command
 
 ### Package Commands
 - `package publish` - Publish to registry
-- `package install` - Install from registry
+- `package install` - Install plugin from registry or NPM
 
 ---
 
