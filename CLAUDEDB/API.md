@@ -1931,6 +1931,7 @@ const allResults = await Actinium.Utils.hookedQuery(
 
 ### Cloud Function Security
 
+**✅ CORRECT - Import from Actinium.Utils:**
 ```javascript
 const {
   CloudRunOptions,
@@ -1939,6 +1940,68 @@ const {
   CloudHasCapabilities,
 } = Actinium.Utils;
 
+// Or deep import (also valid):
+import { CloudRunOptions } from '@atomic-reactor/actinium-core/lib/utils/options.js';
+```
+
+**❌ NEVER DO THIS - Don't reimplement framework utilities:**
+```javascript
+// WRONG - Don't copy-paste the implementation!
+const CloudRunOptions = (req) => {
+    const options = {};
+    if (req.master) { options.useMasterKey = true; }
+    else if (req.user) {
+        options.sessionToken = req.user.getSessionToken();
+        const userId = req.user.id || req.user.objectId;
+        if (Actinium.Roles.User.is(userId, 'super-admin')) {
+            options.useMasterKey = true;
+        }
+    }
+    return options;
+}; // DON'T DO THIS - Use Actinium.Utils instead!
+```
+
+**❌ CRITICAL: Node.js Client Session Token Anti-Pattern**
+
+When using Parse SDK from Node.js clients (NOT browser), you MUST capture and pass session token after login:
+
+```javascript
+// ❌ WRONG - Missing session token in Node.js client:
+const user = await Parse.User.logIn(username, password);
+await Parse.Cloud.run('someFunction', { params });  // FAILS - No session!
+
+// ✅ CORRECT - Capture session token, pass to all subsequent calls:
+const user = await Parse.User.logIn(username, password);
+const sessionToken = user.getSessionToken();
+await Parse.Cloud.run('someFunction', { params }, { sessionToken });  // Works!
+
+// ✅ CORRECT - Pattern for multiple calls:
+const user = await Parse.User.logIn(username, password);
+const sessionToken = user.getSessionToken();
+
+// Pass to all Cloud.run calls
+await Parse.Cloud.run('function1', params1, { sessionToken });
+await Parse.Cloud.run('function2', params2, { sessionToken });
+
+// Pass to queries
+const query = new Parse.Query('MyClass');
+const results = await query.find({ sessionToken });
+
+// Pass to save/delete operations
+const obj = new Parse.Object('MyClass');
+await obj.save(null, { sessionToken });
+```
+
+**Why this matters:**
+- Browser Parse SDK: Session automatically maintained in cookies/localStorage
+- Node.js Parse SDK: NO automatic session persistence - must pass explicitly
+- Without session token: Server treats you as anonymous (not logged in)
+- This is the #1 cause of "Permission denied" errors in Node.js clients
+
+→ [Cloud Functions: User Context Propagation](../CLAUDE/CLOUD_FUNCTIONS.md#user-context-propagation)
+
+**Usage:**
+```javascript
 // CloudRunOptions - Use session token, escalate for super-admin
 const options = CloudRunOptions(req);
 // options = { sessionToken: 'xxx' } OR { useMasterKey: true }
@@ -2052,11 +2115,19 @@ const results = await query.find({ useMasterKey: true });
 
 → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)
 
+**✅ CORRECT - One-line instantiation:**
 ```javascript
-const MyClass = Actinium.Object.extend('ClassName');
-const obj = new MyClass();
+const obj = new Actinium.Object('ClassName');
 obj.set('field', value);
 await obj.save(null, { useMasterKey: true });
+```
+
+**❌ NEVER DO THIS - Verbose two-line pattern:**
+```javascript
+// WRONG - Unnecessary extend + instantiate
+const MyClass = Actinium.Object.extend('ClassName');
+const obj = new MyClass();
+// DON'T DO THIS - Use one-line pattern above!
 ```
 
 → [Actinium: Framework Architecture](../CLAUDE/ACTINIUM_COMPLETE_REFERENCE.md#framework-architecture)

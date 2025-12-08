@@ -10,6 +10,9 @@
 ## A
 
 - **ACL** → [Parse ACL Patterns: Overview](../CLAUDE/PARSE_ACL_PATTERNS.md#overview)
+- **Anti-patterns: CloudRunOptions** → [API: Cloud Function Security](API.md#cloud-function-security)
+- **Anti-patterns: Parse Object instantiation** → [API: Framework Core](API.md#framework-core)
+- **Anti-patterns: Node.js client session token** → [API: Cloud Function Security](API.md#cloud-function-security)
 - **ACL vs CLP** → [Parse ACL Patterns: ACL vs CLP Decision Matrix](../CLAUDE/PARSE_ACL_PATTERNS.md#acl-vs-clp-decision-matrix)
 - **AclTargets** → [Parse ACL Patterns: AclTargets Helper](../CLAUDE/PARSE_ACL_PATTERNS.md#acltargets-helper)
 - **Access Control List** → [Parse ACL Patterns: Overview](../CLAUDE/PARSE_ACL_PATTERNS.md#overview)
@@ -358,6 +361,8 @@
 - **PARSE_FILES_DIRECT_ACCESS** → [FileAdapter System: Environment Configuration](../CLAUDE/FILE_ADAPTER_SYSTEM.md#key-environment-variables)
 - **PARSE_PRESERVE_FILENAME** → [FileAdapter System: Environment Configuration](../CLAUDE/FILE_ADAPTER_SYSTEM.md#key-environment-variables)
 - **Permission denied** → [Parse ACL Patterns: Debugging ACL Issues](../CLAUDE/PARSE_ACL_PATTERNS.md#debugging-acl-issues)
+- **Node.js client authentication** → [API: Cloud Function Security - Node.js Client Session Token](API.md#cloud-function-security)
+- **Session token (Node.js)** → [API: Cloud Function Security - Node.js Client Session Token](API.md#cloud-function-security)
 - **Permissions** → [Parse ACL Patterns: Overview](../CLAUDE/PARSE_ACL_PATTERNS.md#overview)
 - **Private files** → [FileAdapter System: Private File Access](../CLAUDE/FILE_ADAPTER_SYSTEM.md#2-private-file-access)
 - **Pagination performance** → [Pagination: Performance Comparison](../CLAUDE/PAGINATION_STRATEGIES.md#performance-comparison)
