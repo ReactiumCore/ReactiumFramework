@@ -1,0 +1,18 @@
+[submodule "Actinium-Plugins"]
+	path = Actinium-Plugins
+	url = https://github.com/ReactiumCore/Actinium-Plugins
+[submodule "CLI"]
+	path = CLI
+	url = https://github.com/ReactiumCore/CLI
+[submodule "Reactium-Admin-Plugins"]
+	path = Reactium-Admin-Plugins
+	url = https://github.com/ReactiumCore/Reactium-Admin-Plugins
+[submodule "Reactium-Core-Plugins"]
+	path = Reactium-Core-Plugins
+	url = https://github.com/ReactiumCore/Reactium-Core-Plugins
+[submodule "Reactium-GraphQL-Plugin"]
+	path = Reactium-GraphQL-Plugin
+	url = https://github.com/ReactiumCore/Reactium-GraphQL-Plugin
+[submodule "reactium-sdk-core"]
+	path = reactium-sdk-core
+	url = https://github.com/ReactiumCore/reactium-sdk-core
