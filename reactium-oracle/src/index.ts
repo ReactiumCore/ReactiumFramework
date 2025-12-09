@@ -611,21 +611,21 @@ async function handleToolCall(
       }
 
       case 'session_list': {
-        const limit = (args.limit as number) || 10;
+        const limit = Math.max(1, parseInt(String(args.limit || 10), 10));
         let query = `
           MATCH (s:Session)
           RETURN s.id as id, s.title as title, s.status as status, s.startTime as startTime, s.summary as summary
           ORDER BY s.startTime DESC
-          LIMIT $limit
+          LIMIT ${limit}
         `;
-        const params: Record<string, unknown> = { limit };
+        const params: Record<string, unknown> = {};
 
         if (args.status) {
           query = `
             MATCH (s:Session {status: $status})
             RETURN s.id as id, s.title as title, s.status as status, s.startTime as startTime, s.summary as summary
             ORDER BY s.startTime DESC
-            LIMIT $limit
+            LIMIT ${limit}
           `;
           params.status = args.status;
         }
@@ -646,27 +646,27 @@ async function handleToolCall(
       // Concept Discovery Tools
       case 'kg_find_related': {
         const depth = Math.min((args.depth as number) || 1, 3);
-        const limit = (args.limit as number) || 20;
+        const limit = Math.max(1, parseInt(String(args.limit || 20), 10));
         let relationPath = '-[*1..1]-';
         if (depth > 1) {
           relationPath = `-[*1..${depth}]-`;
         }
 
         const query = `
-          MATCH (c1:Concept {name: $conceptName})
+          MATCH (c1:Concept)
+          WHERE toLower(c1.name) = toLower($conceptName)
           MATCH (c1)${relationPath}(c2:Concept)
           WHERE c1 <> c2
-          RETURN DISTINCT 
-            c2.name as name, 
+          RETURN DISTINCT
+            c2.name as name,
             c2.description as description,
             c2.category as category
-          LIMIT $limit
+          LIMIT ${limit}
         `;
 
         try {
           const result = await executeQuery(query, {
             conceptName: args.conceptName,
-            limit,
           });
 
           return {
@@ -684,7 +684,7 @@ async function handleToolCall(
       }
 
       case 'kg_search_concept': {
-        const limit = (args.limit as number) || 10;
+        const limit = Math.max(1, parseInt(String(args.limit || 10), 10));
         let query = `
           MATCH (c:Concept)
           WHERE 
@@ -694,7 +694,6 @@ async function handleToolCall(
 
         const params: Record<string, unknown> = {
           query: args.query,
-          limit,
         };
 
         if (args.category) {
@@ -703,13 +702,13 @@ async function handleToolCall(
         }
 
         query += `
-          RETURN 
+          RETURN
             c.name as name,
             c.description as description,
             c.category as category,
             c.docFile as docFile,
             c.anchor as anchor
-          LIMIT $limit
+          LIMIT ${limit}
         `;
 
         const result = await executeQuery(query, params);

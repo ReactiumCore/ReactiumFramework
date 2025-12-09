@@ -434,7 +434,8 @@ async function insertConcept(concept: ConceptEntry): Promise<void> {
   } catch (error) {
     // Ignore unique constraint violations (duplicate concepts)
     const msg = error instanceof Error ? error.message : String(error);
-    if (!msg.includes('UNIQUE') && !msg.includes('already exists')) {
+    const msgLower = msg.toLowerCase();
+    if (!msgLower.includes('unique') && !msgLower.includes('already exists')) {
       console.error(`Error inserting concept ${concept.name}:`, msg);
     }
   }
@@ -468,7 +469,8 @@ async function insertFunction(func: FunctionDef): Promise<void> {
     });
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
-    if (!msg.includes('UNIQUE') && !msg.includes('already exists')) {
+    const msgLower = msg.toLowerCase();
+    if (!msgLower.includes('unique') && !msgLower.includes('already exists')) {
       // Silently skip functions that fail to insert
     }
   }

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "reactium-oracle": {
+      "type": "stdio",
+      "command": "bun",
+      "args": [
+        "start"
+      ],
+      "env": {}
+    }
+  }
+}
