@@ -1,0 +1,12 @@
+{
+	"servers": {
+		"reactium-oracle-mcp": {
+			"type": "stdio",
+			"command": "bun",
+			"args": [
+				"start"
+			],
+			"cwd": "${workspaceFolder}/reactium-oracle"
+		}
+	}
+}

@@ -1,0 +1,29 @@
+{
+    "name": "reactium-oracle",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "MCP server for Reactium framework knowledge graph and session memory",
+    "main": "src/index.ts",
+    "scripts": {
+        "start": "bun src/index.ts",
+        "dev": "bun --watch src/index.ts",
+        "docker:up": "docker compose up -d",
+        "docker:down": "docker compose down",
+        "docker:logs": "docker compose logs -f memgraph",
+        "schema:init": "bun scripts/init-schema.ts",
+        "schema:reset": "bun scripts/reset-schema.ts",
+        "bootstrap": "bun scripts/bootstrap-from-claudedb.ts"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.0.0",
+        "dotenv": "^16.0.0",
+        "neo4j-driver": "^6.0.1",
+        "remark": "^15.0.1",
+        "remark-parse": "^11.0.0"
+    },
+    "devDependencies": {
+        "@types/node": "^24.10.2",
+        "node": ">=18.0.0",
+        "typescript": "^5.9.3"
+    }
+}
