@@ -516,6 +516,131 @@ const applicationTools: Tool[] = [
       required: ['appId', 'id', 'name', 'type', 'description'],
     },
   },
+
+  // ============================================
+  // GRAPH NAVIGATION TOOLS
+  // ============================================
+
+  {
+    name: 'app_get_phase',
+    description: 'Get single phase with its artifacts, components, and relationships',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        phaseId: { type: 'string', description: 'Phase ID' },
+      },
+      required: ['phaseId'],
+    },
+  },
+
+  {
+    name: 'app_get_component',
+    description: 'Get single component with implementing artifacts and relationships',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        componentId: { type: 'string', description: 'Component ID' },
+      },
+      required: ['componentId'],
+    },
+  },
+
+  {
+    name: 'app_get_artifact',
+    description: 'Get single artifact with dependencies, phases, components, and relationships',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        path: { type: 'string', description: 'Artifact path' },
+      },
+      required: ['path'],
+    },
+  },
+
+  {
+    name: 'app_search_artifacts',
+    description: 'Search artifacts by keyword in name or purpose',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        appId: { type: 'string', description: 'Application ID' },
+        query: { type: 'string', description: 'Search term' },
+        limit: { type: 'number', description: 'Max results (default 10)' },
+      },
+      required: ['appId', 'query'],
+    },
+  },
+
+  {
+    name: 'app_add_sequence',
+    description: 'Add an execution/learning sequence to the application',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        appId: { type: 'string', description: 'Application ID' },
+        id: { type: 'string', description: 'Sequence ID' },
+        name: { type: 'string', description: 'Sequence name' },
+        description: { type: 'string', description: 'Sequence description' },
+        type: {
+          type: 'string',
+          enum: ['execution', 'learning', 'implementation', 'troubleshooting'],
+          description: 'Sequence type',
+        },
+        steps: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Ordered array of artifact paths or phase IDs',
+        },
+      },
+      required: ['appId', 'id', 'name', 'description', 'type', 'steps'],
+    },
+  },
+
+  {
+    name: 'app_add_happy_path',
+    description: 'Add a curated navigation path for specific intent',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        appId: { type: 'string', description: 'Application ID' },
+        id: { type: 'string', description: 'Happy path ID' },
+        name: { type: 'string', description: 'Happy path name' },
+        description: { type: 'string', description: 'Happy path description' },
+        intent: { type: 'string', description: 'User intent this path serves' },
+        artifacts: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Ordered array of artifact paths',
+        },
+        estimatedTime: { type: 'string', description: 'Estimated time (optional)' },
+      },
+      required: ['appId', 'id', 'name', 'description', 'intent', 'artifacts'],
+    },
+  },
+
+  {
+    name: 'app_get_sequence',
+    description: 'Get sequence with ordered steps and relationships',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        sequenceId: { type: 'string', description: 'Sequence ID' },
+      },
+      required: ['sequenceId'],
+    },
+  },
+
+  {
+    name: 'app_get_happy_path',
+    description: 'Get happy path with ordered artifacts and intent',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        happyPathId: { type: 'string', description: 'Happy path ID' },
+      },
+      required: ['happyPathId'],
+    },
+  },
 ];
 
 // ============================================
@@ -1020,16 +1145,54 @@ async function handleToolCall(
       }
 
       case 'app_get_overview': {
+        // Breadcrumb-based overview - returns links to graph nodes, not full data
         const query = `
           MATCH (a:Application {id: $appId})
+          OPTIONAL MATCH (a)-[:HAS_PHASE]->(currentPhase:Phase {status: 'in_progress'})
+          OPTIONAL MATCH (a)-[:HAS_PHASE]->(completedPhase:Phase {status: 'completed'})
+          OPTIONAL MATCH (a)-[:HAS_PHASE]->(pendingPhase:Phase {status: 'pending'})
           OPTIONAL MATCH (a)-[:HAS_ARTIFACT]->(art:Artifact)
-          OPTIONAL MATCH (a)-[:HAS_PHASE]->(phase:Phase)
-          OPTIONAL MATCH (a)-[:HAS_COMPONENT]->(comp:ArchitectureComponent)
+          OPTIONAL MATCH (a)-[:HAS_COMPONENT]->(comp:ArchitectureComponent {status: 'implemented'})
+          OPTIONAL MATCH (a)-[:HAS_COMPONENT]->(plannedComp:ArchitectureComponent {status: 'planned'})
+          OPTIONAL MATCH (a)-[:HAS_ARTIFACT]->(tempArt:Artifact {status: 'temporary'})
+          OPTIONAL MATCH (a)-[:HAS_ARTIFACT]->(depArt:Artifact {status: 'deprecated'})
+          OPTIONAL MATCH (a)-[:HAS_SEQUENCE]->(seq:Sequence)
+          OPTIONAL MATCH (a)-[:HAS_HAPPY_PATH]->(hp:HappyPath)
+          WITH a, currentPhase,
+               collect(DISTINCT completedPhase.id) as completedPhaseIds,
+               collect(DISTINCT pendingPhase.id) as pendingPhaseIds,
+               collect(DISTINCT art) as allArtifacts,
+               collect(DISTINCT comp.id) as implementedCompIds,
+               collect(DISTINCT plannedComp.id) as plannedCompIds,
+               collect(DISTINCT tempArt.path) as temporaryPaths,
+               collect(DISTINCT depArt.path) as deprecatedPaths,
+               collect(DISTINCT seq.id) as sequenceIds,
+               collect(DISTINCT hp.id) as happyPathIds
+          WITH a, currentPhase, completedPhaseIds, pendingPhaseIds, allArtifacts,
+               implementedCompIds, plannedCompIds, temporaryPaths, deprecatedPaths,
+               sequenceIds, happyPathIds
+          OPTIONAL MATCH (a)-[:HAS_ARTIFACT]->(masterPlan:Artifact)
+            WHERE masterPlan.name CONTAINS 'MASTER_PLAN'
+          OPTIONAL MATCH (a)-[:HAS_ARTIFACT]->(archDoc:Artifact {name: 'CLAUDE.md'})
           RETURN
             a,
-            collect(DISTINCT art) as artifacts,
-            collect(DISTINCT phase) as phases,
-            collect(DISTINCT comp) as components
+            currentPhase.id as currentPhaseId,
+            currentPhase.name as currentPhaseName,
+            currentPhase.order as currentPhaseOrder,
+            completedPhaseIds,
+            pendingPhaseIds,
+            size([x IN allArtifacts WHERE x.status = 'active']) as activeCount,
+            size([x IN allArtifacts WHERE x.status = 'archived']) as archivedCount,
+            size([x IN allArtifacts WHERE x.type = 'documentation']) as docCount,
+            size([x IN allArtifacts WHERE x.type = 'test']) as testCount,
+            implementedCompIds,
+            plannedCompIds,
+            temporaryPaths,
+            deprecatedPaths,
+            masterPlan.path as masterPlanPath,
+            archDoc.path as architecturePath,
+            sequenceIds,
+            happyPathIds
         `;
         const result = await executeQuery(query, { appId: args.appId });
 
@@ -1037,39 +1200,45 @@ async function handleToolCall(
           return { error: 'Application not found' };
         }
 
-        const record = result.records[0];
-        const app = record.get('a').properties;
-        const artifacts = record.get('artifacts')
-          .filter((a: any) => a && a.properties)
-          .map((a: any) => a.properties);
-        const phases = record.get('phases')
-          .filter((p: any) => p && p.properties)
-          .map((p: any) => p.properties);
-        const components = record.get('components')
-          .filter((c: any) => c && c.properties)
-          .map((c: any) => c.properties);
-
-        // Stats
-        const stats = {
-          totalArtifacts: artifacts.length,
-          byType: artifacts.reduce((acc: Record<string, number>, art: any) => {
-            acc[art.type] = (acc[art.type] || 0) + 1;
-            return acc;
-          }, {}),
-          byStatus: artifacts.reduce((acc: Record<string, number>, art: any) => {
-            acc[art.status] = (acc[art.status] || 0) + 1;
-            return acc;
-          }, {}),
-          phases: phases.length,
-          components: components.length,
-        };
+        const r = result.records[0];
+        const app = r.get('a').properties;
 
         return {
-          application: app,
-          artifacts,
-          phases,
-          components,
-          stats,
+          app: {
+            id: app.id,
+            name: app.name,
+            currentPhase: r.get('currentPhaseId'),
+            rootPath: app.rootPath,
+          },
+          phases: {
+            current: r.get('currentPhaseId') ? [r.get('currentPhaseId')] : [],
+            completed: r.get('completedPhaseIds').filter(Boolean),
+            pending: r.get('pendingPhaseIds').filter(Boolean),
+            currentName: r.get('currentPhaseName'),
+            currentOrder: typeof r.get('currentPhaseOrder') === 'object' ? r.get('currentPhaseOrder').low : r.get('currentPhaseOrder'),
+          },
+          components: {
+            implemented: r.get('implementedCompIds').filter(Boolean),
+            planned: r.get('plannedCompIds').filter(Boolean),
+          },
+          artifacts: {
+            active: typeof r.get('activeCount') === 'object' ? r.get('activeCount').low : r.get('activeCount'),
+            archived: typeof r.get('archivedCount') === 'object' ? r.get('archivedCount').low : r.get('archivedCount'),
+            documentation: typeof r.get('docCount') === 'object' ? r.get('docCount').low : r.get('docCount'),
+            tests: typeof r.get('testCount') === 'object' ? r.get('testCount').low : r.get('testCount'),
+          },
+          keyArtifacts: {
+            masterPlan: r.get('masterPlanPath'),
+            architecture: r.get('architecturePath'),
+          },
+          concerns: {
+            temporary: r.get('temporaryPaths').filter(Boolean),
+            deprecated: r.get('deprecatedPaths').filter(Boolean),
+          },
+          navigation: {
+            sequences: r.get('sequenceIds').filter(Boolean),
+            happyPaths: r.get('happyPathIds').filter(Boolean),
+          },
         };
       }
 
@@ -1117,6 +1286,333 @@ async function handleToolCall(
           status: args.status || 'planned',
         });
         return { success: true, componentId: args.id };
+      }
+
+      // ============================================
+      // GRAPH NAVIGATION HANDLERS
+      // ============================================
+
+      case 'app_get_phase': {
+        const query = `
+          MATCH (p:Phase {id: $phaseId})
+          OPTIONAL MATCH (p)<-[:HAS_PHASE]-(a:Application)
+          OPTIONAL MATCH (p)<-[:BELONGS_TO_PHASE]-(art:Artifact)
+          OPTIONAL MATCH (p)-[:NEXT_PHASE]->(nextPhase:Phase)
+          OPTIONAL MATCH (prevPhase:Phase)-[:NEXT_PHASE]->(p)
+          OPTIONAL MATCH (art)-[:IMPLEMENTS_COMPONENT]->(comp:ArchitectureComponent)
+          RETURN
+            p,
+            a.id as appId,
+            collect(DISTINCT art.path) as artifactPaths,
+            collect(DISTINCT comp.id) as componentIds,
+            nextPhase.id as nextPhaseId,
+            prevPhase.id as prevPhaseId
+        `;
+        const result = await executeQuery(query, { phaseId: args.phaseId });
+
+        if (result.records.length === 0) {
+          return { error: 'Phase not found' };
+        }
+
+        const r = result.records[0];
+        const phase = r.get('p').properties;
+
+        return {
+          phase: {
+            id: phase.id,
+            name: phase.name,
+            description: phase.description,
+            order: typeof phase.order === 'object' ? phase.order.low : phase.order,
+            status: phase.status,
+          },
+          appId: r.get('appId'),
+          artifacts: r.get('artifactPaths').filter(Boolean),
+          components: r.get('componentIds').filter(Boolean),
+          navigation: {
+            next: r.get('nextPhaseId'),
+            prev: r.get('prevPhaseId'),
+          },
+        };
+      }
+
+      case 'app_get_component': {
+        const query = `
+          MATCH (c:ArchitectureComponent {id: $componentId})
+          OPTIONAL MATCH (c)<-[:HAS_COMPONENT]-(a:Application)
+          OPTIONAL MATCH (art:Artifact)-[:IMPLEMENTS_COMPONENT]->(c)
+          OPTIONAL MATCH (c)<-[:PART_OF_SEQUENCE]-(seq:Sequence)
+          OPTIONAL MATCH (dec:Decision)<-[:IMPLEMENTS_DECISION]-(c)
+          OPTIONAL MATCH (doc:Artifact)-[:EXPLAINS]->(c)
+          WHERE doc.type = 'documentation'
+          RETURN
+            c,
+            a.id as appId,
+            collect(DISTINCT art.path) as implementingPaths,
+            collect(DISTINCT seq.id) as sequenceIds,
+            collect(DISTINCT dec.id) as decisionIds,
+            collect(DISTINCT doc.path) as documentationPaths
+        `;
+        const result = await executeQuery(query, { componentId: args.componentId });
+
+        if (result.records.length === 0) {
+          return { error: 'Component not found' };
+        }
+
+        const r = result.records[0];
+        const comp = r.get('c').properties;
+
+        return {
+          component: {
+            id: comp.id,
+            name: comp.name,
+            type: comp.type,
+            description: comp.description,
+            status: comp.status,
+          },
+          appId: r.get('appId'),
+          implementedBy: r.get('implementingPaths').filter(Boolean),
+          partOfSequences: r.get('sequenceIds').filter(Boolean),
+          implementsDecisions: r.get('decisionIds').filter(Boolean),
+          documentation: r.get('documentationPaths').filter(Boolean),
+        };
+      }
+
+      case 'app_get_artifact': {
+        const query = `
+          MATCH (art:Artifact {path: $path})
+          OPTIONAL MATCH (art)<-[:HAS_ARTIFACT]-(a:Application)
+          OPTIONAL MATCH (art)-[:BELONGS_TO_PHASE]->(p:Phase)
+          OPTIONAL MATCH (art)-[:IMPLEMENTS_COMPONENT]->(comp:ArchitectureComponent)
+          OPTIONAL MATCH (art)-[:PART_OF_SEQUENCE]->(seq:Sequence)
+          OPTIONAL MATCH (art)-[:PART_OF_HAPPY_PATH]->(hp:HappyPath)
+          OPTIONAL MATCH (art)-[:DEPENDS_ON_ARTIFACT]->(dep:Artifact)
+          OPTIONAL MATCH (dependent:Artifact)-[:DEPENDS_ON_ARTIFACT]->(art)
+          OPTIONAL MATCH (art)-[:SUPERSEDES]->(old:Artifact)
+          OPTIONAL MATCH (newer:Artifact)-[:SUPERSEDES]->(art)
+          RETURN
+            art,
+            a.id as appId,
+            p.id as phaseId,
+            collect(DISTINCT comp.id) as componentIds,
+            collect(DISTINCT seq.id) as sequenceIds,
+            collect(DISTINCT hp.id) as happyPathIds,
+            collect(DISTINCT dep.path) as dependencyPaths,
+            collect(DISTINCT dependent.path) as dependentPaths,
+            old.path as supersededPath,
+            newer.path as supersededByPath
+        `;
+        const result = await executeQuery(query, { path: args.path });
+
+        if (result.records.length === 0) {
+          return { error: 'Artifact not found' };
+        }
+
+        const r = result.records[0];
+        const art = r.get('art').properties;
+
+        return {
+          artifact: {
+            path: art.path,
+            name: art.name,
+            type: art.type,
+            purpose: art.purpose,
+            status: art.status,
+            language: art.language,
+            notes: art.notes,
+          },
+          appId: r.get('appId'),
+          phase: r.get('phaseId'),
+          implements: r.get('componentIds').filter(Boolean),
+          partOfSequences: r.get('sequenceIds').filter(Boolean),
+          partOfHappyPaths: r.get('happyPathIds').filter(Boolean),
+          dependencies: r.get('dependencyPaths').filter(Boolean),
+          dependents: r.get('dependentPaths').filter(Boolean),
+          superseded: r.get('supersededPath'),
+          supersededBy: r.get('supersededByPath'),
+        };
+      }
+
+      case 'app_search_artifacts': {
+        const limit = parseInt(args.limit || 10, 10);
+        const query = `
+          MATCH (a:Application {id: $appId})-[:HAS_ARTIFACT]->(art:Artifact)
+          WHERE toLower(art.name) CONTAINS toLower($query)
+             OR toLower(art.purpose) CONTAINS toLower($query)
+          RETURN art.path as path, art.name as name, art.purpose as purpose, art.type as type, art.status as status
+          ORDER BY
+            CASE WHEN toLower(art.name) CONTAINS toLower($query) THEN 1 ELSE 2 END,
+            art.name
+          LIMIT toInteger($limit)
+        `;
+        const result = await executeQuery(query, {
+          appId: args.appId,
+          query: args.query,
+          limit,
+        });
+
+        return {
+          results: result.records.map((r) => ({
+            path: r.get('path'),
+            name: r.get('name'),
+            purpose: r.get('purpose'),
+            type: r.get('type'),
+            status: r.get('status'),
+          })),
+          count: result.records.length,
+        };
+      }
+
+      case 'app_add_sequence': {
+        const query = `
+          MATCH (a:Application {id: $appId})
+          CREATE (s:Sequence {
+            id: $id,
+            name: $name,
+            description: $description,
+            type: $type,
+            createdAt: datetime()
+          })
+          CREATE (a)-[:HAS_SEQUENCE]->(s)
+          WITH s
+          UNWIND range(0, size($steps) - 1) as idx
+          WITH s, idx, $steps[idx] as stepPath
+          OPTIONAL MATCH (art:Artifact {path: stepPath})
+          OPTIONAL MATCH (p:Phase {id: stepPath})
+          WITH s, idx, art, p
+          WHERE art IS NOT NULL OR p IS NOT NULL
+          FOREACH (_ IN CASE WHEN art IS NOT NULL THEN [1] ELSE [] END |
+            CREATE (s)<-[:PART_OF_SEQUENCE {order: idx}]-(art)
+          )
+          FOREACH (_ IN CASE WHEN p IS NOT NULL THEN [1] ELSE [] END |
+            CREATE (s)<-[:PART_OF_SEQUENCE {order: idx}]-(p)
+          )
+          RETURN s
+        `;
+        await executeQuery(query, {
+          appId: args.appId,
+          id: args.id,
+          name: args.name,
+          description: args.description,
+          type: args.type,
+          steps: args.steps,
+        });
+        return { success: true, sequenceId: args.id };
+      }
+
+      case 'app_add_happy_path': {
+        const query = `
+          MATCH (a:Application {id: $appId})
+          CREATE (hp:HappyPath {
+            id: $id,
+            name: $name,
+            description: $description,
+            intent: $intent,
+            estimatedTime: $estimatedTime,
+            createdAt: datetime()
+          })
+          CREATE (a)-[:HAS_HAPPY_PATH]->(hp)
+          WITH hp
+          UNWIND range(0, size($artifacts) - 1) as idx
+          WITH hp, idx, $artifacts[idx] as artPath
+          MATCH (art:Artifact {path: artPath})
+          CREATE (art)-[:PART_OF_HAPPY_PATH {order: idx}]->(hp)
+          RETURN hp
+        `;
+        await executeQuery(query, {
+          appId: args.appId,
+          id: args.id,
+          name: args.name,
+          description: args.description,
+          intent: args.intent,
+          estimatedTime: args.estimatedTime || null,
+          artifacts: args.artifacts,
+        });
+        return { success: true, happyPathId: args.id };
+      }
+
+      case 'app_get_sequence': {
+        const query = `
+          MATCH (s:Sequence {id: $sequenceId})
+          OPTIONAL MATCH (s)<-[:HAS_SEQUENCE]-(a:Application)
+          OPTIONAL MATCH (step)-[r:PART_OF_SEQUENCE]->(s)
+          WITH s, a, step, r
+          ORDER BY r.order
+          WITH s, a, collect({
+            type: labels(step)[0],
+            id: CASE
+              WHEN step:Artifact THEN step.path
+              WHEN step:Phase THEN step.id
+              ELSE null
+            END,
+            order: toInteger(r.order)
+          }) as steps
+          RETURN s, a.id as appId, steps
+        `;
+        const result = await executeQuery(query, { sequenceId: args.sequenceId });
+
+        if (result.records.length === 0) {
+          return { error: 'Sequence not found' };
+        }
+
+        const r = result.records[0];
+        const seq = r.get('s').properties;
+        const steps = r.get('steps').filter((s: any) => s.id);
+
+        return {
+          sequence: {
+            id: seq.id,
+            name: seq.name,
+            description: seq.description,
+            type: seq.type,
+          },
+          appId: r.get('appId'),
+          steps: steps.map((s: any) => ({
+            type: s.type,
+            id: s.id,
+            order: typeof s.order === 'object' ? s.order.low : s.order,
+          })),
+        };
+      }
+
+      case 'app_get_happy_path': {
+        const query = `
+          MATCH (hp:HappyPath {id: $happyPathId})
+          OPTIONAL MATCH (hp)<-[:HAS_HAPPY_PATH]-(a:Application)
+          OPTIONAL MATCH (art:Artifact)-[r:PART_OF_HAPPY_PATH]->(hp)
+          WITH hp, a, art, r
+          ORDER BY r.order
+          WITH hp, a, collect({
+            path: art.path,
+            name: art.name,
+            order: toInteger(r.order)
+          }) as artifacts
+          RETURN hp, a.id as appId, artifacts
+        `;
+        const result = await executeQuery(query, { happyPathId: args.happyPathId });
+
+        if (result.records.length === 0) {
+          return { error: 'Happy path not found' };
+        }
+
+        const r = result.records[0];
+        const hp = r.get('hp').properties;
+        const artifacts = r.get('artifacts').filter((a: any) => a.path);
+
+        return {
+          happyPath: {
+            id: hp.id,
+            name: hp.name,
+            description: hp.description,
+            intent: hp.intent,
+            estimatedTime: hp.estimatedTime,
+          },
+          appId: r.get('appId'),
+          artifacts: artifacts.map((a: any) => ({
+            path: a.path,
+            name: a.name,
+            order: typeof a.order === 'object' ? a.order.low : a.order,
+          })),
+        };
       }
 
       default:

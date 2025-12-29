@@ -280,6 +280,39 @@ export const SCHEMA: {
       },
       indexes: ['id', 'type', 'status'],
     },
+
+    // ============================================
+    // NAVIGATION & KNOWLEDGE STRUCTURE NODES
+    // ============================================
+    Sequence: {
+      label: 'Sequence',
+      properties: {
+        id: { type: 'String', required: true, unique: true },
+        name: { type: 'String', required: true },
+        description: { type: 'String', required: true },
+        type: {
+          type: 'String',
+          enum: ['execution', 'learning', 'implementation', 'troubleshooting'],
+          required: true,
+        },
+        order: { type: 'Integer' },
+        createdAt: { type: 'DateTime', default: 'now()' },
+      },
+      indexes: ['id', 'type'],
+    },
+
+    HappyPath: {
+      label: 'HappyPath',
+      properties: {
+        id: { type: 'String', required: true, unique: true },
+        name: { type: 'String', required: true },
+        description: { type: 'String', required: true },
+        intent: { type: 'String', required: true },
+        estimatedTime: { type: 'String' },
+        createdAt: { type: 'DateTime', default: 'now()' },
+      },
+      indexes: ['id', 'intent'],
+    },
   },
 
   // ============================================
@@ -311,13 +344,25 @@ export const SCHEMA: {
     HAS_PHASE: 'Application has this development phase',
     HAS_COMPONENT: 'Application has this architecture component',
     BELONGS_TO_PHASE: 'Artifact belongs to this phase',
-    IMPLEMENTS: 'Artifact implements this component',
+    IMPLEMENTS_COMPONENT: 'Artifact implements this component',
     DEPENDS_ON_ARTIFACT: 'Artifact depends on another artifact',
     SUPERSEDES: 'Artifact supersedes/replaces another artifact',
     NEXT_PHASE: 'Phase follows this phase',
     CREATED_ARTIFACT: 'Session created this artifact',
     MODIFIED_ARTIFACT: 'Session modified this artifact',
     ARCHIVED_ARTIFACT: 'Session archived this artifact',
+
+    // Navigation & knowledge structure relationships
+    HAS_SEQUENCE: 'Application has this sequence',
+    HAS_HAPPY_PATH: 'Application has this happy path',
+    NEXT_STEP: 'Next step in sequence (ordered)',
+    PREREQUISITE: 'Required before this step',
+    PART_OF_SEQUENCE: 'Artifact/Phase/Component is part of sequence',
+    PART_OF_HAPPY_PATH: 'Artifact/Phase/Component is part of happy path',
+    EXPLAINS: 'Artifact explains Decision/Concept/Component',
+    IMPLEMENTS_DECISION: 'Artifact/Component implements this decision',
+    DOCUMENTS_SEQUENCE: 'Artifact documents this sequence',
+    DOCUMENTS_HAPPY_PATH: 'Artifact documents this happy path',
   },
 };
 
@@ -357,6 +402,13 @@ export const INITIALIZATION_QUERIES: string[] = [
   `CREATE INDEX ON :Phase(status);`,
   `CREATE INDEX ON :ArchitectureComponent(type);`,
   `CREATE INDEX ON :ArchitectureComponent(status);`,
+
+  // Navigation & knowledge structure constraints
+  `CREATE CONSTRAINT ON (seq:Sequence) ASSERT seq.id IS UNIQUE;`,
+  `CREATE CONSTRAINT ON (hp:HappyPath) ASSERT hp.id IS UNIQUE;`,
+
+  `CREATE INDEX ON :Sequence(type);`,
+  `CREATE INDEX ON :HappyPath(intent);`,
 ];
 
 export const BOOTSTRAP_QUERIES: string[] = [];
