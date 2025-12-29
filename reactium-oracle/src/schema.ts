@@ -168,6 +168,118 @@ export const SCHEMA: {
       },
       indexes: ['id'],
     },
+
+    // ============================================
+    // APPLICATION TRACKING NODES
+    // ============================================
+    Application: {
+      label: 'Application',
+      properties: {
+        id: { type: 'String', required: true, unique: true },
+        name: { type: 'String', required: true },
+        description: { type: 'String', required: true },
+        rootPath: { type: 'String', required: true },
+        status: {
+          type: 'String',
+          enum: ['active', 'paused', 'archived'],
+          default: 'active',
+        },
+        currentPhase: { type: 'String' },
+        createdAt: { type: 'DateTime', default: 'now()' },
+        updatedAt: { type: 'DateTime', default: 'now()' },
+        metadata: { type: 'Map' },
+      },
+      indexes: ['id', 'name', 'status'],
+    },
+
+    Artifact: {
+      label: 'Artifact',
+      properties: {
+        path: { type: 'String', required: true, unique: true },
+        name: { type: 'String', required: true },
+        type: {
+          type: 'String',
+          enum: [
+            'script',
+            'config',
+            'test',
+            'documentation',
+            'model',
+            'schema',
+            'service',
+            'component',
+            'utility',
+            'archive',
+          ],
+          required: true,
+        },
+        purpose: { type: 'String', required: true },
+        language: { type: 'String' },
+        status: {
+          type: 'String',
+          enum: ['active', 'deprecated', 'archived', 'test', 'temporary'],
+          default: 'active',
+        },
+        createdAt: { type: 'DateTime', default: 'now()' },
+        updatedAt: { type: 'DateTime', default: 'now()' },
+        lastModified: { type: 'DateTime' },
+        createdBy: { type: 'String' },
+        dependencies: { type: 'String[]' },
+        notes: { type: 'String' },
+      },
+      indexes: ['path', 'type', 'status'],
+    },
+
+    Phase: {
+      label: 'Phase',
+      properties: {
+        id: { type: 'String', required: true, unique: true },
+        name: { type: 'String', required: true },
+        description: { type: 'String', required: true },
+        order: { type: 'Integer', required: true },
+        status: {
+          type: 'String',
+          enum: ['pending', 'in_progress', 'completed', 'blocked'],
+          default: 'pending',
+        },
+        startDate: { type: 'DateTime' },
+        endDate: { type: 'DateTime' },
+        successCriteria: { type: 'String[]' },
+        blockers: { type: 'String[]' },
+      },
+      indexes: ['id', 'order', 'status'],
+    },
+
+    ArchitectureComponent: {
+      label: 'ArchitectureComponent',
+      properties: {
+        id: { type: 'String', required: true, unique: true },
+        name: { type: 'String', required: true },
+        type: {
+          type: 'String',
+          enum: [
+            'model',
+            'pipeline',
+            'service',
+            'api',
+            'database',
+            'feature',
+            'algorithm',
+          ],
+          required: true,
+        },
+        description: { type: 'String', required: true },
+        purpose: { type: 'String' },
+        status: {
+          type: 'String',
+          enum: ['planned', 'in_progress', 'implemented', 'deprecated'],
+          default: 'planned',
+        },
+        implementation: { type: 'String[]' },
+        createdAt: { type: 'DateTime', default: 'now()' },
+      },
+      indexes: ['id', 'type', 'status'],
+    },
   },
 
   // ============================================
@@ -193,6 +305,19 @@ export const SCHEMA: {
     IS_FOCUSED_ON: 'Session is focused on a node/area',
     RELATED_TO: 'Session artifacts are related',
     RESOLVED: 'Session resolved a Blocker',
+
+    // Application tracking relationships
+    HAS_ARTIFACT: 'Application contains this artifact',
+    HAS_PHASE: 'Application has this development phase',
+    HAS_COMPONENT: 'Application has this architecture component',
+    BELONGS_TO_PHASE: 'Artifact belongs to this phase',
+    IMPLEMENTS: 'Artifact implements this component',
+    DEPENDS_ON_ARTIFACT: 'Artifact depends on another artifact',
+    SUPERSEDES: 'Artifact supersedes/replaces another artifact',
+    NEXT_PHASE: 'Phase follows this phase',
+    CREATED_ARTIFACT: 'Session created this artifact',
+    MODIFIED_ARTIFACT: 'Session modified this artifact',
+    ARCHIVED_ARTIFACT: 'Session archived this artifact',
   },
 };
 
@@ -217,6 +342,21 @@ export const INITIALIZATION_QUERIES: string[] = [
   `CREATE INDEX ON :Session(startTime);`,
   `CREATE INDEX ON :Blocker(resolved);`,
   `CREATE INDEX ON :Question(answered);`,
+
+  // Application tracking constraints
+  `CREATE CONSTRAINT ON (a:Application) ASSERT a.id IS UNIQUE;`,
+  `CREATE CONSTRAINT ON (art:Artifact) ASSERT art.path IS UNIQUE;`,
+  `CREATE CONSTRAINT ON (p:Phase) ASSERT p.id IS UNIQUE;`,
+  `CREATE CONSTRAINT ON (ac:ArchitectureComponent) ASSERT ac.id IS UNIQUE;`,
+
+  `CREATE INDEX ON :Application(status);`,
+  `CREATE INDEX ON :Application(name);`,
+  `CREATE INDEX ON :Artifact(type);`,
+  `CREATE INDEX ON :Artifact(status);`,
+  `CREATE INDEX ON :Phase(order);`,
+  `CREATE INDEX ON :Phase(status);`,
+  `CREATE INDEX ON :ArchitectureComponent(type);`,
+  `CREATE INDEX ON :ArchitectureComponent(status);`,
 ];
 
 export const BOOTSTRAP_QUERIES: string[] = [];

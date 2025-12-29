@@ -364,6 +364,161 @@ const conceptDiscoveryTools: Tool[] = [
 ];
 
 // ============================================
+// APPLICATION TRACKING TOOLS
+// ============================================
+
+const applicationTools: Tool[] = [
+  {
+    name: 'app_create',
+    description: 'Create or register an application for tracking',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', description: 'Unique app ID (e.g., "ai-tradebot")' },
+        name: { type: 'string', description: 'Application name' },
+        description: { type: 'string', description: 'Application description' },
+        rootPath: { type: 'string', description: 'Root directory path' },
+      },
+      required: ['id', 'name', 'description', 'rootPath'],
+    },
+  },
+
+  {
+    name: 'app_add_artifact',
+    description: 'Add or update an artifact (file/component) in the application',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        appId: { type: 'string', description: 'Application ID' },
+        path: { type: 'string', description: 'File path (unique identifier)' },
+        name: { type: 'string', description: 'Artifact name' },
+        type: {
+          type: 'string',
+          enum: ['script', 'config', 'test', 'documentation', 'model', 'schema', 'service', 'component', 'utility', 'archive'],
+          description: 'Type of artifact',
+        },
+        purpose: { type: 'string', description: 'Purpose/role of this artifact' },
+        language: { type: 'string', description: 'Programming language (optional)' },
+        status: {
+          type: 'string',
+          enum: ['active', 'deprecated', 'archived', 'test', 'temporary'],
+          description: 'Current status (default: active)',
+        },
+        phaseId: { type: 'string', description: 'Phase this belongs to (optional)' },
+        dependencies: { type: 'array', items: { type: 'string' }, description: 'List of file paths this depends on (optional)' },
+        notes: { type: 'string', description: 'Additional notes (optional)' },
+      },
+      required: ['appId', 'path', 'name', 'type', 'purpose'],
+    },
+  },
+
+  {
+    name: 'app_update_artifact',
+    description: 'Update an existing artifact status or properties',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        path: { type: 'string', description: 'Artifact path to update' },
+        status: {
+          type: 'string',
+          enum: ['active', 'deprecated', 'archived', 'test', 'temporary'],
+          description: 'New status',
+        },
+        purpose: { type: 'string', description: 'Updated purpose' },
+        notes: { type: 'string', description: 'Updated notes' },
+      },
+      required: ['path'],
+    },
+  },
+
+  {
+    name: 'app_list_artifacts',
+    description: 'List artifacts for an application with optional filtering',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        appId: { type: 'string', description: 'Application ID' },
+        type: { type: 'string', description: 'Filter by artifact type (optional)' },
+        status: { type: 'string', description: 'Filter by status (optional)' },
+        phaseId: { type: 'string', description: 'Filter by phase (optional)' },
+      },
+      required: ['appId'],
+    },
+  },
+
+  {
+    name: 'app_add_phase',
+    description: 'Add a development phase to the application',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        appId: { type: 'string', description: 'Application ID' },
+        id: { type: 'string', description: 'Phase ID' },
+        name: { type: 'string', description: 'Phase name' },
+        description: { type: 'string', description: 'Phase description' },
+        order: { type: 'number', description: 'Order/sequence number' },
+        status: {
+          type: 'string',
+          enum: ['pending', 'in_progress', 'completed', 'blocked'],
+          description: 'Phase status',
+        },
+      },
+      required: ['appId', 'id', 'name', 'description', 'order'],
+    },
+  },
+
+  {
+    name: 'app_get_overview',
+    description: 'Get complete overview of application with all artifacts, phases, and stats',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        appId: { type: 'string', description: 'Application ID' },
+      },
+      required: ['appId'],
+    },
+  },
+
+  {
+    name: 'app_find_outdated',
+    description: 'Find potentially outdated or deprecated artifacts based on status and age',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        appId: { type: 'string', description: 'Application ID' },
+        olderThanDays: { type: 'number', description: 'Find artifacts older than N days (optional)' },
+      },
+      required: ['appId'],
+    },
+  },
+
+  {
+    name: 'app_add_component',
+    description: 'Add an architectural component to the application',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        appId: { type: 'string', description: 'Application ID' },
+        id: { type: 'string', description: 'Component ID' },
+        name: { type: 'string', description: 'Component name' },
+        type: {
+          type: 'string',
+          enum: ['model', 'pipeline', 'service', 'api', 'database', 'feature', 'algorithm'],
+          description: 'Component type',
+        },
+        description: { type: 'string', description: 'Component description' },
+        status: {
+          type: 'string',
+          enum: ['planned', 'in_progress', 'implemented', 'deprecated'],
+          description: 'Implementation status',
+        },
+      },
+      required: ['appId', 'id', 'name', 'type', 'description'],
+    },
+  },
+];
+
+// ============================================
 // TOOL HANDLERS
 // ============================================
 
@@ -726,6 +881,244 @@ async function handleToolCall(
         };
       }
 
+      // Application tracking tools
+      case 'app_create': {
+        const query = `
+          MERGE (a:Application {id: $id})
+          SET a.name = $name,
+              a.description = $description,
+              a.rootPath = $rootPath,
+              a.status = 'active',
+              a.createdAt = datetime(),
+              a.updatedAt = datetime()
+          RETURN a
+        `;
+        await executeQuery(query, {
+          id: args.id,
+          name: args.name,
+          description: args.description,
+          rootPath: args.rootPath,
+        });
+        return { success: true, appId: args.id };
+      }
+
+      case 'app_add_artifact': {
+        const query = `
+          MATCH (a:Application {id: $appId})
+          MERGE (art:Artifact {path: $path})
+          SET art.name = $name,
+              art.type = $type,
+              art.purpose = $purpose,
+              art.language = $language,
+              art.status = $status,
+              art.dependencies = $dependencies,
+              art.notes = $notes,
+              art.updatedAt = datetime()
+          MERGE (a)-[:HAS_ARTIFACT]->(art)
+          WITH art, a
+          OPTIONAL MATCH (p:Phase {id: $phaseId})<-[:HAS_PHASE]-(a)
+          FOREACH (phase IN CASE WHEN p IS NOT NULL THEN [p] ELSE [] END |
+            MERGE (art)-[:BELONGS_TO_PHASE]->(phase)
+          )
+          RETURN art
+        `;
+        await executeQuery(query, {
+          appId: args.appId,
+          path: args.path,
+          name: args.name,
+          type: args.type,
+          purpose: args.purpose,
+          language: args.language || null,
+          status: args.status || 'active',
+          dependencies: args.dependencies || [],
+          notes: args.notes || '',
+          phaseId: args.phaseId || null,
+        });
+        return { success: true, path: args.path };
+      }
+
+      case 'app_update_artifact': {
+        const setParts: string[] = [];
+        const params: Record<string, unknown> = { path: args.path };
+
+        if (args.status) {
+          setParts.push('art.status = $status');
+          params.status = args.status;
+        }
+        if (args.purpose) {
+          setParts.push('art.purpose = $purpose');
+          params.purpose = args.purpose;
+        }
+        if (args.notes) {
+          setParts.push('art.notes = $notes');
+          params.notes = args.notes;
+        }
+        setParts.push('art.updatedAt = datetime()');
+
+        const query = `
+          MATCH (art:Artifact {path: $path})
+          SET ${setParts.join(', ')}
+          RETURN art
+        `;
+        await executeQuery(query, params);
+        return { success: true, path: args.path };
+      }
+
+      case 'app_list_artifacts': {
+        let query = 'MATCH (a:Application {id: $appId})-[:HAS_ARTIFACT]->(art:Artifact)';
+        const params: Record<string, unknown> = { appId: args.appId };
+
+        const whereClauses: string[] = [];
+        if (args.type) {
+          whereClauses.push('art.type = $type');
+          params.type = args.type;
+        }
+        if (args.status) {
+          whereClauses.push('art.status = $status');
+          params.status = args.status;
+        }
+        if (args.phaseId) {
+          query += ' MATCH (art)-[:BELONGS_TO_PHASE]->(p:Phase {id: $phaseId})';
+          params.phaseId = args.phaseId;
+        }
+
+        if (whereClauses.length > 0) {
+          query += ' WHERE ' + whereClauses.join(' AND ');
+        }
+
+        query += ` RETURN art ORDER BY art.type, art.name`;
+
+        const result = await executeQuery(query, params);
+        return {
+          artifacts: result.records.map((r) => r.get('art').properties),
+          count: result.records.length,
+        };
+      }
+
+      case 'app_add_phase': {
+        const query = `
+          MATCH (a:Application {id: $appId})
+          CREATE (p:Phase {
+            id: $id,
+            name: $name,
+            description: $description,
+            order: $order,
+            status: $status
+          })
+          CREATE (a)-[:HAS_PHASE]->(p)
+          RETURN p
+        `;
+        await executeQuery(query, {
+          appId: args.appId,
+          id: args.id,
+          name: args.name,
+          description: args.description,
+          order: args.order,
+          status: args.status || 'pending',
+        });
+        return { success: true, phaseId: args.id };
+      }
+
+      case 'app_get_overview': {
+        const query = `
+          MATCH (a:Application {id: $appId})
+          OPTIONAL MATCH (a)-[:HAS_ARTIFACT]->(art:Artifact)
+          OPTIONAL MATCH (a)-[:HAS_PHASE]->(phase:Phase)
+          OPTIONAL MATCH (a)-[:HAS_COMPONENT]->(comp:ArchitectureComponent)
+          RETURN
+            a,
+            collect(DISTINCT art) as artifacts,
+            collect(DISTINCT phase) as phases,
+            collect(DISTINCT comp) as components
+        `;
+        const result = await executeQuery(query, { appId: args.appId });
+
+        if (result.records.length === 0) {
+          return { error: 'Application not found' };
+        }
+
+        const record = result.records[0];
+        const app = record.get('a').properties;
+        const artifacts = record.get('artifacts')
+          .filter((a: any) => a && a.properties)
+          .map((a: any) => a.properties);
+        const phases = record.get('phases')
+          .filter((p: any) => p && p.properties)
+          .map((p: any) => p.properties);
+        const components = record.get('components')
+          .filter((c: any) => c && c.properties)
+          .map((c: any) => c.properties);
+
+        // Stats
+        const stats = {
+          totalArtifacts: artifacts.length,
+          byType: artifacts.reduce((acc: Record<string, number>, art: any) => {
+            acc[art.type] = (acc[art.type] || 0) + 1;
+            return acc;
+          }, {}),
+          byStatus: artifacts.reduce((acc: Record<string, number>, art: any) => {
+            acc[art.status] = (acc[art.status] || 0) + 1;
+            return acc;
+          }, {}),
+          phases: phases.length,
+          components: components.length,
+        };
+
+        return {
+          application: app,
+          artifacts,
+          phases,
+          components,
+          stats,
+        };
+      }
+
+      case 'app_find_outdated': {
+        let query = `
+          MATCH (a:Application {id: $appId})-[:HAS_ARTIFACT]->(art:Artifact)
+          WHERE art.status IN ['deprecated', 'test', 'temporary']
+        `;
+        const params: Record<string, unknown> = { appId: args.appId };
+
+        if (args.olderThanDays) {
+          query += ` AND art.updatedAt < datetime() - duration({days: $days})`;
+          params.days = args.olderThanDays;
+        }
+
+        query += ` RETURN art ORDER BY art.updatedAt`;
+
+        const result = await executeQuery(query, params);
+        return {
+          outdated: result.records.map((r) => r.get('art').properties),
+          count: result.records.length,
+        };
+      }
+
+      case 'app_add_component': {
+        const query = `
+          MATCH (a:Application {id: $appId})
+          CREATE (c:ArchitectureComponent {
+            id: $id,
+            name: $name,
+            type: $type,
+            description: $description,
+            status: $status,
+            createdAt: datetime()
+          })
+          CREATE (a)-[:HAS_COMPONENT]->(c)
+          RETURN c
+        `;
+        await executeQuery(query, {
+          appId: args.appId,
+          id: args.id,
+          name: args.name,
+          type: args.type,
+          description: args.description,
+          status: args.status || 'planned',
+        });
+        return { success: true, componentId: args.id };
+      }
+
       default:
         return { error: `Unknown tool: ${name}` };
     }
@@ -746,6 +1139,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       ...knowledgeGraphTools,
       ...sessionMemoryTools,
       ...conceptDiscoveryTools,
+      ...applicationTools,
     ],
   };
 });
