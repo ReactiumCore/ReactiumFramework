@@ -1,19 +1,19 @@
 services:
   memgraph:
-    image: memgraph/memgraph-mage:latest
+    image: memgraph/memgraph-mage@sha256:9756a21bc59458c4e16f638866888881b2efda0cf2aaae33f312558568b48aa7
     container_name: memgraph-mage
     pull_policy: always
     ports:
       - '7687:7687'
       - '7444:7444'
-    volumes:
-      - ./memgraph/etc:/etc/memgraph
-      - ./memgraph/var/lib:/var/lib/memgraph:rw
-      - ./memgraph/var/log:/var/log/memgraph:rw
-    command: ['--log-level=TRACE']
+    # volumes:
+    #   - ./memgraph/etc:/etc/memgraph
+    #   - ./memgraph/var/lib:/var/lib/memgraph:rw
+    #   - ./memgraph/var/log:/var/log/memgraph:rw
+    # command: ['sleep', 'infinity']
 
   lab:
-    image: memgraph/lab:latest
+    image: memgraph/lab@sha256:a5d57883f80d7c3355ffe34bd6a8109ea826b3dcd9a112915522b593559f15a2
     container_name: memgraph-lab
     pull_policy: always
     ports:
