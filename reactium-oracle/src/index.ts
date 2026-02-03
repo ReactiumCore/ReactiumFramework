@@ -1059,6 +1059,22 @@ async function handleToolCall(
           notes: args.notes || '',
           phaseId: args.phaseId || null,
         });
+
+        // Create DEPENDS_ON_ARTIFACT relationships from dependencies array
+        const deps = args.dependencies || [];
+        if (deps.length > 0) {
+          const depQuery = `
+            MATCH (art:Artifact {path: $path})
+            OPTIONAL MATCH (art)-[oldDep:DEPENDS_ON_ARTIFACT]->()
+            DELETE oldDep
+            WITH art
+            UNWIND $deps AS depPath
+            MATCH (dep:Artifact {path: depPath})
+            MERGE (art)-[:DEPENDS_ON_ARTIFACT]->(dep)
+          `;
+          await executeQuery(depQuery, { path: args.path, deps });
+        }
+
         return { success: true, path: args.path };
       }
 
